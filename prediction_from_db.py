@@ -6,7 +6,7 @@
 #    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/19 04:01:00 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/02/19 21:50:19 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/02/19 22:02:21 by Kay Zhou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -150,9 +150,11 @@ def calculate_cumulative_share(start, end, super_start_month):
             print("Writing cumulative users' csv at", dt)
             write_union_users_csv(
                 union_users_dict, f"users-culFrom{super_start_month}", dt.to_date_string())
+                
         rst = get_share_from_users_dict(dt, union_users_dict)
         print(rst)
         rsts.append(rst)
+        
     rsts = pd.DataFrame(rsts).set_index("dt")
     rsts.to_csv(f"disk/results-culFrom{super_start_month}.csv")
 
@@ -203,28 +205,28 @@ def predict_from_location(csv_file, out_name):
 
 if __name__ == "__main__":
     # save user snapshot
-    start = pendulum.datetime(2020, 2, 10, tz="UTC")
-    end = pendulum.datetime(2020, 2, 18, tz="UTC")
-    sess = get_session()
-    for dt in pendulum.period(start, end):
-        print(dt)
-        save_user_snapshot_perday(sess, dt)
-    sess.close()
+    # start = pendulum.datetime(2020, 2, 10, tz="UTC")
+    # end = pendulum.datetime(2020, 2, 18, tz="UTC")
+    # sess = get_session()
+    # for dt in pendulum.period(start, end):
+    #     print(dt)
+    #     save_user_snapshot_perday(sess, dt)
+    # sess.close()
 
-    start = pendulum.datetime(2020, 2, 11, tz="UTC")
+    start = pendulum.datetime(2019, 9, 17, tz="UTC")
     end = pendulum.datetime(2020, 2, 19, tz="UTC")
     calculate_window_share(start, end)
 
-    # start = pendulum.datetime(2019, 9, 3, tz="UTC")
-    # end = pendulum.datetime(2020, 2, 10, tz="UTC")
+    start = pendulum.datetime(2019, 9, 3, tz="UTC")
+    end = pendulum.datetime(2020, 2, 19, tz="UTC")
     calculate_cumulative_share(start, end, super_start_month="09")
 
-    # start = pendulum.datetime(2019, 11, 2, tz="UTC")
-    # end = pendulum.datetime(2020, 2, 10, tz="UTC")
+    start = pendulum.datetime(2019, 11, 2, tz="UTC")
+    end = pendulum.datetime(2020, 2, 19, tz="UTC")
     calculate_cumulative_share(start, end, super_start_month="11")
 
-    # start = pendulum.datetime(2020, 1, 2, tz="UTC")
-    # end = pendulum.datetime(2020, 2, 10, tz="UTC")
+    start = pendulum.datetime(2020, 1, 2, tz="UTC")
+    end = pendulum.datetime(2020, 2, 19, tz="UTC")
     calculate_cumulative_share(start, end, super_start_month="01")
 
     predict_from_location("disk/users-culFrom09/2020-02-19.csv",
