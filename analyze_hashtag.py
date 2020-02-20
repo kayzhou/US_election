@@ -1,0 +1,96 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    analyze_hashtag.py                                 :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2020/01/21 09:47:55 by Kay Zhou          #+#    #+#              #
+#    Updated: 2020/02/18 21:18:13 by Kay Zhou         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
+from my_weapon import *
+
+demo_files = set([
+    "Michael Bennet",
+    "SenatorBennet",
+    "Joe Biden",
+    "JoeBiden",
+    "Mike Bloomberg",
+    "MikeBloomberg",
+    "Pete Buttigieg",
+    "PeteButtigieg",
+    "John Delaney",
+    "JohnDelaney",
+    "Tulsi Gabbard",
+    "TulsiGabbard",
+    "Amy Klobuchar",
+    "amyklobuchar",
+    "Deval Patrick",
+    "DevalPatrick",
+    "Bernie Sanders",
+    "SenSanders",
+    "Tom Steyer",
+    "TomSteyer",
+    "Elizabeth Warren",
+    "ewarren",
+    # "Andrew Yang",
+    # "AndrewYang",
+])
+
+trump_files = [
+    "Donald Trump",
+    "realDonaldTrump"
+]
+
+from pathlib import Path
+from collections import Counter
+from tqdm import tqdm
+
+def write_top_hashtags(in_files, out_name):
+    all_hts = Counter()
+
+    for in_name in Path("raw_data").rglob("*.txt"):
+        if in_name.stem.split("-")[-1] in in_files:
+            print(in_name)
+            for line in tqdm(open(in_name)):
+                hts = json.loads(line)["hashtags"]
+                for ht in hts:
+                    all_hts[ht["text"].lower()] += 1
+
+
+    with open(f"data/{out_name}", "w") as f:
+        for ht, cnt in all_hts.most_common(500):
+            print(ht, cnt, file=f)
+
+
+def get_hts(in_name):
+    hts = {}
+    for line in open(in_name):
+        if not line.startswith("#"):
+            w = line.strip().split()
+            if len(w) == 3:
+                hts[w[1]] = w[0]
+    print(hts)
+    return hts
+
+
+def label_based_on_before(in_name, out_name):
+    hts = get_hts("data/hashtags-20200201_classified_hernan_Feb6.txt")
+    with open(out_name, "w") as f:
+        for line in open(in_name):
+            w = line.strip().split()
+            if w[0] in hts:
+                f.write(f"{hts[w[0]]} {w[0]} {w[1]}\n")
+            else:
+                f.write(f"{w[0]} {w[1]}\n")
+            
+
+if __name__ == "__main__":
+    # write_top_hashtags(demo_files, "hashtags-democrats-20200121.txt")
+    # write_top_hashtags(trump_files, "hashtags-trump-20200121.txt")
+
+    label_based_on_before("data/hashtags-democrats-20200121.txt", "data/hashtags-democrats-20200121-v2.txt")
+    label_based_on_before("data/hashtags-trump-20200121.txt", "data/hashtags-trump-20200121-v2.txt")
+
