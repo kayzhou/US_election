@@ -6,7 +6,7 @@
 #    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/19 04:01:00 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/02/19 20:04:18 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/02/19 21:50:19 by Kay Zhou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -203,7 +203,7 @@ def predict_from_location(csv_file, out_name):
 
 if __name__ == "__main__":
     # save user snapshot
-    start = pendulum.datetime(2019, 2, 10, tz="UTC")
+    start = pendulum.datetime(2020, 2, 10, tz="UTC")
     end = pendulum.datetime(2020, 2, 18, tz="UTC")
     sess = get_session()
     for dt in pendulum.period(start, end):
@@ -211,7 +211,7 @@ if __name__ == "__main__":
         save_user_snapshot_perday(sess, dt)
     sess.close()
 
-    start = pendulum.datetime(2019, 2, 11, tz="UTC")
+    start = pendulum.datetime(2020, 2, 11, tz="UTC")
     end = pendulum.datetime(2020, 2, 19, tz="UTC")
     calculate_window_share(start, end)
 
