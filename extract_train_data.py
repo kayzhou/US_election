@@ -6,7 +6,7 @@
 #    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/21 09:47:55 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/02/09 04:15:11 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/02/22 05:42:19 by Kay Zhou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,31 +38,42 @@ demo_files = set([
     "TomSteyer",
     "Elizabeth Warren",
     "ewarren",
-    "Andrew Yang",
-    "AndrewYang",
+    # "Andrew Yang",
+    # "AndrewYang",
 ])
 
 # PB BS EW JB OT=others
 def read_classified_hashtags():
     # labels = "PB BS EW JB OT".split()
+    # classified_hts = {
+    #     "PB": set(),
+    #     "BS": set(),
+    #     "EW": set(),
+    #     "JB": set(),
+    #     "OT": set(),
+    # }
+
+    # 2020-01-21
     classified_hts = {
         "PB": set(),
         "BS": set(),
         "EW": set(),
         "JB": set(),
         "OT": set(),
+        "MB": set()
     }
-    for line in open("data/hashtags-20200201_classified_hernan_Feb6.txt"):
+
+    for line in open("data/hashtags/hashtags-democrats-20200121-v2.txt"):
         if not line.startswith("#"):
             w = line.strip().split(" ")
             label, _ht = w[0], w[1]
-            if len(w) == 3:
+            if len(w) == 3 and label in classified_hts:
                 classified_hts[label].add(_ht)
     return classified_hts
 
 classified_hts = read_classified_hashtags()
 
-with open("data/traindata-20200209.txt", "w") as f:
+with open("data/traindata-20200221.txt", "w") as f:
     for in_name in Path("raw_data").rglob("*.txt"):
         if in_name.stem.split("-")[-1] in demo_files:
             print(in_name)

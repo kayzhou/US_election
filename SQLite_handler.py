@@ -6,7 +6,7 @@
 #    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/07 20:40:05 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/02/19 04:57:34 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/02/22 06:13:20 by Kay Zhou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -219,22 +219,25 @@ class Demo_Tweet(Base):
 #     U_irrelevant = Column(Integer)
 
 
-# class History_Predict(Base):
-#     __tablename__ = "history_predict"
-#     dt = Column(DateTime, primary_key=True)
-#     U_Cristina = Column(Integer)
-#     U_Macri = Column(Integer)
-#     U_unclassified = Column(Integer)
-#     U_irrelevant = Column(Integer)
+class Cumulative_Predict_v1(Base):
+    __tablename__ = "cumualtive_predict_v1"
+    _id = Column(String, primary_key=True) # date_string + "-" + state
+    dt = Column(DateTime, primary_key=True)
+    state = Column(String) # USA
+    c0 = Column(Integer)
+    c1 = Column(Integer)
+    c2 = Column(Integer)
+    c3 = Column(Integer)
 
 
-# class Weekly_Predict(Base):
-#     __tablename__ = "weekly_predict"
-#     dt = Column(DateTime, primary_key=True)
-#     U_Cristina = Column(Integer)
-#     U_Macri = Column(Integer)
-#     U_unclassified = Column(Integer)
-#     U_irrelevant = Column(Integer)
+class Weekly_Predict_v1(Base):
+    __tablename__ = "weekly_predict_v1"
+    dt = Column(DateTime, primary_key=True)
+    c0 = Column(Integer)
+    c1 = Column(Integer)
+    c2 = Column(Integer)
+    c3 = Column(Integer)
+    c4 = Column(Integer)
 
 
 # class Percent(Base):
@@ -243,23 +246,6 @@ class Demo_Tweet(Base):
 #     K = Column(Integer)
 #     M = Column(Integer)
 
-
-# class Day14_Predict(Base):
-#     __tablename__ = "day14_predict"
-#     dt = Column(DateTime, primary_key=True)
-#     U_Cristina = Column(Integer)
-#     U_Macri = Column(Integer)
-#     U_unclassified = Column(Integer)
-#     U_irrelevant = Column(Integer)
-
-# class Other_Poll(Base):
-#     __tablename__ = "other_poll"
-#     id = Column(Integer, autoincrement=True, primary_key=True)
-#     dt = Column(String)
-#     name = Column(String)
-#     K = Column(Float)
-#     M = Column(Float)
-#     U = Column(Float)
 
 # ------------- class definition ove -------------
 
@@ -1282,52 +1268,42 @@ def predict_day(sess, dt, lag=14, bots=False, clear=False):
     sess.commit()
 
 
-def predict_cumulative(dt, prob=0.68, clear=False):
-    """
-    """
+def demo_predict_to_db(dt, clear=False):
+
     sess = get_session()
+    
     if clear:
-        sess.query(History_Predict).filter(History_Predict.dt == dt).delete()
+        sess.query(Weekly_Predict_v1).filter(Weekly_Predict_v1.dt == dt).delete()
+        sess.commit()
+        sess.query(Cumulative_Predict_v1).filter(Cumulative_Predict_v1.dt == dt).delete()
         sess.commit()
 
-    # save
-    if not os.path.exists(f"disk/cul_from_March_1/{dt.to_date_string()}-{prob}.txt"):
-        predict_cumulative_file(dt, dt, prob=prob)
+    from prediction_from_db import get_share_from_csv
+    rst = get_share_from_csv(f"disk/users-14days/{dt.to_date_string()}.csv")
 
-    print("load ~", f"disk/cul_from_March_1/{dt.to_date_string()}-{prob}.txt")
-    cul_today = json.load(
-        open(f"disk/cul_from_March_1/{dt.to_date_string()}-{prob}.txt"))
-
-    cnt = {
-        "dt": dt.to_date_string(),
-        "K": 0,
-        "M": 0,
-        "U": 0,
-        "I": 0,
-    }
-    # user-level
-    for u, v in cul_today.items():
-        if v["I"] > 0:
-            continue
-        if v["M"] > v["K"]:
-            cnt["M"] += 1
-        elif v["M"] < v["K"]:
-            cnt["K"] += 1
-        elif v["M"] > 0 or v["K"] > 0:
-            cnt["U"] += 1
-        else:
-            cnt["I"] += 1
-
-    print("% of K", cnt["K"] / (cnt["K"] + cnt["M"] + cnt["U"] + cnt["I"]))
-
-    sess.add(History_Predict(
+    sess.add(Weekly_Predict_v1(
         dt=dt,
-        U_Cristina=cnt["K"],
-        U_Macri=cnt["M"],
-        U_unclassified=cnt["U"],
-        U_irrelevant=cnt["I"])
-    )
+        state="USA",
+        c0=rst[0],
+        c1=rst[1],
+        c2=rst[2],
+        c3=rst[3],
+        c4=rst[4],
+    ))
     sess.commit()
+
+    rst = get_share_from_csv(f"disk/users-culFrom01/{dt.to_date_string()}.csv")
+    sess.add(Cumulative_Predict_v1(
+        dt=dt,
+        state="USA",
+        c0=rst[0],
+        c1=rst[1],
+        c2=rst[2],
+        c3=rst[3],
+        c4=rst[4],
+    ))
+    sess.commit()
+    
     sess.close()
 
 
@@ -2974,8 +2950,8 @@ def predict_special_day(end, bots=True):
 
 if __name__ == "__main__":
     # init_db()
-    start = pendulum.datetime(2020, 2, 10, tz="UTC")
-    end = pendulum.datetime(2020, 2, 19, tz="UTC")
+    start = pendulum.datetime(2020, 2, 19, tz="UTC")
+    end = pendulum.datetime(2020, 2, 22, tz="UTC")
     sess = get_session()
-    demo_tweets_to_db(sess, start, end, clear=True)
+    demo_tweets_to_db(sess, start, end, clear=True)                          
     sess.close()
