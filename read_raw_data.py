@@ -6,7 +6,7 @@
 #    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/11 11:16:25 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/02/19 03:50:55 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/02/22 10:45:09 by Kay Zhou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,8 +33,11 @@ demo_files = set([
     "TomSteyer",
     "Elizabeth Warren",
     "ewarren",
-    "Andrew Yang",
-    "AndrewYang",
+    # "Andrew Yang",
+    # "AndrewYang",
+    "Mayor Pete",
+    "Pete",
+    "Buttigieg",
 ])
 
 from collections import Counter
@@ -50,7 +53,7 @@ def read_tweets_json(start, end):
 
     months = set([
         "202002",
-        # "202001",
+        "202001",
         # "201912",
         # "201911",
         # "201910",

@@ -6,7 +6,7 @@
 #    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/07 20:40:05 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/02/22 06:13:20 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/02/22 10:48:11 by Kay Zhou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -64,9 +64,20 @@ official_twitter_clients = set([
     'Tumblr',
 ])
 
+# class Demo_Tweet(Base):
+#     __tablename__ = "demo_tweets"
+#     tweet_id = Column(Integer, primary_key=True)
+#     user_id = Column(Integer)
+#     dt = Column(DateTime)
+#     camp = Column(Integer)
+#     max_proba = Column(Float)
+#     probas = Column(String)
+#     hashtags = Column(String)
+#     source = Column(String)
+
 
 class Demo_Tweet(Base):
-    __tablename__ = "demo_tweets"
+    __tablename__ = "demo_tweets_v2"
     tweet_id = Column(Integer, primary_key=True)
     user_id = Column(Integer)
     dt = Column(DateTime)
@@ -2889,68 +2900,10 @@ def _update():
     sess.close()
 
 
-def predict_special_day(end, bots=True):
-    # Since we lost data of PASO, from 5-7, we start the predict.
-    start = pendulum.datetime(2019, 5, 7)
-    sess = get_session()
-    tweets = sess.query(Tweet).filter(
-        Tweet.source.is_(None),
-        Tweet.dt >= start,
-        Tweet.dt < end).yield_per(5000)
-
-    users = {}
-    _dt = start
-    for t in tqdm(tweets):
-        uid = t.user_id
-        if _dt not in users:
-            users[_dt] = {}
-        if uid not in users[_dt]:
-            users[_dt][uid] = {
-                "proM": 0,
-                "proK": 0,
-                "Unclassified": 0,
-            }
-        if t.proM > 0.75:
-            users[_dt][uid]["proM"] += 1
-        elif t.proM < 0.25:
-            users[_dt][uid]["proK"] += 1
-        else:
-            users[_dt][uid]["Unclassified"] += 1
-
-    users_v2 = []
-    for dt, us in users.items():
-        # print(dt)
-        cnt = {
-            "K": 0,
-            "M": 0,
-            "U": 0,
-            "irrelevant": 0,
-        }
-        for u, v in us.items():
-            if v["proM"] > v["proK"]:
-                cnt["M"] += 1
-            elif v["proM"] < v["proK"]:
-                cnt["K"] += 1
-            elif v["proM"] > 0 or v["proK"] > 0:
-                cnt["U"] += 1
-            else:
-                cnt["irrelevant"] += 1
-
-        print(dt, end, cnt)
-        sess.add(Weekly_Predict(dt=end,
-                                U_Cristina=cnt["K"],
-                                U_Macri=cnt["M"],
-                                U_unclassified=cnt["U"],
-                                U_irrelevant=cnt["irrelevant"]))
-        sess.commit()
-        _sum = cnt["K"] + cnt["M"]
-        print(cnt["K"] / _sum, cnt["M"] / _sum)
-    sess.close()
-
 
 if __name__ == "__main__":
-    # init_db()
-    start = pendulum.datetime(2020, 2, 19, tz="UTC")
+    init_db()
+    start = pendulum.datetime(2020, 1, 1, tz="UTC")
     end = pendulum.datetime(2020, 2, 22, tz="UTC")
     sess = get_session()
     demo_tweets_to_db(sess, start, end, clear=True)                          
