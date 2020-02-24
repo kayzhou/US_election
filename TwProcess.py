@@ -6,7 +6,7 @@
 #    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/23 21:42:53 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/02/11 10:23:50 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/02/22 11:17:13 by Kay Zhou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -235,6 +235,3 @@ class CustomTweetTokenizer(TweetTokenizer):
 
         # print(words)
         return words
-
-
-get_hts("data/hashtags-20200201_classified_hernan_Feb6.txt")

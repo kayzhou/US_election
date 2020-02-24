@@ -1,8 +1,14 @@
-# -*- coding: utf-8 -*-
-# Author: Kay Zhou
-# Date: 2019-02-24 16:42:55
-
-# im the best
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    classifier.py                                      :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2020/02/22 12:48:20 by Kay Zhou          #+#    #+#              #
+#    Updated: 2020/02/22 13:02:33 by Kay Zhou         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
 
 import collections
 import gc
@@ -43,6 +49,14 @@ def load_models(dt):
 
     return tokenizer, v, clf
 
+def load_tfidf_models(dt):
+    print("load models ", dt)
+    hts = [line.strip().split()[1] for line in open(f"data/{dt}/hashtags.txt")]
+    tokenizer = CustomTweetTokenizer(hashtags=hts)
+    v = joblib.load(f'data/{dt}/TfidfVectorizer.joblib')
+    clf = joblib.load(f'data/{dt}/LR.joblib')
+
+    return tokenizer, v, clf
 
 #==============================================================================
 # bag of words
@@ -220,12 +234,12 @@ class CustomTweetTokenizer(TweetTokenizer):
 
 
 # PB BS EW JB OT=others
-def read_classified_hashtags():
+def read_classified_hashtags(now):
     labels = "PB BS EW JB OT".split()
     classified_hts = {i: set() for i in range(5)}
     label2num = {labels[i]: i for i in range(5)}
 
-    for line in open("data/hashtags-20200201_classified_hernan_Feb6.txt"):
+    for line in open(f"data/{now}/hashtags.txt"):
         if not line.startswith("#"):
             w = line.strip().split(" ")
             if len(w) == 3:
@@ -239,12 +253,11 @@ class Camp_Classifier(object):
     def __init__(self):
         "init Classifer!"
 
-    def load2(self):
-        self.token2, self.v2, self.clf2 = load_models("2019-08-08")
-
     def load5(self):
-        self.classified_hts = read_classified_hashtags()
-        self.token5, self.v5, self.clf5 = load_models("2020-02-09")
+        self.classified_hts = read_classified_hashtags("2020-02-22")
+        # self.token5, self.v5, self.clf5 = load_models("2020-02-09")
+        self.token5, self.v5, self.clf5 = load_tfidf_models("2020-02-22-tfidf")
+        # self.token5, self.v5, self.clf5 = load_models("2020-02-22")
 
     def predict(self, ds):
 
@@ -287,7 +300,8 @@ class Camp_Classifier(object):
 
             text = d["text"].replace("\n", " ").replace("\t", " ")
             words = self.token5.tokenize(text)
-            X.append(bag_of_words_and_bigrams(words))
+            X.append(" ".join(words))
+            # X.append(bag_of_words_and_bigrams(words))
             ids.append(d["id"])
 
         X = self.v5.transform(X)

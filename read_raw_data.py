@@ -6,7 +6,7 @@
 #    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/11 11:16:25 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/02/22 10:45:09 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/02/23 21:48:37 by Kay Zhou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -52,10 +52,10 @@ from tqdm import tqdm
 def read_tweets_json(start, end):
 
     months = set([
-        "202002",
-        "202001",
-        # "201912",
-        # "201911",
+        # "202002",
+        # "202001",
+        "201912",
+        "201911",
         # "201910",
         # "201909",
     ])
@@ -94,3 +94,4 @@ def read_tweets_json(start, end):
                         print("New data ->", cnt)
                     cnt += 1
                     yield d, dt
+    

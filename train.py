@@ -6,7 +6,7 @@
 #    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/07/06 14:11:24 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/02/22 10:47:25 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/02/23 21:45:47 by Kay Zhou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,9 +37,8 @@ class Classifer(object):
     def __init__(self, now):
         "init Classifer!"
         self.now = now
-
-        # self.remove_hts = set([line.strip() for line in open("data/hashtags/removed_2019-09-05.txt")])
         self.classified_hts, self.hts = get_hts(f"data/{self.now}/hashtags.txt")
+        # self.remove_hts = set([line.strip() for line in open("data/hashtags/removed_2019-09-05.txt")])
         # self.remove_usernames = set([line.strip() for line in open("data/remove_username.txt")])
         
 
@@ -55,7 +54,6 @@ class Classifer(object):
             "OT": 4,
             "MB": 5,
         }
-
         tokenizer = CustomTweetTokenizer(hashtags=self.hts)
         with open(f"data/{self.now}/tokens.txt", "w") as f:
             print("save tokens from:", f"data/{self.now}/train.txt")
@@ -91,9 +89,10 @@ class Classifer(object):
         X, y = self.load_tokens()
 
         print("Reading data finished! count:", len(y))
+        
         # split train and test data
         X_train, X_test, y_train, y_test = train_test_split(
-            X, y, test_size=0.1, random_state=23)
+            X, y, test_size=0.1, random_state=32)
 
         print("Splitting data finished!")
 
