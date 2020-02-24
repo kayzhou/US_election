@@ -37,7 +37,7 @@ class Classifer(object):
     def __init__(self, now):
         "init Classifer!"
         self.now = now
-        self.classified_hts, self.hts = read_classified_hashtags(now)
+        self.hts, _ = read_classified_hashtags(now)
         # self.remove_hts = set([line.strip() for line in open("data/hashtags/removed_2019-09-05.txt")])
         # self.remove_usernames = set([line.strip() for line in open("data/remove_username.txt")])
         

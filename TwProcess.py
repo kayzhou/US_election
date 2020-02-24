@@ -41,7 +41,7 @@ def read_classified_hashtags(now):
             w = line.strip().split(" ")
             if len(w) == 3:
                 _label, _ht = w[0], w[1]
-                hts.append(w[1])
+                hts.append(_ht)
                 classified_hts[label2num[_label]].add(_ht)
     return hts, classified_hts
 
@@ -161,22 +161,14 @@ def normalize_urls(text):
     return pattern.sub('URL', text)
 
 
-def _lowerize(word, hashtags_marked, keep_all_upper=False):
-    if EMOTICON_RE.search(word):
-        return word
-    elif word == 'URL' or word == "@USER" or word == "#HT":
-        return word
-    elif word.isupper() and keep_all_upper:  # if all upper, keep it
-        return word
-    else:
-        return word.lower()
+
 
 
 class CustomTweetTokenizer(TweetTokenizer):
     """ Custom tweet tokenizer based on NLTK TweetTokenizer"""
 
     def __init__(self, hashtags=None, preserve_case=False, reduce_len=True, strip_handles=False,
-                 normalize_usernames=False, normalize_urls=True, keep_allupper=True):
+                 normalize_usernames=False, normalize_urls=True):
 
         TweetTokenizer.__init__(self, preserve_case=preserve_case, reduce_len=reduce_len,
                                 strip_handles=strip_handles)
@@ -188,7 +180,6 @@ class CustomTweetTokenizer(TweetTokenizer):
         else:
             self.hashtags_marked = set()
 
-        self.keep_allupper = keep_allupper
         self.normalize_urls = normalize_urls
         self.normalize_usernames = normalize_usernames
 
@@ -199,6 +190,17 @@ class CustomTweetTokenizer(TweetTokenizer):
             self.keep_allupper = True
 
 
+    def _lowerize(self, word):
+        if EMOTICON_RE.search(word):
+            return word
+        elif word == 'URL' or word == "@USER" or word == "#HT":
+            return word
+        elif word.isupper():
+            return word
+        else:
+            return word.lower()
+    
+    
     def tokenize(self, text):
         """
         :param text: str
@@ -238,7 +240,12 @@ class CustomTweetTokenizer(TweetTokenizer):
         # Possibly alter the case, but avoid changing emoticons like :D into :d:
         # lower words but keep words that are all upper cases
         if not self.preserve_case:
-            words = [_lowerize(w, self.keep_allupper) for w in words]
+            words = [self._lowerize(w) for w in words]
 
         # print(words)
         return words
+    
+    
+if __name__ == "__main__":
+    t = CustomTweetTokenizer(hashtags=["big"])
+    print(t.tokenize("#big !!!!!!!! You are the best YOUYOU"))
