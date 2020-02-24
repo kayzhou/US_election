@@ -6,61 +6,22 @@
 #    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/21 09:47:55 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/02/19 19:49:03 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/02/24 08:39:38 by Kay Zhou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 from my_weapon import *
-
-demo_files = set([
-    "Michael Bennet",
-    "SenatorBennet",
-    "Joe Biden",
-    "JoeBiden",
-    "Mike Bloomberg",
-    "MikeBloomberg",
-    "Pete Buttigieg",
-    "PeteButtigieg",
-    "John Delaney",
-    "JohnDelaney",
-    "Tulsi Gabbard",
-    "TulsiGabbard",
-    "Amy Klobuchar",
-    "amyklobuchar",
-    "Deval Patrick",
-    "DevalPatrick",
-    "Bernie Sanders",
-    "SenSanders",
-    "Tom Steyer",
-    "TomSteyer",
-    "Elizabeth Warren",
-    "ewarren",
-    "Andrew Yang",
-    "AndrewYang",
-])
-
 from pathlib import Path
 from collections import Counter
 from tqdm import tqdm
 
 
-def write_locations():
+def write_locations(in_name, out_name):
+    # explain the locations > states and counties
     all_locations = Counter()
     set_users = set()
 
-    # for in_name in Path("raw_data").rglob("*.txt"):
-    #     if in_name.stem.split("-")[-1] in demo_files:
-    #         print(in_name)
-    #         for line in tqdm(open(in_name)):
-    #             u = json.loads(line)["user"]
-    #             if "location" in u:
-    #                 all_locations[u["location"].lower().replace("\t", " ").replace("\n", " ")] += 1
-
-    # with open("data/user-location-20200207.txt", "w") as f:
-    #     for loc, cnt in all_locations.most_common(50000):
-    #         print(loc, cnt, file=f, sep="\t")
-
-    for line in tqdm(open("disk/02-15-user-profile.lj")):
+    for line in tqdm(open(in_name)):
         u = json.loads(line)
         _id = u["id"]
         if _id not in set_users:
@@ -70,10 +31,9 @@ def write_locations():
             if "location" in u:
                 all_locations[u["location"].lower().replace("\t", " ").replace("\n", " ")] += 1
 
-    with open("data/user-location-20200207.txt", "w") as f:
-        for loc, cnt in all_locations.most_common(50000):
+    with open(out_name, "w") as f:
+        for loc, cnt in all_locations.most_common(1000):
             print(loc, cnt, file=f, sep="\t")
-
 
 
 def write_users_state():    
@@ -113,7 +73,12 @@ def write_users_state():
                     f.write(f"{_id},{name},{state}\n")
 
 
-def write_users_csv():
+def write_users_csv(in_name, out_name):
+    """
+    in_name: users-profile
+    out_name: users-location.csv
+    """
+
     # load json
     loc_to_state = json.load(open("data/loc-to-state.json"))
     loc_to_county = json.load(open("data/loc-to-county.json"))
@@ -121,7 +86,7 @@ def write_users_csv():
     set_users = set()
     data = []
 
-    for line in open("disk/02-15-user-profile.lj"):
+    for line in open(in_name):
         # print(line)
         u = json.loads(line)
         _id = u["id"]
@@ -141,17 +106,17 @@ def write_users_csv():
             # to_csv
             d = {
                 "uid": _id,
-                "name": u['screen_name'],
+                # "name": u['screen_name'],
                 "loc": loc,
                 "state": state,
                 "county": county
             }
             data.append(d)
 
-    pd.DataFrame(data).set_index("uid").to_csv("disk/02-15-user-location.csv")
+    pd.DataFrame(data).set_index("uid").to_csv(out_name)
 
 
 if __name__ == '__main__':
-    # write_locations()
-    write_users_csv()
+    write_locations("disk/users-profile/2020-02-14-2020-02-24.lj", "disk/users-location/2020-02-14-2020-02-24-stat.txt")
+    # write_users_csv()
 

@@ -6,7 +6,7 @@
 #    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/07 20:40:05 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/02/23 21:48:33 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/02/24 09:58:30 by Kay Zhou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -83,8 +83,8 @@ class Demo_Tweet(Base):
     dt = Column(DateTime)
     camp = Column(Integer)
     max_proba = Column(Float)
-    probas = Column(String)
-    hashtags = Column(String)
+#     probas = Column(String)
+#     hashtags = Column(String)
     source = Column(String)
 
 
@@ -249,13 +249,6 @@ class Weekly_Predict_v1(Base):
     c2 = Column(Integer)
     c3 = Column(Integer)
     c4 = Column(Integer)
-
-
-# class Percent(Base):
-#     __tablename__ = "percent"
-#     dt = Column(DateTime, primary_key=True)
-#     K = Column(Integer)
-#     M = Column(Integer)
 
 
 # ------------- class definition ove -------------
@@ -529,7 +522,7 @@ def demo_tweets_to_db(sess, start, end, clear=False):
     
     from classifier import Camp_Classifier
     Lebron = Camp_Classifier()
-    Lebron.load5()
+    Lebron.load()
 
     X = []
     tweets_data = []
@@ -548,13 +541,14 @@ def demo_tweets_to_db(sess, start, end, clear=False):
         )
 
         X.append(d)
+        
         if len(tweets_data) == 2000:
             json_rst = Lebron.predict(X)
-            for i in range(len(tweets_data)):
+            for _ in range(len(tweets_data)):
                 rst = json_rst[tweets_data[i].tweet_id]
                 # print(rst)
-                probas = " ".join([str(round(r, 3)) for r in rst])
-                tweets_data[i].probas = probas
+                # probas = " ".join([str(round(r, 3)) for r in rst])
+                # tweets_data[i].probas = probas
                 tweets_data[i].max_proba = round(rst.max(), 3)
                 tweets_data[i].camp = int(rst.argmax())
 
@@ -565,10 +559,10 @@ def demo_tweets_to_db(sess, start, end, clear=False):
 
     if tweets_data:
         json_rst = Lebron.predict(X)
-        for i in range(len(tweets_data)):
+        for _ in range(len(tweets_data)):
             rst = json_rst[tweets_data[i].tweet_id]
-            probas = " ".join([str(round(r, 3)) for r in rst])
-            tweets_data[i].probas = probas
+            # probas = " ".join([str(round(r, 3)) for r in rst])
+            # tweets_data[i].probas = probas
             tweets_data[i].max_proba = round(rst.max(), 3)
             tweets_data[i].camp = int(rst.argmax())
 
@@ -2900,11 +2894,12 @@ def _update():
     sess.close()
 
 
-
 if __name__ == "__main__":
     init_db()
-    start = pendulum.datetime(2019, 11, 1, tz="UTC")
-    end = pendulum.datetime(2020, 1, 1, tz="UTC")
+    start = pendulum.datetime(2020, 1, 1, tz="UTC")
+    end = pendulum.datetime(2020, 2, 24, tz="UTC")
     sess = get_session()
     demo_tweets_to_db(sess, start, end, clear=True)                          
     sess.close()
+
+    

@@ -23,21 +23,21 @@ import pendulum
 # from imblearn.over_sampling import RandomOverSampler
 from nltk import ngrams
 from sklearn.feature_extraction import DictVectorizer
+from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.feature_selection import SelectFromModel
 from sklearn.model_selection import train_test_split
 
 from my_weapon import *
 from myclf import *
 from SQLite_handler import *
-from TwProcess import (CustomTweetTokenizer, bag_of_words,
-                       bag_of_words_and_bigrams, get_hts, load_models)
+from TwProcess import *
 
 
 class Classifer(object):
     def __init__(self, now):
         "init Classifer!"
         self.now = now
-        self.classified_hts, self.hts = get_hts(f"data/{self.now}/hashtags.txt")
+        self.classified_hts, self.hts = read_classified_hashtags(now)
         # self.remove_hts = set([line.strip() for line in open("data/hashtags/removed_2019-09-05.txt")])
         # self.remove_usernames = set([line.strip() for line in open("data/remove_username.txt")])
         
@@ -74,10 +74,11 @@ class Classifer(object):
         y = []
         for line in tqdm(open(f"data/{self.now}/tokens.txt")):
             camp, line = line.strip().split("\t")
-            words = line.split()
+            # words = line.split()
             # print(words)
             if len(words) > 0:
-                X.append(bag_of_words_and_bigrams(words))
+                # X.append(bag_of_words_and_bigrams(words))
+                X.append(line)
                 y.append(int(camp))
 
         print("count of text in camps:", Counter(y).most_common())
@@ -97,11 +98,13 @@ class Classifer(object):
         print("Splitting data finished!")
 
         # build one hot embedding
-        v = DictVectorizer(dtype=np.int8, sparse=True, sort=False)
+        # v = DictVectorizer(dtype=np.int8, sparse=True, sort=False)
+        v = TfidfVectorizer(ngram_range=(1, 2), max_features=100000)
         X_train = v.fit_transform(X_train)
         X_test = v.transform(X_test)
 
-        joblib.dump(v, f'data/{self.now}/DictVectorizer.joblib')
+        # joblib.dump(v, f'data/{self.now}/DictVectorizer.joblib')
+        joblib.dump(v, f'data/{self.now}/TfidfVectorizer.joblib')
         print("Building word embedding finished!")
         print(X_train[0].shape, X_train[1].shape)
         print(X_train.shape, X_test.shape)
@@ -156,9 +159,8 @@ class Classifer(object):
     
 
 if __name__ == "__main__":
-    dt = "2020-02-22"
+    dt = "2020-02-24"
     Lebron = Classifer(now=dt)
     # After extract_train_data.py
     Lebron.save_tokens()
     Lebron.train()
-

@@ -6,7 +6,7 @@
 #    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/23 21:42:53 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/02/22 11:17:13 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/02/24 02:55:02 by Kay Zhou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,48 +27,56 @@ from nltk.tokenize.casual import (EMOTICON_RE, HANG_RE, WORD_RE,
                                   reduce_lengthening, remove_handles)
 
 
-def get_hts(hts_file):
-    # hts_file = "data/hashtags-20200201_classified_hernan_Feb6.txt"
-    PB_ht = set()
-    BS_ht = set()
-    EW_ht = set()
-    JB_ht = set()
-    OT_ht = set()
-    hts = set()
+def read_classified_hashtags(now):
+    # *** very important ***
+    # labels = "PB BS EW JB OT".split()
+    labels = "PB BS EW JB OT MB".split()
+    label2num = {labels[i]: i for i in range(len(labels))}
+    
+    hts = []
+    classified_hts = {i: set() for i in range(len(labels))}
 
-    for line in open(hts_file):
-        ht = line.strip().split()
-
-        if ht[0] == "PB":
-            PB_ht.add(ht[1])
-            hts.add(ht[1])
-        elif ht[0] == "BS":
-            BS_ht.add(ht[1])
-            hts.add(ht[1])
-        elif ht[0] == "EW":
-            EW_ht.add(ht[1])
-            hts.add(ht[1])
-        elif ht[0] == "JB":
-            JB_ht.add(ht[1])
-            hts.add(ht[1])
-        elif ht[0] == "OT":
-            OT_ht.add(ht[1])
-            hts.add(ht[1])
-
-    print(f"LENGTH of hashtags from {hts_file}:", 
-            len(PB_ht), len(BS_ht), len(EW_ht), len(JB_ht), len(OT_ht), len(hts))
-    return [PB_ht, BS_ht, EW_ht, JB_ht, OT_ht], hts
+    for line in open(f"data/{now}/hashtags.txt"):
+        if not line.startswith("#"):
+            w = line.strip().split(" ")
+            if len(w) == 3:
+                _label, _ht = w[0], w[1]
+                hts.append(w[1])
+                classified_hts[label2num[_label]].add(_ht)
+    return hts, classified_hts
 
 
-def load_models(dt):
-    print("load models ", dt)
-    hts = [line.strip().split()[1] for line in open(f"data/{dt}/hashtags.txt") 
-                                       if not line.startswith("#")]
-    tokenizer = CustomTweetTokenizer(hashtags=hts)
-    v = joblib.load(f'data/{dt}-DictVectorizer.joblib')
-    clf = joblib.load(f'data/{dt}-LR.joblib')
+# def get_hts(hts_file):
+#     # hts_file = "data/hashtags-20200201_classified_hernan_Feb6.txt"
+#     PB_ht = set()
+#     BS_ht = set()
+#     EW_ht = set()
+#     JB_ht = set()
+#     OT_ht = set()
+#     hts = set()
 
-    return tokenizer, v, clf
+#     for line in open(hts_file):
+#         ht = line.strip().split()
+
+#         if ht[0] == "PB":
+#             PB_ht.add(ht[1])
+#             hts.add(ht[1])
+#         elif ht[0] == "BS":
+#             BS_ht.add(ht[1])
+#             hts.add(ht[1])
+#         elif ht[0] == "EW":
+#             EW_ht.add(ht[1])
+#             hts.add(ht[1])
+#         elif ht[0] == "JB":
+#             JB_ht.add(ht[1])
+#             hts.add(ht[1])
+#         elif ht[0] == "OT":
+#             OT_ht.add(ht[1])
+#             hts.add(ht[1])
+
+#     print(f"LENGTH of hashtags from {hts_file}:", 
+#             len(PB_ht), len(BS_ht), len(EW_ht), len(JB_ht), len(OT_ht), len(hts))
+#     return [PB_ht, BS_ht, EW_ht, JB_ht, OT_ht], hts
 
 #==============================================================================
 # bag of words
@@ -84,42 +92,41 @@ def bag_of_words_and_bigrams(words):
     return bag_of_words(chain(words, bigrams))
 
 
-def bag_of_words_not_in_set(words, badwords):
-    return bag_of_words(set(words) - set(badwords))
+# def bag_of_words_not_in_set(words, badwords):
+#     return bag_of_words(set(words) - set(badwords))
 
 
-def bag_of_words_in_set(words, goodwords):
-    return bag_of_words(set(words) & set(goodwords))
+# def bag_of_words_in_set(words, goodwords):
+#     return bag_of_words(set(words) & set(goodwords))
 
 
-def bag_of_non_stopwords(words, stopfile='english'):
-    badwords = stopwords.words(stopfile)
-    return bag_of_words_not_in_set(words, badwords)
+# def bag_of_non_stopwords(words, stopfile='english'):
+#     badwords = stopwords.words(stopfile)
+#     return bag_of_words_not_in_set(words, badwords)
 
 
 #==============================================================================
 # Custom Tokenizer for tweets
 #==============================================================================
 
-
-def normalize_mentions(text):
-    """
-    Replace Twitter username handles with '@USER'.
-    """
-    # ignores = set(["@CFKArgentina", "@mauriciomacri", "@alferdez", "@MiguelPichetto"])
-    ignores = set(["@CFKArgentina", "@mauriciomacri"])
+# def normalize_mentions(text):
+#     """
+#     Replace Twitter username handles with '@USER'.
+#     """
+#     # ignores = set(["@CFKArgentina", "@mauriciomacri", "@alferdez", "@MiguelPichetto"])
+#     ignores = set(["@CFKArgentina", "@mauriciomacri"])
     
-    def _replace(matched):
-        if matched.group(0) in ignores:
-            return "@USER"
-        else:
-            return matched.group(0)
+#     def _replace(matched):
+#         if matched.group(0) in ignores:
+#             return "@USER"
+#         else:
+#             return matched.group(0)
 
-    # pattern = re.compile(r"(^|(?<=[^\w.-]))@[A-Za-z_]+\w+")
-    # return pattern.sub(_replace, text)
+#     # pattern = re.compile(r"(^|(?<=[^\w.-]))@[A-Za-z_]+\w+")
+#     # return pattern.sub(_replace, text)
 
-    pattern = re.compile(r"(^|(?<=[^\w.-]))@[A-Za-z_]+\w+")
-    return pattern.sub('@USER', text)
+#     pattern = re.compile(r"(^|(?<=[^\w.-]))@[A-Za-z_]+\w+")
+#     return pattern.sub('@USER', text)
 
 
 def normalize_hashtags(text, ignores):
@@ -185,7 +192,6 @@ class CustomTweetTokenizer(TweetTokenizer):
         self.normalize_urls = normalize_urls
         self.normalize_usernames = normalize_usernames
 
-        
         # if normalize_usernames:
         #    self.strip_handles = False
 
@@ -209,8 +215,9 @@ class CustomTweetTokenizer(TweetTokenizer):
         # Remove or replace username handles
         if self.strip_handles:
             text = remove_handles(text)
-        elif self.normalize_usernames:
-            text = normalize_mentions(text)
+            
+        # elif self.normalize_usernames:
+        #     text = normalize_mentions(text)
 
         # Normalize hashtags, we can't use classified hashtags.
         text = normalize_hashtags(text, self.hashtags_marked)

@@ -6,7 +6,7 @@
 #    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/21 09:47:55 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/02/17 06:33:10 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/02/24 08:57:17 by Kay Zhou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,34 +22,6 @@ from tqdm import tqdm
 from my_weapon import *
 from pathlib import Path
 from collections import Counter
-
-
-demo_files = set([
-    "Michael Bennet",
-    "SenatorBennet",
-    "Joe Biden",
-    "JoeBiden",
-    "Mike Bloomberg",
-    "MikeBloomberg",
-    "Pete Buttigieg",
-    "PeteButtigieg",
-    "John Delaney",
-    "JohnDelaney",
-    "Tulsi Gabbard",
-    "TulsiGabbard",
-    "Amy Klobuchar",
-    "amyklobuchar",
-    "Deval Patrick",
-    "DevalPatrick",
-    "Bernie Sanders",
-    "SenSanders",
-    "Tom Steyer",
-    "TomSteyer",
-    "Elizabeth Warren",
-    "ewarren",
-    "Andrew Yang",
-    "AndrewYang",
-])
 
 
 api = 'https://api-us.faceplusplus.com/facepp/v3/detect'
@@ -87,20 +59,6 @@ MY_KEYS = [
         "secret": "oWm0l4wTUXYdmw0-6BPH2mGerZ3PGu6k",
     }
 ]
-
-
-def write_user_profile():
-    set_userid = set()
-    with open("disk/02-15-user-profile.lj", "w") as f:
-        for in_name in Path("raw_data").rglob("*.txt"):
-            if in_name.stem.split("-")[-1] in demo_files:
-                print(in_name)
-                for line in tqdm(open(in_name)):
-                    u = json.loads(line)["user"]
-                    uid = u["id"]
-                    if uid not in set_userid:
-                        set_userid.add(uid)
-                        f.write(json.dumps(u) + "\n")
 
 
 def get_clear_picture_url(url):
@@ -162,7 +120,7 @@ def analyze_image(_urls):
             return None
     
 
-def main():
+def analyze_history_02_15():
     urls = []
     cnt = 0
     # bingo = False
@@ -173,7 +131,9 @@ def main():
     should_ids = all_ids - have_ids
     print("need:", len(should_ids))
 
+    # run it again
     error_file = open("disk/02-15-user-profile-error.txt", "a")
+    # throw it away
     no_face_file = open("disk/02-15-user-profile-noFace.txt", "a")
 
     with open("disk/02-15-user-profile-face.lj", "w") as f:
@@ -215,7 +175,63 @@ def main():
                     no_face_file.write(json.dumps(d) + "\n")
 
 
-if __name__ == "__main__":
-    # write_user_profile()
-    main()
+def analyze_face_from_file(in_name, have_name, out_name):
+    """
+    in_name > users-profile/*.lj
+    """
+    urls = []
+    cnt = 0
+    # bingo = False
+    # dt_str = dt.to_date_string()
 
+    all_ids = {json.loads(line)["id"] for line in open(f"disk/users-face/{in_name}")}
+    print(len(all_ids))
+
+    have_ids = {json.loads(line)["id"] for line in open(f"disk/users-face/{have_name}")}
+    noFace_ids = {json.loads(line)["id"] for line in open("disk/users-face/noFace.lj")}
+    should_ids = all_ids - have_ids - noFace_ids
+
+    print("need:", len(should_ids))
+
+    # run it again
+    error_file = open(f"disk/users-face/{out_name}-error.lj", "a")
+    # throw it away
+    no_face_file = open("disk/users-face/noFace.txt", "a")
+
+    with open(f"disk/users-face/{in_name}.lj", "w") as f:
+        for line in tqdm(open(in_name)):
+            cnt += 1
+            d = json.loads()
+            
+            if d["id"] not in should_ids:
+                continue
+
+            url = d["profile_image_url_http"]
+            urls.append((url, d))
+
+            if len(urls) >= 1024:
+                # print(cnt)
+                pool = ThreadPool(4)
+
+                # multithread
+                rsts = pool.map(analyze_image, urls)
+
+                for d in rsts:
+                    if d is not None:
+                        if "faces" in d:
+                            f.write(json.dumps(d) + "\n")
+                        elif "error_message" in d:
+                            error_file.write(json.dumps(d) + "\n")
+                        elif "no_face" in d:
+                            no_face_file.write(json.dumps(d) + "\n")
+                urls = []
+
+        for _url in tqdm(urls):
+            d = analyze_image(_url)
+            if d is not None:
+                if "faces" in d:
+                    f.write(json.dumps(d) + "\n")
+                elif "error_message" in d:
+                    error_file.write(json.dumps(d) + "\n")
+                elif "no_face" in d:
+                    no_face_file.write(json.dumps(d) + "\n")
