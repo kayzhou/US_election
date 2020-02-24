@@ -41,7 +41,6 @@ class Classifer(object):
         # self.remove_hts = set([line.strip() for line in open("data/hashtags/removed_2019-09-05.txt")])
         # self.remove_usernames = set([line.strip() for line in open("data/remove_username.txt")])
         
-
     def save_tokens(self):
         """
         text > tokens
@@ -120,15 +119,15 @@ class Classifer(object):
         # list_classifiers = ['GBDT']
 
         classifiers = {
-            'NB': naive_bayes_classifier,
-            'KNN': knn_classifier,
+#             'NB': naive_bayes_classifier,
+#             'KNN': knn_classifier,
             'LR': logistic_regression_classifier,
-            'RF': random_forest_classifier,
-            'DT': decision_tree_classifier,
-            'SVM': svm_classifier,
-            'SVMCV': svm_cross_validation,
-            'GBDT': gradient_boosting_classifier,
-            'SVC': svm_linear_classifier,
+#             'RF': random_forest_classifier,
+#             'DT': decision_tree_classifier,
+#             'SVM': svm_classifier,
+#             'SVMCV': svm_cross_validation,
+#             'GBDT': gradient_boosting_classifier,
+#             'SVC': svm_linear_classifier,
         }
 
         for classifier in list_classifiers:
