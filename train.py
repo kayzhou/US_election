@@ -75,8 +75,10 @@ class Classifer(object):
             camp, line = line.strip().split("\t")
             # words = line.split()
             # print(words)
-            if len(words) > 0:
+            # if len(words) > 0:
                 # X.append(bag_of_words_and_bigrams(words))
+            
+            if line:
                 X.append(line)
                 y.append(int(camp))
 
@@ -161,5 +163,5 @@ if __name__ == "__main__":
     dt = "2020-02-24"
     Lebron = Classifer(now=dt)
     # After extract_train_data.py
-    Lebron.save_tokens()
+    # Lebron.save_tokens()
     Lebron.train()
