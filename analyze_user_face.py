@@ -6,7 +6,7 @@
 #    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/21 09:47:55 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/02/24 08:57:17 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/02/25 01:07:38 by Kay Zhou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -144,7 +144,7 @@ def analyze_history_02_15():
             # if d["id"] not in should_ids:
                 # continue
 
-            url = d["profile_image_url_https"]
+            url = d["profile_image_url"]
             urls.append((url, d))
 
             if len(urls) >= 1024:
@@ -184,10 +184,10 @@ def analyze_face_from_file(in_name, have_name, out_name):
     # bingo = False
     # dt_str = dt.to_date_string()
 
-    all_ids = {json.loads(line)["id"] for line in open(f"disk/users-face/{in_name}")}
+    all_ids = {json.loads(line)["id"] for line in open(in_name)}
     print(len(all_ids))
 
-    have_ids = {json.loads(line)["id"] for line in open(f"disk/users-face/{have_name}")}
+    have_ids = {json.loads(line)["id"] for line in open(have_name)}
     noFace_ids = {json.loads(line)["id"] for line in open("disk/users-face/noFace.lj")}
     should_ids = all_ids - have_ids - noFace_ids
 
@@ -198,15 +198,16 @@ def analyze_face_from_file(in_name, have_name, out_name):
     # throw it away
     no_face_file = open("disk/users-face/noFace.txt", "a")
 
-    with open(f"disk/users-face/{in_name}.lj", "w") as f:
+    with open(f"disk/users-face/{out_name}.lj", "w") as f:
         for line in tqdm(open(in_name)):
             cnt += 1
-            d = json.loads()
+            d = json.loads(line)
             
             if d["id"] not in should_ids:
                 continue
 
-            url = d["profile_image_url_http"]
+            # print(d)
+            url = d["profile_image_url"]
             urls.append((url, d))
 
             if len(urls) >= 1024:
@@ -235,3 +236,10 @@ def analyze_face_from_file(in_name, have_name, out_name):
                     error_file.write(json.dumps(d) + "\n")
                 elif "no_face" in d:
                     no_face_file.write(json.dumps(d) + "\n")
+
+
+if __name__ == '__main__':
+    analyze_face_from_file("disk/users-profile/2020-02-14-2020-02-24.lj",
+                           "disk/users-face/2020-02-15.lj",
+                           "2020-02-14-2020-02-24")
+    

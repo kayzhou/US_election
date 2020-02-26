@@ -6,7 +6,7 @@
 #    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/22 12:48:20 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/02/24 03:02:18 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/02/24 18:52:19 by Kay Zhou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,7 +34,7 @@ from sklearn.model_selection import train_test_split
 from my_weapon import *
 from myclf import *
 from SQLite_handler import *
-from TwProcess import CustomTweetTokenizer
+from TwProcess import *
 
 
 # def load_models(dt):
@@ -50,7 +50,6 @@ from TwProcess import CustomTweetTokenizer
 def load_tfidf_models(dt):
     print("load models ", dt)
     hts, classified_hts = read_classified_hashtags(dt)
-    hts = [line.strip().split()[1] for line in open(f"data/{dt}/hashtags.txt")]
     tokenizer = CustomTweetTokenizer(hashtags=hts)
     v = joblib.load(f'data/{dt}/TfidfVectorizer.joblib')
     clf = joblib.load(f'data/{dt}/LR.joblib')
@@ -68,7 +67,7 @@ class Camp_Classifier(object):
     def load(self):
         # self.token5, self.v5, self.clf5 = load_models("2020-02-09")
         # self.token5, self.v5, self.clf5 = load_models("2020-02-22")
-        self.token, self.v, self.clf = load_tfidf_models("2020-02-22-tfidf")
+        self.classified_hts, self.token, self.v, self.clf = load_tfidf_models("2020-02-24-tfidf")
         
         
     def predict(self, ds):
@@ -91,7 +90,7 @@ class Camp_Classifier(object):
             if label_num and label_bingo_times == 1:
                 # ht_rst = np.zeros(5) # alter
                 ht_rst = np.zeros(len(self.classified_hts)) # alter
-                ht_rst[label] = 1
+                ht_rst[label_num] = 1
                 return ht_rst
             else:
                 return None

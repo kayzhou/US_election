@@ -6,7 +6,7 @@
 #    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/07 20:40:05 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/02/24 09:58:30 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/02/24 18:53:39 by Kay Zhou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -533,18 +533,18 @@ def demo_tweets_to_db(sess, start, end, clear=False):
         tweet_id = d["id"]
         uid = d["user"]["id"]
         _sou = get_source_text(d["source"])
-        hts = get_hashtags_from_tweet(d["hashtags"])
+        # hts = get_hashtags_from_tweet(d["hashtags"])
 
         tweets_data.append(
             Demo_Tweet(tweet_id=tweet_id, user_id=uid,
-                       dt=dt, source=_sou, hashtags=hts)
+                       dt=dt, source=_sou)
         )
 
         X.append(d)
         
         if len(tweets_data) == 2000:
             json_rst = Lebron.predict(X)
-            for _ in range(len(tweets_data)):
+            for i in range(len(tweets_data)):
                 rst = json_rst[tweets_data[i].tweet_id]
                 # print(rst)
                 # probas = " ".join([str(round(r, 3)) for r in rst])
@@ -559,7 +559,7 @@ def demo_tweets_to_db(sess, start, end, clear=False):
 
     if tweets_data:
         json_rst = Lebron.predict(X)
-        for _ in range(len(tweets_data)):
+        for i in range(len(tweets_data)):
             rst = json_rst[tweets_data[i].tweet_id]
             # probas = " ".join([str(round(r, 3)) for r in rst])
             # tweets_data[i].probas = probas
@@ -570,154 +570,65 @@ def demo_tweets_to_db(sess, start, end, clear=False):
         sess.commit()
 
 
-def tweets_to_db_train():
+def demo_tweets_to_db_fast(sess, start, end, clear=False):
     """
-    导入训练数据
-
-    每段时间满足某组hashtag规则
-    不能是转发文本
+    import tweets to database with prediction
     """
+    if clear:
+        print("deleting >=", start, "<", end)
+        sess.query(Demo_Tweet).filter(
+            Demo_Tweet.dt >= start, Demo_Tweet.dt < end).delete()
+        sess.commit()
+    
+    from classifier import Camp_Classifier
+    Lebron = Camp_Classifier()
+    Lebron.load()
 
-    def get_train_tweets(self, all_id):
-        set_tweets = set()
-        # * 需要修改！！
-        # target_dir = ["201908"]
-        if self.now == "201904":
-            target_dir = ["201902", "201903"]
-        else:
-            target_dir = [pendulum.parse(
-                self.now + "01").add(days=-1).format("YYYYMM")]
+    X = []
+    tweets_data = []
 
-        print("Targets:", target_dir)
+    from read_raw_data import read_tweets_json_fast as read_tweets
 
-        from deal_with_Queries import File_Checker
-        checker = File_Checker()
-        # ? Sha qing kuang?
-        for _dir in target_dir:
-            # print("Dir >", _dir)
-            for in_name in os.listdir("disk/" + _dir):
-                # ignore
-                if checker.ignore_it(in_name):
-                    # print("~Ignore:", in_name)
-                    continue
-                in_name = "disk/" + _dir + "/" + in_name
-                # print(in_name)
-                for line in open(in_name, encoding="utf-8"):
-                    d = json.loads(line.strip())
-                    tweet_id = d["id"]
-                    if tweet_id in all_id and tweet_id not in set_tweets:
-                        # ignoring retweets
-                        if 'retweeted_status' in d and d["text"].startswith("RT @"):
-                            continue
-                        # dt = pendulum.from_format(d["created_at"],
-                        #     'ddd MMM DD HH:mm:ss ZZ YYYY').to_date_string()
-                        text = d["text"].replace("\n", " ").replace("\t", " ")
-                        set_tweets.add(tweet_id)
+    # for d, dt in read_tweets(start, end):
+    for d, dt in read_tweets():
+        tweet_id = d["id"]
+        uid = d["user"]["id"]
+        _sou = get_source_text(d["source"])
+        # hts = get_hashtags_from_tweet(d["hashtags"])
 
-                        yield tweet_id, text
+        tweets_data.append(
+            Demo_Tweet(tweet_id=tweet_id, user_id=uid,
+                       dt=dt, source=_sou)
+        )
 
-    def get_train_data(self):
-        now = self.now
-        K_ht, M_ht, A_ht, all_hts = self.K_ht, self.M_ht, self.A_ht, self.hts
-        with open(f"disk/data/{now}/hts.mod", "w") as f:
-            for ht in K_ht:
-                f.write(f"K\t{ht}\n")
-            for ht in M_ht:
-                f.write(f"M\t{ht}\n")
-            # for ht in A_ht:
-            #     f.write(f"L\t{ht}\n")
+        X.append(d)
+        
+        if len(tweets_data) == 2000:
+            json_rst = Lebron.predict(X)
+            for i in range(len(tweets_data)):
+                rst = json_rst[tweets_data[i].tweet_id]
+                # print(rst)
+                # probas = " ".join([str(round(r, 3)) for r in rst])
+                # tweets_data[i].probas = probas
+                tweets_data[i].max_proba = round(rst.max(), 3)
+                tweets_data[i].camp = int(rst.argmax())
 
-        K_id = set()
-        M_id = set()
-        # A_id = set()
-        # K_A_id = set()
+            sess.add_all(tweets_data)
+            sess.commit()
+            X = []
+            tweets_data = []
 
-        sess = get_session()
-        # tweets = get_all_tweets_with_hashtags(sess)
-        # * 需要修改！！
-        if self.now == "201904":
-            start = pendulum.datetime(
-                2019, 2, 1, tz="UTC")  # include this date
-        else:
-            start = pendulum.parse(self.now + "01", tz="UTC").add(days=-1)
-        end = pendulum.parse(self.now + "01", tz="UTC")
-        # end = pendulum.datetime(2019, 8, 1, tz="UTC") # not include this date
+    if tweets_data:
+        json_rst = Lebron.predict(X)
+        for i in range(len(tweets_data)):
+            rst = json_rst[tweets_data[i].tweet_id]
+            # probas = " ".join([str(round(r, 3)) for r in rst])
+            # tweets_data[i].probas = probas
+            tweets_data[i].max_proba = round(rst.max(), 3)
+            tweets_data[i].camp = int(rst.argmax())
 
-        print("Getting tweets with hashtags", start, end)
-        tweets = get_tweets_with_hashtags(sess, start, end)
-        for t in tqdm(tweets):
-            hashtags = t[1].split(",")
-            K_bingo = False
-            M_bingo = False
-            R_bingo = False
-            # A_bingo = False
-
-            # consider bingo_nums == 1
-            for ht in hashtags:
-                if ht in self.remove_hts:
-                    R_bingo = True
-                    break
-                elif ht in K_ht:
-                    K_bingo = True
-                elif ht in M_ht:
-                    M_bingo = True
-
-            # dt = pendulum.instance(t[2]).to_date_string()
-            # print(dt)
-            if R_bingo:
-                continue
-            elif K_bingo and not M_bingo:
-                K_id.add(int(t[0]))
-            elif M_bingo and not K_bingo:
-                M_id.add(int(t[0]))
-
-            # if bingo_nums == 2:
-            #     if K_bingo and A_bingo:
-            #         K_A_id.add(t[0])
-
-        print("Number of tweets with hashtags:", len(K_id), len(M_id))
-        sess.close()
-
-        # all_id = K_id | M_id
-        # all_id = K_id | M_id | A_id | K_A_id
-        # print(len(K_id), len(M_id), len(all_id))
-
-        # from collections import defaultdict
-        # K_c = defaultdict(int)
-        # M_c = defaultdict(int)
-        # KA_c = defaultdict(int)
-
-        # json.dump(K_c, open("data/Kc.txt", "w"), indent=1)
-        # json.dump(M_c, open("data/Mc.txt", "w"), indent=1)
-        # json.dump(A_c, open("data/Ac.txt", "w"), indent=1)
-        # json.dump(KA_c, open("data/KAc.txt", "w"), indent=1)
-
-        all_id = K_id | M_id
-        K_bingo_file = open(f"disk/data/{now}/K.txt", "w")
-        M_bingo_file = open(f"disk/data/{now}/M.txt", "w")
-        for t in self.get_train_tweets(all_id):
-            _id, text = t
-            if _id in K_id:
-                K_bingo_file.write(text + "\n")
-            elif _id in M_id:
-                M_bingo_file.write(text + "\n")
-
-        K_bingo_file.close()
-        M_bingo_file.close()
-
-        with open(f"disk/data/{now}/train.txt", "a") as f:
-            for line in open(f"disk/data/{now}/K.txt"):
-                f.write(f"0\t{line}")
-            for line in open(f"disk/data/{now}/M.txt"):
-                f.write(f"1\t{line}")
-
-        # with open(f"disk/data/traindata-{now}-3.txt", "w") as f:
-        #     for line in open(f"disk/data/K-{now}.txt"):
-        #         f.write(f"0\t{line}")
-        #     for line in open(f"disk/data/M-{now}.txt"):
-        #         f.write(f"1\t{line}")
-        #     for line in open(f"disk/data/L-{now}.txt"):
-        #         f.write(f"2\t{line}")
+        sess.add_all(tweets_data)
+        sess.commit()
 
 
 ########################## 我是天才 ##########################
@@ -2896,9 +2807,10 @@ def _update():
 
 if __name__ == "__main__":
     init_db()
-    start = pendulum.datetime(2020, 1, 1, tz="UTC")
-    end = pendulum.datetime(2020, 2, 24, tz="UTC")
+    start = pendulum.datetime(2020, 2, 25, tz="UTC")
+    end = pendulum.datetime(2020, 2, 26, tz="UTC")
     sess = get_session()
+#     demo_tweets_to_db_fast(sess, start, end, clear=True)                          
     demo_tweets_to_db(sess, start, end, clear=True)                          
     sess.close()
 

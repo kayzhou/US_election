@@ -6,7 +6,7 @@
 #    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/21 09:47:55 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/02/24 08:39:38 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/02/25 07:24:17 by Kay Zhou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -86,7 +86,7 @@ def write_users_csv(in_name, out_name):
     set_users = set()
     data = []
 
-    for line in open(in_name):
+    for line in tqdm(open(in_name)):
         # print(line)
         u = json.loads(line)
         _id = u["id"]
@@ -102,21 +102,26 @@ def write_users_csv(in_name, out_name):
                 state = loc_to_state[loc]
             if loc in loc_to_county:
                 county = loc_to_county[loc]
+                
 
-            # to_csv
-            d = {
-                "uid": _id,
-                # "name": u['screen_name'],
-                "loc": loc,
-                "state": state,
-                "county": county
-            }
-            data.append(d)
+            if state:
+                if len(state) != 2:
+                    print("??????????")
+
+                else:
+                    d = {
+                        "uid": _id,
+                        # "name": u['screen_name'],
+                        # "loc": loc,
+                        "state": state,
+                        "county": county
+                    }
+                    data.append(d)
 
     pd.DataFrame(data).set_index("uid").to_csv(out_name)
 
 
 if __name__ == '__main__':
-    write_locations("disk/users-profile/2020-02-14-2020-02-24.lj", "disk/users-location/2020-02-14-2020-02-24-stat.txt")
-    # write_users_csv()
+    # write_locations("disk/users-profile/2020-02-14-2020-02-24.lj", "disk/users-location/2020-02-14-2020-02-24-stat.txt")
+    write_users_csv("disk/users-profile/2020-02-24.lj", "disk/users-location/2020-02-24.csv")
 
