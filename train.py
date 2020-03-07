@@ -6,7 +6,7 @@
 #    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/07/06 14:11:24 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/03/07 04:30:18 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/03/07 04:43:17 by Kay Zhou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,6 +22,7 @@ import joblib
 import pendulum
 # from imblearn.over_sampling import RandomOverSampler
 from imblearn.under_sampling import RandomUnderSampler
+from imblearn.over_sampling import SMOTE
 from nltk import ngrams
 from sklearn.feature_extraction import DictVectorizer
 from sklearn.feature_extraction.text import TfidfVectorizer
@@ -107,7 +108,7 @@ class Classifer(object):
 
         # build one hot embedding
         # v = DictVectorizer(dtype=np.int8, sparse=True, sort=False)
-        v = TfidfVectorizer(ngram_range=(1, 2), max_features=1000000)
+        v = TfidfVectorizer(ngram_range=(1, 2), max_features=100000)
         X_train = v.fit_transform(X_train)
         X_test = v.transform(X_test)
 
@@ -117,10 +118,15 @@ class Classifer(object):
         print(X_train[0].shape, X_train[1].shape)
         print(X_train.shape, X_test.shape)
 
-        ros = RandomUnderSampler(random_state=24)
-        X_train, y_train = ros.fit_resample(X_train, y_train)
-        # print("After over sampling!")
-        # print(X_train.shape, X_test.shape)
+        X_train, y_train = SMOTE().fit_sample(X_train, y_train)
+        # ros = RandomUnderSampler(random_state=24)
+        # X_train, y_train = ros.fit_resample(X_train, y_train)
+
+        # ros = RandomUnderSampler(random_state=24)
+        # X_train, y_train = ros.fit_resample(X_train, y_train)
+
+        print("After sampling!")
+        print(X_train.shape, X_test.shape)
 
         # machine learning model
         list_classifiers = ['LR']
