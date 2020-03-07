@@ -6,7 +6,7 @@
 #    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/23 21:42:53 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/03/07 03:46:11 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/03/07 03:49:34 by Kay Zhou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,6 +31,7 @@ def read_classified_hashtags(now):
     # *** very important ***
     # labels = "PB BS EW JB OT".split()
     labels = "BS JB OT".split() # 2020-03-06
+
     label2num = {labels[i]: i for i in range(len(labels))}
     
     hts = []
@@ -40,7 +41,7 @@ def read_classified_hashtags(now):
         if not line.startswith("#"):
             w = line.strip().split(" ")
             if len(w) == 3:
-                _label, _ht = w[0], w[1]
+                _ht, _label = w[0], w[1]
                 hts.append(_ht)
                 classified_hts[label2num[_label]].add(_ht)
     return hts, classified_hts
