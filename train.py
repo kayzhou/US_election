@@ -108,7 +108,7 @@ class Classifer(object):
 
         # build one hot embedding
         # v = DictVectorizer(dtype=np.int8, sparse=True, sort=False)
-        v = TfidfVectorizer(ngram_range=(1, 2), max_features=100000)
+        v = TfidfVectorizer(ngram_range=(1, 2), max_features=200000)
         X_train = v.fit_transform(X_train)
         X_test = v.transform(X_test)
 
@@ -119,9 +119,8 @@ class Classifer(object):
         print(X_train.shape, X_test.shape)
 
         # X_train, y_train = SMOTE().fit_sample(X_train, y_train)
-        X_train, y_train = ADASYN().fit_sample(X_train, y_train)
-        # ros = RandomUnderSampler(random_state=24)
-        # X_train, y_train = ros.fit_resample(X_train, y_train)
+        # X_train, y_train = ADASYN().fit_sample(X_train, y_train)
+        X_train, y_train = RandomUnderSampler(random_state=24).fit_sample(X_train, y_train)
 
         print("After sampling!")
         print(X_train.shape, X_test.shape)
