@@ -6,7 +6,7 @@
 #    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/07/06 14:11:24 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/03/07 04:43:17 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/03/07 04:56:07 by Kay Zhou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,7 @@ import joblib
 import pendulum
 # from imblearn.over_sampling import RandomOverSampler
 from imblearn.under_sampling import RandomUnderSampler
-from imblearn.over_sampling import SMOTE
+from imblearn.over_sampling import SMOTE, ADASYN
 from nltk import ngrams
 from sklearn.feature_extraction import DictVectorizer
 from sklearn.feature_extraction.text import TfidfVectorizer
@@ -118,10 +118,8 @@ class Classifer(object):
         print(X_train[0].shape, X_train[1].shape)
         print(X_train.shape, X_test.shape)
 
-        X_train, y_train = SMOTE().fit_sample(X_train, y_train)
-        # ros = RandomUnderSampler(random_state=24)
-        # X_train, y_train = ros.fit_resample(X_train, y_train)
-
+        # X_train, y_train = SMOTE().fit_sample(X_train, y_train)
+        X_train, y_train = ADASYN().fit_sample(X_train, y_train)
         # ros = RandomUnderSampler(random_state=24)
         # X_train, y_train = ros.fit_resample(X_train, y_train)
 
@@ -176,5 +174,5 @@ if __name__ == "__main__":
     dt = "2020-03-06-tfidf"
     Lebron = Classifer(now=dt)
     # After extract_train_data.py
-    Lebron.save_tokens()
+    # Lebron.save_tokens()
     Lebron.train()
