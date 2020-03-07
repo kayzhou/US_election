@@ -120,7 +120,8 @@ class Classifer(object):
 
         # X_train, y_train = SMOTE().fit_sample(X_train, y_train)
         # X_train, y_train = ADASYN().fit_sample(X_train, y_train)
-        X_train, y_train = RandomUnderSampler(random_state=24).fit_sample(X_train, y_train)
+        X_train, y_train = RandomOverSampler(random_state=24).fit_sample(X_train, y_train)
+        # X_train, y_train = RandomUnderSampler(random_state=24).fit_sample(X_train, y_train)
 
         print("After sampling!")
         print(X_train.shape, X_test.shape)
