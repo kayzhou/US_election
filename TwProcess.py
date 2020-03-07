@@ -6,7 +6,7 @@
 #    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/23 21:42:53 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/02/24 02:55:02 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/03/07 03:46:11 by Kay Zhou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,7 @@ from nltk.tokenize.casual import (EMOTICON_RE, HANG_RE, WORD_RE,
 def read_classified_hashtags(now):
     # *** very important ***
     # labels = "PB BS EW JB OT".split()
-    labels = "PB BS EW JB OT MB".split()
+    labels = "BS JB OT".split() # 2020-03-06
     label2num = {labels[i]: i for i in range(len(labels))}
     
     hts = []
@@ -159,9 +159,6 @@ def normalize_urls(text):
     text = HANG_RE.sub(r'\1\1\1', text)
 
     return pattern.sub('URL', text)
-
-
-
 
 
 class CustomTweetTokenizer(TweetTokenizer):

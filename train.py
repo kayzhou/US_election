@@ -6,7 +6,7 @@
 #    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/07/06 14:11:24 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/03/07 03:43:16 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/03/07 03:46:37 by Kay Zhou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,8 +38,7 @@ class Classifer(object):
         "init Classifer!"
         self.now = now
         self.hts, _ = read_classified_hashtags(now)
-        # self.remove_hts = set([line.strip() for line in open("data/hashtags/removed_2019-09-05.txt")])
-        # self.remove_usernames = set([line.strip() for line in open("data/remove_username.txt")])
+        
         
     def save_tokens(self):
         """
@@ -167,7 +166,7 @@ class Classifer(object):
     
 
 if __name__ == "__main__":
-    dt = "2020-02-24"
+    dt = "2020-03-06-tfidf"
     Lebron = Classifer(now=dt)
     # After extract_train_data.py
     # Lebron.save_tokens()
