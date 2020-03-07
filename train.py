@@ -20,7 +20,7 @@ from random import sample
 
 import joblib
 import pendulum
-# from imblearn.over_sampling import RandomOverSampler
+from imblearn.over_sampling import RandomOverSampler
 from imblearn.under_sampling import RandomUnderSampler
 from imblearn.over_sampling import SMOTE, ADASYN
 from nltk import ngrams
