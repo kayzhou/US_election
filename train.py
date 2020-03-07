@@ -6,7 +6,7 @@
 #    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/07/06 14:11:24 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/02/23 21:45:47 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/03/07 03:43:16 by Kay Zhou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,13 +45,20 @@ class Classifer(object):
         """
         text > tokens
         """
+        # label2num = {
+        #     "PB": 0,
+        #     "BS": 1,
+        #     "EW": 2,
+        #     "JB": 3,
+        #     "OT": 4,
+        #     "MB": 5,
+        # }
+
+        # 2020-03-06
         label2num = {
-            "PB": 0,
-            "BS": 1,
-            "EW": 2,
-            "JB": 3,
-            "OT": 4,
-            "MB": 5,
+            "BS": 0,
+            "JB": 1,
+            "OT": 2,
         }
         tokenizer = CustomTweetTokenizer(hashtags=self.hts)
         with open(f"data/{self.now}/tokens.txt", "w") as f:
@@ -100,7 +107,7 @@ class Classifer(object):
 
         # build one hot embedding
         # v = DictVectorizer(dtype=np.int8, sparse=True, sort=False)
-        v = TfidfVectorizer(ngram_range=(1, 2), max_features=100000)
+        v = TfidfVectorizer(ngram_range=(1, 2), max_features=200000)
         X_train = v.fit_transform(X_train)
         X_test = v.transform(X_test)
 

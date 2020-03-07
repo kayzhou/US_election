@@ -6,7 +6,7 @@
 #    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/21 09:47:55 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/02/25 07:24:17 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/03/02 04:05:19 by Kay Zhou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -102,11 +102,11 @@ def write_users_csv(in_name, out_name):
                 state = loc_to_state[loc]
             if loc in loc_to_county:
                 county = loc_to_county[loc]
-                
+
 
             if state:
                 if len(state) != 2:
-                    print("??????????")
+                    print("Error: len(state) != 2")
 
                 else:
                     d = {
@@ -121,7 +121,62 @@ def write_users_csv(in_name, out_name):
     pd.DataFrame(data).set_index("uid").to_csv(out_name)
 
 
-if __name__ == '__main__':
-    # write_locations("disk/users-profile/2020-02-14-2020-02-24.lj", "disk/users-location/2020-02-14-2020-02-24-stat.txt")
-    write_users_csv("disk/users-profile/2020-02-24.lj", "disk/users-location/2020-02-24.csv")
+def write_users_today_csv(dt):
+    """
+    in_name: users-profile
+    out_name: users-location.csv
+    """
+    dt_str = dt.to_date_string()
 
+    # load json
+    loc_to_state = json.load(open("data/loc-to-state.json"))
+    loc_to_county = json.load(open("data/loc-to-county.json"))
+
+    set_users = set()
+    data = []
+
+    for line in tqdm(open(f"disk/users-profile/{dt_str}.lj")):
+        # print(line)
+        u = json.loads(line)
+        _id = u["id"]
+        if _id not in set_users:
+            if "location" not in u:
+                continue
+            set_users.add(_id)
+            loc = u["location"].lower().replace("\t", " ").replace("\n", " ")
+
+            state = None
+            county = None
+            if loc in loc_to_state:
+                state = loc_to_state[loc]
+            if loc in loc_to_county:
+                county = loc_to_county[loc]
+                
+            if state:
+                if len(state) != 2:
+                    print("Error: len(state) != 2")
+
+                else:
+                    d = {
+                        "uid": _id,
+                        # "name": u['screen_name'],
+                        # "loc": loc,
+                        "state": state,
+                        "county": county
+                    }
+                    data.append(d)
+
+    pd.DataFrame(data).set_index("uid").to_csv(f"disk/users-location/{dt_str}.csv")
+
+
+if __name__ == '__main__':
+    # more loc information should be mapped to state and county infomation.
+    # write_locations("disk/users-profile/2020-02-24-2020-02-28.lj",
+    #                 "disk/users-location/2020-02-24-2020-02-28-stat.txt")
+    
+    # write_users_csv("disk/users-profile/2020-02-29.lj",
+    #                 "disk/users-location/2020-02-29.csv")
+
+    dt = pendulum.datetime(2020, 3, 1, tz="UTC")
+    # actually, we use today as the prediction 
+    write_users_today_csv(dt)

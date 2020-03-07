@@ -6,7 +6,7 @@
 #    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/21 09:47:55 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/02/22 05:42:19 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/03/07 00:48:25 by Kay Zhou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,29 +15,31 @@ from pathlib import Path
 from collections import Counter
 from tqdm import tqdm
 
+train_dir = "data/2020-03-06-tfidf/"
+
 demo_files = set([
     "Michael Bennet",
     "SenatorBennet",
     "Joe Biden",
     "JoeBiden",
-    "Mike Bloomberg",
-    "MikeBloomberg",
-    "Pete Buttigieg",
-    "PeteButtigieg",
-    "John Delaney",
-    "JohnDelaney",
-    "Tulsi Gabbard",
-    "TulsiGabbard",
-    "Amy Klobuchar",
-    "amyklobuchar",
-    "Deval Patrick",
-    "DevalPatrick",
-    "Bernie Sanders",
-    "SenSanders",
-    "Tom Steyer",
-    "TomSteyer",
-    "Elizabeth Warren",
-    "ewarren",
+    # "Mike Bloomberg",
+    # "MikeBloomberg",
+    # "Pete Buttigieg",
+    # "PeteButtigieg",
+    # "John Delaney",
+    # "JohnDelaney",
+    # "Tulsi Gabbard",
+    # "TulsiGabbard",
+    # "Amy Klobuchar",
+    # "amyklobuchar",
+    # "Deval Patrick",
+    # "DevalPatrick",
+    # "Bernie Sanders",
+    # "SenSanders",
+    # "Tom Steyer",
+    # "TomSteyer",
+    # "Elizabeth Warren",
+    # "ewarren",
     # "Andrew Yang",
     # "AndrewYang",
 ])
@@ -54,26 +56,34 @@ def read_classified_hashtags():
     # }
 
     # 2020-01-21
+    # classified_hts = {
+    #     "PB": set(),
+    #     "BS": set(),
+    #     "EW": set(),
+    #     "JB": set(),
+    #     "OT": set(),
+    #     "MB": set()
+    # }
+
+    # 2020-03-06
     classified_hts = {
-        "PB": set(),
         "BS": set(),
-        "EW": set(),
         "JB": set(),
         "OT": set(),
-        "MB": set()
     }
-
-    for line in open("data/hashtags/hashtags-democrats-20200121-v2.txt"):
+    for line in open(train_dir + "hashtags.txt"):     # 2020-03-06
         if not line.startswith("#"):
             w = line.strip().split(" ")
-            label, _ht = w[0], w[1]
+            _ht, label = w[0], w[1]
             if len(w) == 3 and label in classified_hts:
                 classified_hts[label].add(_ht)
+    print(classified_hts)
     return classified_hts
 
 classified_hts = read_classified_hashtags()
 
-with open("data/traindata-20200221.txt", "w") as f:
+
+with open(train_dir + "traindata.txt", "w") as f: # 2020-03-06
     for in_name in Path("raw_data").rglob("*.txt"):
         if in_name.stem.split("-")[-1] in demo_files:
             print(in_name)

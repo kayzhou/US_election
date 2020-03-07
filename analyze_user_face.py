@@ -6,7 +6,7 @@
 #    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/21 09:47:55 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/02/25 01:07:38 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/03/06 23:13:21 by Kay Zhou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -81,6 +81,7 @@ key_store = get_key()
 def analyze_image(_urls):
     key, secret = next(key_store)
     url = get_clear_picture_url(_urls[0])
+    # url = _urls[0]
     d = _urls[1]
         
     # data to be sent to api 
@@ -89,10 +90,9 @@ def analyze_image(_urls):
             'api_secret': secret, 
             'image_url': url,
             'face_tokens': "",
-            # 'return_landmark': 0,
-            'return_attributes': "gender,age,ethnicity"
+            'return_landmark': 0,
+            'return_attributes': "gender,age"
     }
-        
     for i in range(3):
         # sending post request and saving response as response object 
         try:
@@ -103,6 +103,7 @@ def analyze_image(_urls):
                 return d
 
             elif "error_message" in r:
+                print("Error:", data['image_url'])
                 if r["error_message"] == "INVALID_IMAGE_URL":
                     d["error_message"] = r["error_message"]
                     return {"id": d["id"], "error_message": d["error_message"]}
@@ -118,61 +119,6 @@ def analyze_image(_urls):
         except Exception as e:
             print("Notice!! ERROR:", e)
             return None
-    
-
-def analyze_history_02_15():
-    urls = []
-    cnt = 0
-    # bingo = False
-    all_ids = {json.loads(line.strip())["id"] for line in open("disk/02-15-user-profile.lj")}
-    print(len(all_ids))
-
-    have_ids = set()
-    should_ids = all_ids - have_ids
-    print("need:", len(should_ids))
-
-    # run it again
-    error_file = open("disk/02-15-user-profile-error.txt", "a")
-    # throw it away
-    no_face_file = open("disk/02-15-user-profile-noFace.txt", "a")
-
-    with open("disk/02-15-user-profile-face.lj", "w") as f:
-        for line in tqdm(open("disk/02-15-user-profile.lj")):
-            cnt += 1
-            d = json.loads(line.strip())
-            
-            # if d["id"] not in should_ids:
-                # continue
-
-            url = d["profile_image_url"]
-            urls.append((url, d))
-
-            if len(urls) >= 1024:
-                # print(cnt)
-                pool = ThreadPool(8)
-
-                # multithread
-                rsts = pool.map(analyze_image, urls)
-
-                for d in rsts:
-                    if d is not None:
-                        if "faces" in d:
-                            f.write(json.dumps(d) + "\n")
-                        elif "error_message" in d:
-                            error_file.write(json.dumps(d) + "\n")
-                        elif "no_face" in d:
-                            no_face_file.write(json.dumps(d) + "\n")
-                urls = []
-
-        for _url in tqdm(urls):
-            d = analyze_image(_url)
-            if d is not None:
-                if "faces" in d:
-                    f.write(json.dumps(d) + "\n")
-                elif "error_message" in d:
-                    error_file.write(json.dumps(d) + "\n")
-                elif "no_face" in d:
-                    no_face_file.write(json.dumps(d) + "\n")
 
 
 def analyze_face_from_file(in_name, have_name, out_name):
@@ -196,7 +142,7 @@ def analyze_face_from_file(in_name, have_name, out_name):
     # run it again
     error_file = open(f"disk/users-face/{out_name}-error.lj", "a")
     # throw it away
-    no_face_file = open("disk/users-face/noFace.txt", "a")
+    no_face_file = open("disk/users-face/noFace.lj", "a")
 
     with open(f"disk/users-face/{out_name}.lj", "w") as f:
         for line in tqdm(open(in_name)):
@@ -238,8 +184,77 @@ def analyze_face_from_file(in_name, have_name, out_name):
                     no_face_file.write(json.dumps(d) + "\n")
 
 
-if __name__ == '__main__':
-    analyze_face_from_file("disk/users-profile/2020-02-14-2020-02-24.lj",
-                           "disk/users-face/2020-02-15.lj",
-                           "2020-02-14-2020-02-24")
+def union_files(in_name1, in_name2, out_name):
+    with open(out_name, "w") as f:
+        for line in open(in_name1):
+            f.write(line)
+        for line in open(in_name2):
+            f.write(line)
+
+
+def get_users_from_lj(in_name, out_name=None):
+    users = []
     
+    for line in tqdm(open(in_name)):
+        d = json.loads(line.strip())
+        face = d["faces"][0]
+        # print(face)
+        age = face['attributes']["age"]["value"]
+        gender = face['attributes']["gender"]["value"]
+
+        if age < 18:
+            continue
+        elif age >= 18 and age < 30:
+            age_range = ">=18, <30"
+        elif age >= 30 and age < 50:
+            age_range = ">=30, <50"
+        elif age >= 50 and age < 65:
+            age_range = ">=50, <65"
+        elif age >= 65:
+            age_range = ">=65"
+
+        users.append(
+            {
+                "uid": d["id"], 
+                "age": age, 
+                "gender": gender, 
+                "age_range": age_range
+            }
+        )
+
+    users = pd.DataFrame(users).set_index("uid")
+    users = users[~users.index.duplicated(keep='first')]
+
+    if out_name:
+        users.to_csv(out_name)
+        
+    return users
+
+
+def write_users_today_face_csv(dt):
+    """
+    in_name: users-profile
+    out_name: users-location.csv
+    """
+    start = dt.add(days=-1)
+    end = dt
+    
+    analyze_face_from_file(f"disk/users-profile/{start.to_date_string()}-{end.to_date_string()}.lj",
+                           f"disk/users-face/{end.to_date_string()}.lj",
+                           out_name=f"{start.to_date_string()}-{end.to_date_string()}")
+    union_files(f"disk/users-face/{start.to_date_string()}.lj",
+                f"disk/users-face/{start.to_date_string()}-{end.to_date_string()}.lj",
+                f"disk/users-face/{end.to_date_string()}.lj"
+    )
+    get_users_from_lj(f"disk/users-face/{end.to_date_string()}.lj", out_name=f"disk/users-face/{end.to_date_string()}.csv")
+
+
+if __name__ == '__main__':
+    # write_users_today_face_csv(pendulum.today())
+    # write_users_today_face_csv(pendulum.datetime(2020, 3, 2))
+
+    # analyze_face_from_file(f"disk/users-profile/2020-03-05-2020-03-06.lj",
+    #                        f"disk/users-face/2020-03-02.lj",
+    #                        out_name=f"2020-03-05-2020-03-06")
+    
+    get_users_from_lj(f"disk/users-face/2020-03-06.lj").to_csv(f"disk/users-face/2020-03-06.csv")

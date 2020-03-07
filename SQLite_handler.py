@@ -6,7 +6,7 @@
 #    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/07 20:40:05 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/02/24 18:53:39 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/03/01 19:54:26 by Kay Zhou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -300,133 +300,6 @@ def get_all_tweets_id(sess):
     print('have:', len(tids_set))
     sess.close()
     return tids_set
-
-
-def get_tweets_json():
-    set_tweets = set()
-    # target_dir = ["201902", "201903", "201904", "201905"]
-    target_dir = ["201907"]
-    for _dir in target_dir:
-        for in_name in os.listdir("disk/" + _dir):
-            if in_name.endswith("PRO.txt") or in_name.endswith("Moreno.txt") or in_name.endswith("Sola.txt") \
-                    or in_name.endswith("PASO.txt") or in_name.endswith("Rossi.txt") or in_name.endswith("elecciones.txt"):
-                continue
-            in_name = "disk/" + _dir + "/" + in_name
-            print(in_name)
-            for line in open(in_name):
-                d = json.loads(line.strip())
-                tweet_id = d["id"]
-                if tweet_id in set_tweets:
-                    continue
-                set_tweets.add(tweet_id)
-                yield d, tweet_id
-
-
-def count_per_day():
-    """
-    用于测试是否数据量在下降
-    """
-    from collections import Counter
-    tweet_cnt = Counter()
-    for d, tid in tqdm(get_tweets_json()):
-        dt = pendulum.from_format(
-            d["created_at"], 'ddd MMM DD HH:mm:ss ZZ YYYY').format("MMDD")
-        tweet_cnt[dt] += 1
-    print(tweet_cnt.most_common())
-
-
-def get_nopaso_tweets_json(paso_set):
-    set_tweets = set()
-    target_dir = ["201902", "201903", "201904", "201905"]
-    for _dir in target_dir:
-        for in_name in os.listdir("disk/" + _dir):
-            if in_name.endswith("PRO.txt") or in_name.endswith("Moreno.txt") or in_name.endswith("Sola.txt"):
-                continue
-            if in_name.endswith("mauriciomacri OR PASO OR macrismo OR kirchnerismo OR peronismo.txt"):
-                continue
-            in_name = "disk/" + _dir + "/" + in_name
-            print(in_name)
-            for line in open(in_name, encoding="utf-8"):
-                d = json.loads(line.strip())
-                tweet_id = d["id"]
-                if tweet_id in set_tweets:
-                    continue
-                set_tweets.add(tweet_id)
-
-                if tweet_id in paso_set:
-                    paso_set.remove(tweet_id)
-    print("final:", len(paso_set))
-
-
-def get_paso_tweets_id():
-    set_tweets = set()
-    target_dir = ["201905", "201906"]
-    for _dir in target_dir:
-        for in_name in os.listdir("disk/" + _dir):
-            if not in_name.endswith("PASO.txt"):
-                continue
-            in_name = "disk/" + _dir + "/" + in_name
-            print(in_name)
-            for line in tqdm(open(in_name)):
-                d = json.loads(line.strip())
-                tweet_id = d["id"]
-                if tweet_id in set_tweets:
-                    continue
-                set_tweets.add(tweet_id)
-
-    return set_tweets
-
-
-def count_paso():
-    paso = set()
-    nopaso = set()
-    other = set()
-    camp_query = ["mauriciomacri", "macrismo", "kirchnerismo", "peronismo"]
-    target_dir = ["201902", "201903", "201904", "201905"]
-
-    set_tweets = set()
-    for _dir in target_dir:
-        for in_name in os.listdir("disk/" + _dir):
-            if not in_name.endswith("mauriciomacri OR PASO OR macrismo OR kirchnerismo OR peronismo.txt"):
-                continue
-            in_name = "disk/" + _dir + "/" + in_name
-            print(in_name)
-            for line in tqdm(open(in_name)):
-                d = json.loads(line.strip())
-                tweet_id = d["id"]
-                if tweet_id in set_tweets:
-                    continue
-                set_tweets.add(tweet_id)
-
-                text = normalize_lower(d["text"]).replace(
-                    "\n", " ").replace("\t", " ")
-                words = text.split()
-
-                is_paso = False
-                is_nopaso = False
-                for w in words:
-                    if "paso" in w:
-                        paso.add(tweet_id)
-                        is_paso = True
-                    elif camp_query[0] in w or camp_query[1] in w or camp_query[2] in w or camp_query[3] in w:
-                        nopaso.add(tweet_id)
-                        is_nopaso = True
-                if not is_paso and not is_nopaso:
-                    other.add(tweet_id)
-
-    with open("data/paso_id.txt", "w") as f:
-        for tid in paso:
-            f.write(str(tid) + "\n")
-
-    with open("data/other_id.txt", "w") as f:
-        for tid in nopaso:
-            f.write(str(tid) + "\n")
-
-    with open("data/nono_id.txt", "w") as f:
-        for tid in other:
-            f.write(str(tid) + "\n")
-
-    print("final:", len(paso), len(nopaso), len(other))
 
 
 def count_file_hashtag(in_file):
@@ -916,29 +789,6 @@ def get_hashtags75_v2(sess):
                         if t.proM < 0.25:
                             K_SAT_MON.write(str(t.tweet_id) + "\n")
                         break
-
-
-def get_raw_tweets():
-
-    M_f = open("disk/data/M_SAT_MON.txt", "w")
-    K_f = open("disk/data/K_SAT_MON.txt", "w")
-
-    M_SAT_MON = set([int(line.strip())
-                     for line in open("disk/data/M_SAT_MON.id")])
-    K_SAT_MON = set([int(line.strip())
-                     for line in open("disk/data/K_SAT_MON.id")])
-
-    M_count, K_count = 0, 0
-
-    for t, tweetid in get_tweets_json():
-        if tweetid in M_SAT_MON:
-            text = t["text"].replace("\n", " ").replace("\t", " ")
-            M_f.write(f"id:{tweetid}\t{text}\n")
-            M_count += 1
-        if tweetid in K_SAT_MON:
-            text = t["text"].replace("\n", " ").replace("\t", " ")
-            K_f.write(f"id:{tweetid}\t{text}\n")
-            K_count += 1
 
 
 # ******************** Very important ******************** #
@@ -2683,7 +2533,7 @@ def get_demo_tweets(sess, start, end):
         Demo_Tweet.dt >= start,
         Demo_Tweet.dt < end).yield_per(5000)
     return tweets
-
+    
 
 def get_tweets_day(sess, dt):
     """
@@ -2799,7 +2649,6 @@ def _update():
     # db_to_users(sess, start, end, bots=True)
     # db_to_stat_predict(sess, start, end, bots=True, clear=True)
 
-    # 预测更新
     # predict_per_day(sess, start, end)
     # predict_per_week(sess, end)
     sess.close()
@@ -2807,11 +2656,9 @@ def _update():
 
 if __name__ == "__main__":
     init_db()
-    start = pendulum.datetime(2020, 2, 25, tz="UTC")
-    end = pendulum.datetime(2020, 2, 26, tz="UTC")
+    start = pendulum.datetime(2019, 9, 1, tz="UTC")
+    end = pendulum.datetime(2019, 11, 1, tz="UTC")
     sess = get_session()
-#     demo_tweets_to_db_fast(sess, start, end, clear=True)                          
-    demo_tweets_to_db(sess, start, end, clear=True)                          
+    demo_tweets_to_db_fast(sess, start, end, clear=True)             
+    # demo_tweets_to_db(sess, start, end, clear=True)      
     sess.close()
-
-    
