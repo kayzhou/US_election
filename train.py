@@ -6,7 +6,7 @@
 #    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/07/06 14:11:24 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/03/07 04:29:55 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/03/07 04:30:18 by Kay Zhou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -170,5 +170,5 @@ if __name__ == "__main__":
     dt = "2020-03-06-tfidf"
     Lebron = Classifer(now=dt)
     # After extract_train_data.py
-    # Lebron.save_tokens()
+    Lebron.save_tokens()
     Lebron.train()
