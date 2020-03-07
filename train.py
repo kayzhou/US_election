@@ -6,7 +6,7 @@
 #    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/07/06 14:11:24 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/03/07 04:04:42 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/03/07 04:27:05 by Kay Zhou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ from random import sample
 
 import joblib
 import pendulum
-# from imblearn.over_sampling import RandomOverSampler
+from imblearn.over_sampling import RandomOverSampler, RandomUnderSampler
 from nltk import ngrams
 from sklearn.feature_extraction import DictVectorizer
 from sklearn.feature_extraction.text import TfidfVectorizer
@@ -116,8 +116,8 @@ class Classifer(object):
         print(X_train[0].shape, X_train[1].shape)
         print(X_train.shape, X_test.shape)
 
-        # ros = RandomUnderSampler(random_state=23)
-        # X_train, y_train = ros.fit_resample(X_train, y_train)
+        ros = RandomUnderSampler(random_state=24)
+        X_train, y_train = ros.fit_resample(X_train, y_train)
         # print("After over sampling!")
         # print(X_train.shape, X_test.shape)
 
@@ -169,5 +169,5 @@ if __name__ == "__main__":
     dt = "2020-03-06-tfidf"
     Lebron = Classifer(now=dt)
     # After extract_train_data.py
-    Lebron.save_tokens()
+    # Lebron.save_tokens()
     Lebron.train()

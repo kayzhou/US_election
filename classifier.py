@@ -6,7 +6,7 @@
 #    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/22 12:48:20 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/03/07 03:50:23 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/03/07 04:27:07 by Kay Zhou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -67,7 +67,8 @@ class Camp_Classifier(object):
     def load(self):
         # self.token5, self.v5, self.clf5 = load_models("2020-02-09")
         # self.token5, self.v5, self.clf5 = load_models("2020-02-22")
-        self.classified_hts, self.token, self.v, self.clf = load_tfidf_models("2020-02-24-tfidf")
+        # self.classified_hts, self.token, self.v, self.clf = load_tfidf_models("2020-02-24-tfidf")
+        self.classified_hts, self.token, self.v, self.clf = load_tfidf_models("2020-03-06-tfidf")
         
         
     def predict(self, ds):
