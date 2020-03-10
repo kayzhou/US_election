@@ -76,13 +76,25 @@ official_twitter_clients = set([
 #     source = Column(String)
 
 
+#class Demo_Tweet(Base):
+#    __tablename__ = "demo_tweets_v2"
+#    tweet_id = Column(Integer, primary_key=True)
+#    user_id = Column(Integer)
+#    dt = Column(DateTime)
+#    camp = Column(Integer)
+#    max_proba = Column(Float)
+#     probas = Column(String)
+#     hashtags = Column(String)
+#    source = Column(String)
+
+##Matteo Changed it
 class Demo_Tweet(Base):
     __tablename__ = "demo_tweets_v2"
     tweet_id = Column(Integer, primary_key=True)
     user_id = Column(Integer)
     dt = Column(DateTime)
     camp = Column(Integer)
-    max_proba = Column(Float)
+    max_proba = Column(String)
 #     probas = Column(String)
 #     hashtags = Column(String)
     source = Column(String)
@@ -239,7 +251,6 @@ class Cumulative_Predict_v1(Base):
     c1 = Column(Integer)
     c2 = Column(Integer)
     c3 = Column(Integer)
-
 
 class Weekly_Predict_v1(Base):
     __tablename__ = "weekly_predict_v1"
@@ -483,7 +494,7 @@ def demo_tweets_to_db_fast(sess, start, end, clear=False):
                 # print(rst)
                 # probas = " ".join([str(round(r, 3)) for r in rst])
                 # tweets_data[i].probas = probas
-                tweets_data[i].max_proba = round(rst.max(), 3)
+                tweets_data[i].max_proba = str(np.round(rst, 3))#round(rst.max(), 3)
                 tweets_data[i].camp = int(rst.argmax())
 
             sess.add_all(tweets_data)
@@ -497,7 +508,7 @@ def demo_tweets_to_db_fast(sess, start, end, clear=False):
             rst = json_rst[tweets_data[i].tweet_id]
             # probas = " ".join([str(round(r, 3)) for r in rst])
             # tweets_data[i].probas = probas
-            tweets_data[i].max_proba = round(rst.max(), 3)
+            tweets_data[i].max_proba =str(np.round(rst, 3))#round(rst.max(), 3)
             tweets_data[i].camp = int(rst.argmax())
 
         sess.add_all(tweets_data)
@@ -2372,7 +2383,7 @@ def tweets_to_new_clas(sess):
 ################## get section ##################
 def get_session():
     engine = create_engine(
-        "sqlite:////home/alex/kayzhou/US_election/data/election.db")
+        "sqlite:////home/alex/kayzhou/US_election/data/election_after_BT_all.db")
     DBSession = sessionmaker(bind=engine)
     session = DBSession()
     return session
@@ -2618,7 +2629,9 @@ def get_term_stat():
 
 def init_db():
     engine = create_engine(
-        "sqlite:////home/alex/kayzhou/US_election/data/election.db")
+        #2020-3-8
+	#"sqlite:////home/alex/kayzhou/US_election/data/election_after_BT.db")
+        "sqlite:////home/alex/kayzhou/US_election/data/election_after_BT_all.db")
     Base.metadata.create_all(engine)
 
 
@@ -2657,7 +2670,7 @@ def _update():
 if __name__ == "__main__":
     init_db()
     start = pendulum.datetime(2019, 9, 1, tz="UTC")
-    end = pendulum.datetime(2019, 11, 1, tz="UTC")
+    end = pendulum.datetime(2020, 3, 8, tz="UTC")
     sess = get_session()
     demo_tweets_to_db_fast(sess, start, end, clear=True)             
     # demo_tweets_to_db(sess, start, end, clear=True)      

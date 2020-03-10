@@ -20,13 +20,13 @@ def save_user_snapshot_perday(sess, now):
     for t in tqdm(get_demo_tweets(sess, now, now.add(days=1))):
         uid = t.user_id
         if uid not in users:
-            users[uid] = [0, 0, 0, 0, 0, 0]
+            users[uid] = [0, 0, 0]
         users[uid][t.camp] += 1
     # pd.DataFrame(users).T.
     print("# of users:", len(users))
     csv = pd.DataFrame(users).T
     csv.index.names = ['uid']
-    csv.to_csv(f"data/users-day/{now.to_date_string()}.csv")
+    csv.to_csv(f"data/users-day_after_BT_m3/{now.to_date_string()}.csv")
 
 
 def read_users_from_csv(in_name):
@@ -34,7 +34,8 @@ def read_users_from_csv(in_name):
     users = pd.read_csv(in_name).set_index("uid").T.to_dict()
     _users = {}
     for u, v in users.items():
-        _users[u] = np.array([v["0"], v["1"], v["2"], v["3"], v["4"], v["5"]])
+        _users[u] = np.array([v["0"], v["1"], v["2"]])
+        #_users[u] = np.array([v["0"], v["1"], v["2"], v["3"], v["4"], v["5"]])
     print("# of users:", len(_users))
     return _users
 
@@ -45,7 +46,8 @@ def read_users_from_csv_from_uids(in_name, set_uids):
     _users = {}
     for u, v in users.items():
         if u in set_uids:
-            _users[u] = np.array([v["0"], v["1"], v["2"], v["3"], v["4"], v["5"]])
+            _users[u] = np.array([v["0"], v["1"], v["2"]])
+	    # _users[u] = np.array([v["0"], v["1"], v["2"], v["3"], v["4"], v["5"]])
             # _users[u] = np.array([v["1"], v["2"], v["3"], v["4"], v["5"]])
     print("# of users:", len(_users))
     return _users
@@ -82,19 +84,20 @@ def write_union_users_csv(union_users_dict, out_dir, dt):
                 "0": v[0],
                 "1": v[1],
                 "2": v[2],
-                "3": v[3],
-                "4": v[4],
-                "5": v[5],
+                #"3": v[3],
+                #"4": v[4],
+                #"5": v[5],
             }
             rsts.append(rst)
         pd.DataFrame(rsts).set_index("uid").to_csv(f"disk/{out_dir}/{dt}.csv")
     else:
         with open(f"disk/{out_dir}/{dt}.csv", "w") as f:
-            f.write("uid,0,1,2,3,4,5\n")
+            f.write("uid,0,1,2\n")
+	    #f.write("uid,0,1,2,3,4,5\n")
 
 
 USERS = pd.read_csv("disk/users-face/2020-03-06.csv").set_index("uid")
-USERS_STATE = pd.read_csv("disk/users-location/2020-03-06.csv", 
+USERS_STATE = pd.read_csv("disk/users-location/2020-03-09.csv", 
                           usecols=["uid","state"],
                           error_bad_lines=False).set_index("uid")
 USERS_STSTE_GENDER_AGE = USERS.join(USERS_STATE, how="inner")
@@ -103,12 +106,12 @@ SET_USERS = set(USERS_STSTE_GENDER_AGE.index)
 
 def write_union_users_csv_v2(union_users_dict, out_dir, dt):
     num2label = {
-        0: "Pete Buttigieg", 
-        1: "Bernie Sanders", 
-        2: "Elizabeth Warren", 
-        3: "Joe Biden", 
-        4: "Others",
-        5: "Mike Bloomberg"
+        #0: "Pete Buttigieg", 
+        0: "Bernie Sanders", 
+        #2: "Elizabeth Warren", 
+        1: "Joe Biden", 
+        #2: "Others",
+        #5: "Mike Bloomberg"
     }
     print("Writing ...", f"disk/{out_dir}/{dt}.csv")
     rsts = []
@@ -202,6 +205,13 @@ def calculate_cumulative_share(start, end, super_start_month="01", save_csv=None
         super_start = pendulum.datetime(2019, 9, 17, tz="UTC")
     elif super_start_month == "0922":
         super_start = pendulum.datetime(2019, 9, 22, tz="UTC")
+    elif super_start_month == "0302":
+        super_start = pendulum.datetime(2020, 3, 2, tz="UTC")
+    elif super_start_month == "0302":
+        super_start = pendulum.datetime(2020, 3, 2, tz="UTC")
+    elif super_start_month == "0202":
+        super_start = pendulum.datetime(2020, 2, 19, tz="UTC")
+
 
     # super_start = start
     yesterday_users = None
@@ -215,7 +225,7 @@ def calculate_cumulative_share(start, end, super_start_month="01", save_csv=None
 
         elif dt == super_start.add(days=1):
             union_users_dict = read_users_from_csv(
-                f"data/users-day/{super_start.to_date_string()}.csv")
+                f"data/users-day_after_BT/{super_start.to_date_string()}.csv")
             print("Writing the first!")
             write_union_users_csv(
                 union_users_dict, f"users-culFrom{super_start_month}", dt.to_date_string())
@@ -228,14 +238,14 @@ def calculate_cumulative_share(start, end, super_start_month="01", save_csv=None
                 yesterday_users = read_users_from_csv(
                     f"disk/users-culFrom{super_start_month}/{dt.add(days=-1).to_date_string()}.csv")
             today_users = read_users_from_csv(
-                f"data/users-day/{dt.add(days=-1).to_date_string()}.csv")
+                f"data/users-day_after_BT/{dt.add(days=-1).to_date_string()}.csv")
             union_users_dict = union_users_from_yesterday_and_today(
                 yesterday_users, today_users)
             yesterday_users = union_users_dict
-            
-            if dt == end: 
-                print("Writing cumulative users' csv at", dt)
-                write_union_users_csv_v2(
+            #Matteo modifed here
+            #if dt == end: 
+            #    print("Writing cumulative users' csv at", dt)
+            write_union_users_csv_v2(
                     union_users_dict, f"users-culFrom{super_start_month}", dt.to_date_string())
         
         rst = get_share_from_users_dict(union_users_dict)
@@ -453,13 +463,13 @@ def daily_prediction():
     
 if __name__ == "__main__":
     # -- save users' snapshot --
-    # start = pendulum.datetime(2019, 9, 1, tz="UTC")
-    # end = pendulum.datetime(2019, 11, 1, tz="UTC")
-    # sess = get_session()
-    # for dt in pendulum.period(start, end):
+    #start = pendulum.datetime(2019, 9, 2, tz="UTC")
+    #end = pendulum.datetime(2020, 3, 6, tz="UTC")
+    #sess = get_session()
+    #for dt in pendulum.period(start, end):
     #     print(dt)
     #     save_user_snapshot_perday(sess, dt)
-    # sess.close()
+    #sess.close()
 
     # run it per day
     # daily_prediction()
@@ -490,10 +500,11 @@ if __name__ == "__main__":
     # start = pendulum.datetime(2019, 9, 13, tz="UTC")
     # end = pendulum.datetime(2020, 3, 2, tz="UTC")
     # calculate_cumulative_share(start, end, super_start_month="0912")
-
-    start = pendulum.datetime(2019, 9, 2, tz="UTC")
-    end = pendulum.datetime(2020, 3, 2, tz="UTC")
-    calculate_cumulative_share(start, end, super_start_month="09")
+    
+    ##Matteo Change
+    start = pendulum.datetime(2020, 2, 20, tz="UTC")
+    end = pendulum.datetime(2020, 3, 6, tz="UTC")
+    calculate_cumulative_share(start, end, super_start_month="0202")
 
     # start = pendulum.datetime(2019, 9, 23, tz="UTC")
     # end = pendulum.datetime(2020, 3, 2, tz="UTC")

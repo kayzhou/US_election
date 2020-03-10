@@ -6,7 +6,7 @@
 #    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/21 09:47:55 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/03/06 23:13:21 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/03/09 21:06:06 by Kay Zhou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -240,21 +240,24 @@ def write_users_today_face_csv(dt):
     end = dt
     
     analyze_face_from_file(f"disk/users-profile/{start.to_date_string()}-{end.to_date_string()}.lj",
-                           f"disk/users-face/{end.to_date_string()}.lj",
+                           f"disk/users-face/{start.to_date_string()}.lj",
                            out_name=f"{start.to_date_string()}-{end.to_date_string()}")
+
     union_files(f"disk/users-face/{start.to_date_string()}.lj",
                 f"disk/users-face/{start.to_date_string()}-{end.to_date_string()}.lj",
                 f"disk/users-face/{end.to_date_string()}.lj"
     )
-    get_users_from_lj(f"disk/users-face/{end.to_date_string()}.lj", out_name=f"disk/users-face/{end.to_date_string()}.csv")
+
+    get_users_from_lj(f"disk/users-face/{end.to_date_string()}.lj", 
+                      out_name=f"disk/users-face/{end.to_date_string()}.csv")
 
 
 if __name__ == '__main__':
     # write_users_today_face_csv(pendulum.today())
-    # write_users_today_face_csv(pendulum.datetime(2020, 3, 2))
+    write_users_today_face_csv(pendulum.datetime(2020, 3, 7))
 
     # analyze_face_from_file(f"disk/users-profile/2020-03-05-2020-03-06.lj",
     #                        f"disk/users-face/2020-03-02.lj",
     #                        out_name=f"2020-03-05-2020-03-06")
     
-    get_users_from_lj(f"disk/users-face/2020-03-06.lj").to_csv(f"disk/users-face/2020-03-06.csv")
+    # get_users_from_lj(f"disk/users-face/2020-03-06.lj").to_csv(f"disk/users-face/2020-03-06.csv")

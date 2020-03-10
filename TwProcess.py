@@ -30,7 +30,8 @@ from nltk.tokenize.casual import (EMOTICON_RE, HANG_RE, WORD_RE,
 def read_classified_hashtags(now):
     # *** very important ***
     # labels = "PB BS EW JB OT".split()
-    labels = "BS JB OT".split() # 2020-03-06
+    # labels = "BS JB OT".split() # 2020-03-06
+    labels = "BS JB".split() # 2020-03-08
 
     label2num = {labels[i]: i for i in range(len(labels))}
     
@@ -40,7 +41,7 @@ def read_classified_hashtags(now):
     for line in open(f"data/{now}/hashtags.txt"):
         if not line.startswith("#"):
             w = line.strip().split(" ")
-            if len(w) == 3:
+            if len(w) == 3 and w[1] in classified_hts:
                 _ht, _label = w[0], w[1]
                 hts.append(_ht)
                 classified_hts[label2num[_label]].add(_ht)

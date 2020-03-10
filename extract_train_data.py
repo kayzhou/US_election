@@ -15,18 +15,24 @@ from pathlib import Path
 from collections import Counter
 from tqdm import tqdm
 
-train_dir = "data/2020-03-06-tfidf/"
-
+train_dir = "data/2020-03-08-tfidf_model3/"
+##Matteo changed  this 3/8
 demo_files = set([
-    "Michael Bennet",
-    "SenatorBennet",
+    "Bernie Sanders",
+    "SenSanders",
     "Joe Biden",
     "JoeBiden",
-    # "Mike Bloomberg",
-    # "MikeBloomberg",
-    # "Pete Buttigieg",
-    # "PeteButtigieg",
-    # "John Delaney",
+    "Mike Bloomberg",
+    "MikeBloomberg",
+    "Tulsi Gabbard",
+    "TulsiGabbard",
+    "Elizabeth Warren",
+    "ewarren",
+    "Amy Klobuchar",
+    "amyklobuchar",  
+    "Pete Buttigieg",
+    "PeteButtigieg",
+    #"John Delaney",
     # "JohnDelaney",
     # "Tulsi Gabbard",
     # "TulsiGabbard",
@@ -66,11 +72,17 @@ def read_classified_hashtags():
     # }
 
     # 2020-03-06
+    #classified_hts = {
+    #    "BS": set(),
+    #    "JB": set(),
+    #    "OT": set(),
+    #}
+    # 2020-03-08
     classified_hts = {
         "BS": set(),
         "JB": set(),
-        "OT": set(),
     }
+
     for line in open(train_dir + "hashtags.txt"):     # 2020-03-06
         if not line.startswith("#"):
             w = line.strip().split(" ")

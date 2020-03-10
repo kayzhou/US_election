@@ -53,10 +53,8 @@ def load_tfidf_models(dt):
     tokenizer = CustomTweetTokenizer(hashtags=hts)
     v = joblib.load(f'data/{dt}/TfidfVectorizer.joblib')
     clf = joblib.load(f'data/{dt}/LR.joblib')
-
     return classified_hts, tokenizer, v, clf
-
-
+    
 class Camp_Classifier(object):
 
     # know how many categories
@@ -68,7 +66,7 @@ class Camp_Classifier(object):
         # self.token5, self.v5, self.clf5 = load_models("2020-02-09")
         # self.token5, self.v5, self.clf5 = load_models("2020-02-22")
         # self.classified_hts, self.token, self.v, self.clf = load_tfidf_models("2020-02-24-tfidf")
-        self.classified_hts, self.token, self.v, self.clf = load_tfidf_models("2020-03-06-tfidf")
+        self.classified_hts, self.token, self.v, self.clf = load_tfidf_models("2020-03-08-tfidf_model3") # 2020-03-06
         
         
     def predict(self, ds):

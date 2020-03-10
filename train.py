@@ -61,6 +61,12 @@ class Classifer(object):
             "JB": 1,
             "OT": 2,
         }
+        # 2020-03-08
+        label2num = {
+            "BS": 0,
+            "JB": 1,
+        }
+
         tokenizer = CustomTweetTokenizer(hashtags=self.hts)
         with open(f"data/{self.now}/tokens.txt", "w") as f:
             print("save tokens from:", f"data/{self.now}/train.txt")
@@ -171,8 +177,9 @@ class Classifer(object):
     
 
 if __name__ == "__main__":
-    dt = "2020-03-06-tfidf"
+    #dt = "2020-03-06-tfidf"
+    dt ="2020-03-08-tfidf_model3"
     Lebron = Classifer(now=dt)
     # After extract_train_data.py
-    # Lebron.save_tokens()
+    #Lebron.save_tokens()
     Lebron.train()

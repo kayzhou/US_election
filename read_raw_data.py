@@ -6,7 +6,7 @@
 #    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/11 11:16:25 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/03/06 07:41:44 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/03/09 21:53:43 by Kay Zhou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,16 +15,16 @@ demo_files = set([
     "SenSanders",
     "Joe Biden",
     "JoeBiden",
-    # "Mike Bloomberg",
-    # "MikeBloomberg",
-    # "Tulsi Gabbard",
-    # "TulsiGabbard",
-    # "Elizabeth Warren",
-    # "ewarren",
-    # "Amy Klobuchar",
-    # "amyklobuchar",  
-    # "Pete Buttigieg",
-    # "PeteButtigieg",
+    "Mike Bloomberg",
+    "MikeBloomberg",
+    "Tulsi Gabbard",
+    "TulsiGabbard",
+    "Elizabeth Warren",
+    "ewarren",
+    "Amy Klobuchar",
+    "amyklobuchar",  
+    "Pete Buttigieg",
+    "PeteButtigieg",
     # "Mayor Pete",
     # "Pete",
     # "Buttigieg",
@@ -260,11 +260,11 @@ def write_fast_raw_data_v2(start, end):
         "201910",
         "201911",
         "201912",
-	"202001",
+        "202001",
         "202002",
-	"202003",
+        "202003",
     ])
-    out_file = open(f"data/fast_raw_tweets_after_BT/{start.to_date_string()}-{end.to_date_string()}.lj", "w")
+    out_file = open(f"data/fast_raw_data_afterBT_all/{start.to_date_string()}-{end.to_date_string()}.lj", "w")
     set_tweets = set()
     file_names = sorted(Path("raw_data").rglob("*.txt"), reverse=True)
     for in_name in file_names:
@@ -334,11 +334,20 @@ def write_fast_raw_data_v2(start, end):
 
 
 def read_tweets_json_fast():
-    for line in tqdm(open("data/fast_raw_tweets/2019-09-01-2019-11-01.lj")):
+    for line in tqdm(open("data/fast_raw_data_afterBT_all/2019-09-01-2020-03-08.lj")):
         d = json.loads(line.strip())
         dt = pendulum.from_format(
             d["created_at"], 'ddd MMM DD HH:mm:ss ZZ YYYY')
         yield d, dt
+
+
+def read_tweets_json_fast_v2(start):
+    for line in tqdm(open("data/fast_raw_data_afterBT_all/2019-09-01-2020-03-08.lj")):
+        d = json.loads(line.strip())
+        dt = pendulum.from_format(
+            d["created_at"], 'ddd MMM DD HH:mm:ss ZZ YYYY')
+        if dt >= start:
+            yield d, dt
 
 
 def read_user_profile_fast(set_users_before=None):
@@ -367,6 +376,6 @@ def read_user_profile_fast(set_users_before=None):
 
 if __name__ == '__main__':
      start = pendulum.datetime(2019, 9,1 , tz="UTC")
-     end = pendulum.datetime(2020, 3, 6, tz="UTC")
+     end = pendulum.datetime(2020, 3, 8, tz="UTC")
      write_fast_raw_data_v2(start, end)
 #    count_tweets_users()
