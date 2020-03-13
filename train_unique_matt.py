@@ -68,8 +68,9 @@ class Classifer(object):
         }
 
         tokenizer = CustomTweetTokenizer(hashtags=self.hts)
-        with open(f"data/{self.now}/tokens.txt", "w") as f:
+        with open(f"data/{self.now}/tokens2.txt", "w") as f:
             print("save tokens from:", f"data/{self.now}/train.txt")
+            sets=[]
             for line in tqdm(open(f"data/{self.now}/train.txt", encoding="utf8")):
                 try:
                     camp, text = line.strip().split("\t")
@@ -77,7 +78,9 @@ class Classifer(object):
                         continue
                     camp = label2num[camp]
                     words = tokenizer.tokenize(text)
-                    f.write(str(camp) + "\t" + " ".join(words) + "\n")
+                    if words not in sets:
+                        sets.append(words)
+                        f.write(str(camp) + "\t" + " ".join(words) + "\n")
                 except ValueError as e:
                     print(e)
 
@@ -114,7 +117,7 @@ class Classifer(object):
 
         # build one hot embedding
         # v = DictVectorizer(dtype=np.int8, sparse=True, sort=False)
-        v = TfidfVectorizer(ngram_range=(1, 2), max_features=500000)
+        v = TfidfVectorizer(ngram_range=(1, 2), max_features=100000)
         X_train = v.fit_transform(X_train)
         X_test = v.transform(X_test)
 
@@ -127,7 +130,7 @@ class Classifer(object):
         # X_train, y_train = SMOTE().fit_sample(X_train, y_train)
         # X_train, y_train = ADASYN().fit_sample(X_train, y_train)
         #X_train, y_train = RandomOverSampler(random_state=24).fit_sample(X_train, y_train)
-        #X_train, y_train = RandomUnderSampler(random_state=24).fit_sample(X_train, y_train)
+        X_train, y_train = RandomUnderSampler(random_state=24).fit_sample(X_train, y_train)
 
         print("After sampling!")
         print(X_train.shape, X_test.shape)
@@ -179,7 +182,7 @@ class Classifer(object):
 if __name__ == "__main__":
     #dt = "2020-03-06-tfidf"
     #dt ="2020-03-08-tfidf_model3"
-    dt="model 4_omg"
+    dt="model_4_omg"
     Lebron = Classifer(now=dt)
     # After extract_train_data.py
     #Lebron.save_tokens()

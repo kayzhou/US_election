@@ -6,7 +6,7 @@
 #    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/21 09:47:55 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/03/07 00:48:25 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/03/12 22:18:38 by Kay Zhou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,23 +15,23 @@ from pathlib import Path
 from collections import Counter
 from tqdm import tqdm
 
-train_dir = "data/2020-03-08-tfidf_model3/"
-##Matteo changed  this 3/8
+train_dir = "data/2020-03-12/"
+##Matteo changed  this 3/11
 demo_files = set([
     "Bernie Sanders",
     "SenSanders",
     "Joe Biden",
     "JoeBiden",
-    "Mike Bloomberg",
-    "MikeBloomberg",
-    "Tulsi Gabbard",
-    "TulsiGabbard",
-    "Elizabeth Warren",
-    "ewarren",
-    "Amy Klobuchar",
-    "amyklobuchar",  
-    "Pete Buttigieg",
-    "PeteButtigieg",
+    #"Mike Bloomberg",
+    #"MikeBloomberg",
+    #"Tulsi Gabbard",
+    #"TulsiGabbard",
+    #"Elizabeth Warren",
+    #"ewarren",
+    #"Amy Klobuchar",
+    #"amyklobuchar",  
+    #"Pete Buttigieg",
+    #"PeteButtigieg",
     #"John Delaney",
     # "JohnDelaney",
     # "Tulsi Gabbard",
@@ -77,6 +77,7 @@ def read_classified_hashtags():
     #    "JB": set(),
     #    "OT": set(),
     #}
+    
     # 2020-03-08
     classified_hts = {
         "BS": set(),

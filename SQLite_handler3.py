@@ -404,14 +404,14 @@ def demo_tweets_to_db(sess, start, end, clear=False):
             Demo_Tweet.dt >= start, Demo_Tweet.dt < end).delete()
         sess.commit()
     
-    from classifier import Camp_Classifier
+    from classifier1 import Camp_Classifier
     Lebron = Camp_Classifier()
     Lebron.load()
 
     X = []
     tweets_data = []
 
-    from read_raw_data import read_tweets_json
+    from read_raw_data3 import read_tweets_json
 
     for d, dt in read_tweets_json(start, end):
         tweet_id = d["id"]
@@ -433,7 +433,8 @@ def demo_tweets_to_db(sess, start, end, clear=False):
                 # print(rst)
                 # probas = " ".join([str(round(r, 3)) for r in rst])
                 # tweets_data[i].probas = probas
-                tweets_data[i].max_proba = round(rst.max(), 3)
+                tweets_data[i].max_proba = str(np.round(rst, 3)) #round(rst.max(), 3)
+                #tweets_data[i].max_proba = None
                 tweets_data[i].camp = int(rst.argmax())
 
             sess.add_all(tweets_data)
@@ -447,7 +448,8 @@ def demo_tweets_to_db(sess, start, end, clear=False):
             rst = json_rst[tweets_data[i].tweet_id]
             # probas = " ".join([str(round(r, 3)) for r in rst])
             # tweets_data[i].probas = probas
-            tweets_data[i].max_proba = round(rst.max(), 3)
+            # tweets_data[i].max_proba =str(np.round(rst, 3))#round(rst.max(), 3)
+            tweets_data[i].max_proba = None
             tweets_data[i].camp = int(rst.argmax())
 
         sess.add_all(tweets_data)
@@ -464,7 +466,7 @@ def demo_tweets_to_db_fast(sess, start, end, clear=False):
             Demo_Tweet.dt >= start, Demo_Tweet.dt < end).delete()
         sess.commit()
     
-    from classifier import Camp_Classifier
+    from classifier1 import Camp_Classifier
     Lebron = Camp_Classifier()
     Lebron.load()
 
@@ -2669,9 +2671,9 @@ def _update():
 
 if __name__ == "__main__":
     init_db()
-    start = pendulum.datetime(2019, 9, 1, tz="UTC")
-    end = pendulum.datetime(2020, 3, 8, tz="UTC")
+    start = pendulum.datetime(2020, 3, 6, tz="UTC")
+    end = pendulum.datetime(2020, 3, 11, tz="UTC")
     sess = get_session()
-    demo_tweets_to_db_fast(sess, start, end, clear=True)             
-    # demo_tweets_to_db(sess, start, end, clear=True)      
+    #demo_tweets_to_db_fast(sess, start, end, clear=True)             
+    demo_tweets_to_db(sess, start, end, clear=True)      
     sess.close()

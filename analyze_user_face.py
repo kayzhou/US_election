@@ -6,7 +6,7 @@
 #    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/21 09:47:55 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/03/09 21:06:06 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/03/12 22:24:05 by Kay Zhou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -254,7 +254,7 @@ def write_users_today_face_csv(dt):
 
 if __name__ == '__main__':
     # write_users_today_face_csv(pendulum.today())
-    write_users_today_face_csv(pendulum.datetime(2020, 3, 7))
+    write_users_today_face_csv(pendulum.datetime(2020, 3, 12))
 
     # analyze_face_from_file(f"disk/users-profile/2020-03-05-2020-03-06.lj",
     #                        f"disk/users-face/2020-03-02.lj",

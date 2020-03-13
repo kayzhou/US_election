@@ -1,12 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
-#    SQLite_handler.py                                  :+:      :+:    :+:    #
+#    SQLite_handler1.py                                 :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
 #    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/07 20:40:05 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/03/07 04:06:35 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/03/09 22:28:32 by Kay Zhou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -433,7 +433,8 @@ def demo_tweets_to_db(sess, start, end, clear=False):
                 # print(rst)
                 # probas = " ".join([str(round(r, 3)) for r in rst])
                 # tweets_data[i].probas = probas
-                tweets_data[i].max_proba = round(rst.max(), 3)
+                tweets_data[i].max_proba = str(np.round(rst, 3)) #round(rst.max(), 3)
+                #tweets_data[i].max_proba = None
                 tweets_data[i].camp = int(rst.argmax())
 
             sess.add_all(tweets_data)
@@ -447,7 +448,8 @@ def demo_tweets_to_db(sess, start, end, clear=False):
             rst = json_rst[tweets_data[i].tweet_id]
             # probas = " ".join([str(round(r, 3)) for r in rst])
             # tweets_data[i].probas = probas
-            tweets_data[i].max_proba = round(rst.max(), 3)
+            # tweets_data[i].max_proba =str(np.round(rst, 3))#round(rst.max(), 3)
+            tweets_data[i].max_proba = None
             tweets_data[i].camp = int(rst.argmax())
 
         sess.add_all(tweets_data)
@@ -471,10 +473,10 @@ def demo_tweets_to_db_fast(sess, start, end, clear=False):
     X = []
     tweets_data = []
 
-    from read_raw_data import read_tweets_json_fast as read_tweets
+    from read_raw_data import read_tweets_json_fast_v2 as read_tweets
 
-    # for d, dt in read_tweets(start, end):
-    for d, dt in read_tweets():
+    for d, dt in read_tweets(start, end):
+    # for d, dt in read_tweets(start):
         tweet_id = d["id"]
         uid = d["user"]["id"]
         _sou = get_source_text(d["source"])
@@ -494,7 +496,8 @@ def demo_tweets_to_db_fast(sess, start, end, clear=False):
                 # print(rst)
                 # probas = " ".join([str(round(r, 3)) for r in rst])
                 # tweets_data[i].probas = probas
-                tweets_data[i].max_proba = str(np.round(rst, 3))#round(rst.max(), 3)
+                # tweets_data[i].max_proba = str(np.round(rst, 3)) #round(rst.max(), 3)
+                tweets_data[i].max_proba = None
                 tweets_data[i].camp = int(rst.argmax())
 
             sess.add_all(tweets_data)
@@ -508,7 +511,8 @@ def demo_tweets_to_db_fast(sess, start, end, clear=False):
             rst = json_rst[tweets_data[i].tweet_id]
             # probas = " ".join([str(round(r, 3)) for r in rst])
             # tweets_data[i].probas = probas
-            tweets_data[i].max_proba =str(np.round(rst, 3))#round(rst.max(), 3)
+            # tweets_data[i].max_proba =str(np.round(rst, 3))#round(rst.max(), 3)
+            tweets_data[i].max_proba = None
             tweets_data[i].camp = int(rst.argmax())
 
         sess.add_all(tweets_data)
@@ -2383,7 +2387,7 @@ def tweets_to_new_clas(sess):
 ################## get section ##################
 def get_session():
     engine = create_engine(
-        "sqlite:////home/alex/kayzhou/US_election/data/election_after_BT_2Qm2_6-11.db")
+        "sqlite:////home/alex/kayzhou/US_election/data/alectiio_after_all_8_11.db")
     DBSession = sessionmaker(bind=engine)
     session = DBSession()
     return session
@@ -2631,7 +2635,7 @@ def init_db():
     engine = create_engine(
         #2020-3-8
 	#"sqlite:////home/alex/kayzhou/US_election/data/election_after_BT.db")
-        "sqlite:////home/alex/kayzhou/US_election/data/election_after_BT_2Qm2_6-11.db")
+        "sqlite:////home/alex/kayzhou/US_election/data/alectiio_after_all_8_11.db")
     Base.metadata.create_all(engine)
 
 
@@ -2669,9 +2673,9 @@ def _update():
 
 if __name__ == "__main__":
     init_db()
-    start = pendulum.datetime(2019, 9, 1, tz="UTC")
-    end = pendulum.datetime(2020, 3, 8, tz="UTC")
+    start = pendulum.datetime(2020, 3, 8, tz="UTC")
+    end = pendulum.datetime(2020, 3, 11, tz="UTC")
     sess = get_session()
-    demo_tweets_to_db_fast(sess, start, end, clear=True)             
-    # demo_tweets_to_db(sess, start, end, clear=True)      
+    # demo_tweets_to_db_fast(sess, start, end, clear=True)             
+    demo_tweets_to_db(sess, start, end, clear=True)      
     sess.close()

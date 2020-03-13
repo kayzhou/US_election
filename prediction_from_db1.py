@@ -130,9 +130,9 @@ def get_share_from_users_dict(users_dict):
         0: 0,
         1: 0,
         2: 0,
-        #3: 0,
-        #4: 0,
-        #5: 0
+        3: 0,
+        4: 0,
+        5: 0
     }
     for u, v in users_dict.items():
         max_i = v.argmax()
@@ -570,7 +570,7 @@ if __name__ == "__main__":
     # predict_from_location(start, end, out_dir="culFrom0215")
 
     # t0
-    start = pendulum.datetime(2019, 9,14 , tz="UTC")
+    start = pendulum.datetime(2019, 9, 14, tz="UTC")
     end = pendulum.datetime(2020, 3, 10, tz="UTC")
     calculate_t0_share(start, end, save_csv=True)
 
