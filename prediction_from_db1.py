@@ -20,13 +20,13 @@ def save_user_snapshot_perday(sess, now):
     for t in tqdm(get_demo_tweets(sess, now, now.add(days=1))):
         uid = t.user_id
         if uid not in users:
-            users[uid] = [0, 0]
+            users[uid] = [0, 0,0]
         users[uid][t.camp] += 1
     # pd.DataFrame(users).T.
     print("# of users:", len(users))
     csv = pd.DataFrame(users).T
     csv.index.names = ['uid']
-    csv.to_csv(f"data/users-day_after_BT_m3/{now.to_date_string()}.csv")
+    csv.to_csv(f"data/users-day_after_BT_m2/{now.to_date_string()}.csv")
 
 
 def read_users_from_csv(in_name):
@@ -96,8 +96,8 @@ def write_union_users_csv(union_users_dict, out_dir, dt):
 	    #f.write("uid,0,1,2,3,4,5\n")
 
 
-USERS = pd.read_csv("disk/users-face/2020-03-07.csv").set_index("uid")
-USERS_STATE = pd.read_csv("disk/users-location/2020-03-10.csv", 
+USERS = pd.read_csv("disk/users-face/2020-03-15.csv").set_index("uid")
+USERS_STATE = pd.read_csv("disk/users-location/2020-03-15.csv", 
                           usecols=["uid","state"],
                           error_bad_lines=False).set_index("uid")
 USERS_STSTE_GENDER_AGE = USERS.join(USERS_STATE, how="inner")
@@ -460,7 +460,7 @@ def daily_prediction():
     
 if __name__ == "__main__":
     # -- save users' snapshot --
-    #start = pendulum.datetime(2020, 3, 8, tz="UTC")
+    #start = pendulum.datetime(2020, 3, 6, tz="UTC")
     #end = pendulum.datetime(2020, 3, 11, tz="UTC")
     #sess = get_session()
     #for dt in pendulum.period(start, end):
@@ -570,8 +570,8 @@ if __name__ == "__main__":
     # predict_from_location(start, end, out_dir="culFrom0215")
 
     # t0
-    start = pendulum.datetime(2019, 9, 14, tz="UTC")
-    end = pendulum.datetime(2020, 3, 10, tz="UTC")
+    start = pendulum.datetime(2019, 9, 3, tz="UTC")
+    end = pendulum.datetime(2020, 3, 11, tz="UTC")
     calculate_t0_share(start, end, save_csv=True)
 
     # start = pendulum.datetime(2020, 1, 11, tz="UTC")

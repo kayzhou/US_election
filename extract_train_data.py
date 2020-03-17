@@ -6,7 +6,7 @@
 #    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/21 09:47:55 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/03/12 22:18:38 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/03/13 00:30:14 by Kay Zhou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -96,7 +96,7 @@ def read_classified_hashtags():
 classified_hts = read_classified_hashtags()
 
 
-with open(train_dir + "traindata.txt", "w") as f: # 2020-03-06
+with open(train_dir + "train.txt", "w") as f: # 2020-03-06
     for in_name in Path("raw_data").rglob("*.txt"):
         if in_name.stem.split("-")[-1] in demo_files:
             print(in_name)

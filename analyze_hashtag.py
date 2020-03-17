@@ -42,7 +42,12 @@ demo_files = set([
 trump_files = [
     "Donald Trump",
     "realDonaldTrump"
+    "Joe Biden",
+    "JoeBiden",
+    "Bernie Sanders",
+    "SenSanders",
 ]
+ 
 
 from pathlib import Path
 from collections import Counter
@@ -87,8 +92,8 @@ def label_based_on_before(in_name, out_name):
             
 
 if __name__ == "__main__":
-    write_top_hashtags(demo_files, "hashtags-democrats-20200305.txt")
-    write_top_hashtags(trump_files, "hashtags-trump-20200305.txt")
+    # write_top_hashtags(demo_files, "hashtags-democrats-20200305.txt")
+    write_top_hashtags(trump_files, "hashtags-trump-20200317.txt")
 
     # label_based_on_before("data/hashtags-democrats-20200121.txt", "data/hashtags-democrats-20200121-v2.txt")
     # label_based_on_before("data/hashtags-trump-20200121.txt", "data/hashtags-trump-20200121-v2.txt")

@@ -2385,7 +2385,9 @@ def tweets_to_new_clas(sess):
 ################## get section ##################
 def get_session():
     engine = create_engine(
-        "sqlite:////home/alex/kayzhou/US_election/data/election_after_BT_2Qm2_6-11.db")
+        #"sqlite:////home/alex/kayzhou/US_election/data/election_after_BT_2Q_m2_March11-March16.db")
+	"sqlite:////media/zhen/predicted_tweets_model_2_4queries/election_after_BT_2Q_m2_March11-March16.db")
+    
     DBSession = sessionmaker(bind=engine)
     session = DBSession()
     return session
@@ -2633,7 +2635,9 @@ def init_db():
     engine = create_engine(
         #2020-3-8
 	#"sqlite:////home/alex/kayzhou/US_election/data/election_after_BT.db")
-        "sqlite:////home/alex/kayzhou/US_election/data/election_after_BT_2Qm2_6-11.db")
+	"sqlite:////media/zhen/predicted_tweets_model_2_4queries/election_after_BT_2Q_m2_March11-March16.db")
+	#"sqlite:////media/zhen/predicted_tweets_model2_allqueries/election_after_BT_all_m2_March8-March13.db")
+  
     Base.metadata.create_all(engine)
 
 

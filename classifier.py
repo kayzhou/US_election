@@ -66,7 +66,7 @@ class Camp_Classifier(object):
         # self.token5, self.v5, self.clf5 = load_models("2020-02-09")
         # self.token5, self.v5, self.clf5 = load_models("2020-02-22")
         # self.classified_hts, self.token, self.v, self.clf = load_tfidf_models("2020-02-24-tfidf")
-        self.classified_hts, self.token, self.v, self.clf = load_tfidf_models("2020-03-08-tfidf_model3") # 2020-03-06
+        self.classified_hts, self.token, self.v, self.clf = load_tfidf_models("2020-03-12") # 2020-03-06
         
         
     def predict(self, ds):
