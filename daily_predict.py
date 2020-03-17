@@ -6,7 +6,7 @@
 #    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/08 18:48:50 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/03/17 21:14:54 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/03/17 21:19:05 by Kay Zhou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,9 +25,10 @@ from analyze_user_face import write_users_today_face_csv
 
 def remove_yesterday_temp_files(dt):
     dt_str = dt.to_date_string()
-    Path("disk/users-profile/{dt_str}.lj").unlink()
-    Path("disk/users-location/{dt_str}.csv").unlink()
-    Path("disk/users-face/{dt_str}.lj").unlink()
+    Path(f"disk/users-profile/{dt_str}.lj").unlink()
+    Path(f"disk/users-location/{dt_str}.csv").unlink()
+    Path(f"disk/users-face/{dt_str}.lj").unlink()
+    Path(f"disk/users-face/{dt_str}.csv").unlink()
 
 
 def daily_election():
