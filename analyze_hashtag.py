@@ -6,7 +6,7 @@
 #    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/21 09:47:55 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/03/18 08:43:01 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/03/18 09:32:30 by Kay Zhou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,7 +45,7 @@ demo_files = set([
 
 trump_files = [
     "Donald Trump",
-    "realDonaldTrump"
+    "realDonaldTrump",
     "Joe Biden",
     "JoeBiden",
     "Bernie Sanders",
