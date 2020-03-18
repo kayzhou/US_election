@@ -6,7 +6,7 @@
 #    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/21 09:47:55 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/03/18 08:37:07 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/03/18 08:43:01 by Kay Zhou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -52,11 +52,23 @@ trump_files = [
     "SenSanders",
 ]
  
+months = set([
+    "202003",
+    "202002",
+    # "202001",
+    # "201912",
+    # "201911",
+    # "201910",
+    # "201909",
+])
+
 
 def write_top_hashtags(in_files, out_name):
     all_hts = Counter()
-    for in_name in Path("raw_data").rglob("*.txt"):
-        if in_name.stem.split("-")[-1] in in_files:
+    file_names = sorted(Path("raw_data").rglob("*.txt"), reverse=True)
+
+    for in_name in file_names:
+        if in_name.stem.split("-")[-1] in in_files and in_name.parts[1] in months:
             print(in_name)
             for line in tqdm(open(in_name)):
                 hts = json.loads(line)["hashtags"]
