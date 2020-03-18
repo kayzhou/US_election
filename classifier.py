@@ -6,7 +6,7 @@
 #    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/22 12:48:20 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/03/07 04:27:07 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/03/18 08:24:41 by Kay Zhou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -80,12 +80,13 @@ class Camp_Classifier(object):
             set_hts = set([ht["text"].lower() for ht in _hts])
             if not set_hts:
                 return None
-            for _ht in set_hts:
-                for _label_num, _set_hts in self.classified_hts.items():
+            for _label_num, _set_hts in self.classified_hts.items():
+                for _ht in set_hts:
                     if _ht in _set_hts:
                         label_num = _label_num
                         label_bingo_times += 1
-            # one tweet (in traindata) should have 0 or 1 class hashtag
+                        break
+
             if label_num and label_bingo_times == 1:
                 # ht_rst = np.zeros(5) # alter
                 ht_rst = np.zeros(len(self.classified_hts)) # alter

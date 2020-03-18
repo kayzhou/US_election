@@ -6,7 +6,7 @@
 #    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/21 09:47:55 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/03/13 00:30:14 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/03/18 08:22:20 by Kay Zhou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -109,12 +109,16 @@ with open(train_dir + "train.txt", "w") as f: # 2020-03-06
                 if 'retweeted_status' in data and data["text"].startswith("RT @"): 
                     continue
                     
-                for _ht in data["hashtags"]:
-                    _ht = _ht["text"].lower()
-                    for _label, set_hts in classified_hts.items():
-                        if _ht in set_hts:
+                set_hts = set([ht["text"].lower() for ht in data["hashtags"]])
+                if not set_hts:
+                    continue
+
+                for _label, _set_hts in classified_hts.items():
+                    for _ht in set_hts:
+                        if _ht in _set_hts:
                             label = _label
                             label_bingo_times += 1
+                            break
                             
                 # one tweet (in traindata) should have 0 or 1 class hashtag
                 if label and label_bingo_times == 1:
