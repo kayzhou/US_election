@@ -6,11 +6,15 @@
 #    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/21 09:47:55 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/03/06 05:37:38 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/03/18 08:37:07 by Kay Zhou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 from my_weapon import *
+from pathlib import Path
+from collections import Counter
+from tqdm import tqdm
+
 
 demo_files = set([
     "Joe Biden",
@@ -49,10 +53,6 @@ trump_files = [
 ]
  
 
-from pathlib import Path
-from collections import Counter
-from tqdm import tqdm
-
 def write_top_hashtags(in_files, out_name):
     all_hts = Counter()
     for in_name in Path("raw_data").rglob("*.txt"):
@@ -65,7 +65,7 @@ def write_top_hashtags(in_files, out_name):
 
 
     with open(f"data/{out_name}", "w") as f:
-        for ht, cnt in all_hts.most_common(500):
+        for ht, cnt in all_hts.most_common(1000):
             print(ht, cnt, file=f)
 
 
@@ -93,8 +93,7 @@ def label_based_on_before(in_name, out_name):
 
 if __name__ == "__main__":
     # write_top_hashtags(demo_files, "hashtags-democrats-20200305.txt")
-    write_top_hashtags(trump_files, "hashtags-trump-20200317.txt")
-
+    write_top_hashtags(trump_files, "hashtags-trump-20200318.txt")
     # label_based_on_before("data/hashtags-democrats-20200121.txt", "data/hashtags-democrats-20200121-v2.txt")
     # label_based_on_before("data/hashtags-trump-20200121.txt", "data/hashtags-trump-20200121-v2.txt")
 
