@@ -6,7 +6,7 @@
 #    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/08 18:48:50 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/03/17 21:19:05 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/03/19 10:29:11 by Kay Zhou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,9 +32,9 @@ def remove_yesterday_temp_files(dt):
 
 
 def daily_election():
-    sess = get_session()
-    end = pendulum.today(tz="UTC") # not include this date
-    start = pendulum.yesterday(tz="UTC") # include this date
+    # sess = get_session()
+    end = pendulum.today(tz="UTC").add(days=-1)
+    start = pendulum.yesterday(tz="UTC").add(days=-1)
     print(f"{start} <= run < {end} ")
 
     # Tweets to Database
