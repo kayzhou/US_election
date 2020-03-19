@@ -117,8 +117,8 @@ def write_union_users_csv(union_users_dict, out_dir, dt):
 	    #f.write("uid,0,1,2,3,4,5\n")
 
 
-USERS = pd.read_csv("disk/users-face/2020-03-16.csv").set_index("uid")
-USERS_STATE = pd.read_csv("disk/users-location/2020-03-16.csv", 
+USERS = pd.read_csv("disk/users-face/2020-03-17.csv").set_index("uid")
+USERS_STATE = pd.read_csv("disk/users-location/2020-03-17.csv", 
                           usecols=["uid","state"],
                           error_bad_lines=False).set_index("uid")
 USERS_STSTE_GENDER_AGE = USERS.join(USERS_STATE, how="inner")
@@ -209,7 +209,7 @@ def calculate_cumulative_share(start, end, super_start_month="01", save_csv=None
     rsts = []
     # from super_start (include) to -1
     if super_start_month == "09":
-        super_start = pendulum.datetime(2019, 9, 17, tz="UTC")
+        super_start = pendulum.datetime(2019, 9, 3, tz="UTC")
     elif super_start_month == "11":
         super_start = pendulum.datetime(2019, 11, 1, tz="UTC")
     elif super_start_month == "01":
@@ -522,8 +522,8 @@ if __name__ == "__main__":
     # calculate_cumulative_share(start, end, super_start_month="0912")
     
     ##Matteo Change
-    start = pendulum.datetime(2019, 9, 18 , tz="UTC")
-    end = pendulum.datetime(2020, 3, 16, tz="UTC")
+    start = pendulum.datetime(2019, 9, 4, tz="UTC")
+    end = pendulum.datetime(2020, 3, 18, tz="UTC")
     calculate_cumulative_share(start, end, super_start_month="09",save_csv=True)
 
     # start = pendulum.datetime(2020, 20, 19, tz="UTC")
