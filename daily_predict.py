@@ -10,11 +10,12 @@
 #                                                                              #
 # **************************************************************************** #
 
+import pendulum
 from pathlib import Path
 
-from make_csv_for_web import *
-from prediction_from_db import *
-from SQLite_handler import *
+# from make_csv_for_web import *
+# from prediction_from_db import *
+# from SQLite_handler import *
 
 from analyze_user import write_users_today
 from analyze_user_location import write_users_today_csv
@@ -33,8 +34,8 @@ def remove_yesterday_temp_files(dt):
 
 def daily_election():
     # sess = get_session()
-    end = pendulum.today(tz="UTC").add(days=-1)
-    start = pendulum.yesterday(tz="UTC").add(days=-1)
+    end = pendulum.today(tz="UTC")
+    start = pendulum.yesterday(tz="UTC")
     print(f"{start} <= run < {end} ")
 
     # Tweets to Database
