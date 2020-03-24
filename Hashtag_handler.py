@@ -6,7 +6,7 @@
 #    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/07 20:40:05 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/03/24 18:26:12 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/03/24 18:27:44 by Kay Zhou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -236,12 +236,15 @@ def add_camp_hashtags_from_json(in_name, clear=False):
 
     data = json.load(open(in_name))
     for d in data:
+        try:
             sess.add(Hashtag_Labelled(
                 hashtag=d[0],
                 created_at=pendulum.today(),
                 label=d[1]
             ))
-    sess.commit()
+            sess.commit()
+        except:
+            print("Warning:", d[0])
     sess.close()
 
 
