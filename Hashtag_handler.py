@@ -6,7 +6,7 @@
 #    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/07 20:40:05 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/03/24 18:21:08 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/03/24 18:23:25 by Kay Zhou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -323,5 +323,5 @@ if __name__ == "__main__":
 
     # write_camp_hashtags("data/hashtags/hashtags-20200305_classified_hernan_Mar6.txt")
 
-    add_camp_hashtags_from_json("/home/alex/kayzhou/Argentina_election/web/data/submit/2020-03-24 00:15:21.json")
+    add_camp_hashtags_from_json("/media/zhen/Argentina_election/web/data/submit/2020-03-24 00:15:21.json")
     update_hashtags()
