@@ -6,7 +6,7 @@
 #    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/07 20:40:05 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/03/06 22:38:28 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/03/24 18:21:08 by Kay Zhou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -175,6 +175,39 @@ def add_camp_hashtags_from_file(in_name, clear=False):
     sess.close()
 
 
+def update_hashtags():
+    sess = get_session()
+    hts = [
+        ["UNK", "joebiden"],
+        ["UNK", "biden"],
+        ["UNK", "berniesanders"],
+        ["UNK", "bernie"],
+        ["UNK", "sanders"],
+        ["UNK", "yanggang"],
+        ["UNK", "petebuttigieg"],
+        ["UNK", "tulsigabbard"],
+        ["UNK", "elizabethwarren"],
+        ["UNK", "warren"],
+        ["UNK", "amyklobuchar"],
+        ["UNK", "bloomberg"],
+        ["UNK", "mikebloomberg"],
+        ["UNK", "buttigieg"],
+        ["UNK", "tulsi"],
+        ["DP", "creepyjoebiden"],
+        ["UNK", "gabbard"],
+        ["UNK", "tomsteyer"],
+        ["UNK", "klobuchar"],
+        ["UNK", "ewarren"],
+        ["UNK", "pete"],
+    ]
+
+    for ht, label in hts:
+        sess.query(Hashtag_Labelled).filter(Hashtag_Labelled.label==label).update({"label": label})
+    sess.commit()
+    sess.close()
+
+
+
 def add_weekly_hashtags_from_file(in_name, clear=False):
     sess = get_session()
 
@@ -288,4 +321,7 @@ if __name__ == "__main__":
 
     # add_camp_hashtags_from_json("/home/alex/kayzhou/Argentina_election/web/data/submit/2020-03-06 16:25:18.json")
 
-    write_camp_hashtags("data/hashtags/hashtags-20200305_classified_hernan_Mar6.txt")
+    # write_camp_hashtags("data/hashtags/hashtags-20200305_classified_hernan_Mar6.txt")
+
+    add_camp_hashtags_from_json("/home/alex/kayzhou/Argentina_election/web/data/submit/2020-03-24 00:15:21.json")
+    update_hashtags()
