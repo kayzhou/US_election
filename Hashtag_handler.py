@@ -6,7 +6,7 @@
 #    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/07 20:40:05 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/03/24 18:27:44 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/03/24 18:29:36 by Kay Zhou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -201,7 +201,8 @@ def update_hashtags():
         ["UNK", "pete"],
     ]
 
-    for ht, label in hts:
+    for w in hts:
+        label, ht = w[0], w[1]
         sess.query(Hashtag_Labelled).filter(Hashtag_Labelled.hashtag==ht).update({"label": label})
     sess.commit()
     sess.close()
