@@ -6,7 +6,7 @@
 #    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/21 09:47:55 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/03/24 17:20:54 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/03/24 17:29:00 by Kay Zhou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -91,7 +91,7 @@ def write_cooccurrence_hashtags(in_files, out_name):
                 print(in_name)
                 for line in tqdm(open(in_name)):
                     hts = json.loads(line)["hashtags"]
-                    if hts and len(hts) > 2:
+                    if hts and len(hts) >= 2:
                         f.write(" ".join([ht["text"].lower() for ht in hts]) + "\n")
                     
 
