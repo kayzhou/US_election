@@ -6,7 +6,7 @@
 #    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/07 20:40:05 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/03/24 18:23:25 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/03/24 18:26:12 by Kay Zhou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -193,7 +193,7 @@ def update_hashtags():
         ["UNK", "mikebloomberg"],
         ["UNK", "buttigieg"],
         ["UNK", "tulsi"],
-        ["DP", "creepyjoebiden"],
+        ["DT", "creepyjoebiden"],
         ["UNK", "gabbard"],
         ["UNK", "tomsteyer"],
         ["UNK", "klobuchar"],
@@ -202,7 +202,7 @@ def update_hashtags():
     ]
 
     for ht, label in hts:
-        sess.query(Hashtag_Labelled).filter(Hashtag_Labelled.label==label).update({"label": label})
+        sess.query(Hashtag_Labelled).filter(Hashtag_Labelled.hashtag==ht).update({"label": label})
     sess.commit()
     sess.close()
 
