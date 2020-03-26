@@ -6,7 +6,7 @@
 #    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/21 09:47:55 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/03/26 23:37:59 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/03/26 23:39:12 by Kay Zhou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -90,7 +90,7 @@ def read_classified_hashtags():
         "DT": set(),
         "BS": set(),
         "JB": set(),
-        "DP": set(),
+        "OT": set(),
     }
 
     for line in open(train_dir + "hashtags.txt"):     # 2020-03-06
@@ -101,7 +101,7 @@ def read_classified_hashtags():
             if label == "UNK":
                 continue
             elif label not in ["DT", "BS", "JB", "DP"]:
-                label == "DP"
+                label = "OT"
             
             print(_ht, label)
 
