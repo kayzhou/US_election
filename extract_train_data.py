@@ -6,7 +6,7 @@
 #    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/21 09:47:55 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/03/18 08:25:13 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/03/26 16:35:36 by Kay Zhou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -88,7 +88,8 @@ def read_classified_hashtags():
         if not line.startswith("#"):
             w = line.strip().split(" ")
             _ht, label = w[0], w[1]
-            if len(w) == 3 and label in classified_hts:
+            # if len(w) == 3 and label in classified_hts:
+            if len(w) == 2 and label in classified_hts:
                 classified_hts[label].add(_ht)
     print(classified_hts)
     return classified_hts

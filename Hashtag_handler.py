@@ -6,7 +6,7 @@
 #    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/07 20:40:05 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/03/24 18:29:59 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/03/26 16:37:37 by Kay Zhou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -260,6 +260,19 @@ def get_camp_hashtags():
     return hts
 
 
+def get_camp_hashtags_to_csv(out_name):
+    print("Loaded camp hashtags.")
+    sess = get_session()
+    hts = sess.query(Hashtag_Labelled)
+    hts = [(ht.hashtag, ht.label) for ht in hts]
+    sess.close()
+
+    with open(out_name, "w") as f:
+        for ht in hts:
+            f.write(f"{ht[1]} {ht[0]}\n")
+    return hts
+
+
 def get_last_hashtags(num=500):
     print("Loaded last (week) hashtags.")
     sess = get_session()
@@ -328,5 +341,9 @@ if __name__ == "__main__":
 
     # write_camp_hashtags("data/hashtags/hashtags-20200305_classified_hernan_Mar6.txt")
 
-    add_camp_hashtags_from_json("/media/zhen/Argentina_election/web/data/submit/2020-03-24 00:15:21.json")
-    update_hashtags()
+    # add_camp_hashtags_from_json("/media/zhen/Argentina_election/web/data/submit/2020-03-24 00:15:21.json")
+    # update_hashtags()
+
+    get_camp_hashtags_to_csv("data/2020-03-25-2/hashtags.txt")
+    get_camp_hashtags_to_csv("data/2020-03-25-3/hashtags.txt")
+    
