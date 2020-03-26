@@ -6,7 +6,7 @@
 #    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/21 09:47:55 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/03/26 16:39:06 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/03/26 16:42:24 by Kay Zhou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,17 +22,17 @@ demo_files = set([
     "SenSanders",
     "Joe Biden",
     "JoeBiden",
-    #"Mike Bloomberg",
-    #"MikeBloomberg",
-    #"Tulsi Gabbard",
-    #"TulsiGabbard",
-    #"Elizabeth Warren",
-    #"ewarren",
-    #"Amy Klobuchar",
-    #"amyklobuchar",  
-    #"Pete Buttigieg",
-    #"PeteButtigieg",
-    #"John Delaney",
+    # "Mike Bloomberg",
+    # "MikeBloomberg",
+    # "Tulsi Gabbard",
+    # "TulsiGabbard",
+    # "Elizabeth Warren",
+    # "ewarren",
+    # "Amy Klobuchar",
+    # "amyklobuchar",  
+    # "Pete Buttigieg",
+    # "PeteButtigieg",
+    # "John Delaney",
     # "JohnDelaney",
     # "Tulsi Gabbard",
     # "TulsiGabbard",
@@ -78,7 +78,7 @@ def read_classified_hashtags():
     #    "OT": set(),
     #}
     
-    # 2020-03-08
+    # 2020-03-25
     classified_hts = {
         "BS": set(),
         "JB": set(),
@@ -86,7 +86,7 @@ def read_classified_hashtags():
 
     for line in open(train_dir + "hashtags.txt"):     # 2020-03-06
         if not line.startswith("#"):
-            w = line.strip().split(" ")
+            w = line.strip().split()
             _ht, label = w[0], w[1]
             # if len(w) == 3 and label in classified_hts:
             if len(w) == 2 and label in classified_hts:

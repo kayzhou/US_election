@@ -6,7 +6,7 @@
 #    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/07 20:40:05 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/03/26 16:37:37 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/03/26 16:42:10 by Kay Zhou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -269,7 +269,7 @@ def get_camp_hashtags_to_csv(out_name):
 
     with open(out_name, "w") as f:
         for ht in hts:
-            f.write(f"{ht[1]} {ht[0]}\n")
+            f.write(f"{ht[0]} {ht[1]}\n")
     return hts
 
 
