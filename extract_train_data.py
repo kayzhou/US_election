@@ -6,7 +6,7 @@
 #    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/21 09:47:55 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/03/26 16:35:36 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/03/26 16:39:06 by Kay Zhou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ from pathlib import Path
 from collections import Counter
 from tqdm import tqdm
 
-train_dir = "data/2020-03-12/"
+train_dir = "data/2020-03-25-2/"
 ##Matteo changed  this 3/11
 demo_files = set([
     "Bernie Sanders",
