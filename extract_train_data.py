@@ -6,7 +6,7 @@
 #    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/21 09:47:55 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/03/26 17:08:40 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/03/26 23:32:55 by Kay Zhou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ from pathlib import Path
 from collections import Counter
 from tqdm import tqdm
 
-train_dir = "data/2020-03-25-2/"
+train_dir = "data/2020-03-25-3/"
 ##Matteo changed  this 3/11
 demo_files = set([
     "Bernie Sanders",
@@ -48,6 +48,8 @@ demo_files = set([
     # "ewarren",
     # "Andrew Yang",
     # "AndrewYang",
+    "Donald Trump",
+    "realDonaldTrump",
 ])
 
 # PB BS EW JB OT=others
@@ -79,7 +81,13 @@ def read_classified_hashtags():
     #}
     
     # 2020-03-25
+    # classified_hts = {
+    #     "BS": set(),
+    #     "JB": set(),
+    # }
+
     classified_hts = {
+        "DT": set(),
         "BS": set(),
         "JB": set(),
     }
@@ -88,6 +96,15 @@ def read_classified_hashtags():
         if not line.startswith("#"):
             w = line.strip().split()
             _ht, label = w[0], w[1]
+
+            # if label == "UNK":
+            #     continue
+            # elif label == "DT":
+            #     print(_ht, label)
+            # else:
+            #     label == "DP"
+            #     print(_ht, label)
+
             # if len(w) == 3 and label in classified_hts:
             if len(w) == 2 and label in classified_hts:
                 classified_hts[label].add(_ht)
