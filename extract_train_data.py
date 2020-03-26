@@ -6,7 +6,7 @@
 #    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/21 09:47:55 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/03/26 23:39:12 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/03/26 23:39:58 by Kay Zhou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -100,7 +100,7 @@ def read_classified_hashtags():
 
             if label == "UNK":
                 continue
-            elif label not in ["DT", "BS", "JB", "DP"]:
+            elif label not in ["DT", "BS", "JB"]:
                 label = "OT"
             
             print(_ht, label)
