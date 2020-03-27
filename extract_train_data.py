@@ -6,7 +6,7 @@
 #    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/21 09:47:55 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/03/26 23:39:58 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/03/27 15:42:55 by Kay Zhou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -151,7 +151,3 @@ with open(train_dir + "train.txt", "w") as f: # 2020-03-06
                 if label and label_bingo_times == 1:
                     text = data["text"].replace("\n", " ").replace("\t", " ")
                     f.write(label + "\t" + text + "\n")
-
-
-            
-                
