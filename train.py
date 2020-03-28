@@ -6,7 +6,7 @@
 #    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/07/06 14:11:24 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/03/28 22:58:40 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/03/28 22:59:30 by Kay Zhou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -69,9 +69,9 @@ class Classifer(object):
         }
 
         tokenizer = CustomTweetTokenizer(hashtags=self.hts)
-        with open(f"data/{self.now}/tokens.txt", "w") as f:
-            print("save tokens from:", f"data/{self.now}/train-3.txt")
-            for line in tqdm(open(f"data/{self.now}/train-3.txt", encoding="utf8")):
+        with open(f"data/{self.now}/tokens-3.txt", "w") as f:
+            print("save tokens from:", f"data/{self.now}/train.txt")
+            for line in tqdm(open(f"data/{self.now}/train.txt", encoding="utf8")):
                 try:
                     camp, text = line.strip().split("\t")
                     if camp not in label2num:
