@@ -6,7 +6,7 @@
 #    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/07/06 14:11:24 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/03/28 22:59:30 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/03/28 23:46:02 by Kay Zhou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -127,8 +127,8 @@ class Classifer(object):
 
         # X_train, y_train = SMOTE().fit_sample(X_train, y_train)
         # X_train, y_train = ADASYN().fit_sample(X_train, y_train)
-        X_train, y_train = RandomOverSampler(random_state=24).fit_sample(X_train, y_train)
-        # X_train, y_train = RandomUnderSampler(random_state=24).fit_sample(X_train, y_train)
+        # X_train, y_train = RandomOverSampler(random_state=24).fit_sample(X_train, y_train)
+        X_train, y_train = RandomUnderSampler(random_state=24).fit_sample(X_train, y_train)
 
         print("After sampling!")
         print(X_train.shape, X_test.shape)
@@ -184,5 +184,5 @@ if __name__ == "__main__":
     dt = "2020-03-25"
     Lebron = Classifer(now=dt)
     # After extract_train_data.py
-    Lebron.save_tokens()
+    # Lebron.save_tokens()
     Lebron.train()
