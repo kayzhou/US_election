@@ -6,7 +6,7 @@
 #    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/07/06 14:11:24 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/03/29 00:07:19 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/03/29 00:31:41 by Kay Zhou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -125,7 +125,7 @@ class Classifer(object):
 
         # build one hot embedding
         # v = DictVectorizer(dtype=np.int8, sparse=True, sort=False)
-        v = TfidfVectorizer(ngram_range=(1, 2), max_features=200000)
+        v = TfidfVectorizer(ngram_range=(1, 2), max_features=1000000)
         X_train = v.fit_transform(X_train)
         X_test = v.transform(X_test)
 
