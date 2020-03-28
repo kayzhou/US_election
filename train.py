@@ -6,7 +6,7 @@
 #    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/07/06 14:11:24 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/03/28 21:12:43 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/03/28 22:43:37 by Kay Zhou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -114,7 +114,7 @@ class Classifer(object):
 
         # build one hot embedding
         # v = DictVectorizer(dtype=np.int8, sparse=True, sort=False)
-        v = TfidfVectorizer(ngram_range=(1, 2), max_features=500000)
+        v = TfidfVectorizer(ngram_range=(1, 2), max_features=200000)
         X_train = v.fit_transform(X_train)
         X_test = v.transform(X_test)
 
@@ -126,8 +126,8 @@ class Classifer(object):
 
         # X_train, y_train = SMOTE().fit_sample(X_train, y_train)
         # X_train, y_train = ADASYN().fit_sample(X_train, y_train)
-        #X_train, y_train = RandomOverSampler(random_state=24).fit_sample(X_train, y_train)
-        #X_train, y_train = RandomUnderSampler(random_state=24).fit_sample(X_train, y_train)
+        X_train, y_train = RandomOverSampler(random_state=24).fit_sample(X_train, y_train)
+        # X_train, y_train = RandomUnderSampler(random_state=24).fit_sample(X_train, y_train)
 
         print("After sampling!")
         print(X_train.shape, X_test.shape)
@@ -183,5 +183,5 @@ if __name__ == "__main__":
     dt = "2020-03-25"
     Lebron = Classifer(now=dt)
     # After extract_train_data.py
-    Lebron.save_tokens()
+    # Lebron.save_tokens()
     Lebron.train()
