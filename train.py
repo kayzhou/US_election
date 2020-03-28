@@ -6,7 +6,7 @@
 #    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/07/06 14:11:24 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/03/28 23:46:02 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/03/28 23:58:49 by Kay Zhou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -65,11 +65,11 @@ class Classifer(object):
         label2num = {
             "BS": 0,
             "JB": 1,
-            "DT": 2,
+            # "DT": 2,
         }
 
         tokenizer = CustomTweetTokenizer(hashtags=self.hts)
-        with open(f"data/{self.now}/tokens-3.txt", "w") as f:
+        with open(f"data/{self.now}/tokens-2.txt", "w") as f:
             print("save tokens from:", f"data/{self.now}/train.txt")
             for line in tqdm(open(f"data/{self.now}/train.txt", encoding="utf8")):
                 try:
@@ -86,7 +86,7 @@ class Classifer(object):
     def load_tokens(self):
         X = []
         y = []
-        for line in tqdm(open(f"data/{self.now}/tokens-3.txt")):
+        for line in tqdm(open(f"data/{self.now}/tokens-2.txt")):
             camp, line = line.strip().split("\t")
             # words = line.split()
             # print(words)
@@ -120,7 +120,7 @@ class Classifer(object):
         X_test = v.transform(X_test)
 
         # joblib.dump(v, f'data/{self.now}/DictVectorizer.joblib')
-        joblib.dump(v, f'data/{self.now}/TfidfVectorizer-3.joblib')
+        joblib.dump(v, f'data/{self.now}/TfidfVectorizer-2.joblib')
         print("Building word embedding finished!")
         print(X_train[0].shape, X_train[1].shape)
         print(X_train.shape, X_test.shape)
@@ -165,7 +165,7 @@ class Classifer(object):
                 clf = classifiers[classifier](X_train, y_train)
             # print("fitting finished! Lets evaluate!")
             self.evaluate(clf, X_train, y_train, X_test, y_test)
-            joblib.dump(clf, f'data/{self.now}/{classifier}-3.joblib')
+            joblib.dump(clf, f'data/{self.now}/{classifier}-2.joblib')
 
 
     def evaluate(self, clf, X_train, y_train, X_test, y_test):
