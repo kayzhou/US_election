@@ -6,7 +6,7 @@
 #    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/07/06 14:11:24 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/03/29 00:31:41 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/03/29 08:19:41 by Kay Zhou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -170,7 +170,6 @@ class Classifer(object):
                 clf = GradientBoostingClassifier(
                     learning_rate=0.1, max_depth=3)
                 clf.fit(X_train, y_train)
-                
             else:
                 clf = classifiers[classifier](X_train, y_train)
             # print("fitting finished! Lets evaluate!")
