@@ -6,7 +6,7 @@
 #    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/07/06 14:11:24 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/03/29 19:51:02 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/03/29 19:52:26 by Kay Zhou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -68,14 +68,12 @@ class Classifer(object):
         #     "DT": 1,
         # }
 
-        self.hts, _ = read_classified_hashtags(now, self.label2num)
+        self.hts, _ = read_classified_hashtags(self.now, self.label2num)
         
     def save_tokens(self):
         """
         text > tokens
         """
-
-
         tokenizer = CustomTweetTokenizer(hashtags=self.hts)
         with open(f"data/{self.now}/tokens.txt", "w") as f:
             print("save tokens from:", f"data/{self.now}/train.txt")
@@ -88,7 +86,7 @@ class Classifer(object):
                     words = tokenizer.tokenize(text)
                     f.write(str(camp) + "\t" + " ".join(words) + "\n")
                 except ValueError as e:
-                    print(e)
+                    pass
 
 
     def load_tokens(self):
