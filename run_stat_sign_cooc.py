@@ -6,7 +6,7 @@
 #    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/07 20:30:31 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/03/29 18:51:29 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/03/29 18:52:00 by Kay Zhou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -112,7 +112,6 @@ if __name__ == "__main__":
     # for e in G.edges(data=True):
     #     e[2]["weight"] = 2
 
-    # 最大连通分片
     # largest_components = max(nx.connected_components(G), key=len)
     # G = G.subgraph(largest_components)
     # print(G.number_of_nodes(), G.number_of_edges())
