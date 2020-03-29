@@ -6,7 +6,7 @@
 #    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/23 21:42:53 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/03/29 19:53:37 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/03/29 21:10:23 by Kay Zhou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,10 +27,15 @@ from nltk.tokenize.casual import (EMOTICON_RE, HANG_RE, WORD_RE,
                                   reduce_lengthening, remove_handles)
 
 
-def read_classified_hashtags(now, label2num):
+def read_classified_hashtags(now, label2num=None):
     print("func read_classified_hashtags ...")
     # *** very important ***
     # labels = ["BS, "JB"]
+    if label2num is None:
+        label2num = {
+            "BS": 0,
+            "JB": 1,
+        }
     print("label > num:", label2num)
     
     hts = []
