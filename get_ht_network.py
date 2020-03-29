@@ -6,7 +6,7 @@
 #    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/29 14:33:53 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/03/29 18:13:19 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/03/29 18:15:14 by Kay Zhou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -55,7 +55,7 @@ for e in only_focus_count:
     G.add_edge(*e, weight=w)
 
 for n in G.nodes():
-    G.node[n]["num"] = hts_count[n]
+    G[n]["num"] = hts_count[n]
 G.graph["Ntweets"] = Ntweets
 
 print(G.number_of_nodes(), G.number_of_edges())
