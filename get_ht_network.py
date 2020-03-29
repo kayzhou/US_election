@@ -6,7 +6,7 @@
 #    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/29 14:33:53 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/03/29 10:17:39 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/03/29 18:13:19 by Kay Zhou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,7 +36,7 @@ Ntweets = 0
 only_focus_count = Counter()
 hts_count = Counter()
 
-for line in open("data/hashtags-co-trump-20200324.txt"):
+for line in tqdm(open("data/hashtags-co-trump-20200324.txt")):
     _hts = [_ht for _ht in line.strip().split() if _ht in focus_ht]
     if len(_hts) > 0:
         Ntweets += 1
@@ -54,7 +54,7 @@ for e in only_focus_count:
     w = only_focus_count[e]
     G.add_edge(*e, weight=w)
 
-for n in G.node():
+for n in G.nodes():
     G.node[n]["num"] = hts_count[n]
 G.graph["Ntweets"] = Ntweets
 
