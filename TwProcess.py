@@ -6,7 +6,7 @@
 #    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/23 21:42:53 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/03/29 19:43:28 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/03/29 19:49:28 by Kay Zhou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,24 +27,23 @@ from nltk.tokenize.casual import (EMOTICON_RE, HANG_RE, WORD_RE,
                                   reduce_lengthening, remove_handles)
 
 
-def read_classified_hashtags(now, labels):
+def read_classified_hashtags(now, label2num):
     print("func read_classified_hashtags ...")
     # *** very important ***
     # labels = ["BS, "JB"]
-    print("labels:", labels)
-
-    label2num = {labels[i]: i for i in range(len(labels))}
+    print("label > num:", label2num)
     
     hts = []
-    classified_hts = {i: set() for i in range(len(labels))}
+    classified_hts = {i: set() for i in range(len(label2num))}
 
     for line in open(f"data/{now}/hashtags.txt"):
         if not line.startswith("#"):
-            w = line.strip().split(" ")
-            if w[1] in classified_hts:
-                _ht, _label = w[0], w[1]
+            w = line.strip().split()
+            _ht, _label = w[0], w[1]
+            if _label in classified_hts:
                 hts.append(_ht)
                 classified_hts[label2num[_label]].add(_ht)
+    print(hts)
     print(classified_hts)
     return hts, classified_hts
 

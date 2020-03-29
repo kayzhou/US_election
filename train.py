@@ -6,7 +6,7 @@
 #    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/07/06 14:11:24 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/03/29 19:42:42 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/03/29 19:48:07 by Kay Zhou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,12 +39,7 @@ class Classifer(object):
     def __init__(self, now):
         "init Classifer!"
         self.now = now
-        self.hts, _ = read_classified_hashtags(now, labels=["JB", "BS"])
-        
-    def save_tokens(self):
-        """
-        text > tokens
-        """
+
         # label2num = {
         #     "PB": 0,
         #     "BS": 1,
@@ -72,6 +67,14 @@ class Classifer(object):
         #     "DP": 0,
         #     "DT": 1,
         # }
+
+        self.hts, _ = read_classified_hashtags(now, label2num)
+        
+    def save_tokens(self):
+        """
+        text > tokens
+        """
+
 
         tokenizer = CustomTweetTokenizer(hashtags=self.hts)
         with open(f"data/{self.now}/tokens.txt", "w") as f:
