@@ -6,7 +6,7 @@
 #    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/07/06 14:11:24 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/03/29 20:11:36 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/03/29 20:26:23 by Kay Zhou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,15 +40,6 @@ class Classifer(object):
         "init Classifer!"
         self.now = now
 
-        # label2num = {
-        #     "PB": 0,
-        #     "BS": 1,
-        #     "EW": 2,
-        #     "JB": 3,
-        #     "OT": 4,
-        #     "MB": 5,
-        # }
-
         # 2020-03-06
         #label2num = {
         #    "BS": 0,
@@ -57,16 +48,16 @@ class Classifer(object):
         #}
 
         # 2020-03-25
-        self.label2num = {
-            "BS": 0,
-            "JB": 1,
-            "DT": 2,
-        }
-
         # self.label2num = {
-        #     "DP": 0,
-        #     "DT": 1,
+        #     "BS": 0,
+        #     "JB": 1,
+        #     "DT": 2,
         # }
+
+        self.label2num = {
+            "DP": 0,
+            "DT": 1,
+        }
 
         self.hts, _ = read_classified_hashtags(self.now, self.label2num)
         
@@ -186,7 +177,7 @@ if __name__ == "__main__":
     #dt = "2020-03-06-tfidf"
     #dt ="2020-03-08-tfidf_model3"
     #dt = "model 4_omg"
-    dt = "2020-03-25-3"
+    dt = "2020-03-25-2party"
     Lebron = Classifer(now=dt)
     # After extract_train_data.py
     Lebron.save_tokens()
