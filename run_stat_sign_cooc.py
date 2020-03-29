@@ -6,7 +6,7 @@
 #    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/07 20:30:31 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/03/29 18:21:53 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/03/29 18:22:40 by Kay Zhou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -67,7 +67,7 @@ def add_p_val_to_edges(G):
         r = e[2]["weight"]
 
         # num of occurence of v1 and v2
-        n2, n1 = sorted((G.node[e[0]]["num"], G.node[e[1]]["num"]))
+        n2, n1 = sorted((G.nodes[e[0]]["num"], G.nodes[e[1]]["num"]))
 
         if r < 100:
             p_v = -1
@@ -89,7 +89,7 @@ def add_p_val_to_edges(G):
 #     p0 = 1e-4
 #     N = G.graph["Ntweets"]
 #     # num of occurence of v1 and v2
-#     n2, n1 = sorted((G.node[e[0]]["num"], G.node[e[1]]["num"]))
+#     n2, n1 = sorted((G.nodes[e[0]]["num"], G.nodes[e[1]]["num"]))
 #     print(N, n1, n2, r)
 #     p_v = p_val_np(N, n1, n2, r)
 #     if p_v == 0:
