@@ -6,7 +6,7 @@
 #    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/07/06 14:11:24 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/03/29 19:52:26 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/03/29 20:11:36 by Kay Zhou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -60,7 +60,7 @@ class Classifer(object):
         self.label2num = {
             "BS": 0,
             "JB": 1,
-            # "DT": 2,
+            "DT": 2,
         }
 
         # self.label2num = {
@@ -186,7 +186,7 @@ if __name__ == "__main__":
     #dt = "2020-03-06-tfidf"
     #dt ="2020-03-08-tfidf_model3"
     #dt = "model 4_omg"
-    dt = "2020-03-25-2"
+    dt = "2020-03-25-3"
     Lebron = Classifer(now=dt)
     # After extract_train_data.py
     Lebron.save_tokens()
