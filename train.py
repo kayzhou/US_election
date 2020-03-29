@@ -6,7 +6,7 @@
 #    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/07/06 14:11:24 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/03/29 08:19:41 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/03/29 19:30:02 by Kay Zhou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -61,29 +61,25 @@ class Classifer(object):
         #    "JB": 1,
         #    "OT": 2,
         #}
-        # 2020-03-25
-        # label2num = {
-        #     "BS": 0,
-        #     "JB": 1,
-        #     # "DT": 2,
-        # }
 
+        # 2020-03-25
         label2num = {
-            "DP": 0,
-            "DT": 1,
+            "BS": 0,
+            "JB": 1,
             # "DT": 2,
         }
 
+        # label2num = {
+        #     "DP": 0,
+        #     "DT": 1,
+        # }
+
         tokenizer = CustomTweetTokenizer(hashtags=self.hts)
-        with open(f"data/{self.now}/tokens-2party.txt", "w") as f:
+        with open(f"data/{self.now}/tokens.txt", "w") as f:
             print("save tokens from:", f"data/{self.now}/train.txt")
             for line in tqdm(open(f"data/{self.now}/train.txt", encoding="utf8")):
                 try:
                     camp, text = line.strip().split("\t")
-
-                    if camp != "DT":
-                        camp = "DP"
-
                     if camp not in label2num:
                         continue
                     camp = label2num[camp]
@@ -96,7 +92,7 @@ class Classifer(object):
     def load_tokens(self):
         X = []
         y = []
-        for line in tqdm(open(f"data/{self.now}/tokens-2party.txt")):
+        for line in tqdm(open(f"data/{self.now}/tokens.txt")):
             camp, line = line.strip().split("\t")
             # words = line.split()
             # print(words)
@@ -130,7 +126,7 @@ class Classifer(object):
         X_test = v.transform(X_test)
 
         # joblib.dump(v, f'data/{self.now}/DictVectorizer.joblib')
-        joblib.dump(v, f'data/{self.now}/TfidfVectorizer-2party.joblib')
+        joblib.dump(v, f'data/{self.now}/TfidfVectorizer.joblib')
         print("Building word embedding finished!")
         print(X_train[0].shape, X_train[1].shape)
         print(X_train.shape, X_test.shape)
@@ -174,7 +170,7 @@ class Classifer(object):
                 clf = classifiers[classifier](X_train, y_train)
             # print("fitting finished! Lets evaluate!")
             self.evaluate(clf, X_train, y_train, X_test, y_test)
-            joblib.dump(clf, f'data/{self.now}/{classifier}-2party.joblib')
+            joblib.dump(clf, f'data/{self.now}/{classifier}.joblib')
 
 
     def evaluate(self, clf, X_train, y_train, X_test, y_test):
@@ -190,7 +186,7 @@ if __name__ == "__main__":
     #dt = "2020-03-06-tfidf"
     #dt ="2020-03-08-tfidf_model3"
     #dt = "model 4_omg"
-    dt = "2020-03-25"
+    dt = "2020-03-25-2"
     Lebron = Classifer(now=dt)
     # After extract_train_data.py
     Lebron.save_tokens()

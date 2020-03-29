@@ -6,7 +6,7 @@
 #    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/23 21:42:53 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/03/07 03:49:34 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/03/29 19:20:06 by Kay Zhou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,11 +27,13 @@ from nltk.tokenize.casual import (EMOTICON_RE, HANG_RE, WORD_RE,
                                   reduce_lengthening, remove_handles)
 
 
-def read_classified_hashtags(now):
+def read_classified_hashtags(now, labels=None):
     # *** very important ***
     # labels = "PB BS EW JB OT".split()
     # labels = "BS JB OT".split() # 2020-03-06
-    labels = "BS JB".split() # 2020-03-08
+    if labels is None: 
+        labels = "BS JB".split() # 2020-03-08
+    print("labels:", labels)
 
     label2num = {labels[i]: i for i in range(len(labels))}
     
@@ -46,39 +48,6 @@ def read_classified_hashtags(now):
                 hts.append(_ht)
                 classified_hts[label2num[_label]].add(_ht)
     return hts, classified_hts
-
-
-# def get_hts(hts_file):
-#     # hts_file = "data/hashtags-20200201_classified_hernan_Feb6.txt"
-#     PB_ht = set()
-#     BS_ht = set()
-#     EW_ht = set()
-#     JB_ht = set()
-#     OT_ht = set()
-#     hts = set()
-
-#     for line in open(hts_file):
-#         ht = line.strip().split()
-
-#         if ht[0] == "PB":
-#             PB_ht.add(ht[1])
-#             hts.add(ht[1])
-#         elif ht[0] == "BS":
-#             BS_ht.add(ht[1])
-#             hts.add(ht[1])
-#         elif ht[0] == "EW":
-#             EW_ht.add(ht[1])
-#             hts.add(ht[1])
-#         elif ht[0] == "JB":
-#             JB_ht.add(ht[1])
-#             hts.add(ht[1])
-#         elif ht[0] == "OT":
-#             OT_ht.add(ht[1])
-#             hts.add(ht[1])
-
-#     print(f"LENGTH of hashtags from {hts_file}:", 
-#             len(PB_ht), len(BS_ht), len(EW_ht), len(JB_ht), len(OT_ht), len(hts))
-#     return [PB_ht, BS_ht, EW_ht, JB_ht, OT_ht], hts
 
 #==============================================================================
 # bag of words
