@@ -6,7 +6,7 @@
 #    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/07/06 14:11:24 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/03/29 19:30:02 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/03/29 19:31:31 by Kay Zhou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,7 +39,7 @@ class Classifer(object):
     def __init__(self, now):
         "init Classifer!"
         self.now = now
-        self.hts, _ = read_classified_hashtags(now)
+        self.hts, _ = read_classified_hashtags(now, labels=["JB", "BS"])
         
         
     def save_tokens(self):
