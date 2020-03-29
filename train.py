@@ -6,7 +6,7 @@
 #    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/07/06 14:11:24 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/03/29 20:26:23 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/03/29 20:51:04 by Kay Zhou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -71,6 +71,10 @@ class Classifer(object):
             for line in tqdm(open(f"data/{self.now}/train.txt", encoding="utf8")):
                 try:
                     camp, text = line.strip().split("\t")
+
+                    if camp != "DT":
+                        camp = "DP"
+
                     if camp not in self.label2num:
                         continue
                     camp = self.label2num[camp]
@@ -78,7 +82,7 @@ class Classifer(object):
                     f.write(str(camp) + "\t" + " ".join(words) + "\n")
                 except ValueError as e:
                     pass
-
+                
 
     def load_tokens(self):
         X = []
