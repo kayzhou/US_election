@@ -6,7 +6,7 @@
 #    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/07 20:30:31 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/03/29 18:22:40 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/03/29 18:51:29 by Kay Zhou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ from functools import partial
 
 import networkx as nx
 import numpy as np
-from joblib import Parallel, delayed
+# from joblib import Parallel, delayed
 from tqdm import tqdm
 
 
@@ -106,7 +106,7 @@ def add_p_val_to_edges(G):
 
 if __name__ == "__main__":
     # G = nx.read_gpickle("data/hts_20190611.gpickle")
-    G = nx.read_gpickle("data/hts_20200329.gpickle")
+    G = nx.read_gpickle("/twitter-analysis/hts_20200329.gpickle")
 
     # G = nx.complete_graph(20)
     # for e in G.edges(data=True):
@@ -132,4 +132,4 @@ if __name__ == "__main__":
     # largest_components = max(nx.connected_components(G), key=len)
     # G = G.subgraph(largest_components)
 
-    nx.write_gpickle(G, "data/hts_20200329_sig.gpickle")
+    nx.write_gpickle(G, "/twitter-analysis/hts_20200329_sig.gpickle")
