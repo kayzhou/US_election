@@ -6,7 +6,7 @@
 #    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/07/06 14:11:24 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/03/29 19:48:07 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/03/29 19:51:02 by Kay Zhou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -57,18 +57,18 @@ class Classifer(object):
         #}
 
         # 2020-03-25
-        label2num = {
+        self.label2num = {
             "BS": 0,
             "JB": 1,
             # "DT": 2,
         }
 
-        # label2num = {
+        # self.label2num = {
         #     "DP": 0,
         #     "DT": 1,
         # }
 
-        self.hts, _ = read_classified_hashtags(now, label2num)
+        self.hts, _ = read_classified_hashtags(now, self.label2num)
         
     def save_tokens(self):
         """
@@ -82,9 +82,9 @@ class Classifer(object):
             for line in tqdm(open(f"data/{self.now}/train.txt", encoding="utf8")):
                 try:
                     camp, text = line.strip().split("\t")
-                    if camp not in label2num:
+                    if camp not in self.label2num:
                         continue
-                    camp = label2num[camp]
+                    camp = self.label2num[camp]
                     words = tokenizer.tokenize(text)
                     f.write(str(camp) + "\t" + " ".join(words) + "\n")
                 except ValueError as e:
