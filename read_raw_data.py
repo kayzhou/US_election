@@ -6,7 +6,7 @@
 #    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/11 11:16:25 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/03/09 22:28:36 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/03/30 22:23:45 by Kay Zhou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -52,6 +52,7 @@ from tqdm import tqdm
 def read_tweets_json(start, end):
 
     months = set([
+        "202004",
         "202003",
         # "202002",
         # "202001",
@@ -101,6 +102,7 @@ def read_user_profile(start, end, set_users_before=None):
 
     months = set([
         "202003",
+        "202004",
         # "202002",
         # "202001",
         # "201912",
