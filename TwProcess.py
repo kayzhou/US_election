@@ -6,7 +6,7 @@
 #    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/23 21:42:53 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/03/29 21:10:23 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/03/30 11:00:29 by Kay Zhou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,6 +36,7 @@ def read_classified_hashtags(now, label2num=None):
             "BS": 0,
             "JB": 1,
         }
+        
     print("label > num:", label2num)
     
     hts = []
