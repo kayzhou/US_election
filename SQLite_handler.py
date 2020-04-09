@@ -6,7 +6,7 @@
 #    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/07 20:40:05 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/03/07 04:06:35 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/04/09 23:05:17 by Kay Zhou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -97,6 +97,16 @@ class Demo_Tweet(Base):
     max_proba = Column(String)
 #     probas = Column(String)
 #     hashtags = Column(String)
+    source = Column(String)
+
+
+class Tweet(Base):
+    __tablename__ = "tweets"
+    tweet_id = Column(Integer, primary_key=True)
+    user_id = Column(Integer)
+    dt = Column(DateTime)
+    camp = Column(Integer)
+    max_proba = Column(String)
     source = Column(String)
 
 
@@ -454,6 +464,65 @@ def demo_tweets_to_db(sess, start, end, clear=False):
         sess.commit()
 
 
+def tweets_to_db(sess, start, end, clear=False):
+    """
+    import tweets to database with prediction
+    """
+    if clear:
+        print("deleting >=", start, "<", end)
+        sess.query(Tweet).filter(Tweet.dt >= start, Tweet.dt < end).delete()
+        sess.commit()
+    
+    from classifier import Camp_Classifier
+    Lebron = Camp_Classifier()
+    Lebron.load_models_2party("2020-03-25-2party")
+
+    X = []
+    tweets_data = []
+
+    from read_raw_data import read_historical_tweets as read_tweets
+
+    for d, dt in read_tweets(start, end):
+        tweet_id = d["id"]
+        uid = d["user"]["id"]
+        _sou = get_source_text(d["source"])
+        # hts = get_hashtags_from_tweet(d["hashtags"])
+
+        tweets_data.append(
+            Tweet(tweet_id=tweet_id, user_id=uid,
+                       dt=dt, source=_sou)
+        )
+
+        X.append(d)
+        
+        if len(tweets_data) == 2000:
+            json_rst = Lebron.predict(X)
+            for i in range(len(tweets_data)):
+                rst = json_rst[tweets_data[i].tweet_id]
+                # print(rst)
+                # probas = " ".join([str(round(r, 3)) for r in rst])
+                # tweets_data[i].probas = probas
+                tweets_data[i].max_proba = round(rst.max(), 3)
+                tweets_data[i].camp = int(rst.argmax())
+
+            sess.add_all(tweets_data)
+            sess.commit()
+            X = []
+            tweets_data = []
+
+    if tweets_data:
+        json_rst = Lebron.predict(X)
+        for i in range(len(tweets_data)):
+            rst = json_rst[tweets_data[i].tweet_id]
+            # probas = " ".join([str(round(r, 3)) for r in rst])
+            # tweets_data[i].probas = probas
+            tweets_data[i].max_proba = round(rst.max(), 3)
+            tweets_data[i].camp = int(rst.argmax())
+
+        sess.add_all(tweets_data)
+        sess.commit()
+
+        
 def demo_tweets_to_db_fast(sess, start, end, clear=False):
     """
     import tweets to database with prediction
@@ -2671,9 +2740,8 @@ def _update():
 
 if __name__ == "__main__":
     init_db()
-    start = pendulum.datetime(2019, 9, 1, tz="UTC")
-    end = pendulum.datetime(2020, 3, 8, tz="UTC")
+    start = pendulum.datetime(2020, 1, 1, tz="UTC")
+    end = pendulum.datetime(2020, 4, 9, tz="UTC")
     sess = get_session()
-    demo_tweets_to_db_fast(sess, start, end, clear=True)             
-    # demo_tweets_to_db(sess, start, end, clear=True)      
+    tweets_to_db(sess, start, end, clear=True)               
     sess.close()
