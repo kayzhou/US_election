@@ -6,7 +6,7 @@
 #    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/07 20:40:05 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/04/09 23:05:17 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/04/09 23:10:19 by Kay Zhou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -475,7 +475,7 @@ def tweets_to_db(sess, start, end, clear=False):
     
     from classifier import Camp_Classifier
     Lebron = Camp_Classifier()
-    Lebron.load_models_2party("2020-03-25-2party")
+    Lebron.load_2party()
 
     X = []
     tweets_data = []
