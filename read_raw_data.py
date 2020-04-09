@@ -258,15 +258,15 @@ def write_fast_raw_data(start, end):
 
 def write_fast_raw_data_v2(start, end):
     months = set([
-        "201909",
-        "201910",
-        "201911",
-        "201912",
-        "202001",
-        "202002",
+        #"201909",
+        #"201910",
+        #"201911",
+        #"201912",
+        #"202001",
+        #"202002",
         "202003",
     ])
-    out_file = open(f"data/fast_raw_data_afterBT_all/{start.to_date_string()}-{end.to_date_string()}.lj", "w")
+    out_file = open(f"/media/zhen/fast_raw_tweets_after_BT_4Q/{start.to_date_string()}-{end.to_date_string()}.lj", "w")
     set_tweets = set()
     file_names = sorted(Path("raw_data").rglob("*.txt"), reverse=True)
     for in_name in file_names:
@@ -336,7 +336,7 @@ def write_fast_raw_data_v2(start, end):
 
 
 def read_tweets_json_fast():
-    for line in tqdm(open("data/fast_raw_data_afterBT_all/2019-09-01-2020-03-08.lj")):
+    for line in tqdm(open("/media/zhen/fast_raw_tweets_after_BT_4Q/2019-09-01-2020-03-06.lj")):
         d = json.loads(line.strip())
         dt = pendulum.from_format(
             d["created_at"], 'ddd MMM DD HH:mm:ss ZZ YYYY')
@@ -377,7 +377,7 @@ def read_user_profile_fast(set_users_before=None):
 
 
 if __name__ == '__main__':
-     start = pendulum.datetime(2019, 9,1 , tz="UTC")
-     end = pendulum.datetime(2020, 3, 8, tz="UTC")
+     start = pendulum.datetime(2020, 3,6 , tz="UTC")
+     end = pendulum.datetime(2020, 3, 29, tz="UTC")
      write_fast_raw_data_v2(start, end)
 #    count_tweets_users()

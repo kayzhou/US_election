@@ -466,14 +466,14 @@ def demo_tweets_to_db_fast(sess, start, end, clear=False):
             Demo_Tweet.dt >= start, Demo_Tweet.dt < end).delete()
         sess.commit()
     
-    from classifier1 import Camp_Classifier
+    from classifier import Camp_Classifier
     Lebron = Camp_Classifier()
-    Lebron.load()
+    Lebron.load_2party()
 
     X = []
     tweets_data = []
 
-    from read_raw_data import read_tweets_json_fast as read_tweets
+    from read_raw_data3 import read_tweets_json_fast as read_tweets
 
     # for d, dt in read_tweets(start, end):
     for d, dt in read_tweets():
@@ -2385,8 +2385,7 @@ def tweets_to_new_clas(sess):
 ################## get section ##################
 def get_session():
     engine = create_engine(
-        #"sqlite:////home/alex/kayzhou/US_election/data/election_after_BT_2Q_m2_March11-March16.db")
-	"sqlite:////media/zhen/predicted_tweets_model_2_4queries/election_after_BT_2Q_m2_March11-March16.db")
+	"sqlite:////media/zhen/Prediction_for_Trump/election_model_2020-03-25-2_From_March6_to29.db")
     
     DBSession = sessionmaker(bind=engine)
     session = DBSession()
@@ -2633,10 +2632,8 @@ def get_term_stat():
 
 def init_db():
     engine = create_engine(
-        #2020-3-8
-	#"sqlite:////home/alex/kayzhou/US_election/data/election_after_BT.db")
-	"sqlite:////media/zhen/predicted_tweets_model_2_4queries/election_after_BT_2Q_m2_March11-March16.db")
-	#"sqlite:////media/zhen/predicted_tweets_model2_allqueries/election_after_BT_all_m2_March8-March13.db")
+        #2020-3-30
+	"sqlite:////media/zhen/Prediction_for_Trump/election_model_2020-03-25-2_From_March6_to29.db")
   
     Base.metadata.create_all(engine)
 
@@ -2676,8 +2673,8 @@ def _update():
 if __name__ == "__main__":
     init_db()
     start = pendulum.datetime(2020, 3, 6, tz="UTC")
-    end = pendulum.datetime(2020, 3, 11, tz="UTC")
+    end = pendulum.datetime(2020, 3, 29, tz="UTC")
     sess = get_session()
-    #demo_tweets_to_db_fast(sess, start, end, clear=True)             
-    demo_tweets_to_db(sess, start, end, clear=True)      
+    demo_tweets_to_db_fast(sess, start, end, clear=True)             
+    #demo_tweets_to_db(sess, start, end, clear=True)      
     sess.close()

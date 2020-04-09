@@ -466,7 +466,7 @@ def demo_tweets_to_db_fast(sess, start, end, clear=False):
     
     from classifier import Camp_Classifier
     Lebron = Camp_Classifier()
-    Lebron.load()
+    Lebron.load_2party()
 
     X = []
     tweets_data = []
@@ -2383,8 +2383,7 @@ def tweets_to_new_clas(sess):
 ################## get section ##################
 def get_session():
     engine = create_engine(
-        "sqlite:////media/zhen/predicted_tweets_model_4/election_model_0312_8-15.db")
-        #"sqlite:////media/zhen/predicted_tweets_model_4/election_model_0312.db")
+	"sqlite:////media/zhen/Prediction_for_Trump/election_model_2020-03-25-2_March6.db")
     DBSession = sessionmaker(bind=engine)
     session = DBSession()
     return session
@@ -2630,9 +2629,8 @@ def get_term_stat():
 
 def init_db():
     engine = create_engine(
-        #2020-3-8
-	"sqlite:////media/zhen/predicted_tweets_model_4/election_model_0312_8-15.db")
-        #"sqlite:////media/zhen/predicted_tweets_model_4/election_model_0312.db")
+        #2020-3-30
+	"sqlite:////media/zhen/Prediction_for_Trump/election_model_2020-03-25-2_March6.db")
 
     Base.metadata.create_all(engine)
 
@@ -2672,7 +2670,7 @@ def _update():
 if __name__ == "__main__":
     init_db()
     start = pendulum.datetime(2019, 9, 1, tz="UTC")
-    end = pendulum.datetime(2020, 3, 8, tz="UTC")
+    end = pendulum.datetime(2020, 3, 6, tz="UTC")
     sess = get_session()
     demo_tweets_to_db_fast(sess, start, end, clear=True)             
     # demo_tweets_to_db(sess, start, end, clear=True)      

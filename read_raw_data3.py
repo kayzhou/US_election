@@ -334,7 +334,7 @@ def write_fast_raw_data_v2(start, end):
 
 
 def read_tweets_json_fast():
-    for line in tqdm(open("data/fast_raw_data_afterBT_all/2019-09-01-2020-03-08.lj")):
+    for line in tqdm(open("/media/zhen/fast_raw_tweets_after_BT_4Q/2020-03-06-2020-03-29.lj")):
         d = json.loads(line.strip())
         dt = pendulum.from_format(
             d["created_at"], 'ddd MMM DD HH:mm:ss ZZ YYYY')
