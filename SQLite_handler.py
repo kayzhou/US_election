@@ -6,7 +6,7 @@
 #    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/07 20:40:05 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/04/12 18:29:36 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/04/19 22:55:22 by Kay Zhou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -2449,13 +2449,7 @@ def tweets_to_new_clas(sess):
         sess.commit()
 
 
-################## get section ##################
-def get_session():
-    engine = create_engine(
-	"sqlite:////media/zhen/Prediction_for_Trump/election_model_2020-03-25-2_March6.db")
-    DBSession = sessionmaker(bind=engine)
-    session = DBSession()
-    return session
+
 
 
 def get_camp_hashtags():
@@ -2696,14 +2690,6 @@ def get_term_stat():
     return new_data
 
 
-def init_db():
-    engine = create_engine(
-        #2020-3-30
-	"sqlite:////media/zhen/Prediction_for_Trump/election_model_2020-03-25-2_March6.db")
-
-    Base.metadata.create_all(engine)
-
-
 def _update():
     sess = get_session()
 
@@ -2734,6 +2720,19 @@ def _update():
     # predict_per_day(sess, start, end)
     # predict_per_week(sess, end)
     sess.close()
+
+
+################## get section ##################
+def get_session():
+    engine = create_engine("sqlite:////twitter-analysis/election-trump.db")
+    DBSession = sessionmaker(bind=engine)
+    session = DBSession()
+    return session
+
+    
+def init_db():
+    engine = create_engine("/twitter-analysis/election-trump.db")
+    Base.metadata.create_all(engine)
 
 
 if __name__ == "__main__":
