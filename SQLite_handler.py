@@ -6,7 +6,7 @@
 #    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/07 20:40:05 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/04/19 23:19:10 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/04/19 23:20:48 by Kay Zhou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -2731,7 +2731,7 @@ def get_session():
 
     
 def init_db():
-    engine = create_engine("/twitter-analysis/election-trump.db")
+    engine = create_engine("sqlite:////twitter-analysis/election-trump.db")
     Base.metadata.create_all(engine)
 
 
