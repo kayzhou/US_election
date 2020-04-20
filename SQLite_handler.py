@@ -6,7 +6,7 @@
 #    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/07 20:40:05 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/04/19 23:20:48 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/04/20 08:12:57 by Kay Zhou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -483,6 +483,7 @@ def tweets_to_db(sess, start, end, clear=False):
     from read_raw_data import read_historical_tweets as read_tweets
 
     for d, dt in read_tweets(start, end):
+        print(d)
         tweet_id = d["id"]
         uid = d["user"]["id"]
         _sou = get_source_text(d["source"])
@@ -2740,5 +2741,5 @@ if __name__ == "__main__":
     start = pendulum.datetime(2020, 4, 9, tz="UTC")
     end = pendulum.datetime(2020, 4, 19, tz="UTC")
     sess = get_session()
-    tweets_to_db(sess, start, end, clear=True)               
+    tweets_to_db(sess, start, end)               
     sess.close()
