@@ -6,7 +6,7 @@
 #    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/07 20:40:05 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/04/20 08:12:57 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/04/20 08:22:25 by Kay Zhou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -483,10 +483,16 @@ def tweets_to_db(sess, start, end, clear=False):
     from read_raw_data import read_historical_tweets as read_tweets
 
     for d, dt in read_tweets(start, end):
-        print(d)
+        # print(d)
         tweet_id = d["id"]
         uid = d["user"]["id"]
-        _sou = get_source_text(d["source"])
+        try:
+            _sou = get_source_text(d["source"])
+        except KeyError:
+            print(d)
+            print("No source Key. Continue")
+            continue
+        
         # hts = get_hashtags_from_tweet(d["hashtags"])
 
         tweets_data.append(
@@ -2725,14 +2731,14 @@ def _update():
 
 ################## get section ##################
 def get_session():
-    engine = create_engine("sqlite:////twitter-analysis/election-trump.db")
+    engine = create_engine("sqlite:////home/alex/kayzhou/US_election/data/election-trump.db")
     DBSession = sessionmaker(bind=engine)
     session = DBSession()
     return session
 
     
 def init_db():
-    engine = create_engine("sqlite:////twitter-analysis/election-trump.db")
+    engine = create_engine("sqlite:////home/alex/kayzhou/US_election/data/election-trump.db")
     Base.metadata.create_all(engine)
 
 
