@@ -6,7 +6,7 @@
 #    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/19 04:01:00 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/04/22 15:03:55 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/04/22 15:05:19 by Kay Zhou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -130,12 +130,12 @@ def write_union_users_csv(union_users_dict, out_dir, dt):
 	    #f.write("uid,0,1,2,3,4,5\n")
 
 
-USERS = pd.read_csv("disk/users-face/2020-04-02.csv").set_index("uid")
-USERS_STATE = pd.read_csv("disk/users-location/2020-04-02.csv", 
-                          usecols=["uid","state"],
-                          error_bad_lines=False).set_index("uid")
-USERS_STSTE_GENDER_AGE = USERS.join(USERS_STATE, how="inner")
-SET_USERS = set(USERS_STSTE_GENDER_AGE.index)
+# USERS = pd.read_csv("disk/users-face/2020-04-02.csv").set_index("uid")
+# USERS_STATE = pd.read_csv("disk/users-location/2020-04-02.csv", 
+#                           usecols=["uid","state"],
+#                           error_bad_lines=False).set_index("uid")
+# USERS_STSTE_GENDER_AGE = USERS.join(USERS_STATE, how="inner")
+# SET_USERS = set(USERS_STSTE_GENDER_AGE.index)
 
 
 def write_union_users_csv_v2(union_users_dict, out_dir, dt):
