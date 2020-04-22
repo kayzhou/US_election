@@ -6,7 +6,7 @@
 #    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/07 20:40:05 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/04/22 14:59:50 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/04/23 00:18:16 by Kay Zhou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -496,19 +496,17 @@ def tweets_to_db(sess, start, end, clear=False):
         # hts = get_hashtags_from_tweet(d["hashtags"])
 
         tweets_data.append(
-            Tweet(tweet_id=tweet_id, user_id=uid,
-                       dt=dt, source=_sou)
+            Tweet(tweet_id=tweet_id,
+                  user_id=uid,
+                  dt=dt,
+                  source=_sou)
         )
-
         X.append(d)
         
         if len(tweets_data) == 2000:
             json_rst = Lebron.predict(X)
             for i in range(len(tweets_data)):
                 rst = json_rst[tweets_data[i].tweet_id]
-                # print(rst)
-                # probas = " ".join([str(round(r, 3)) for r in rst])
-                # tweets_data[i].probas = probas
                 tweets_data[i].max_proba = round(rst.max(), 3)
                 tweets_data[i].camp = int(rst.argmax())
 
@@ -521,8 +519,6 @@ def tweets_to_db(sess, start, end, clear=False):
         json_rst = Lebron.predict(X)
         for i in range(len(tweets_data)):
             rst = json_rst[tweets_data[i].tweet_id]
-            # probas = " ".join([str(round(r, 3)) for r in rst])
-            # tweets_data[i].probas = probas
             tweets_data[i].max_proba = round(rst.max(), 3)
             tweets_data[i].camp = int(rst.argmax())
 
@@ -2594,7 +2590,7 @@ def get_tweets_with_hashtags(sess, start, end):
 
 
 def get_tweets(sess, start, end):
-    tweets = sess.query(Demo_Tweet).filter(
+    tweets = sess.query(Tweet).filter(
         Tweet.source.is_(None),
         Tweet.dt >= start,
         Tweet.dt < end).yield_per(5000)
@@ -2724,20 +2720,20 @@ def _update():
 
 ################## get section ##################
 def get_session():
-    engine = create_engine("sqlite:////home/alex/kayzhou/US_election/data/election-trump.db")
+    engine = create_engine("sqlite:////home/alex/kayzhou/US_election/data/election-trump-v2.db")
     DBSession = sessionmaker(bind=engine)
     session = DBSession()
     return session
 
     
 def init_db():
-    engine = create_engine("sqlite:////home/alex/kayzhou/US_election/data/election-trump.db")
+    engine = create_engine("sqlite:////home/alex/kayzhou/US_election/data/election-trump-v2.db")
     Base.metadata.create_all(engine)
 
 
 if __name__ == "__main__":
     init_db()
-    start = pendulum.datetime(2020, 4, 9, tz="UTC")
+    start = pendulum.datetime(2020, 1, 1, tz="UTC")
     end = pendulum.datetime(2020, 4, 19, tz="UTC")
     sess = get_session()
     tweets_to_db(sess, start, end, clear=True)               
