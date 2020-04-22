@@ -6,7 +6,7 @@
 #    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/07 20:40:05 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/04/23 00:18:16 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/04/23 00:19:19 by Kay Zhou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -2720,14 +2720,14 @@ def _update():
 
 ################## get section ##################
 def get_session():
-    engine = create_engine("sqlite:////home/alex/kayzhou/US_election/data/election-trump-v2.db")
+    engine = create_engine("sqlite:////home/alex/kayzhou/US_election/data/election-trump.db")
     DBSession = sessionmaker(bind=engine)
     session = DBSession()
     return session
 
     
 def init_db():
-    engine = create_engine("sqlite:////home/alex/kayzhou/US_election/data/election-trump-v2.db")
+    engine = create_engine("sqlite:////home/alex/kayzhou/US_election/data/election-trump.db")
     Base.metadata.create_all(engine)
 
 
