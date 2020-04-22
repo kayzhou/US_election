@@ -6,16 +6,29 @@
 #    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/19 04:01:00 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/03/06 23:27:28 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/04/22 15:03:55 by Kay Zhou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-from SQLite_handler3 import *
+from SQLite_handler import *
 
 # ========================================
 # for demo 2020-02-14
 
-#Matteo
+# Add Trump
+def save_user_snapshot(sess, now):
+    users = {}
+    for t in tqdm(get_tweets(sess, now, now.add(days=1))):
+        uid = t.user_id
+        if uid not in users:
+            users[uid] = [0, 0]
+        users[uid][t.camp] += 1
+    print("# of users:", len(users))
+    csv = pd.DataFrame(users).T
+    csv.index.names = ['uid']
+    csv.to_csv(f"data/users-day/{now.to_date_string()}.csv")
+
+# Matteo
 def save_user_snapshot_perday(sess, now):
     users = {}
     for t in tqdm(get_demo_tweets(sess, now, now.add(days=1))):
@@ -29,26 +42,26 @@ def save_user_snapshot_perday(sess, now):
     csv.index.names = ['uid']
     csv.to_csv(f"data/userd_daily_NewM_Trump/{now.to_date_string()}.csv")
 
-##def save_user_snapshot_perday(sess, now):
-##    users = {}
-##    for t in tqdm(get_demo_tweets(sess, now, now.add(days=1))):
-##        uid = t.user_id
-##        #print(uid)
-##        if uid not in users:
-##            users[uid] = [0,0,0]
-##	#print(t.max_proba)
-##        P=[float(u) for u in t.max_proba[1:-1].split()][0]
-##        if P >=0.55:
-##            users[uid][0] += 1
-##        elif P <= 0.45:
-##            users[uid][1] += 1
-##        elif 0.45 < P < 0.55:
-##            users[uid][2] += 1
-##    # pd.DataFrame(users).T.
-##    print("# of users:", len(users))
-##    csv = pd.DataFrame(users).T
-##    csv.index.names = ['uid']
-##    csv.to_csv(f"data/users-day_model_4_s3/{now.to_date_string()}.csv")
+# def save_user_snapshot_perday(sess, now):
+#    users = {}
+#    for t in tqdm(get_demo_tweets(sess, now, now.add(days=1))):
+#        uid = t.user_id
+#        #print(uid)
+#        if uid not in users:
+#            users[uid] = [0,0,0]
+# 	#print(t.max_proba)
+#        P=[float(u) for u in t.max_proba[1:-1].split()][0]
+#        if P >=0.55:
+#            users[uid][0] += 1
+#        elif P <= 0.45:
+#            users[uid][1] += 1
+#        elif 0.45 < P < 0.55:
+#            users[uid][2] += 1
+#    # pd.DataFrame(users).T.
+#    print("# of users:", len(users))
+#    csv = pd.DataFrame(users).T
+#    csv.index.names = ['uid']
+#    csv.to_csv(f"data/users-day_model_4_s3/{now.to_date_string()}.csv")
 
 def read_users_from_csv(in_name):
     print("Reading users from csv ...", in_name)
@@ -484,13 +497,13 @@ def daily_prediction():
     
 if __name__ == "__main__":
     # -- save users' snapshot --
-    #start = pendulum.datetime(2020, 3,6, tz="UTC")
-    #end = pendulum.datetime(2020, 3, 29, tz="UTC")
-    #sess = get_session()
-    #for dt in pendulum.period(start, end):
-    #     print(dt)
-    #     save_user_snapshot_perday(sess, dt)
-    #sess.close()
+    start = pendulum.datetime(2020, 1, 1, tz="UTC")
+    end = pendulum.datetime(2020, 4, 18, tz="UTC")
+    sess = get_session()
+    for dt in pendulum.period(start, end):
+        print(dt)
+        save_user_snapshot(sess, dt)
+    sess.close()
 
     # run it per day
     # daily_prediction()
@@ -523,9 +536,9 @@ if __name__ == "__main__":
     # calculate_cumulative_share(start, end, super_start_month="0912")
     
     ##Matteo Change
-    start = pendulum.datetime(2019, 9, 4, tz="UTC")
-    end = pendulum.datetime(2020, 3, 29, tz="UTC")
-    calculate_cumulative_share(start, end, super_start_month="09",save_csv=True)
+    # start = pendulum.datetime(2019, 9, 4, tz="UTC")
+    # end = pendulum.datetime(2020, 3, 29, tz="UTC")
+    # calculate_cumulative_share(start, end, super_start_month="09",save_csv=True)
 
     # start = pendulum.datetime(2020, 20, 19, tz="UTC")
     # end = pendulum.datetime(2020, 3, 6, tz="UTC")

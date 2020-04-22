@@ -6,7 +6,7 @@
 #    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/07 20:40:05 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/04/20 08:50:50 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/04/22 14:59:50 by Kay Zhou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -2593,18 +2593,11 @@ def get_tweets_with_hashtags(sess, start, end):
     return tweets
 
 
-def get_tweets(sess, start, end, bots=False):
-    print(f"Get tweets from {start} to {end}")
-    if bots:
-        tweets = sess.query(Tweet).filter(
-            Tweet.source.isnot(None),
-            Tweet.dt >= start,
-            Tweet.dt < end).yield_per(5000)
-    else:
-        tweets = sess.query(Tweet).filter(
-            Tweet.source.is_(None),
-            Tweet.dt >= start,
-            Tweet.dt < end).yield_per(5000)
+def get_tweets(sess, start, end):
+    tweets = sess.query(Demo_Tweet).filter(
+        Tweet.source.is_(None),
+        Tweet.dt >= start,
+        Tweet.dt < end).yield_per(5000)
     return tweets
 
 
