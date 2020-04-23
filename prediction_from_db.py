@@ -6,7 +6,7 @@
 #    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/19 04:01:00 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/04/23 00:17:36 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/04/23 10:46:23 by Kay Zhou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -514,10 +514,10 @@ if __name__ == "__main__":
     # end = pendulum.datetime(2020, 2, 26, tz="UTC")
     # calculate_window_share(start, end, win=7, save_csv=True)
     
-    # # 14 days
-    # start = pendulum.datetime(2020, 1, 15, tz="UTC")
-    # end = pendulum.datetime(2020, 2, 26, tz="UTC")
-    # calculate_window_share(start, end, win=14, save_csv=True)
+    # 14 days
+    start = pendulum.datetime(2020, 1, 15, tz="UTC")
+    end = pendulum.datetime(2020, 4, 18, tz="UTC")
+    calculate_window_share(start, end, win=14, save_csv=True)
 
     # 21 days
     # start = pendulum.datetime(2020, 1, 22, tz="UTC")
@@ -548,9 +548,9 @@ if __name__ == "__main__":
     # end = pendulum.datetime(2020, 3, 2, tz="UTC")
     # calculate_cumulative_share(start, end, super_start_month="11")
 
-    # start = pendulum.datetime(2020, 1, 1, tz="UTC")
-    # end = pendulum.datetime(2020, 3, 2, tz="UTC")
-    # calculate_cumulative_share(start, end, super_start_month="01", save_csv=True)
+    start = pendulum.datetime(2020, 1, 1, tz="UTC")
+    end = pendulum.datetime(2020, 4, 18, tz="UTC")
+    calculate_cumulative_share(start, end, super_start_month="01", save_csv=True)
 
     # start = pendulum.datetime(2020, 1, 16, tz="UTC")
     # end = pendulum.datetime(2020, 2, 26, tz="UTC")
