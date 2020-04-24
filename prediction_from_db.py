@@ -6,7 +6,7 @@
 #    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/19 04:01:00 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/04/23 10:47:23 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/04/24 14:20:54 by Kay Zhou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -257,7 +257,7 @@ def calculate_cumulative_share(start, end, super_start_month="01", save_csv=None
 
         elif dt == super_start.add(days=1):
             union_users_dict = read_users_from_csv(
-                f"data/userd_daily_NewM_Trump/{super_start.to_date_string()}.csv")
+                f"data/users-day/{super_start.to_date_string()}.csv")
             print("Writing the first!")
             write_union_users_csv(
                 union_users_dict, f"users-culFrom{super_start_month}", dt.to_date_string())
@@ -270,17 +270,17 @@ def calculate_cumulative_share(start, end, super_start_month="01", save_csv=None
                 yesterday_users = read_users_from_csv(
                     f"disk/users-culFrom{super_start_month}/{dt.add(days=-1).to_date_string()}.csv")
             today_users = read_users_from_csv(
-                f"data/userd_daily_NewM_Trump/{dt.add(days=-1).to_date_string()}.csv")
+                f"data/users-day/{dt.add(days=-1).to_date_string()}.csv")
             union_users_dict = union_users_from_yesterday_and_today(
                 yesterday_users, today_users)
             yesterday_users = union_users_dict
-            write_union_users_csv_v2(
-                    union_users_dict, f"users-culFrom{super_start_month}", dt.to_date_string())
-            #Matteo modifed here
-            if dt == end: 
-                print("Writing cumulative users' csv at", dt)
-                write_union_users_csv(
-                    union_users_dict, f"users-culFrom{super_start_month}", dt.to_date_string()+'_recap')
+            # write_union_users_csv_v2(
+            #         union_users_dict, f"users-culFrom{super_start_month}", dt.to_date_string())
+
+            # if dt == end: 
+            print("Writing cumulative users' csv at", dt)
+            write_union_users_csv(
+                union_users_dict, f"users-culFrom{super_start_month}", dt.to_date_string())
         
         rst = get_share_from_users_dict(union_users_dict)
         rst["dt"] = dt.to_date_string()
@@ -515,9 +515,9 @@ if __name__ == "__main__":
     # calculate_window_share(start, end, win=7, save_csv=True)
     
     # 14 days
-    start = pendulum.datetime(2020, 1, 15, tz="UTC")
-    end = pendulum.datetime(2020, 4, 18, tz="UTC")
-    calculate_window_share(start, end, win=14, save_csv=True)
+    # start = pendulum.datetime(2020, 1, 15, tz="UTC")
+    # end = pendulum.datetime(2020, 4, 18, tz="UTC")
+    # calculate_window_share(start, end, win=14, save_csv=True)
 
     # 21 days
     # start = pendulum.datetime(2020, 1, 22, tz="UTC")
