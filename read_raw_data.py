@@ -6,7 +6,7 @@
 #    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/11 11:16:25 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/04/24 19:04:05 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/04/24 19:10:36 by Kay Zhou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -169,7 +169,7 @@ def read_user_profile(start, end, set_users_before=None):
     file_names = sorted(Path("raw_data").rglob("*.txt"), reverse=True)
 
     for in_name in file_names:
-        if in_name.stem.split("-")[-1] in demo_files and in_name.parts[1] in months:
+        if in_name.stem.split("-")[-1] in election_files and in_name.parts[1] in months:
             print(in_name)
             cnt = 0
 
