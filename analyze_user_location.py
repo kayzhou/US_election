@@ -6,7 +6,7 @@
 #    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/21 09:47:55 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/04/05 00:01:37 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/04/24 19:04:15 by Kay Zhou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ from collections import Counter
 from tqdm import tqdm
 
 
-def write_locations(in_name, out_name):
+ef write_locations(in_name, out_name):
     # explain the locations > states and counties
     all_locations = Counter()
     set_users = set()
@@ -33,7 +33,7 @@ def write_locations(in_name, out_name):
 
     with open(out_name, "w") as f:
         for loc, cnt in all_locations.most_common(1000):
-            print(loc, cnt, file=f, sep="\t")
+            print(loc, cnt, file=f, sep="\t")d
 
 
 def write_users_state():    
