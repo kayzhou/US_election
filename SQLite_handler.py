@@ -6,7 +6,7 @@
 #    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/07 20:40:05 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/04/23 00:19:19 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/04/26 10:02:58 by Kay Zhou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -2718,7 +2718,6 @@ def _update():
     sess.close()
 
 
-################## get section ##################
 def get_session():
     engine = create_engine("sqlite:////home/alex/kayzhou/US_election/data/election-trump.db")
     DBSession = sessionmaker(bind=engine)
@@ -2733,8 +2732,10 @@ def init_db():
 
 if __name__ == "__main__":
     init_db()
-    start = pendulum.datetime(2020, 1, 1, tz="UTC")
-    end = pendulum.datetime(2020, 4, 19, tz="UTC")
+    
+    start = pendulum.datetime(2020, 4, 19, tz="UTC")
+    end = pendulum.datetime(2020, 4, 26, tz="UTC")
+    
     sess = get_session()
     tweets_to_db(sess, start, end, clear=True)               
     sess.close()
