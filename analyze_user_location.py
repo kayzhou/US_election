@@ -6,7 +6,7 @@
 #    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/21 09:47:55 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/04/27 16:35:01 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/04/27 16:52:14 by Kay Zhou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,7 +32,7 @@ def write_locations(in_name, out_name):
                 all_locations[u["location"].lower().replace("\t", " ").replace("\n", " ")] += 1
 
     with open(out_name, "w") as f:
-        for loc, cnt in all_locations.most_common(1000):
+        for loc, cnt in all_locations.most_common(10000):
             print(loc, cnt, file=f, sep="\t")
 
 
@@ -171,8 +171,8 @@ def write_users_today_csv(dt):
 
 if __name__ == '__main__':
     # more loc information should be mapped to state and county infomation.
-    # write_locations("disk/users-profile/2020-02-24-2020-02-28.lj",
-    #                 "disk/users-location/2020-02-24-2020-02-28-stat.txt")
+    write_locations("disk/users-profile/2020-01-01-2020-04-19.lj",
+                    "disk/users-location/2020-01-01-2020-04-19-stat.txt")
     
     # write_users_csv("disk/users-profile/2020-02-29.lj",
     #                 "disk/users-location/2020-02-29.csv")
