@@ -6,7 +6,7 @@
 #    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/21 09:47:55 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/04/24 19:04:15 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/04/27 16:35:01 by Kay Zhou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ from collections import Counter
 from tqdm import tqdm
 
 
-ef write_locations(in_name, out_name):
+def write_locations(in_name, out_name):
     # explain the locations > states and counties
     all_locations = Counter()
     set_users = set()
@@ -33,7 +33,7 @@ ef write_locations(in_name, out_name):
 
     with open(out_name, "w") as f:
         for loc, cnt in all_locations.most_common(1000):
-            print(loc, cnt, file=f, sep="\t")d
+            print(loc, cnt, file=f, sep="\t")
 
 
 def write_users_state():    
@@ -177,6 +177,6 @@ if __name__ == '__main__':
     # write_users_csv("disk/users-profile/2020-02-29.lj",
     #                 "disk/users-location/2020-02-29.csv")
 
-    dt = pendulum.datetime(2020, 3, 1, tz="UTC")
+    # dt = pendulum.datetime(2020, 3, 1, tz="UTC")
     # actually, we use today as the prediction 
-    write_users_today_csv(dt)
+    # write_users_today_csv(dt)
