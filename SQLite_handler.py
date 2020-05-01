@@ -6,7 +6,7 @@
 #    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/07 20:40:05 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/04/27 16:28:47 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/05/01 17:09:57 by Kay Zhou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -2733,8 +2733,8 @@ def init_db():
 if __name__ == "__main__":
     init_db()
     
-    start = pendulum.datetime(2020, 4, 19, tz="UTC")
-    end = pendulum.datetime(2020, 4, 26, tz="UTC")
+    start = pendulum.datetime(2020, 4, 26, tz="UTC")
+    end = pendulum.datetime(2020, 5, 1, tz="UTC")
     
     sess = get_session()
     tweets_to_db(sess, start, end, clear=True)               
