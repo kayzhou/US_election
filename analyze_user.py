@@ -6,7 +6,7 @@
 #    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/24 01:48:04 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/04/27 16:50:15 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/05/01 18:35:35 by Kay Zhou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -73,9 +73,10 @@ def write_users_today(dt):
 
 
 if __name__ == '__main__':
-    set_users_before = read_users_set("disk/users-profile/2020-04-24.lj")
+    # set_users_before = read_users_set("disk/users-profile/2020-04-24.lj")
+    set_users_before = None
     start = pendulum.datetime(2020, 1, 1, tz="UTC")
-    end = pendulum.datetime(2020, 4, 19, tz="UTC")
-    write_users(start, end, set_users_before, "disk/users-profile/2020-01-01-2020-04-19.lj")
+    end = pendulum.datetime(2020, 5, 1, tz="UTC")
+    write_users(start, end, set_users_before, "disk/users-profile/2020-01-01-2020-04-30.lj")
     # write_users_fast(set_users_before, "disk/users-profile/2019-09-01-2020-03-01.lj")
     
