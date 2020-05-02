@@ -6,7 +6,7 @@
 #    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/19 04:01:00 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/05/02 15:27:45 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/05/02 19:08:27 by Kay Zhou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -508,13 +508,13 @@ def daily_prediction():
 
 if __name__ == "__main__":
     # -- save users' snapshot --
-    start = pendulum.datetime(2020, 1, 1, tz="UTC")
-    end = pendulum.datetime(2020, 4, 30, tz="UTC")
-    sess = get_session()
-    for dt in pendulum.period(start, end):
-        print(dt)
-        save_user_snapshot(sess, dt)
-    sess.close()
+    # start = pendulum.datetime(2020, 1, 1, tz="UTC")
+    # end = pendulum.datetime(2020, 4, 30, tz="UTC")
+    # sess = get_session()
+    # for dt in pendulum.period(start, end):
+    #     print(dt)
+    #     save_user_snapshot(sess, dt)
+    # sess.close()
 
     # run it per day
     # daily_prediction()
@@ -528,7 +528,7 @@ if __name__ == "__main__":
     # 14 days
     start = pendulum.datetime(2020, 1, 15, tz="UTC")
     end = pendulum.datetime(2020, 4, 30, tz="UTC")
-    calculate_window_share(start, end, win=30, save_csv=True)
+    calculate_window_share(start, end, win=14, save_csv=True)
 
     # 21 days
     # start = pendulum.datetime(2020, 1, 22, tz="UTC")
