@@ -6,7 +6,7 @@
 #    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/21 09:47:55 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/04/27 17:00:07 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/05/02 22:36:28 by Kay Zhou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -171,11 +171,11 @@ def write_users_today_csv(dt):
 
 if __name__ == '__main__':
     # more loc information should be mapped to state and county infomation.
-    write_locations("disk/users-profile/2020-01-01-2020-04-19.lj",
-                    "disk/users-location/2020-01-01-2020-04-19-stat.txt")
+    # write_locations("disk/users-profile/2020-01-01-2020-04-19.lj",
+                    # "disk/users-location/2020-01-01-2020-04-19-stat.txt")
     
-    # write_users_csv("disk/users-profile/2020-02-29.lj",
-    #                 "disk/users-location/2020-02-29.csv")
+    write_users_csv("disk/users-profile/2020-01-01-2020-04-30.lj",
+                    "disk/users-location/2020-04-30.csv")
 
     # dt = pendulum.datetime(2020, 3, 1, tz="UTC")
     # actually, we use today as the prediction 
