@@ -6,7 +6,7 @@
 #    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/05/03 09:01:29 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/05/03 22:21:39 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/05/03 22:23:33 by Kay Zhou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,13 +23,13 @@ USA_STATES = ['CA', 'TX', 'NY', 'FL', 'IL', 'GA', 'PA', 'OH', 'DC', 'NC', 'MI', 
 
 def load_users_location(in_name):
     users = pd.read_csv(in_name).set_index("uid")
-    users.rename({0: "B", 1: "T"})
-    users["Camp"] = "B" if users["B"] >= users["T"] else "T"
     return users
 
 
 def load_users_opinion(in_name):
     users = pd.read_csv(in_name).set_index("uid")
+    users.rename({0: "B", 1: "T"})
+    users["Camp"] = "B" if users["B"] >= users["T"] else "T"
     return users
 
 
