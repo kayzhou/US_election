@@ -6,7 +6,7 @@
 #    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/05/03 09:01:29 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/05/03 22:30:18 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/05/03 22:32:06 by Kay Zhou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,7 @@ def load_users_location(in_name):
 def load_users_opinion(in_name):
     users = pd.read_csv(in_name).set_index("uid")
     print(users)
-    users.rename({"0": "B", "1": "T"})
+    users.rename(columns={"0": "B", "1": "T"})
     # users["Camp"] = "B" if users["B"] >= users["T"] else "T"
     return users
 
