@@ -6,7 +6,7 @@
 #    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/05/03 09:01:29 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/05/03 22:47:17 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/05/03 22:53:10 by Kay Zhou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,10 +50,21 @@ def load_users_union():
 def pred_per_state():
     users = load_users_union()
 
+    rst = []
+
     for state_name in USA_STATES:
         users_tmp = users[users.state == state_name]
         groups = users_tmp.groupby(["Camp"]).size()
         print(state_name, groups)
+        rst.append(
+            {
+                "state": USA_ADDR_NAME[state_name],
+                "abbr": state_name,
+                "Biden": groups.get("Biden", 0),
+                "Trump": groups.get("Trump", 0),
+            }
+        )
+    pd.DataFrame(rst).to_csv("data/csv/0501-states.csv")
 
 
 if __name__ == "__main__":
