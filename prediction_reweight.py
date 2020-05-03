@@ -6,7 +6,7 @@
 #    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/05/03 09:01:29 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/05/03 22:27:21 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/05/03 22:30:18 by Kay Zhou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,8 +31,7 @@ def load_users_opinion(in_name):
     users = pd.read_csv(in_name).set_index("uid")
     print(users)
     users.rename({"0": "B", "1": "T"})
-    users["Camp"] = "B" if users["B"] >= users["T"] else "T"
-    print(users)
+    # users["Camp"] = "B" if users["B"] >= users["T"] else "T"
     return users
 
 
@@ -40,6 +39,8 @@ def load_users_union():
     users = load_users_opinion("disk/users-culFrom01/2020-04-30.csv")
     u2 = load_users_location("disk/users-location/2020-04-30.csv")
     users = users.join(u2, how="inner")
+    users["Camp"] = "B" if users["B"] >= users["T"] else "T"
+    print(users)
     return users
 
 
