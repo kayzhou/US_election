@@ -6,7 +6,7 @@
 #    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/19 04:01:00 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/05/02 19:08:27 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/05/03 21:49:13 by Kay Zhou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -526,9 +526,9 @@ if __name__ == "__main__":
     # calculate_window_share(start, end, win=7, save_csv=True)
 
     # 14 days
-    start = pendulum.datetime(2020, 1, 15, tz="UTC")
-    end = pendulum.datetime(2020, 4, 30, tz="UTC")
-    calculate_window_share(start, end, win=14, save_csv=True)
+    # start = pendulum.datetime(2020, 1, 15, tz="UTC")
+    # end = pendulum.datetime(2020, 4, 30, tz="UTC")
+    # calculate_window_share(start, end, win=14, save_csv=True)
 
     # 21 days
     # start = pendulum.datetime(2020, 1, 22, tz="UTC")
