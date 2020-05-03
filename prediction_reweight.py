@@ -6,7 +6,7 @@
 #    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/05/03 09:01:29 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/05/03 22:38:06 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/05/03 22:42:00 by Kay Zhou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,10 +14,14 @@ import pandas as pd
 import us # USA address
 
 USA_ADDR_NAME = us.states.mapping('abbr', 'name')
-USA_STATES = ['CA', 'TX', 'NY', 'FL', 'IL', 'GA', 'PA', 'OH', 'DC', 'NC', 'MI', 'MA',
-            'IN', 'NJ', 'VA', 'AZ', 'TN', 'WA', 'MD', 'CO', 'MO', 'KY', 'LA', 'MN',
-            'OR', 'AL', 'SC', 'NV', 'OK', 'WI', 'IA', 'CT', 'KS', 'AR', 'UT', 'MS',
-            'WV', 'NE', 'NM', 'HI', 'NH', 'RI', 'ME', 'ID', 'AK', 'DE', 'MT', 'SD',
+USA_STATES = ['CA', 'TX', 'NY', 'FL', 'IL', 'GA',
+            'PA', 'OH', 'DC', 'NC', 'MI', 'MA',
+            'IN', 'NJ', 'VA', 'AZ', 'TN', 'WA',
+            'MD', 'CO', 'MO', 'KY', 'LA', 'MN',
+            'OR', 'AL', 'SC', 'NV', 'OK', 'WI', 
+            'IA', 'CT', 'KS', 'AR', 'UT', 'MS',
+            'WV', 'NE', 'NM', 'HI', 'NH', 'RI',
+            'ME', 'ID', 'AK', 'DE', 'MT', 'SD',
             'ND', 'VT', 'WY']
 
 
@@ -36,7 +40,9 @@ def load_users_union():
     users = load_users_opinion("disk/users-culFrom01/2020-04-30.csv")
     u2 = load_users_location("disk/users-location/2020-04-30.csv")
     users = users.join(u2, how="inner")
-    users["Camp"] = "Biden" if users["0"] >= users["1"] else "Trump"
+    users["Camp"] = "None"
+    users[users["0"] >= users["1"]]["Camp"] = "Biden"
+    users[users["0"] < users["1"]]["Camp"] = "Trump"
     print(users)
     return users
 
