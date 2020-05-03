@@ -6,7 +6,7 @@
 #    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/05/03 09:01:29 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/05/03 22:45:31 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/05/03 22:47:17 by Kay Zhou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,9 +40,9 @@ def load_users_union():
     users = load_users_opinion("disk/users-culFrom01/2020-04-30.csv")
     u2 = load_users_location("disk/users-location/2020-04-30.csv")
     users = users.join(u2, how="inner")
-    # users["Camp"] = "None"
-    users[users["0"] >= users["1"]]["Camp"] = "Biden"
-    users[users["0"] < users["1"]]["Camp"] = "Trump"
+    users["Camp"] = "None"
+    users.loc[users["0"] >= users["1"], "Camp"] = "Biden"
+    users.loc[users["0"] < users["1"], "Camp"] = "Trump"
     print(users)
     return users
 
