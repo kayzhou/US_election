@@ -6,7 +6,7 @@
 #    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/07 20:29:42 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/05/05 16:56:06 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/05/05 16:59:45 by Kay Zhou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -103,12 +103,11 @@ def GetThem(user_list):
 
     out_file = open("disk/users-face/2020-04-30.lj", "w")
     
-    for i in range(int(len(user_list) / 200)):
+    for i in range(int(len(user_list) / 100)):
         try:
-            print(i * 200)
-            time.sleep(0.1)
+            print(i * 100)
             api = next(Apis)
-            r = api.lookup_users(user_ids=user_list[i * 200: (i + 1) * 200], include_entities=False)
+            r = api.lookup_users(user_ids=user_list[i * 100: (i + 1) * 100], include_entities=False)
             r = [{"id": u["id"],
                   "location": u["location"],
                   "profile_image_url": u["profile_image_url"],
@@ -120,10 +119,9 @@ def GetThem(user_list):
             
         analyze_face(r, out_file)
     
-    time.sleep(0.1)
     api = next(Apis)
     try:
-        r = api.lookup_users(user_ids=user_list[i * 200:], include_entities=False)
+        r = api.lookup_users(user_ids=user_list[i * 100:], include_entities=False)
         r = [{"id": u["id"],
               "location": u["location"],
               "profile_image_url": u["profile_image_url"],
