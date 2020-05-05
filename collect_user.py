@@ -6,7 +6,7 @@
 #    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/07 20:29:42 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/05/05 16:59:45 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/05/05 17:07:04 by Kay Zhou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -111,7 +111,7 @@ def GetThem(user_list):
             r = [{"id": u["id"],
                   "location": u["location"],
                   "profile_image_url": u["profile_image_url"],
-                  "screen_name": u["screen_name"]} for u in r]
+                  "screen_name": u["screen_name"]} for u in r._json]
             
         except Exception as e:
             # print(type(e))
@@ -125,7 +125,7 @@ def GetThem(user_list):
         r = [{"id": u["id"],
               "location": u["location"],
               "profile_image_url": u["profile_image_url"],
-              "screen_name": u["screen_name"]} for u in r]
+              "screen_name": u["screen_name"]} for u in r._json]
     except Exception as e:
         # print(type(e))
         print("Exceptions:", e)
