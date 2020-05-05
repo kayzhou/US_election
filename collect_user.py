@@ -6,7 +6,7 @@
 #    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/07 20:29:42 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/05/05 17:14:17 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/05/05 17:15:16 by Kay Zhou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -119,7 +119,7 @@ def GetThem(user_list):
             # print(type(e))
             print("Exceptions:", e)
             
-        if len(users_to_image) > 10000:
+        if len(users_to_image) > 10240:
             analyze_face(users_to_image, out_file)
             users_to_image = []
     
