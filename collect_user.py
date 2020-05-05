@@ -6,7 +6,7 @@
 #    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/07 20:29:42 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/05/05 17:07:04 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/05/05 17:09:12 by Kay Zhou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -108,10 +108,11 @@ def GetThem(user_list):
             print(i * 100)
             api = next(Apis)
             r = api.lookup_users(user_ids=user_list[i * 100: (i + 1) * 100], include_entities=False)
+            r = [u._json for u in r]
             r = [{"id": u["id"],
                   "location": u["location"],
                   "profile_image_url": u["profile_image_url"],
-                  "screen_name": u["screen_name"]} for u in r._json]
+                  "screen_name": u["screen_name"]} for u in r]
             
         except Exception as e:
             # print(type(e))
@@ -122,10 +123,12 @@ def GetThem(user_list):
     api = next(Apis)
     try:
         r = api.lookup_users(user_ids=user_list[i * 100:], include_entities=False)
+        r = [u._json for u in r]
         r = [{"id": u["id"],
-              "location": u["location"],
-              "profile_image_url": u["profile_image_url"],
-              "screen_name": u["screen_name"]} for u in r._json]
+                "location": u["location"],
+                "profile_image_url": u["profile_image_url"],
+                "screen_name": u["screen_name"]} for u in r]
+                
     except Exception as e:
         # print(type(e))
         print("Exceptions:", e)
