@@ -6,7 +6,7 @@
 #    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/07 20:29:42 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/05/05 16:35:01 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/05/05 16:53:03 by Kay Zhou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,6 +26,8 @@ from tqdm import tqdm
 
 import tweepy
 from file_read_backwards import FileReadBackwards
+
+from analyze_user_face import analyze_face
 
 APIS_INFO = [
     {
@@ -95,30 +97,42 @@ class Twitter_Apis(object):
                 yield self.Apis[i]
 
 
-def WriteThem(rsts, opened_file):
-    for r in rsts:
-        opened_file.write(json.dumps(r._json) + "\n")
-
-
 def GetThem(user_list):
-    # 每次获取100个
+    # 每次获取200个
     Apis = Twitter_Apis().need_one()
 
-    for i in range(int(len(user_list) / 100)):
+    out_file = open("disk/user-face/2020-04-30.lj", "w")
+    
+    for i in range(int(len(user_list) / 200)):
         try:
-            print(i * 100)
+            print(i * 200)
             time.sleep(0.1)
             api = next(Apis)
-            r = api.lookup_users(user_ids=user_list[i * 100: (i + 1) * 100], include_entities=False, tweet_mode="extended")
-            print(r)
+            r = api.lookup_users(user_ids=user_list[i * 200: (i + 1) * 200], include_entities=False)
+            r = [{"id": u["id"],
+                  "location": u["location"],
+                  "profile_image_url": u["profile_image_url"],
+                  "screen_name": u["screen_name"]} for u in r]
+            
         except Exception as e:
             # print(type(e))
             print("Exceptions:", e)
+            
+        analyze_face(r, out_file)
     
     time.sleep(0.1)
     api = next(Apis)
-    r = api.lookup_users(user_ids=user_list[i * 100:], include_entities=False, tweet_mode="extended")
-    print(r)
+    try:
+        r = api.lookup_users(user_ids=user_list[i * 200:], include_entities=False)
+        r = [{"id": u["id"],
+              "location": u["location"],
+              "profile_image_url": u["profile_image_url"],
+              "screen_name": u["screen_name"]} for u in r]
+    except Exception as e:
+        # print(type(e))
+        print("Exceptions:", e)
+
+    analyze_face(r, out_file)
 
 
 def get_user_list():
@@ -132,4 +146,3 @@ def get_user_list():
 
 user_list = get_user_list()
 GetThem(user_list)
-

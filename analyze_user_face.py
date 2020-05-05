@@ -6,7 +6,7 @@
 #    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/21 09:47:55 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/05/05 16:05:58 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/05/05 16:55:00 by Kay Zhou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -77,7 +77,6 @@ def get_key():
 key_store = get_key()
 
 
-
 def analyze_image(_urls):
     key, secret = next(key_store)
     url = get_clear_picture_url(_urls[0])
@@ -121,7 +120,7 @@ def analyze_image(_urls):
             return None
 
 
-def analyze_face_from_file(in_name, have_name, out_name):
+def analyze_face_from_file(in_name, out_name, have_name=None):
     """
     in_name > users-profile/*.lj
     """
@@ -132,6 +131,7 @@ def analyze_face_from_file(in_name, have_name, out_name):
 
     all_ids = {json.loads(line)["id"] for line in open(in_name)}
     print(len(all_ids))
+
 
     have_ids = {json.loads(line)["id"] for line in open(have_name)}
     noFace_ids = {json.loads(line)["id"] for line in open("disk/users-face/noFace.lj")}
@@ -182,6 +182,40 @@ def analyze_face_from_file(in_name, have_name, out_name):
                     error_file.write(json.dumps(d) + "\n")
                 elif "no_face" in d:
                     no_face_file.write(json.dumps(d) + "\n")
+
+
+def analyze_face(users, out_file):
+    """
+    in_name > users-profile/*.lj
+    """
+    urls = []
+    cnt = 0
+
+    for d in tqdm(users):
+        cnt += 1
+
+        # print(d)
+        url = d["profile_image_url"]
+        urls.append((url, d))
+
+        if len(urls) >= 1024:
+            # print(cnt)
+            pool = ThreadPool(4)
+
+            # multithread
+            rsts = pool.map(analyze_image, urls)
+
+            for d in rsts:
+                if d is not None:
+                    if "faces" in d:
+                        out_file.write(json.dumps(d) + "\n")
+            urls = []
+
+    for _url in tqdm(urls):
+        d = analyze_image(_url)
+        if d is not None:
+            if "faces" in d:
+                out_file.write(json.dumps(d) + "\n")
 
 
 def union_files(in_name1, in_name2, out_name):
