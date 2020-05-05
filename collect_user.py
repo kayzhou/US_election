@@ -6,7 +6,7 @@
 #    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/07 20:29:42 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/05/05 16:53:03 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/05/05 16:56:06 by Kay Zhou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -101,7 +101,7 @@ def GetThem(user_list):
     # 每次获取200个
     Apis = Twitter_Apis().need_one()
 
-    out_file = open("disk/user-face/2020-04-30.lj", "w")
+    out_file = open("disk/users-face/2020-04-30.lj", "w")
     
     for i in range(int(len(user_list) / 200)):
         try:
