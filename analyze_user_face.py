@@ -6,7 +6,7 @@
 #    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/21 09:47:55 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/03/12 22:24:05 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/05/05 16:05:58 by Kay Zhou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -53,7 +53,7 @@ MY_KEYS = [
         "secret": "if-Hz04oX9r-huCX8W-A7nD50r4thB-E",
     }, {
         "key": "ezVU5B_lKUVfrlKGNqV5aXLn3-MZ7Bku",
-        "secret": "aR5_sSOESr584ubnXMm2xsN5YA1km5Zm",
+        "secret": "aR5_sSOESr584ubnXMm2xsN5YA1km5Zm", 
     }, {
         "key": "BlXVdJebV15-tRHacCW3Qbzi7qwqQswH",
         "secret": "oWm0l4wTUXYdmw0-6BPH2mGerZ3PGu6k",
@@ -74,8 +74,8 @@ def get_key():
     while True:
         for k in MY_KEYS:
             yield k["key"], k["secret"]
-
 key_store = get_key()
+
 
 
 def analyze_image(_urls):
