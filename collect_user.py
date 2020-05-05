@@ -6,7 +6,7 @@
 #    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/07 20:29:42 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/05/05 17:09:12 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/05/05 17:14:17 by Kay Zhou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -102,38 +102,42 @@ def GetThem(user_list):
     Apis = Twitter_Apis().need_one()
 
     out_file = open("disk/users-face/2020-04-30.lj", "w")
-    
+    users_to_image = []
     for i in range(int(len(user_list) / 100)):
         try:
             print(i * 100)
             api = next(Apis)
             r = api.lookup_users(user_ids=user_list[i * 100: (i + 1) * 100], include_entities=False)
             r = [u._json for u in r]
-            r = [{"id": u["id"],
-                  "location": u["location"],
-                  "profile_image_url": u["profile_image_url"],
-                  "screen_name": u["screen_name"]} for u in r]
+            users_to_image.extend([{
+                "id": u["id"],
+                "location": u["location"],
+                "profile_image_url": u["profile_image_url"],
+                "screen_name": u["screen_name"]} for u in r])
             
         except Exception as e:
             # print(type(e))
             print("Exceptions:", e)
             
-        analyze_face(r, out_file)
+        if len(users_to_image) > 10000:
+            analyze_face(users_to_image, out_file)
+            users_to_image = []
     
     api = next(Apis)
     try:
         r = api.lookup_users(user_ids=user_list[i * 100:], include_entities=False)
         r = [u._json for u in r]
-        r = [{"id": u["id"],
-                "location": u["location"],
-                "profile_image_url": u["profile_image_url"],
-                "screen_name": u["screen_name"]} for u in r]
-                
+        users_to_image.extend([{
+            "id": u["id"],
+            "location": u["location"],
+            "profile_image_url": u["profile_image_url"],
+            "screen_name": u["screen_name"]} for u in r])
+
     except Exception as e:
         # print(type(e))
         print("Exceptions:", e)
 
-    analyze_face(r, out_file)
+    analyze_face(users_to_image, out_file)
 
 
 def get_user_list():
