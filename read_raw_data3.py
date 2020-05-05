@@ -1,12 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
-#    read_raw_data.py                                   :+:      :+:    :+:    #
+#    read_raw_data3.py                                  :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
 #    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/11 11:16:25 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/03/09 22:28:36 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/05/05 16:02:21 by Kay Zhou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -150,38 +150,6 @@ def read_user_profile(start, end, set_users_before=None):
                         print("New user ->", cnt)
                     cnt += 1
                     yield u
-
-
-def count_tweets_users():
-    
-    set_tweets = set()
-    set_users = set()
-
-    months = set([
-        "202003",
-        "202002",
-        "202001",
-        "201912",
-        "201911",
-        "201910",
-        "201909",
-    ])
-
-    file_names = sorted(Path("raw_data").rglob("*.txt"), reverse=True)
-
-    for in_name in file_names:
-        if in_name.stem.split("-")[-1] in demo_files and in_name.parts[1] in months:
-            print(in_name)
-            cnt = 0
-
-            for line in open(in_name):
-                d = json.loads(line.strip())
-                tid = d["id"]
-                uid = d["user"]["id"]
-                set_tweets.add(tid)
-                set_users.add(uid)
-            
-            print(len(set_tweets), len(set_users))
 
 
 def write_fast_raw_data(start, end):
@@ -375,7 +343,7 @@ def read_user_profile_fast(set_users_before=None):
 
 
 if __name__ == '__main__':
-     start = pendulum.datetime(2019, 9,1 , tz="UTC")
+     start = pendulum.datetime(2019, 9, 1 , tz="UTC")
      end = pendulum.datetime(2020, 3, 8, tz="UTC")
      write_fast_raw_data_v2(start, end)
 #    count_tweets_users()
