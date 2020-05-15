@@ -6,7 +6,7 @@
 #    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/07 20:29:42 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/05/15 09:16:39 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/05/15 15:00:35 by Kay Zhou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -114,15 +114,15 @@ def GetThem(user_list):
                 "location": u["location"],
                 "profile_image_url": u["profile_image_url"],
                 "screen_name": u["screen_name"]} for u in r])
-            
+
         except Exception as e:
             # print(type(e))
             print("Exceptions:", e)
-            
+
         if len(users_to_image) > 10240:
-            analyze_face(users_to_image, out_file)
+            analyze_face(users_to_image, out_file) # 满10240调用一次分析face
             users_to_image = []
-    
+
     api = next(Apis)
     try:
         r = api.lookup_users(user_ids=user_list[i * 100:], include_entities=False)
