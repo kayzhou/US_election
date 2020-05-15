@@ -6,7 +6,7 @@
 #    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/21 09:47:55 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/05/02 23:22:07 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/05/12 22:49:59 by Kay Zhou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -56,8 +56,6 @@ def write_users_state():
     #                         state = loc_to_state[location]
     #                         name = u["screen_name"]
     #                         f.write(f"{_id},{name},{state}\n")
-
-
     with open("data/user-state-20200207.txt", "w") as f:
         for line in tqdm(open("disk/02-15-user-profile.lj")):
             u = json.loads(line)
