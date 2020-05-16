@@ -6,7 +6,7 @@
 #    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/21 09:47:55 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/05/15 15:22:05 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/05/16 08:27:49 by Kay Zhou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -131,10 +131,12 @@ def analyze_face(users, out_file):
     for d in tqdm(users):
         cnt += 1
         url = d["profile_image_url"]
+        if url.endswith("gif"):
+            continue
         urls.append((url, d))
 
-        if len(urls) >= 1024:
-            pool = Pool(4)
+        if len(urls) >= 2048:
+            pool = Pool(8)
             rsts = pool.map(analyze_image, urls)
             pool.close()
             pool.join()
