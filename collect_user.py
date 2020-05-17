@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/07 20:29:42 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/05/18 05:49:49 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/05/18 05:53:05 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -145,6 +145,7 @@ def GetThem(user_list):
 def get_user_list():
     # From 01 to 05
     have_face = set(str(json.loads(line.strip())["id"]) for line in open("disk/users-face/2020-04-30_old2.lj"))
+    print(len(have_face))
     user_list = [line.strip().split(",")[0] for line in open("disk/users-location/2020-04-30.csv")]
     user_list = [uid for uid in user_list if uid not in have_face]
     print("Run:", len(user_list))
