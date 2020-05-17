@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    collect_user.py                                    :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
+#    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/07 20:29:42 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/05/16 08:28:40 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/05/18 05:49:49 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -101,9 +101,11 @@ def GetThem(user_list):
     # 每次获取200个
     Apis = Twitter_Apis().need_one()
 
-    out_file = open("disk/users-face/2020-04-30.lj", "w")
+    out_file = open("disk/users-face/2020-04-30.lj", "a")
     users_to_image = []
-    for i in range(int(len(user_list) / 100)):
+    for i in tqdm(range(int(len(user_list) / 100))):
+        if i < 1073700:
+            continue
         try:
             print(i * 100)
             api = next(Apis)
@@ -120,7 +122,7 @@ def GetThem(user_list):
             print("Exceptions:", e)
 
         if len(users_to_image) > 10240:
-            analyze_face(users_to_image, out_file) # 满10240调用一次分析face
+            analyze_face(users_to_image, out_file)  # 满10240调用一次分析face
             users_to_image = []
 
     api = next(Apis)

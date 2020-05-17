@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    analyze_user_face.py                               :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
+#    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/21 09:47:55 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/05/16 08:27:49 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/05/17 05:49:28 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -74,26 +74,26 @@ def get_key():
     while True:
         for k in MY_KEYS:
             yield k["key"], k["secret"]
-key_store = get_key()
 
-                
+
+KEY_STORE = get_key()
+
+         
 def analyze_image(_urls):
-    key, secret = next(key_store)
+    key, secret = next(KEY_STORE)
     url = get_clear_picture_url(_urls[0])
     # url = _urls[0]
     d = _urls[1]
-        
-    # data to be sent to api 
+    # data to be sent to api
     data = {
             'api_key': key,
-            'api_secret': secret, 
+            'api_secret': secret,
             'image_url': url,
             'face_tokens': "",
             'return_landmark': 0,
             'return_attributes': "gender,age"
     }
     for i in range(3):
-        # sending post request and saving response as response object 
         try:
             r = requests.post(url=api, data=data).json()
             if "faces" in r and r["faces"]:
@@ -102,7 +102,7 @@ def analyze_image(_urls):
                 return d
 
             elif "error_message" in r:
-                print("Error:", data['image_url'])
+                print("Normal Error:", data['image_url'])
                 if r["error_message"] == "INVALID_IMAGE_URL":
                     d["error_message"] = r["error_message"]
                     return {"id": d["id"], "error_message": d["error_message"]}
@@ -116,7 +116,7 @@ def analyze_image(_urls):
                 # print("No Face~")
                 return {"id": d["id"], "no_face": True}
         except Exception as e:
-            print("Notice!! ERROR:", e)
+            print("Special analyze_image() ERROR:", e)
             return None
 
 
@@ -152,7 +152,7 @@ def analyze_face(users, out_file):
             if d is not None and "faces" in d:
                 out_file.write(json.dumps(d) + "\n")
 
-                
+        
 def analyze_face_from_file(in_name, out_name, have_name=None):
     """
     in_name > users-profile/*.lj
@@ -211,8 +211,6 @@ def analyze_face_from_file(in_name, out_name, have_name=None):
                     error_file.write(json.dumps(d) + "\n")
                 elif "no_face" in d:
                     no_face_file.write(json.dumps(d) + "\n")
-
-
 
 
 def union_files(in_name1, in_name2, out_name):
