@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/07 20:29:42 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/05/18 05:53:05 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/05/18 06:02:19 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -103,13 +103,13 @@ def GetThem(user_list):
 
     out_file = open("disk/users-face/2020-04-30.lj", "a")
     users_to_image = []
-    for i in tqdm(range(int(len(user_list) / 100))):
-        if i < 1073700:
+    for i in range(int(len(user_list) / 80)):
+        print(f"----- {i * 80} / {len(user_list)} -----")
+        if i * 80 < 1073700:
             continue
+        api = next(Apis)
         try:
-            print(i * 100)
-            api = next(Apis)
-            r = api.lookup_users(user_ids=user_list[i * 100: (i + 1) * 100], include_entities=False)
+            r = api.lookup_users(user_ids=user_list[i * 80: (i + 1) * 80], include_entities=False)
             r = [u._json for u in r]
             users_to_image.extend([{
                 "id": u["id"],
@@ -127,7 +127,7 @@ def GetThem(user_list):
 
     api = next(Apis)
     try:
-        r = api.lookup_users(user_ids=user_list[i * 100:], include_entities=False)
+        r = api.lookup_users(user_ids=user_list[i * 80:], include_entities=False)
         r = [u._json for u in r]
         users_to_image.extend([{
             "id": u["id"],
@@ -145,10 +145,10 @@ def GetThem(user_list):
 def get_user_list():
     # From 01 to 05
     have_face = set(str(json.loads(line.strip())["id"]) for line in open("disk/users-face/2020-04-30_old2.lj"))
-    print(len(have_face))
+    print("We have", len(have_face), "users.")
     user_list = [line.strip().split(",")[0] for line in open("disk/users-location/2020-04-30.csv")]
     user_list = [uid for uid in user_list if uid not in have_face]
-    print("Run:", len(user_list))
+    print("Need to run:", len(user_list))
     return user_list
 
 
