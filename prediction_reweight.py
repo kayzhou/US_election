@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/05/03 09:01:29 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/05/18 17:26:34 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/05/18 17:27:24 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -75,7 +75,8 @@ def rescale_opinion(input_users, state_name):
     if state_name == "US":
         cen = pd.read_csv(f"data/census/US.csv").set_index("category")
     else:
-        cen = pd.read_csv(f"data/census/{USA_ADDR_NAME[state_name]}.csv").set_index("category")
+        addr = USA_ADDR_NAME[state_name]
+        cen = pd.read_csv(f"data/census/{addr}.csv").set_index("category")
     
     w = cen.percent.to_list()
     camps = [
