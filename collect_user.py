@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/07 20:29:42 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/05/18 06:02:19 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/05/18 17:12:16 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -98,48 +98,46 @@ class Twitter_Apis(object):
 
 
 def GetThem(user_list):
-    # 每次获取200个
     Apis = Twitter_Apis().need_one()
 
-    out_file = open("disk/users-face/2020-04-30.lj", "a")
-    users_to_image = []
-    for i in range(int(len(user_list) / 80)):
-        print(f"----- {i * 80} / {len(user_list)} -----")
-        if i * 80 < 1073700:
-            continue
+    with open("disk/users-face/2020-04-30.lj", "a") as out_file:
+        users_to_image = []
+        for i in range(int(len(user_list) / 100)):
+            print(f"----- {i * 100} / {len(user_list)} -----")
+            api = next(Apis)
+            try:
+                r = api.lookup_users(user_ids=user_list[i * 100: (i + 1) * 100], include_entities=False)
+                r = [u._json for u in r]
+                users_to_image.extend([{
+                    "id": u["id"],
+                    "location": u["location"],
+                    "profile_image_url": u["profile_image_url"],
+                    "screen_name": u["screen_name"]} for u in r]
+                )
+            except Exception as e:
+                # print(type(e))
+                print("Exceptions:", e)
+
+            if len(users_to_image) > 10240:
+                analyze_face(users_to_image, out_file)  # 满10240调用一次分析face
+                users_to_image = []
+
+        print("The last ...")
         api = next(Apis)
         try:
-            r = api.lookup_users(user_ids=user_list[i * 80: (i + 1) * 80], include_entities=False)
+            r = api.lookup_users(user_ids=user_list[(i + 1) * 100:], include_entities=False)
             r = [u._json for u in r]
             users_to_image.extend([{
                 "id": u["id"],
                 "location": u["location"],
                 "profile_image_url": u["profile_image_url"],
-                "screen_name": u["screen_name"]} for u in r])
-
+                "screen_name": u["screen_name"]} for u in r]
+            )
         except Exception as e:
             # print(type(e))
             print("Exceptions:", e)
 
-        if len(users_to_image) > 10240:
-            analyze_face(users_to_image, out_file)  # 满10240调用一次分析face
-            users_to_image = []
-
-    api = next(Apis)
-    try:
-        r = api.lookup_users(user_ids=user_list[i * 80:], include_entities=False)
-        r = [u._json for u in r]
-        users_to_image.extend([{
-            "id": u["id"],
-            "location": u["location"],
-            "profile_image_url": u["profile_image_url"],
-            "screen_name": u["screen_name"]} for u in r])
-
-    except Exception as e:
-        # print(type(e))
-        print("Exceptions:", e)
-
-    analyze_face(users_to_image, out_file)
+        analyze_face(users_to_image, out_file)
 
 
 def get_user_list():

@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/21 09:47:55 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/05/17 05:49:28 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/05/18 17:12:10 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -283,10 +283,10 @@ def write_users_today_face_csv(dt):
 
 if __name__ == '__main__':
     # write_users_today_face_csv(pendulum.today())
-    write_users_today_face_csv(pendulum.datetime(2020, 3, 12))
+    # write_users_today_face_csv(pendulum.datetime(2020, 3, 12))
 
     # analyze_face_from_file(f"disk/users-profile/2020-03-05-2020-03-06.lj",
     #                        f"disk/users-face/2020-03-02.lj",
     #                        out_name=f"2020-03-05-2020-03-06")
     
-    # get_users_from_lj(f"disk/users-face/2020-03-06.lj").to_csv(f"disk/users-face/2020-03-06.csv")
+    get_users_from_lj(f"disk/users-face/2020-04-30.new.lj").to_csv(f"disk/users-face/2020-04-30.csv")
