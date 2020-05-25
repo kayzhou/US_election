@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/05/03 09:01:29 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/05/18 17:27:24 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/05/24 15:46:24 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -148,4 +148,3 @@ def rescale_per_state():
 if __name__ == "__main__":
     # pred_per_state()
     rescale_per_state()
-
