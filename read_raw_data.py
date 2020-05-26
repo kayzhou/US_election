@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    read_raw_data.py                                   :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
+#    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/11 11:16:25 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/04/24 19:11:05 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/05/26 18:26:27 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -61,10 +61,11 @@ from tqdm import tqdm
 
 def read_historical_tweets(start, end):
     months = set([
-        "202001",
-        "202002",
-        "202003",
-        "202004",
+        # "202001",
+        # "202002",
+        # "202003",
+        # "202004",
+        "202005",
     ])
 
     set_tweets = set()
