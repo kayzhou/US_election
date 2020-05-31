@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    US2016.py                                          :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
+#    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/09/12 10:34:13 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/02/19 22:03:51 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/05/31 23:46:53 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -131,6 +131,41 @@ official_twitter_clients = set([
     'Tumblr',
 ])
 
+tuple_official_twitter_clients = (
+    'Twitter for iPhone',
+    'Twitter for Android',
+    'Twitter Web Client',
+    'Twitter Web App',
+    'Twitter for iPad',
+    'Mobile Web (M5)',
+    'TweetDeck',
+    'Mobile Web',
+    'Mobile Web (M2)',
+    'Twitter for Windows',
+    'Twitter for Windows Phone',
+    'Twitter for BlackBerry',
+    'Twitter for Android Tablets',
+    'Twitter for Mac',
+    'Twitter for BlackBerry®',
+    'Twitter Dashboard for iPhone',
+    'Twitter for iPhone',
+    'Twitter Ads',
+    'Twitter for  Android',
+    'Twitter for Apple Watch',
+    'Twitter Business Experience',
+    'Twitter for Google TV',
+    'Chirp (Twitter Chrome extension)',
+    'Twitter for Samsung Tablets',
+    'Twitter for MediaTek Phones',
+    'Google',
+    'Facebook',
+    'Twitter for Mac',
+    'iOS',
+    'Instagram',
+    'Vine - Make a Scene',
+    'Tumblr',
+)
+
 
 def get_trump_client():
     # tweet_ids_only_trump = {int(line.strip()) for line in open("disk/data/only_trump_ids.txt")}
@@ -158,31 +193,72 @@ def get_trump_client():
     conn.close()
     
 
-def get_trump_tweetid():
-    # tweet_ids_only_trump = {int(line.strip()) for line in open("disk/data/only_trump_ids.txt")}
-    out_file = open("disk/data/p_pro_hillary_anti_trump", "w")
+def get_tweets_proba():
+    with open("disk/data/tweetid_userid_pro_hillary.csv", "w") as f:
+        conn = sqlite3.connect(DB1_NAME)
+        c = conn.cursor()
+        # c.execute("SELECT count(*) FROM tweet_to_retweeted_uid LIMIT 1;")
+        sql = f'SELECT tweet.user_id, tweet.datetime_EST, class_proba.p_pro_hillary_anti_trump FROM class_proba, tweet, source_content WHERE tweet.source_content_id=source_content.id and tweet.tweet_id=class_proba.tweet_id and source_content.source_content in {tuple_official_twitter_clients}'
+        print("SQL excute:", sql)
+        c.execute(sql)
+        for t in c.fetchall():
+            f.write(f'{t[0]},{t[1]},{t[2]:.3f}\n')
+        conn.close()
 
-    conn = sqlite3.connect(DB1_NAME)
-    c = conn.cursor()
-    # c.execute("SELECT count(*) FROM tweet_to_retweeted_uid LIMIT 1;")
-    c.execute("SELECT tweet_id, user_id, p_pro_hillary_anti_trump FROM class_proba;")
-    for t in tqdm(c.fetchall()):
-        out_file.write(f"{t[0]} {t[1]} {t[2]}\n")
-    conn.close()
+        conn = sqlite3.connect(DB2_NAME)
+        c = conn.cursor()
+        print("SQL excute:", sql)
+        c.execute(sql)
+        for t in c.fetchall():
+            f.write(f'{t[0]},{t[1]},{t[2]:.3f}\n')
+        conn.close()
 
-    conn = sqlite3.connect(DB2_NAME)
-    c = conn.cursor()
-    c.execute("SELECT tweet_id, user_id, p_pro_hillary_anti_trump FROM class_proba;")
-    for t in tqdm(c.fetchall()):
-        out_file.write(f"{t[0]} {t[1]} {t[2]}\n")
-    conn.close()
 
-    out_file.close()
+def get_tweets_proba():
+    ### move from Argentina_election
+    with open("disk/data/tweetid_userid_pro_hillary.csv", "w") as f:
+        conn = sqlite3.connect(DB1_NAME)
+        c = conn.cursor()
+        # c.execute("SELECT count(*) FROM tweet_to_retweeted_uid LIMIT 1;")
+        sql = f'SELECT tweet.user_id, tweet.datetime_EST, class_proba.p_pro_hillary_anti_trump FROM class_proba, tweet, source_content WHERE tweet.source_content_id=source_content.id and tweet.tweet_id=class_proba.tweet_id and source_content.source_content in {tuple_official_twitter_clients}'
+        print("SQL excute:", sql)
+        c.execute(sql)
+        for t in c.fetchall():
+            f.write(f'{t[0]},{t[1]},{t[2]:.3f}\n')
+        conn.close()
+
+        conn = sqlite3.connect(DB2_NAME)
+        c = conn.cursor()
+        print("SQL excute:", sql)
+        c.execute(sql)
+        for t in c.fetchall():
+            f.write(f'{t[0]},{t[1]},{t[2]:.3f}\n')
+        conn.close()
+
+
+def get_location_users():
+    with open("disk/us2016_users_location.csv", "w") as f:
+        f.write("uid,location\n")
+        conn = sqlite3.connect(DB1_NAME)
+        c = conn.cursor()
+        # c.execute("SELECT count(*) FROM tweet_to_retweeted_uid LIMIT 1;")
+        sql = 'SELECT user_id, first_location FROM users;'
+        print("SQL excute:", sql)
+        c.execute(sql)
+        for t in c.fetchall():
+            f.write(f'{t[0]},"{t[1]}"\n')
+        conn.close()
+
+        conn = sqlite3.connect(DB2_NAME)
+        c = conn.cursor()
+        print("SQL excute:", sql)
+        c.execute(sql)
+        for t in c.fetchall():
+            f.write(f'{t[0]},"{t[1]}"\n')
+        conn.close()
 
 
 if __name__ == '__main__':
     # processing_tweets()
-    get_trump_tweetid()
-    
-
-        
+    # get_tweets_proba()
+    get_location_users()
