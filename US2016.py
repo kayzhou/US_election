@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/09/12 10:34:13 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/05/31 23:46:53 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/05/31 23:48:19 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -242,7 +242,7 @@ def get_location_users():
         conn = sqlite3.connect(DB1_NAME)
         c = conn.cursor()
         # c.execute("SELECT count(*) FROM tweet_to_retweeted_uid LIMIT 1;")
-        sql = 'SELECT user_id, first_location FROM users;'
+        sql = 'SELECT user_id, first_location FROM user;'
         print("SQL excute:", sql)
         c.execute(sql)
         for t in c.fetchall():
