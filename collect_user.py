@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/07 20:29:42 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/05/18 17:12:16 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/06/01 22:39:35 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -97,10 +97,10 @@ class Twitter_Apis(object):
                 yield self.Apis[i]
 
 
-def GetThem(user_list):
+def GetThem(user_list, out_name, face_analyze=False):
     Apis = Twitter_Apis().need_one()
 
-    with open("disk/users-face/2020-04-30.lj", "a") as out_file:
+    with open(out_name, "a") as out_file:
         users_to_image = []
         for i in range(int(len(user_list) / 100)):
             print(f"----- {i * 100} / {len(user_list)} -----")
@@ -118,9 +118,12 @@ def GetThem(user_list):
                 # print(type(e))
                 print("Exceptions:", e)
 
-            if len(users_to_image) > 10240:
-                analyze_face(users_to_image, out_file)  # 满10240调用一次分析face
+            if face_analyze:
+                analyze_face(users_to_image, out_file)
                 users_to_image = []
+            else:
+                for _u in users_to_image:
+                    out_file.write(json.dumps(_u) + "\n")
 
         print("The last ...")
         api = next(Apis)
@@ -137,7 +140,11 @@ def GetThem(user_list):
             # print(type(e))
             print("Exceptions:", e)
 
-        analyze_face(users_to_image, out_file)
+        if face_analyze:
+            analyze_face(users_to_image, out_file)
+        else:
+            for _u in users_to_image:
+                out_file.write(json.dumps(_u) + "\n")
 
 
 def get_user_list():
@@ -150,7 +157,18 @@ def get_user_list():
     return user_list
 
 
-user_list = get_user_list()
-GetThem(user_list)
+def get_user_list_us2016():
+    import numpy as np
+    have_face = set([line.strip().split(",")[0] for line in open("data/users-location/2020-04-30.csv")])
+    print("We have", len(have_face), "users.")
+    user_list = np.load("data/us2016_uid.npy").astype(str)
+    user_list = [uid for uid in user_list if uid not in have_face]
+    print("Need to run:", len(user_list))
+    return user_list
+
+
+if __name__ == "__main__":
+    user_list = get_user_list_us2016()
+    GetThem(user_list)
 
 # Since the program stops, I restart this again. Should union 2020-04-30.lj with 2020-04-30_old.lj
