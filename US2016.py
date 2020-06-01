@@ -6,12 +6,13 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/09/12 10:34:13 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/05/31 23:48:19 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/06/01 09:22:42 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 from my_weapon import *
 from TwProcess import CustomTweetTokenizer
+import csv
 
 # df_proba1 = pd.read_pickle("/media/alex/data/election_data/data/complete_trump_vs_hillary/df_proba_corrected_official_client_june1_sep1_signi_final_2.pickle")
 # df_proba2 = pd.read_pickle("/media/alex/data/election_data/data/complete_trump_vs_hillary_sep-nov/df_proba_corrected_official_client_sep1_nov9_signi_final.pickle")
@@ -237,16 +238,18 @@ def get_tweets_proba():
 
 
 def get_location_users():
-    with open("disk/us2016_users_location.csv", "w") as f:
-        f.write("uid,location\n")
+    with open("disk/us2016_users_location.csv", "w", newline='') as csvfile:
+        writer = csv.writer(csvfile)
+        writer.writerow(["uid", "location"])
+
         conn = sqlite3.connect(DB1_NAME)
         c = conn.cursor()
         # c.execute("SELECT count(*) FROM tweet_to_retweeted_uid LIMIT 1;")
-        sql = 'SELECT user_id, first_location FROM user;'
+        sql = 'SELECT user_id, first_location FROM user IS NOT NULL;'
         print("SQL excute:", sql)
         c.execute(sql)
         for t in c.fetchall():
-            f.write(f'{t[0]},"{t[1]}"\n')
+            writer.writerow([str(t[0]), t[1]])
         conn.close()
 
         conn = sqlite3.connect(DB2_NAME)
@@ -254,7 +257,7 @@ def get_location_users():
         print("SQL excute:", sql)
         c.execute(sql)
         for t in c.fetchall():
-            f.write(f'{t[0]},"{t[1]}"\n')
+            writer.writerow([str(t[0]), t[1]])
         conn.close()
 
 
