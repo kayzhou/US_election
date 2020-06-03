@@ -110,9 +110,9 @@ def GetThem(user_list, out_name, face_analyze=False):
                 r = [u._json for u in r]
                 users_to_image.extend([{
                     "id": u["id"],
-                    "location": u["location"],
-                    "profile_image_url": u["profile_image_url"],
-                    "screen_name": u["screen_name"]} for u in r]
+                    "loc": u["location"],
+                    "url": u["profile_image_url"],
+                    "name": u["screen_name"]} for u in r]
                 )
             except Exception as e:
                 # print(type(e))
@@ -120,10 +120,10 @@ def GetThem(user_list, out_name, face_analyze=False):
 
             if face_analyze:
                 analyze_face(users_to_image, out_file)
-                users_to_image = []
             else:
                 for _u in users_to_image:
                     out_file.write(json.dumps(_u) + "\n")
+            users_to_image = []
 
         print("The last ...")
         api = next(Apis)
@@ -159,7 +159,7 @@ def get_user_list():
 
 def get_user_list_us2016():
     import numpy as np
-    have_face = set([line.strip().split(",")[0] for line in open("data/users-location/2020-04-30.csv")])
+    have_face = set([line.strip().split(",")[0] for line in open("data/2020-04-30.csv")])
     print("We have", len(have_face), "users.")
     user_list = np.load("data/us2016_uid.npy").astype(str)
     user_list = [uid for uid in user_list if uid not in have_face]
@@ -169,6 +169,6 @@ def get_user_list_us2016():
 
 if __name__ == "__main__":
     user_list = get_user_list_us2016()
-    GetThem(user_list)
+    GetThem(user_list, out_name="data/us2016_users.lj")
 
 # Since the program stops, I restart this again. Should union 2020-04-30.lj with 2020-04-30_old.lj
