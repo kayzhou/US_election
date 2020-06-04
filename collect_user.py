@@ -160,8 +160,8 @@ def get_user_list():
 def get_user_list_us2016():
     import numpy as np
     # have_face = set([line.strip().split(",")[0] for line in open("data/users-location/2020-04-30.csv")])
-    have_face_1 = set([json(line.strip())["id"] for line in open("data/2020-04-30-profile.lj")])
-    have_face_2 = set([json(line.strip())["id"] for line in open("data/us2016_users.lj")])
+    have_face_1 = set([str(json.loads(line.strip())["id"]) for line in open("data/2020-04-24-profile.lj")])
+    have_face_2 = set([str(json.loads(line.strip())["id"]) for line in open("data/us2016_users.lj")])
     have_face = have_face_1 | have_face_2
     print("We have", len(have_face), "users.")
     user_list = np.load("data/us2016_uid.npy").astype(str)
