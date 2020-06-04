@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/07 20:29:42 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/06/04 23:39:38 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/06/04 23:40:29 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -169,7 +169,7 @@ def get_user_list_us2016():
     set_users = set()
     with open("data/new-us2016-users.lj", "w") as f:    
         # have_face_1
-        for line in tqdm(open("data/2020-04-30-profile.lj")):
+        for line in tqdm(open("data/2020-04-24-profile.lj")):
             d = json(line.strip())
             _id = str(d["id"])
             if _id in user_list and _id not in set_users:
