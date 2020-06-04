@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/07 20:29:42 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/06/04 23:08:58 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/06/04 23:10:10 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -110,9 +110,9 @@ def GetThem(user_list, out_name, face_analyze=False):
                 r = [u._json for u in r]
                 users_to_image.extend([{
                     "id": u["id"],
-                    "location": u["location"],
-                    "profile_image_url": u["profile_image_url"],
-                    "screen_name": u["screen_name"]} for u in r]
+                    "loc": u["location"],
+                    "url": u["profile_image_url"],
+                    "name": u["screen_name"]} for u in r]
                 )
             except Exception as e:
                 # print(type(e))
@@ -120,10 +120,10 @@ def GetThem(user_list, out_name, face_analyze=False):
 
             if face_analyze:
                 analyze_face(users_to_image, out_file)
-                users_to_image = []
             else:
                 for _u in users_to_image:
                     out_file.write(json.dumps(_u) + "\n")
+            users_to_image = []
 
         print("The last ...")
         api = next(Apis)
@@ -160,8 +160,8 @@ def get_user_list():
 def get_user_list_us2016():
     import numpy as np
     # have_face = set([line.strip().split(",")[0] for line in open("data/users-location/2020-04-30.csv")])
-    have_face_1 = set(json([line.strip())["id"] for line in open("data/2020-04-30-profile.lj")])
-    have_face_2 = set(json([line.strip())["id"] for line in open("data/us2016_users.lj")])
+    have_face_1 = set([json(line.strip())["id"] for line in open("data/2020-04-30-profile.lj")])
+    have_face_2 = set([json(line.strip())["id"] for line in open("data/us2016_users.lj")])
     have_face = have_face_1 | have_face_2
     print("We have", len(have_face), "users.")
     user_list = np.load("data/us2016_uid.npy").astype(str)
