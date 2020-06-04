@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/07 20:29:42 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/06/04 23:40:29 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/06/04 23:40:59 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -184,10 +184,10 @@ def get_user_list_us2016():
                 else:
                     f.write(json.dumps(
                         {
-                            "id": u["id"],
-                            "location": u["loc"],
-                            "profile_image_url": u["url"],
-                            "screen_name": u["name"]
+                            "id": d["id"],
+                            "location": d["loc"],
+                            "profile_image_url": d["url"],
+                            "screen_name": d["name"]
                         }, ensure_ascii=False
                     ) + "\n")
                 set_users.add(_id)
