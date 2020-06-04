@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/07 20:29:42 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/06/04 23:38:35 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/06/04 23:39:38 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -160,10 +160,10 @@ def get_user_list():
 def get_user_list_us2016():
     import numpy as np
     # have_face = set([line.strip().split(",")[0] for line in open("data/users-location/2020-04-30.csv")])
-    have_face_1 = set([str(json.loads(line.strip())["id"]) for line in open("data/2020-04-24-profile.lj")])
-    have_face_2 = set([str(json.loads(line.strip())["id"]) for line in open("data/us2016_users.lj")])
-    have_face = have_face_1 | have_face_2
-    print("We have", len(have_face), "users.")
+    # have_face_1 = set([str(json.loads(line.strip())["id"]) for line in open("data/2020-04-24-profile.lj")])
+    # have_face_2 = set([str(json.loads(line.strip())["id"]) for line in open("data/us2016_users.lj")])
+    # have_face = have_face_1 | have_face_2
+    # print("We have", len(have_face), "users.")
     user_list = np.load("data/us2016_uid.npy").astype(str)
 
     set_users = set()
