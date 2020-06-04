@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/07 20:29:42 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/06/04 23:41:56 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/06/04 23:43:31 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -164,7 +164,8 @@ def get_user_list_us2016():
     # have_face_2 = set([str(json.loads(line.strip())["id"]) for line in open("data/us2016_users.lj")])
     # have_face = have_face_1 | have_face_2
     # print("We have", len(have_face), "users.")
-    user_list = np.load("data/us2016_uid.npy").astype(str)
+    user_list = set(np.load("data/us2016_uid.npy").astype(str).tolist())
+    print("us2016 all users:", len(user_list))
 
     set_users = set()
     with open("data/new-us2016-users.lj", "w") as f:    
