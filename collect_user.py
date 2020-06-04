@@ -6,12 +6,12 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/07 20:29:42 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/06/04 23:10:10 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/06/04 23:25:22 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 import datetime
-import json
+import ujson as json
 import os
 import random
 import sys
@@ -165,7 +165,18 @@ def get_user_list_us2016():
     have_face = have_face_1 | have_face_2
     print("We have", len(have_face), "users.")
     user_list = np.load("data/us2016_uid.npy").astype(str)
+
+    set_users = set()
+    # have_face_1
+    for line in open("data/2020-04-30-profile.lj"):
+        d = json(line.strip())
+
+
+
+
     user_list = [uid for uid in user_list if uid not in have_face]
+
+
     print("Need to run:", len(user_list))
     return user_list
 
