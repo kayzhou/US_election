@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/07 20:29:42 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/06/04 23:25:22 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/06/04 23:38:35 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -110,9 +110,9 @@ def GetThem(user_list, out_name, face_analyze=False):
                 r = [u._json for u in r]
                 users_to_image.extend([{
                     "id": u["id"],
-                    "loc": u["location"],
-                    "url": u["profile_image_url"],
-                    "name": u["screen_name"]} for u in r]
+                    "location": u["location"],
+                    "profile_image_url": u["profile_image_url"],
+                    "screen_name": u["screen_name"]} for u in r]
                 )
             except Exception as e:
                 # print(type(e))
@@ -167,16 +167,32 @@ def get_user_list_us2016():
     user_list = np.load("data/us2016_uid.npy").astype(str)
 
     set_users = set()
-    # have_face_1
-    for line in open("data/2020-04-30-profile.lj"):
-        d = json(line.strip())
-
-
-
-
-    user_list = [uid for uid in user_list if uid not in have_face]
-
-
+    with open("data/new-us2016-users.lj", "w") as f:    
+        # have_face_1
+        for line in tqdm(open("data/2020-04-30-profile.lj")):
+            d = json(line.strip())
+            _id = str(d["id"])
+            if _id in user_list and _id not in set_users:
+                f.write(line)
+                set_users.add(_id)
+        for line in tqdm(open("data/us2016_users.lj")):
+            d = json(line.strip())
+            _id = str(d["id"])
+            if _id in user_list and _id not in set_users:
+                if "loc" not in d:
+                    f.write(line)
+                else:
+                    f.write(json.dumps(
+                        {
+                            "id": u["id"],
+                            "location": u["loc"],
+                            "profile_image_url": u["url"],
+                            "screen_name": u["name"]
+                        }, ensure_ascii=False
+                    ) + "\n")
+                set_users.add(_id)
+        
+    user_list = [uid for uid in user_list if uid not in set_users]
     print("Need to run:", len(user_list))
     return user_list
 
