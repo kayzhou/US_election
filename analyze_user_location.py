@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    analyze_user_location.py                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
+#    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/21 09:47:55 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/05/12 22:49:59 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/06/04 23:05:56 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,7 +36,7 @@ def write_locations(in_name, out_name):
             print(loc, cnt, file=f, sep="\t")
 
 
-def write_users_state():    
+def write_users_state():
     set_users = set()
     loc_to_state = json.load(open("data/loc-to-state.json"))
 
@@ -169,8 +169,8 @@ def write_users_today_csv(dt):
 
 if __name__ == '__main__':
     # more loc information should be mapped to state and county infomation.
-    # write_locations("disk/users-profile/2020-01-01-2020-04-19.lj",
-                    # "disk/users-location/2020-01-01-2020-04-19-stat.txt")
+    write_locations("disk/users-profile/2020-01-01-2020-04-19.lj",
+                    "disk/users-location/2020-01-01-2020-04-19-stat.txt")
     
     write_users_csv("disk/users-profile/2020-01-01-2020-04-30.lj",
                     "disk/users-location/2020-04-30.csv")

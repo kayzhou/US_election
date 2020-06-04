@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/07 20:29:42 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/06/01 22:39:35 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/06/04 23:08:58 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -159,7 +159,10 @@ def get_user_list():
 
 def get_user_list_us2016():
     import numpy as np
-    have_face = set([line.strip().split(",")[0] for line in open("data/users-location/2020-04-30.csv")])
+    # have_face = set([line.strip().split(",")[0] for line in open("data/users-location/2020-04-30.csv")])
+    have_face_1 = set(json([line.strip())["id"] for line in open("data/2020-04-30-profile.lj")])
+    have_face_2 = set(json([line.strip())["id"] for line in open("data/us2016_users.lj")])
+    have_face = have_face_1 | have_face_2
     print("We have", len(have_face), "users.")
     user_list = np.load("data/us2016_uid.npy").astype(str)
     user_list = [uid for uid in user_list if uid not in have_face]
@@ -169,6 +172,6 @@ def get_user_list_us2016():
 
 if __name__ == "__main__":
     user_list = get_user_list_us2016()
-    GetThem(user_list)
+    # GetThem(user_list)
 
 # Since the program stops, I restart this again. Should union 2020-04-30.lj with 2020-04-30_old.lj
