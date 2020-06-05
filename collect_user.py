@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/07 20:29:42 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/06/05 22:37:25 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/06/05 22:40:54 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -181,6 +181,6 @@ def get_user_list_us2016_loc():
 
 if __name__ == "__main__":
     user_list = get_user_list_us2016_loc()
-    GetThem(user_list, out_name="data/us2016-location-face.lj")
+    GetThem(user_list, out_name="data/us2016-location-face.lj", face_analyze=True)
 
 # Since the program stops, I restart this again. Should union 2020-04-30.lj with 2020-04-30_old.lj
