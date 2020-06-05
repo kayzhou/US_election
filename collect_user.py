@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/07 20:29:42 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/06/05 00:04:55 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/06/05 22:03:25 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -106,6 +106,7 @@ def GetThem(user_list, out_name, face_analyze=False):
             print(f"----- {i * 100} / {len(user_list)} -----")
             api = next(Apis)
             try:
+                time.sleep(0.5)
                 r = api.lookup_users(user_ids=user_list[i * 100: (i + 1) * 100], include_entities=False)
                 r = [u._json for u in r]
                 users_to_image.extend([{
@@ -169,7 +170,7 @@ def get_user_list_us2016():
     user_list = np.load("data/us2016_uid.npy").astype(str).tolist()
     print("us2016 all users:", len(user_list))
 
-    set_users = set([str(json.loads(line.strip())["id"]) for line in open("data/new-us2016-users.lj")])
+    set_users = set([str(json.loads(line.strip())["id"]) for line in open("data/us2016-users.lj")])
     # with open("data/new-us2016-users.lj", "w") as f:    
     #     # have_face_1
     #     for line in tqdm(open("data/2020-04-24-profile.lj")):
@@ -202,6 +203,6 @@ def get_user_list_us2016():
 
 if __name__ == "__main__":
     user_list = get_user_list_us2016()
-    GetThem(user_list, out_name="data/new2-us2016-users.lj")
+    GetThem(user_list, out_name="data/new-us2016-users.lj")
 
 # Since the program stops, I restart this again. Should union 2020-04-30.lj with 2020-04-30_old.lj
