@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/21 09:47:55 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/06/05 22:39:36 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/06/05 22:44:16 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -147,8 +147,7 @@ def analyze_face(users, out_file):
             urls = []
 
     for _url in tqdm(urls):
-        d = analyze_image(_url)
-        for d in rsts:
+        for d in analyze_image(_url):
             if d is not None:
                 out_file.write(json.dumps(d) + "\n")
 
