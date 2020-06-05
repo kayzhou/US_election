@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/07 20:29:42 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/06/05 22:41:40 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/06/05 22:48:33 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -107,7 +107,6 @@ def GetThem(user_list, out_name, face_analyze=False):
             print(f"----- {i * round_count} / {len(user_list)} -----")
             api = next(Apis)
             try:
-                time.sleep(0.1)
                 r = api.lookup_users(user_ids=user_list[i * round_count: (i + 1) * round_count], include_entities=False)
                 r = [u._json for u in r]
                 users_to_image.extend([{
@@ -120,12 +119,13 @@ def GetThem(user_list, out_name, face_analyze=False):
                 # print(type(e))
                 print("Exceptions:", e)
 
-            if face_analyze:
-                analyze_face(users_to_image, out_file)
-            else:
-                for _u in users_to_image:
-                    out_file.write(json.dumps(_u) + "\n")
-            users_to_image = []
+            if (i * round_count) % 20480 == 0:
+                if face_analyze:
+                    analyze_face(users_to_image, out_file)
+                else:
+                    for _u in users_to_image:
+                        out_file.write(json.dumps(_u) + "\n")
+                users_to_image = []
 
         print("The last ...")
         api = next(Apis)
