@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/07 20:29:42 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/06/05 22:07:21 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/06/05 22:07:32 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -101,7 +101,7 @@ def GetThem(user_list, out_name, face_analyze=False):
     Apis = Twitter_Apis().need_one()
 
     round_count = 25
-    with open(out_name, "a") as out_file:
+    with open(out_name, "w") as out_file:
         users_to_image = []
         for i in range(int(len(user_list) / round_count)):
             print(f"----- {i * round_count} / {len(user_list)} -----")
