@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/07 20:29:42 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/06/05 22:40:54 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/06/05 22:41:40 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -172,7 +172,7 @@ def get_user_list_us2016():
 def get_user_list_us2016_loc():
     user_list = list(
         set(
-            [line.strip().split(",")[0] for line in open("data/us2016-users-location.lj")]
+            [line.strip().split(",")[0] for line in open("data/us2016-users-location.csv")]
         )
     )
     print("Need to run:", len(user_list))
