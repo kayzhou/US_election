@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/07 20:29:42 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/06/05 22:03:25 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/06/05 22:07:21 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -100,14 +100,15 @@ class Twitter_Apis(object):
 def GetThem(user_list, out_name, face_analyze=False):
     Apis = Twitter_Apis().need_one()
 
+    round_count = 25
     with open(out_name, "a") as out_file:
         users_to_image = []
-        for i in range(int(len(user_list) / 100)):
-            print(f"----- {i * 100} / {len(user_list)} -----")
+        for i in range(int(len(user_list) / round_count)):
+            print(f"----- {i * round_count} / {len(user_list)} -----")
             api = next(Apis)
             try:
-                time.sleep(0.5)
-                r = api.lookup_users(user_ids=user_list[i * 100: (i + 1) * 100], include_entities=False)
+                time.sleep(0.1)
+                r = api.lookup_users(user_ids=user_list[i * round_count: (i + 1) * round_count], include_entities=False)
                 r = [u._json for u in r]
                 users_to_image.extend([{
                     "id": u["id"],
@@ -129,7 +130,7 @@ def GetThem(user_list, out_name, face_analyze=False):
         print("The last ...")
         api = next(Apis)
         try:
-            r = api.lookup_users(user_ids=user_list[(i + 1) * 100:], include_entities=False)
+            r = api.lookup_users(user_ids=user_list[(i + 1) * round_count:], include_entities=False)
             r = [u._json for u in r]
             users_to_image.extend([{
                 "id": u["id"],
