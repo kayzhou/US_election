@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/21 09:47:55 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/06/04 23:05:56 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/06/05 22:24:04 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -78,9 +78,10 @@ def write_users_csv(in_name, out_name):
     """
 
     # load json
-    loc_to_state = json.load(open("data/loc-to-state.json"))
-    loc_to_county = json.load(open("data/loc-to-county.json"))
-
+    # loc_to_state = json.load(open("data/loc-to-state.json"))
+    # loc_to_county = json.load(open("data/loc-to-county.json"))
+    loc_to_state = json.load(open("data/loc-to-state-20200604.json"))
+    loc_to_county = json.load(open("data/loc-to-county-20200604.json"))
     set_users = set()
     data = []
 
@@ -101,16 +102,15 @@ def write_users_csv(in_name, out_name):
             if loc in loc_to_county:
                 county = loc_to_county[loc]
 
-
             if state:
                 if len(state) != 2:
-                    print("Error: len(state) != 2")
+                    print("Error: len(state) != 2", state)
 
                 else:
                     d = {
                         "uid": _id,
-                        # "name": u['screen_name'],
-                        # "loc": loc,
+                        "name": u['screen_name'],
+                        "loc": loc,
                         "state": state,
                         "county": county
                     }
@@ -169,11 +169,14 @@ def write_users_today_csv(dt):
 
 if __name__ == '__main__':
     # more loc information should be mapped to state and county infomation.
-    write_locations("disk/users-profile/2020-01-01-2020-04-19.lj",
-                    "disk/users-location/2020-01-01-2020-04-19-stat.txt")
+    # write_locations("disk/users-profile/2020-01-01-2020-04-19.lj",
+                    # "disk/users-location/2020-01-01-2020-04-19-stat.txt")
     
-    write_users_csv("disk/users-profile/2020-01-01-2020-04-30.lj",
-                    "disk/users-location/2020-04-30.csv")
+    # from users' profile to users' location csv file
+    # write_users_csv("disk/users-profile/2020-01-01-2020-04-30.lj",
+                    # "disk/users-location/2020-04-30.csv")
+    write_users_csv("data/us2016-users.lj",
+                    "data/us2016-users-location.csv")
 
     # dt = pendulum.datetime(2020, 3, 1, tz="UTC")
     # actually, we use today as the prediction 
