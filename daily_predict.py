@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/08 18:48:50 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/05/31 23:05:58 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/06/05 23:10:29 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,10 +46,10 @@ def daily_election():
     # sess.close()
 
     # New users with location
-    write_users_today(end)
-    write_users_today_csv(end)
-    write_users_today_face_csv(end)
-    remove_yesterday_temp_files(start)
+    # write_users_today(end)
+    # write_users_today_csv(end)
+    # write_users_today_face_csv(end)
+    # remove_yesterday_temp_files(start)
 
     # Predict
     # calculate_window_share(start, end) # make *.csv
