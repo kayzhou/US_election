@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/21 09:47:55 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/06/05 22:44:16 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/06/05 22:58:10 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -108,13 +108,14 @@ def analyze_image(_urls):
                     return {"id": d["id"], "error_message": d["error_message"]}
                 elif r["error_message"] == "CONCURRENCY_LIMIT_EXCEEDED":
                     print(f'{r["error_message"]}')
-                    time.sleep(1)
+                    time.sleep(0.5)
                 else:
                     print("Other error:", r["error_message"])
                     return {"id": d["id"], "error_message": d["error_message"]}
             else:
                 # print("No Face~")
-                return {"id": d["id"], "no_face": True}
+                d["faces"] = None
+                return d
         except Exception as e:
             print("Special analyze_image() ERROR:", e)
             return None
@@ -125,31 +126,16 @@ def analyze_face(users, out_file):
     in_name > users-profile/*.lj
     For collect_user.py
     """
-    urls = []
-    cnt = 0
+    print("开始人脸识别：", len(users), "个用户。")
+    urls = [(u["profile_image_url"], u) for u in users if not u["profile_image_url"].endswith("gif")]
+    pool = Pool(8)
+    rsts = pool.map(analyze_image, urls)
+    pool.close()
+    pool.join()
 
-    for d in tqdm(users):
-        cnt += 1
-        url = d["profile_image_url"]
-        if url.endswith("gif"):
-            continue
-        urls.append((url, d))
-
-        if len(urls) >= 2048:
-            pool = Pool(8)
-            rsts = pool.map(analyze_image, urls)
-            pool.close()
-            pool.join()
-
-            for d in rsts:
-                if d is not None:
-                    out_file.write(json.dumps(d) + "\n")
-            urls = []
-
-    for _url in tqdm(urls):
-        for d in analyze_image(_url):
-            if d is not None:
-                out_file.write(json.dumps(d) + "\n")
+    for d in rsts:
+        if d:
+            out_file.write(json.dumps(d) + "\n")
 
         
 def analyze_face_from_file(in_name, out_name, have_name=None):

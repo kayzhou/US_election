@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/07 20:29:42 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/06/05 22:50:59 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/06/05 22:58:34 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -119,7 +119,7 @@ def GetThem(user_list, out_name, face_analyze=False):
                 # print(type(e))
                 print("Exceptions:", e)
 
-            if (i * round_count) % 10000 == 0:
+            if (i * round_count) % 2000 == 0:
                 if face_analyze:
                     analyze_face(users_to_image, out_file)
                 else:
