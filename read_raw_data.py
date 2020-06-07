@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/11 11:16:25 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/05/26 18:26:27 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/06/06 19:55:34 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,8 +42,8 @@ demo_files = set([
 
 
 election_files = set([
-    "Bernie Sanders",
-    "SenSanders",
+    # "Bernie Sanders",
+    # "SenSanders",
     "Joe Biden",
     "JoeBiden",
     "Donald Trump",
@@ -65,7 +65,8 @@ def read_historical_tweets(start, end):
         # "202002",
         # "202003",
         # "202004",
-        "202005",
+        # "202005",
+        "202006",
     ])
 
     set_tweets = set()

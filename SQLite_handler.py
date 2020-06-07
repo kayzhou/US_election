@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/07 20:40:05 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/05/31 23:01:57 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/06/06 19:54:37 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -2294,38 +2294,6 @@ def get_term_stat():
     return new_data
 
 
-def _update():
-    sess = get_session()
-
-    start = pendulum.datetime(2019, 8, 12)  # include this date
-    # start = pendulum.datetime(2019, 3, 1)
-    # end = pendulum.datetime(2019, 8, 27)  # not include
-    end = pendulum.datetime(2019, 8, 19)  # not include
-
-    # import last tweets
-    # tweets_to_db_v2(sess, start, end)
-
-    # hashtag
-    # tweets_db_to_hashtags(sess, start, end)
-    # tweets_db_to_hashtags75(sess, end)
-    hashtag_cnt = count_of_hashtags(sess, start, end)
-    json.dump(hashtag_cnt, open(
-        f"data/{start.to_date_string}-{end.to_date_string}-hashtags-count.json", "w"), indent=2)
-    # tweets_db_to_hashtags75_lastweek(sess, end)
-
-    # stat
-    # db_to_users(sess, start, end)
-    # db_to_stat_predict(sess, start, end, clear=True)
-
-    # bots
-    # db_to_users(sess, start, end, bots=True)
-    # db_to_stat_predict(sess, start, end, bots=True, clear=True)
-
-    # predict_per_day(sess, start, end)
-    # predict_per_week(sess, end)
-    sess.close()
-
-
 def get_session():
     engine = create_engine("sqlite:////home/alex/kayzhou/US_election/data/election-trump.db")
     DBSession = sessionmaker(bind=engine)
@@ -2341,8 +2309,8 @@ def init_db():
 if __name__ == "__main__":
     init_db()
     
-    start = pendulum.datetime(2020, 5, 25, tz="UTC")
-    end = pendulum.datetime(2020, 5, 30, tz="UTC")
+    start = pendulum.datetime(2020, 6, 4, tz="UTC")
+    end = pendulum.datetime(2020, 6, 5, tz="UTC")
     
     sess = get_session()
     tweets_to_db(sess, start, end, clear=True)               
