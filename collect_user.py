@@ -99,15 +99,17 @@ class Twitter_Apis(object):
 
 def GetThem(user_list, out_name, face_analyze=False):
     Apis = Twitter_Apis().need_one()
+    print("GetThem:", len(user_list))
 
     round_count = 100
-    with open(out_name, "w") as out_file:
+    with open(out_name, "a") as out_file:
         users_to_image = []
         for i in range(int(len(user_list) / round_count)):
             print(f"----- {i * round_count} / {len(user_list)} -----")
             api = next(Apis)
             try:
                 r = api.lookup_users(user_ids=user_list[i * round_count: (i + 1) * round_count], include_entities=False)
+                time.sleep(0.5)
                 r = [u._json for u in r]
                 users_to_image.extend([{
                     "id": u["id"],
@@ -181,6 +183,14 @@ def get_user_list_us2016_loc():
 
 if __name__ == "__main__":
     user_list = get_user_list_us2016_loc()
-    GetThem(user_list, out_name="data/us2016-location-face.lj", face_analyze=True)
+    user_list_2 = []
+    start = 0
+    for u in user_list:
+        if u == 536107075:
+            start = 1
+        if start == 1:
+            user_list_2.append(u)
+
+    GetThem(user_list_2, out_name="data/us2016-location-face.lj", face_analyze=True)
 
 # Since the program stops, I restart this again. Should union 2020-04-30.lj with 2020-04-30_old.lj
