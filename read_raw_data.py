@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/11 11:16:25 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/06/06 19:55:34 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/06/16 17:31:06 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,12 +42,13 @@ demo_files = set([
 
 
 election_files = set([
-    # "Bernie Sanders",
-    # "SenSanders",
     "Joe Biden",
     "JoeBiden",
     "Donald Trump",
     "realDonaldTrump"
+    "Trump OR Biden",
+    "biden OR joebiden",
+    "trump OR donaldtrump OR realdonaldtrump",
 ])
 
 from collections import Counter
