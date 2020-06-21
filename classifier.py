@@ -18,6 +18,7 @@ from pathlib import Path
 from random import sample
 from string import punctuation
 
+import joblib
 import pendulum
 import ujson as json
 from nltk import BigramAssocMeasures, ngrams, precision, recall
@@ -26,7 +27,6 @@ from nltk.probability import ConditionalFreqDist, FreqDist
 from sklearn.feature_extraction import DictVectorizer
 from sklearn.feature_selection import SelectFromModel
 from sklearn.model_selection import train_test_split
-from sklearn.externals import joblib
 
 from my_weapon import *
 # from myclf import *
