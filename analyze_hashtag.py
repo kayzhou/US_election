@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    analyze_hashtag.py                                 :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
+#    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/21 09:47:55 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/04/27 16:30:12 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/06/22 01:24:43 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,22 +44,15 @@ demo_files = set([
 ])
 
 trump_files = [
-    "Donald Trump",
-    "realDonaldTrump",
-    "Joe Biden",
-    "JoeBiden",
-    "Bernie Sanders",
-    "SenSanders",
+    "trump",
+    "biden",
 ]
  
 months = set([
+    "202006",
+    "202005",
+    "202004",
     "202003",
-    "202002",
-    "202001",
-    "201912",
-    "201911",
-    "201910",
-    "201909",
 ])
 
 
@@ -75,10 +68,29 @@ def write_top_hashtags(in_files, out_name):
                 for ht in hts:
                     all_hts[ht["text"].lower()] += 1
 
+    with open(out_name, "w") as f:
+        for ht, cnt in all_hts.most_common(1000):
+            print(ht, cnt, file=f)
+
+
+def write_top_trump_biden_hashtags(out_name):
+    all_hts = Counter()
+    file_names = sorted(Path("raw_data").rglob("*.txt"), reverse=True)
+
+    for in_name in file_names:
+        name = in_name.stem.split("-")[-1].lower()
+        if "trump" in name or "biden" in name:
+            if in_name.parts[1] in months:
+                print(in_name)
+                for line in tqdm(open(in_name)):
+                    hts = json.loads(line)["hashtags"]
+                    for ht in hts:
+                        all_hts[ht["text"].lower()] += 1
+
 
     with open(f"data/{out_name}", "w") as f:
         for ht, cnt in all_hts.most_common(1000):
-            print(ht, cnt, file=f)
+            f.write(f"{ht},{cnt}\n")
 
 
 def write_cooccurrence_hashtags(in_files, out_name):
@@ -119,8 +131,10 @@ def label_based_on_before(in_name, out_name):
 
 if __name__ == "__main__":
     # write_top_hashtags(demo_files, "hashtags-democrats-20200305.txt")
+    write_top_trump_biden_hashtags("data/hashtags-democrats-20200305.txt")
+
     # write_top_hashtags(trump_files, "hashtags-trump-20200318.txt")
     # label_based_on_before("data/hashtags-democrats-20200121.txt", "data/hashtags-democrats-20200121-v2.txt")
     # label_based_on_before("data/hashtags-trump-20200121.txt", "data/hashtags-trump-20200121-v2.txt")
 
-    write_cooccurrence_hashtags(trump_files, "hashtags-co-trump-20200324.txt")
+    # write_cooccurrence_hashtags(trump_files, "hashtags-co-trump-20200324.txt")
