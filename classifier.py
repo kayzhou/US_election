@@ -11,9 +11,6 @@
 # **************************************************************************** #
 
 import collections
-import gc
-import os
-import re
 import unicodedata
 from collections import Counter
 from itertools import chain
@@ -37,6 +34,7 @@ from SQLite_handler import *
 from TwProcess import *
 
 
+'''
 def load_models(dt):
     print("load models ", dt)
     label2num = {
@@ -48,7 +46,7 @@ def load_models(dt):
     v = joblib.load(f'data/{dt}/TfidfVectorizer.joblib')
     clf = joblib.load(f'data/{dt}/LR.joblib')
     return classified_hts, tokenizer, v, clf
-
+'''
 
 def load_models_2party(dt):
     print("load models ", dt)
