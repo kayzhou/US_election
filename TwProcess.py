@@ -17,7 +17,6 @@ import unicodedata
 from itertools import chain
 from string import punctuation
 
-import joblib
 import numpy as np
 from nltk import BigramAssocMeasures, ngrams, precision, recall
 from nltk.corpus import stopwords

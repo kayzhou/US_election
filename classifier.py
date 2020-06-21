@@ -29,24 +29,21 @@ from sklearn.model_selection import train_test_split
 from sklearn.externals import joblib
 
 from my_weapon import *
-from myclf import *
-from SQLite_handler import *
+# from myclf import *
 from TwProcess import *
 
+# def load_models(dt):
+#     print("load models ", dt)
+#     label2num = {
+#         "BS": 0,
+#         "JB": 1
+#     }
+#     hts, classified_hts = read_classified_hashtags(dt, label2num=label2num)
+#     tokenizer = CustomTweetTokenizer(hashtags=hts)
+#     v = joblib.load(f'data/{dt}/TfidfVectorizer.joblib')
+#     clf = joblib.load(f'data/{dt}/LR.joblib')
+#     return classified_hts, tokenizer, v, clf
 
-'''
-def load_models(dt):
-    print("load models ", dt)
-    label2num = {
-        "BS": 0,
-        "JB": 1
-    }
-    hts, classified_hts = read_classified_hashtags(dt, label2num=label2num)
-    tokenizer = CustomTweetTokenizer(hashtags=hts)
-    v = joblib.load(f'data/{dt}/TfidfVectorizer.joblib')
-    clf = joblib.load(f'data/{dt}/LR.joblib')
-    return classified_hts, tokenizer, v, clf
-'''
 
 def load_models_2party(dt):
     print("load models ", dt)
@@ -68,8 +65,8 @@ class Camp_Classifier(object):
     def __init__(self):
         "Init Classifer."
 
-    def load(self):
-        self.classified_hts, self.token, self.v, self.clf = load_models("2020-03-25-2") 
+    # def load(self):
+    #     self.classified_hts, self.token, self.v, self.clf = load_models("2020-03-25-2") 
         
     def load_2party(self):
         self.classified_hts, self.token, self.v, self.clf = load_models_2party("2020-03-25-2party")
