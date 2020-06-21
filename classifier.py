@@ -51,6 +51,7 @@ def load_models(dt):
 
 
 def load_models_2party(dt):
+    import joblib
     print("load models ", dt)
     label2num = {
         "DP": 0,
