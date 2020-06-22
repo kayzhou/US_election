@@ -88,7 +88,7 @@ def write_top_trump_biden_hashtags(out_name):
                         all_hts[ht["text"].lower()] += 1
 
 
-    with open(f"data/{out_name}", "w") as f:
+    with open(out_name, "w") as f:
         for ht, cnt in all_hts.most_common(1000):
             f.write(f"{ht},{cnt}\n")
 
