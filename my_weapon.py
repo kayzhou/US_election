@@ -9,9 +9,6 @@ try:
     import ujson as json
 except:
     import json
-    
-import datetime
-from collections import Counter, defaultdict
 
 import networkx as nx
 import numpy as np
