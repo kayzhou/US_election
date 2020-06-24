@@ -34,13 +34,14 @@ def write_top_trump_biden_url(start, end, out_name):
     for d, dt in read_tweets(start, end):
         if d["urls"]:
             for url in d["urls"]:
+                url = url["expanded_url"]
                 url_counter[url] += 1
     with open(out_name, "w") as f:
-        for ht, cnt in url_counter.most_common(1000):
+        for ht, cnt in url_counter.most_common():
             print(ht, cnt, file=f)
             
 
 if __name__ == "__main__":
-    start = pendulum.datetime(2020, 6, 8, tz="UTC")
-    end = pendulum.datetime(2020, 6, 14, tz="UTC")
-    write_top_trump_biden_url(start, end, "data/hashtags-democrats-20200305.txt")
+    start = pendulum.datetime(2020, 6, 15, tz="UTC")
+    end = pendulum.datetime(2020, 6, 22, tz="UTC")
+    write_top_trump_biden_url(start, end, "data/url-0615-0622.txt")
