@@ -222,7 +222,7 @@ def add_weekly_hashtags_from_file(in_name, clear=False):
             w = line.strip().split()
             sess.add(Hashtag_Weekly(
                 hashtag=w[0],
-                created_at=pendulum.datetime(2020, 3, 6),
+                created_at=pendulum.datetime(2020, 6, 20),
                 count=w[1]
             ))
     sess.commit()
@@ -316,10 +316,6 @@ def init_db():
 
 ### For Web ###
 def get_US_hts_for_web(num):
-    K_ht = set()
-    M_ht = set()
-    A_ht = set()
-
     # list: [ [ hashtag, created_at, camp ] ]
     hts_camp = get_camp_hashtags()
 
@@ -334,8 +330,7 @@ def get_US_hts_for_web(num):
 if __name__ == "__main__":
     init_db()
     # add_camp_hashtags_from_file("/home/alex/kayzhou/US_election/data/hashtags/hashtags-democrats-20200121-v2.txt")
-    # add_weekly_hashtags_from_file(
-    #     "/home/alex/kayzhou/US_election/data/hashtags-democrats-20200305.txt")
+    add_weekly_hashtags_from_file("/home/alex/kayzhou/US_election/data/hashtags-trump-biden-03-06.txt", clear=True)
 
     # add_camp_hashtags_from_json("/home/alex/kayzhou/Argentina_election/web/data/submit/2020-03-06 16:25:18.json")
 
@@ -344,6 +339,6 @@ if __name__ == "__main__":
     # add_camp_hashtags_from_json("/media/zhen/Argentina_election/web/data/submit/2020-03-24 00:15:21.json")
     # update_hashtags()
 
-    get_camp_hashtags_to_csv("data/2020-03-25-2/hashtags.txt")
-    get_camp_hashtags_to_csv("data/2020-03-25-3/hashtags.txt")
+    # get_camp_hashtags_to_csv("data/2020-03-25-2/hashtags.txt")
+    # get_camp_hashtags_to_csv("data/2020-03-25-3/hashtags.txt")
     
