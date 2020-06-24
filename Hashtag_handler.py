@@ -219,7 +219,7 @@ def add_weekly_hashtags_from_file(in_name, clear=False):
 
     for line in open(in_name):
         if not line.startswith("#"):
-            w = line.strip().split()
+            w = line.strip().split(",")
             sess.add(Hashtag_Weekly(
                 hashtag=w[0],
                 created_at=pendulum.datetime(2020, 6, 20),
