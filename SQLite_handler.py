@@ -2295,14 +2295,14 @@ def get_term_stat():
 
 
 def get_session():
-    engine = create_engine("sqlite:////home/alex/kayzhou/US_election/data/election-trump.db")
+    engine = create_engine("sqlite:////home/alex/kayzhou/US_election/data/election-trump-biden.db")
     DBSession = sessionmaker(bind=engine)
     session = DBSession()
     return session
 
     
 def init_db():
-    engine = create_engine("sqlite:////home/alex/kayzhou/US_election/data/election-trump.db")
+    engine = create_engine("sqlite:////home/alex/kayzhou/US_election/data/election-trump-biden.db")
     Base.metadata.create_all(engine)
 
 
