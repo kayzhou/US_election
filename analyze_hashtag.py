@@ -94,17 +94,16 @@ def write_top_trump_biden_hashtags(out_name):
 
 
 def write_cooccurrence_hashtags(in_files, out_name):
-    all_hts = Counter()
     file_names = sorted(Path("raw_data").rglob("*.txt"), reverse=True)
-
-    with open(f"data/{out_name}", "w") as f:
+    with open(out_name, "w") as f:
         for in_name in file_names:
-            if in_name.stem.split("-")[-1] in in_files and in_name.parts[1] in months:
-                print(in_name)
-                for line in tqdm(open(in_name)):
-                    hts = json.loads(line)["hashtags"]
-                    if hts and len(hts) >= 1:
-                        f.write(" ".join([ht["text"].lower() for ht in hts]) + "\n")
+            name = in_name.stem.split("-")[-1].lower()
+            if "trump" in name or "biden" in name:
+                if in_name.parts[1] in months:
+                    for line in tqdm(open(in_name)):
+                        hts = json.loads(line)["hashtags"]
+                        if hts and len(hts) >= 1:
+                            f.write(" ".join([ht["text"].lower() for ht in hts]) + "\n")
                     
 
 def get_hts(in_name):
@@ -131,10 +130,10 @@ def label_based_on_before(in_name, out_name):
 
 if __name__ == "__main__":
     # write_top_hashtags(demo_files, "hashtags-democrats-20200305.txt")
-    write_top_trump_biden_hashtags("data/hashtags-democrats-20200305.txt")
+    # write_top_trump_biden_hashtags("data/hashtags-democrats-20200305.txt")
 
     # write_top_hashtags(trump_files, "hashtags-trump-20200318.txt")
     # label_based_on_before("data/hashtags-democrats-20200121.txt", "data/hashtags-democrats-20200121-v2.txt")
     # label_based_on_before("data/hashtags-trump-20200121.txt", "data/hashtags-trump-20200121-v2.txt")
 
-    # write_cooccurrence_hashtags(trump_files, "hashtags-co-trump-20200324.txt")
+    write_cooccurrence_hashtags(trump_files, "hashtags-co-20200301-20200625.txt")
