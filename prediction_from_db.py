@@ -30,8 +30,6 @@ def save_user_snapshot(sess, now):
     csv.index.names = ['uid']
     csv.to_csv(f"data/users-day/{now.to_date_string()}.csv")
 
-# Matteo
-
 
 def save_user_snapshot_perday(sess, now):
     users = {}
@@ -508,13 +506,13 @@ def daily_prediction():
 
 if __name__ == "__main__":
     # -- save users' snapshot --
-    # start = pendulum.datetime(2020, 1, 1, tz="UTC")
-    # end = pendulum.datetime(2020, 4, 30, tz="UTC")
-    # sess = get_session()
-    # for dt in pendulum.period(start, end):
-    #     print(dt)
-    #     save_user_snapshot(sess, dt)
-    # sess.close()
+    start = pendulum.datetime(2020, 1, 1, tz="UTC")
+    end = pendulum.datetime(2020, 6, 22, tz="UTC")
+    sess = get_session()
+    for dt in pendulum.period(start, end):
+        print(dt)
+        save_user_snapshot(sess, dt)
+    sess.close()
 
     # run it per day
     # daily_prediction()
@@ -559,10 +557,10 @@ if __name__ == "__main__":
     # end = pendulum.datetime(2020, 3, 2, tz="UTC")
     # calculate_cumulative_share(start, end, super_start_month="11")
 
-    start = pendulum.datetime(2020, 1, 2, tz="UTC")
-    end = pendulum.datetime(2020, 4, 30, tz="UTC")
-    calculate_cumulative_share(
-        start, end, super_start_month="01", save_csv=True)
+    # start = pendulum.datetime(2020, 1, 2, tz="UTC")
+    # end = pendulum.datetime(2020, 4, 30, tz="UTC")
+    # calculate_cumulative_share(
+    #     start, end, super_start_month="01", save_csv=True)
 
     # start = pendulum.datetime(2020, 1, 16, tz="UTC")
     # end = pendulum.datetime(2020, 2, 26, tz="UTC")
