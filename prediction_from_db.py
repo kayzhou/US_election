@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    prediction_from_db.py                              :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
+#    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/19 04:01:00 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/05/03 21:49:13 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/06/26 08:04:02 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -506,13 +506,13 @@ def daily_prediction():
 
 if __name__ == "__main__":
     # -- save users' snapshot --
-    start = pendulum.datetime(2020, 1, 1, tz="UTC")
-    end = pendulum.datetime(2020, 6, 22, tz="UTC")
-    sess = get_session()
-    for dt in pendulum.period(start, end):
-        print(dt)
-        save_user_snapshot(sess, dt)
-    sess.close()
+    # start = pendulum.datetime(2020, 1, 1, tz="UTC")
+    # end = pendulum.datetime(2020, 6, 22, tz="UTC")
+    # sess = get_session()
+    # for dt in pendulum.period(start, end):
+    #     print(dt)
+    #     save_user_snapshot(sess, dt)
+    # sess.close()
 
     # run it per day
     # daily_prediction()
@@ -524,47 +524,15 @@ if __name__ == "__main__":
     # calculate_window_share(start, end, win=7, save_csv=True)
 
     # 14 days
-    # start = pendulum.datetime(2020, 1, 15, tz="UTC")
-    # end = pendulum.datetime(2020, 4, 30, tz="UTC")
-    # calculate_window_share(start, end, win=14, save_csv=True)
-
-    # 21 days
-    # start = pendulum.datetime(2020, 1, 22, tz="UTC")
-    # end = pendulum.datetime(2020, 2, 28, tz="UTC")
-    # calculate_window_share(start, end, win=21, save_csv=True)
-
-    # 40 days
-    # start = pendulum.datetime(2020, 2, 27, tz="UTC")
-    # end = pendulum.datetime(2020, 2, 29, tz="UTC")
-    # calculate_window_share(start, end, win=40, save_csv=True)
+    start = pendulum.datetime(2020, 1, 15, tz="UTC")
+    end = pendulum.datetime(2020, 6, 21, tz="UTC")
+    calculate_window_share(start, end, win=14, save_csv=True)
     # -- window end --
 
     # -- cumulative start --
-    # start = pendulum.datetime(2019, 9, 13, tz="UTC")
-    # end = pendulum.datetime(2020, 3, 2, tz="UTC")
-    # calculate_cumulative_share(start, end, super_start_month="0912")
-
-    # Matteo Change
-    # start = pendulum.datetime(2019, 9, 4, tz="UTC")
-    # end = pendulum.datetime(2020, 3, 29, tz="UTC")
-    # calculate_cumulative_share(start, end, super_start_month="09",save_csv=True)
-
-    # start = pendulum.datetime(2020, 20, 19, tz="UTC")
-    # end = pendulum.datetime(2020, 3, 6, tz="UTC")
-    # calculate_cumulative_share(start, end, super_start_month="0922")
-
-    # start = pendulum.datetime(2019, 11, 1, tz="UTC")
-    # end = pendulum.datetime(2020, 3, 2, tz="UTC")
-    # calculate_cumulative_share(start, end, super_start_month="11")
-
-    # start = pendulum.datetime(2020, 1, 2, tz="UTC")
-    # end = pendulum.datetime(2020, 4, 30, tz="UTC")
-    # calculate_cumulative_share(
-    #     start, end, super_start_month="01", save_csv=True)
-
-    # start = pendulum.datetime(2020, 1, 16, tz="UTC")
-    # end = pendulum.datetime(2020, 2, 26, tz="UTC")
-    # calculate_cumulative_share(start, end, super_start_month="0115", save_csv=True)
+    start = pendulum.datetime(2020, 1, 16, tz="UTC")
+    end = pendulum.datetime(2020, 6, 21, tz="UTC")
+    calculate_cumulative_share(start, end, super_start_month="0115", save_csv=True)
 
     # start = pendulum.datetime(2020, 2, 2, tz="UTC")
     # end = pendulum.datetime(2020, 2, 26, tz="UTC")
