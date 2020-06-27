@@ -169,27 +169,20 @@ def read_raw_user_month(month, set_users_before=None):
             print(in_name)
             cnt = 0
 
-            with FileReadBackwards(in_name) as f:
-                while True:
-                    line = f.readline()
-                    if not line:
-                        print(cnt, "end!")
-                        print("-" * 50)
-                        break
+            for line in open(in_name):
+                d = json.loads(line.strip())
+                u = d["user"]
+                user_id = u["id"]
+                if "location" not in u:
+                    continue
+                if user_id in set_users:
+                    continue
+                set_users.add(user_id)
 
-                    d = json.loads(line.strip())
-                    u = d["user"]
-                    user_id = u["id"]
-                    if "location" not in u:
-                        continue
-                    if user_id in set_users:
-                        continue
-                    set_users.add(user_id)
-
-                    if cnt % 2000 == 0:
-                        print("New user ->", cnt)
-                    cnt += 1
-                    yield u
+                if cnt % 2000 == 0:
+                    print("New user ->", cnt)
+                cnt += 1
+                yield u
 
 
 def read_raw_user(start, end, set_users_before=None):
