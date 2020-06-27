@@ -22,7 +22,7 @@ from tqdm import tqdm
 
 def get_hts():
     focus_ht = set()
-    for line in open("data/2020-03-25-2party/hashtags.txt"):
+    for line in open("data/train-20200627/hashtags.txt"):
         w = line.strip().split()
         ht, label = w[0], w[1]
         # if label != "UNK":
@@ -36,7 +36,7 @@ Ntweets = 0
 only_focus_count = Counter()
 hts_count = Counter()
 
-for line in tqdm(open("data/hashtags-co-trump-20200324.txt")):
+for line in tqdm(open("data/hashtags-co-20200301-20200625.txt")):
     _hts = [_ht for _ht in line.strip().split() if _ht in focus_ht]
     if len(_hts) > 1: # > 0
         Ntweets += 1
@@ -59,4 +59,4 @@ for n in G.nodes():
 G.graph["Ntweets"] = Ntweets
 
 print(G.number_of_nodes(), G.number_of_edges())
-nx.write_gpickle(G, "/twitter-analysis/hts_20200330.gpickle")
+nx.write_gpickle(G, "data/hts_20200301-20200625.gpickle")

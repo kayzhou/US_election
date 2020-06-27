@@ -332,9 +332,9 @@ if __name__ == "__main__":
     # add_camp_hashtags_from_file("/home/alex/kayzhou/US_election/data/hashtags/hashtags-democrats-20200121-v2.txt")
     # add_weekly_hashtags_from_file("/home/alex/kayzhou/US_election/data/hashtags-trump-biden-03-06.txt", clear=True)
 
-    add_camp_hashtags_from_json("/media/zhenkun/Argentina_election/web/data/submit/2020-06-24 14:29:58.json")
-    add_camp_hashtags_from_json("/media/zhenkun/Argentina_election/web/data/submit/2020-06-24 17:25:32.json")
-    add_camp_hashtags_from_json("/media/zhenkun/Argentina_election/web/data/submit/2020-06-24 17:25:41.json")
+    # add_camp_hashtags_from_json("/media/zhenkun/Argentina_election/web/data/submit/2020-06-24 14:29:58.json")
+    # add_camp_hashtags_from_json("/media/zhenkun/Argentina_election/web/data/submit/2020-06-24 17:25:32.json")
+    # add_camp_hashtags_from_json("/media/zhenkun/Argentina_election/web/data/submit/2020-06-24 17:25:41.json")
 
     # write_camp_hashtags("data/hashtags/hashtags-20200305_classified_hernan_Mar6.txt")
 
