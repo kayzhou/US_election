@@ -341,6 +341,6 @@ if __name__ == "__main__":
     # add_camp_hashtags_from_json("/media/zhen/Argentina_election/web/data/submit/2020-03-24 00:15:21.json")
     # update_hashtags()
 
-    # get_camp_hashtags_to_csv("data/2020-03-25-2/hashtags.txt")
+    get_camp_hashtags_to_csv("disk/train-20200627/hashtags.txt")
     # get_camp_hashtags_to_csv("data/2020-03-25-3/hashtags.txt")
     
