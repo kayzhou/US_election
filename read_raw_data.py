@@ -455,11 +455,6 @@ def read_user_profile_fast(set_users_before=None):
 
 
 if __name__ == '__main__':
-    #  start = pendulum.datetime(2020, 3,6 , tz="UTC")
-    #  end = pendulum.datetime(2020, 3, 29, tz="UTC")
-    #  write_fast_raw_data_v2(start, end)
-#    count_tweets_users()
-
     _set_users = set()
     months = ["202001", "202002", "202003", "202004", "202005"]
         
@@ -471,6 +466,5 @@ if __name__ == '__main__':
                     "id": u["id"],
                     "location": u["location"],
                     "screen_name": u["screen_name"],
-                    "name": u["name"],
                 }
                 f.write(json.dumps(u, ensure_ascii=False) + "\n")
