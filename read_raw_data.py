@@ -168,7 +168,6 @@ def read_raw_user_month(month, set_users_before=None):
         if in_name.stem.split("-")[-1] in election_files and in_name.parts[1] == month:
             print(in_name)
             cnt = 0
-
             for line in open(in_name):
                 d = json.loads(line.strip())
                 u = d["user"]
@@ -473,7 +472,6 @@ if __name__ == '__main__':
                     "location": u["location"],
                     "screen_name": u["screen_name"],
                     "name": u["name"],
-                    "verified": u["verified"],
                     "description": u["description"],
                 }
                 f.write(json.dumps(u, ensure_ascii=False) + "\n")
