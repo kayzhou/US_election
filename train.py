@@ -81,7 +81,7 @@ class Classifer(object):
                     words = tokenizer.tokenize(text)
                     f.write(str(camp) + "\t" + " ".join(words) + "\n")
                 except ValueError as e:
-                    pass
+                    print(e)
                 
 
     def load_tokens(self):

@@ -155,13 +155,47 @@ def read_tweets_json(start, end):
                     yield d, dt
 
 
-def read_user_profile(start, end, set_users_before=None):
+def read_raw_user_month(month, set_users_before=None):
+
+    if set_users_before:
+        set_users = set_users_before
+    else:
+        set_users = set()
+
+    file_names = sorted(Path("raw_data").rglob("*.txt"), reverse=True)
+
+    for in_name in file_names:
+        if in_name.stem.split("-")[-1] in election_files and in_name.parts[1] == month:
+            print(in_name)
+            cnt = 0
+
+            with FileReadBackwards(in_name) as f:
+                while True:
+                    line = f.readline()
+                    if not line:
+                        print(cnt, "end!")
+                        print("-" * 50)
+                        break
+
+                    d = json.loads(line.strip())
+                    u = d["user"]
+                    user_id = u["id"]
+                    if "location" not in u:
+                        continue
+                    if user_id in set_users:
+                        continue
+                    set_users.add(user_id)
+
+                    if cnt % 2000 == 0:
+                        print("New user ->", cnt)
+                    cnt += 1
+                    yield u
+
+
+def read_raw_user(start, end, set_users_before=None):
 
     months = set([
-        "202001",
-        "202002",
-        "202003",
-        "202004",
+        "202006",
     ])
 
     if set_users_before:
@@ -201,11 +235,10 @@ def read_user_profile(start, end, set_users_before=None):
                     if dt >= end:
                         continue
 
-                    if cnt % 1000 == 0:
+                    if cnt % 2000 == 0:
                         print("New user ->", cnt)
                     cnt += 1
                     yield u
-
 
 def count_tweets_users():
     
@@ -430,7 +463,24 @@ def read_user_profile_fast(set_users_before=None):
 
 
 if __name__ == '__main__':
-     start = pendulum.datetime(2020, 3,6 , tz="UTC")
-     end = pendulum.datetime(2020, 3, 29, tz="UTC")
-     write_fast_raw_data_v2(start, end)
+    #  start = pendulum.datetime(2020, 3,6 , tz="UTC")
+    #  end = pendulum.datetime(2020, 3, 29, tz="UTC")
+    #  write_fast_raw_data_v2(start, end)
 #    count_tweets_users()
+
+    _set_users = set()
+    months = ["202001", "202002", "202003", "202004", "202005"]
+        
+    for month in months:
+        with open("disk/users-profile/" + month, "w") as f:
+            users_iter = read_raw_user_month(month, _set_users)
+            for u in users_iter:
+                u = {
+                    "id": u["id"],
+                    "location": u["location"],
+                    "screen_name": u["screen_name"],
+                    "name": u["name"],
+                    "verified": u["verified"],
+                    "description": u["description"],
+                }
+                f.write(json.dumps(u, ensure_ascii=False) + "\n")
