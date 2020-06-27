@@ -472,6 +472,5 @@ if __name__ == '__main__':
                     "location": u["location"],
                     "screen_name": u["screen_name"],
                     "name": u["name"],
-                    "description": u["description"],
                 }
                 f.write(json.dumps(u, ensure_ascii=False) + "\n")
