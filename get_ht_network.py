@@ -36,7 +36,7 @@ Ntweets = 0
 only_focus_count = Counter()
 hts_count = Counter()
 
-for line in tqdm(open("data/hashtags-co-20200301-20200625.txt")):
+for line in tqdm(open("data/hashtags-co-20200301-20200625.txt", encoding="utf8")):
     _hts = [_ht for _ht in line.strip().split() if _ht in focus_ht]
     if len(_hts) > 1: # > 0
         Ntweets += 1

@@ -33,7 +33,8 @@ def first_product_array(N, n1, n2, k):
     # for j in range(0, n2-k-1+1):
     #     prod[j] = first_seq(N,n1,j)
     # return prod
-    return np.array([first_seq(N, n1, j) for j in range(0, n2-k-1+1)], dtype=np.float128)
+    # return np.array([first_seq(N, n1, j) for j in range(0, n2-k-1+1)], dtype=np.float128)
+    return np.array([first_seq(N, n1, j) for j in range(0, n2-k-1+1)], dtype=np.float64)
 
 
 def second_product_array(N, n1, n2, k):
@@ -41,7 +42,8 @@ def second_product_array(N, n1, n2, k):
     # for j in range(0, k-1+1):
     #     prod[j] = second_seq(N,n1,n2,k,j)
     # return prod
-    return np.array([second_seq(N, n1, n2, k, j) for j in range(0, k-1+1)], dtype=np.float128)
+    # return np.array([second_seq(N, n1, n2, k, j) for j in range(0, k-1+1)], dtype=np.float128)
+    return np.array([second_seq(N, n1, n2, k, j) for j in range(0, k-1+1)], dtype=np.float64)
 
 
 def p_val_np(N, n1, n2, r):
@@ -84,6 +86,21 @@ def add_p_val_to_edges(G):
         G[e[0]][e[1]]["sign"] = p_v
 
 
+def add_prop_to_edges(G):
+
+    N = G.graph["Ntweets"]
+    # edge significance
+    for e in tqdm(G.edges(data=True)):
+        # print(str(i) + ' over ' + str(G.number_of_edges()))
+        r = e[2]["weight"]
+
+        # num of occurence of v1 and v2
+        n2, n1 = sorted((G.nodes[e[0]]["num"], G.nodes[e[1]]["num"]))
+        prop = (N * r) / (n2 * n1) 
+
+        G[e[0]][e[1]]["prop"] = prop
+
+
 # def compute_significance(e):
 #     r = e[2]["weight"]
 #     p0 = 1e-4
@@ -106,18 +123,19 @@ def add_p_val_to_edges(G):
 
 if __name__ == "__main__":
     # G = nx.read_gpickle("data/hts_20190611.gpickle")
-    G = nx.read_gpickle("/twitter-analysis/hts_20200330.gpickle")
-
+    G = nx.read_gpickle("data/hts_20200301-20200625.gpickle")
+    print(G.number_of_nodes(), G.number_of_edges())
     # G = nx.complete_graph(20)
     # for e in G.edges(data=True):
     #     e[2]["weight"] = 2
 
-    # largest_components = max(nx.connected_components(G), key=len)
-    # G = G.subgraph(largest_components)
-    # print(G.number_of_nodes(), G.number_of_edges())
+    largest_components = max(nx.connected_components(G), key=len)
+    G = G.subgraph(largest_components)
+    print(G.number_of_nodes(), G.number_of_edges())
     # G = cal_G(G)
 
-    add_p_val_to_edges(G)
+    add_prop_to_edges(G)
+    # add_p_val_to_edges(G)
 
     # should_be_removed = []
     # for e in G.edges(data=True):
@@ -131,4 +149,5 @@ if __name__ == "__main__":
     # largest_components = max(nx.connected_components(G), key=len)
     # G = G.subgraph(largest_components)
 
-    nx.write_gpickle(G, "/twitter-analysis/hts_20200330_sig.gpickle")
+    # nx.write_gpickle(G, "data/hts_20200301-20200625.sig.gpickle")
+    nx.write_gexf(G, "data/hts_20200301-20200625.sig.gexf")
