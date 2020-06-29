@@ -57,6 +57,7 @@ def p_val_np(N, n1, n2, r):
                second_product_array(N, n1, n2, k).prod()
     print("p-value:", _sum)
     # print(N, n1, n2, r)
+    # TODO
     return _sum
 
 
@@ -96,9 +97,23 @@ def add_prop_to_edges(G):
 
         # num of occurence of v1 and v2
         n2, n1 = sorted((G.nodes[e[0]]["num"], G.nodes[e[1]]["num"]))
-        prop = (N * r) / (n2 * n1) 
+        prop = (r * r) / (n2 * n1) 
 
         G[e[0]][e[1]]["prop"] = prop
+    return G
+
+
+def remove_edges_by_prop(G):
+    prop_list = [e[2]["prop"] for e in G.edges(data=True)]
+    thre = sorted(prop_list)[int(len(prop_list) * 0.9)]
+    print("threshold:", thre)
+
+    G2 = nx.Graph(G)
+    # edge significance
+    for e in tqdm(G.edges(data=True)):
+        if e[2]["prop"] < thre:
+            G2.remove_edge(*e[:2])
+    return G2
 
 
 # def compute_significance(e):
@@ -134,7 +149,7 @@ if __name__ == "__main__":
     print(G.number_of_nodes(), G.number_of_edges())
     # G = cal_G(G)
 
-    add_prop_to_edges(G)
+    G = add_prop_to_edges(G)
     # add_p_val_to_edges(G)
 
     # should_be_removed = []
@@ -150,4 +165,4 @@ if __name__ == "__main__":
     # G = G.subgraph(largest_components)
 
     # nx.write_gpickle(G, "data/hts_20200301-20200625.sig.gpickle")
-    nx.write_gexf(G, "data/hts_20200301-20200625.sig.gexf")
+    nx.write_gml(G, "data/hts_20200301-20200625.sig.gml")
