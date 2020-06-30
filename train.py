@@ -41,7 +41,7 @@ class Classifer(object):
         self.now = now
 
         # 2020-03-06
-        #label2num = {
+        # label2num = {
         #    "BS": 0,
         #    "JB": 1,
         #    "OT": 2,
@@ -55,10 +55,9 @@ class Classifer(object):
         # }
 
         self.label2num = {
-            "DP": 0,
+            "JB": 0,
             "DT": 1,
         }
-
         self.hts, _ = read_classified_hashtags(self.now, self.label2num)
         
     def save_tokens(self):
@@ -181,7 +180,7 @@ if __name__ == "__main__":
     #dt = "2020-03-06-tfidf"
     #dt ="2020-03-08-tfidf_model3"
     #dt = "model 4_omg"
-    dt = "2020-03-25-2party"
+    dt = "train-20200627"
     Lebron = Classifer(now=dt)
     # After extract_train_data.py
     Lebron.save_tokens()

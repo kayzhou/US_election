@@ -21,11 +21,11 @@ from tqdm import tqdm
 
 
 def first_seq(N, n1, j):
-    return 1 - n1/(N-j)
+    return 1 - n1 / (N-j)
 
 
 def second_seq(N, n1, n2, k, j):
-    return (n1-j)*(n2-j)/((N-n2+k-j)*(k-j))
+    return (n1-j) * (n2-j) / ((N-n2+k-j) * (k-j))
 
 
 def first_product_array(N, n1, n2, k):

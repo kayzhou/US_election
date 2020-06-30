@@ -20,19 +20,31 @@ def write_locations(in_name, out_name):
     # explain the locations > states and counties
     all_locations = Counter()
     set_users = set()
+    if isinstance(in_name, list):
+        for _in_name in in_name:
+            for line in tqdm(open((_in_name))):
+                u = json.loads(line)
+                _id = u["id"]
+                if _id not in set_users:
+                    if "location" not in u:
+                        continue
+                    set_users.add(_id)
+                    if "location" in u:
+                        all_locations[u["location"].lower().replace("\t", " ").replace("\n", " ")] += 1
 
-    for line in tqdm(open(in_name)):
-        u = json.loads(line)
-        _id = u["id"]
-        if _id not in set_users:
-            if "location" not in u:
-                continue
-            set_users.add(_id)
-            if "location" in u:
-                all_locations[u["location"].lower().replace("\t", " ").replace("\n", " ")] += 1
+    elif isinstance(in_name, str):
+        for line in tqdm(open(in_name)):
+            u = json.loads(line)
+            _id = u["id"]
+            if _id not in set_users:
+                if "location" not in u:
+                    continue
+                set_users.add(_id)
+                if "location" in u:
+                    all_locations[u["location"].lower().replace("\t", " ").replace("\n", " ")] += 1
 
     with open(out_name, "w") as f:
-        for loc, cnt in all_locations.most_common(10000):
+        for loc, cnt in all_locations.most_common():
             print(loc, cnt, file=f, sep="\t")
 
 
@@ -171,12 +183,20 @@ if __name__ == '__main__':
     # more loc information should be mapped to state and county infomation.
     # write_locations("disk/users-profile/2020-01-01-2020-04-19.lj",
                     # "disk/users-location/2020-01-01-2020-04-19-stat.txt")
-    
+    in_names = [
+        "disk/users-profile/202001.lj",
+        "disk/users-profile/202002.lj",
+        "disk/users-profile/202003.lj",
+        "disk/users-profile/202004.lj",
+        "disk/users-profile/202005.lj",
+        "disk/users-profile/202006.lj",
+    ]
+    write_locations(in_names, "disk/users-location/2020-01-2020-06-stat.txt")
+
     # from users' profile to users' location csv file
     # write_users_csv("disk/users-profile/2020-01-01-2020-04-30.lj",
                     # "disk/users-location/2020-04-30.csv")
-    write_users_csv("data/us2016-users.lj",
-                    "data/us2016-users-location.csv")
+    # write_users_csv("data/us2016-users.lj", "data/us2016-users-location.csv")
 
     # dt = pendulum.datetime(2020, 3, 1, tz="UTC")
     # actually, we use today as the prediction 
