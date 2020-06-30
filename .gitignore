@@ -121,3 +121,11 @@ log.txt
 settings.json
 .vscode/
 test_mac
+.idea/.gitignore
+.idea/.name
+.idea/Nature.iml
+.idea/codeStyles/
+.idea/inspectionProfiles/
+.idea/misc.xml
+.idea/modules.xml
+.idea/vcs.xml
