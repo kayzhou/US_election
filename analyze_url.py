@@ -22,9 +22,9 @@ trump_files = [
  
 months = set([
     "202006",
-    "202005",
-    "202004",
-    "202003",
+    # "202005",
+    # "202004",
+    # "202003",
 ])
 
 
@@ -42,6 +42,6 @@ def write_top_trump_biden_url(start, end, out_name):
             
 
 if __name__ == "__main__":
-    start = pendulum.datetime(2020, 6, 15, tz="UTC")
-    end = pendulum.datetime(2020, 6, 22, tz="UTC")
+    start = pendulum.datetime(2020, 6, 22, tz="UTC")
+    end = pendulum.datetime(2020, 6, 29, tz="UTC")
     write_top_trump_biden_url(start, end, "data/url-0615-0622.txt")
