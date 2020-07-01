@@ -11,8 +11,8 @@
 # **************************************************************************** #
 
 from geopy.geocoders import GoogleV3, Nominatim, Bing
+from collections import Counter
 from my_weapon import *
-from tqdm.notebook import tqdm as tqdm
 from multiprocessing.dummy import Pool as ThreadPool
 
 
