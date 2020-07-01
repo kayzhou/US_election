@@ -52,7 +52,7 @@ def query_from_geolocator(in_name):
                 print(e, w)
 
     loc_to_loc, loc_to_state, loc_to_county = load_location_mapping("-20200604")
-    most_locs = [_loc for _loc in all_locs if _loc not in loc_to_loc and all_locs[_loc] > 5]
+    most_locs = [_loc for _loc in all_locs if _loc not in loc_to_loc and all_locs[_loc] > 10]
     print("Running:", len(most_locs))
 
     geolocator = Bing(api_key = "AmBIW_84Ow2Dx-JXRlkVjsJVSxvM0eqhTNmK8Y5JCx9UP-PqARFZQi6xtbApJ4cz")
