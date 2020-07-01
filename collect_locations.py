@@ -59,12 +59,12 @@ def query_from_geolocator(in_name):
     could_not_find = set()
     # 解析位置到地址
     def get_address(_loc):
-        if n not in loc_to_loc:
+        if _loc not in loc_to_loc:
             try:
                 addr = geolocator.geocode(_loc)
                 loc_to_loc[_loc] = addr.address
             except AttributeError:
-                could_not_find.add(n)
+                could_not_find.add(_loc)
             except Exception as e:
                 print(e)
 
