@@ -298,7 +298,7 @@ def predict_from_location_from_csv(csv_file, save_csv=None):
         rsts.to_csv(save_csv)
 
 
-def predict_from_location(start, end, out_dir, save_csv=True, save_users=True):
+def predict_from_location(start, end, out_dir, save_csv=True, save_users=False):
     # df_user = load_df_user_loc(end)
     # 需要已经保存了每天预测的用户列表
     df_user = pd.read_csv(f"disk/users-location/202006-all.csv", usecols=["uid", "state"]).set_index("uid")
@@ -318,7 +318,7 @@ def predict_from_location(start, end, out_dir, save_csv=True, save_users=True):
             print(_s, len(uid_in_s), len(users_dict))
 
             if save_users:
-                write_union_users_csv(users_dict, out_dir, dt.to_date_string() + "-"+ _s)
+                write_union_users_csv(users_dict, out_dir + "_loc", dt.to_date_string() + "-" + _s)
 
             rst = get_share_from_users_dict(users_in_s)
             rst["id"] = _s + ":" + dt.to_date_string()
@@ -487,7 +487,7 @@ if __name__ == "__main__":
 
     start = pendulum.datetime(2020, 1, 2, tz="UTC")
     end = pendulum.datetime(2020, 6, 21, tz="UTC")
-    predict_from_location(start, end, out_dir="culFrom01_loc")
+    predict_from_location(start, end, out_dir="culFrom01")
 
     # start = pendulum.datetime(2020, 1, 15, tz="UTC")
     # end = pendulum.datetime(2020, 2, 26, tz="UTC")
