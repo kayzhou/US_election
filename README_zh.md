@@ -13,4 +13,3 @@
 - collect_user.py 重新收集用户的profile，尤其是针对头像的url。因为url是临时的，有可能存在失效的情况
 - analyze_hashtag.py 分析话题标签，用于标注训练数据以及提取需要标注的hashtag
 - get_ht_network.py 和 run_stat_sign_cooc.py 用以实现共现网络
-

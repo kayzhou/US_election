@@ -54,6 +54,7 @@ class Classifer(object):
         #     "DT": 2,
         # }
 
+        # 一定要区分好，0和1分别代表了什么，该模型是判断是否支持trump
         self.label2num = {
             "JB": 0,
             "DT": 1,

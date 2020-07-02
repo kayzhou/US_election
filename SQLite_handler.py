@@ -87,7 +87,7 @@ official_twitter_clients = set([
 #     hashtags = Column(String)
 #    source = Column(String)
 
-##Matteo Changed it
+## Matteo Changed it
 class Demo_Tweet(Base):
     __tablename__ = "demo_tweets_v2"
     tweet_id = Column(Integer, primary_key=True)
@@ -490,7 +490,7 @@ def tweets_to_db(sess, start, end, clear=False):
             _sou = get_source_text(d["source"])
         except KeyError:
             print(d)
-            print("No source Key. Continue")
+            print("No source Key. Continue") # Why no source?
             continue
         
         # hts = get_hashtags_from_tweet(d["hashtags"])

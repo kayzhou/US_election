@@ -47,6 +47,7 @@ from TwProcess import *
 
 def load_models_2party(dt):
     print("load models ", dt)
+    # 一定要区分好
     label2num = {
         "DP": 0,
         "DT": 1
