@@ -191,12 +191,12 @@ if __name__ == '__main__':
     # write_locations(in_names, "disk/users-location/2020-01-2020-06-stat.txt")
 
     # from users' profile to users' location csv file
-    write_users_csv("disk/users-profile/202001.lj", "disk/users-profile/202001.csv")
-    write_users_csv("disk/users-profile/202002.lj", "disk/users-profile/202002.csv")
-    write_users_csv("disk/users-profile/202003.lj", "disk/users-profile/202003.csv")
-    write_users_csv("disk/users-profile/202004.lj", "disk/users-profile/202004.csv")
-    write_users_csv("disk/users-profile/202005.lj", "disk/users-profile/202005.csv")
-    write_users_csv("disk/users-profile/202005.lj", "disk/users-profile/202006.csv")
+    # write_users_csv("disk/users-profile/202001.lj", "disk/users-profile/202001.csv")
+    # write_users_csv("disk/users-profile/202002.lj", "disk/users-profile/202002.csv")
+    # write_users_csv("disk/users-profile/202003.lj", "disk/users-profile/202003.csv")
+    # write_users_csv("disk/users-profile/202004.lj", "disk/users-profile/202004.csv")
+    # write_users_csv("disk/users-profile/202005.lj", "disk/users-profile/202005.csv")
+    write_users_csv("disk/users-profile/202006.lj", "disk/users-profile/202006.csv")
 
     # us2016
     # write_users_csv("data/us2016-users.lj", "data/us2016-users-location.csv")
