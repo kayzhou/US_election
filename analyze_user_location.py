@@ -89,11 +89,9 @@ def write_users_csv(in_name, out_name):
     out_name: users-location.csv
     """
 
-    # load json
-    # loc_to_state = json.load(open("data/loc-to-state.json"))
-    # loc_to_county = json.load(open("data/loc-to-county.json"))
-    loc_to_state = json.load(open("data/loc-to-state-20200604.json"))
-    loc_to_county = json.load(open("data/loc-to-county-20200604.json"))
+    from collect_locations import load_location_mapping
+
+    loc_to_loc, loc_to_state, loc_to_county = load_location_mapping("-20200604")
     set_users = set()
     data = []
 
@@ -181,21 +179,26 @@ def write_users_today_csv(dt):
 
 if __name__ == '__main__':
     # more loc information should be mapped to state and county infomation.
-    # write_locations("disk/users-profile/2020-01-01-2020-04-19.lj",
-                    # "disk/users-location/2020-01-01-2020-04-19-stat.txt")
-    in_names = [
-        "disk/users-profile/202001.lj",
-        "disk/users-profile/202002.lj",
-        "disk/users-profile/202003.lj",
-        "disk/users-profile/202004.lj",
-        "disk/users-profile/202005.lj",
-        "disk/users-profile/202006.lj",
-    ]
-    write_locations(in_names, "disk/users-location/2020-01-2020-06-stat.txt")
+    # write_locations("disk/users-profile/2020-01-01-2020-04-19.lj", "disk/users-location/2020-01-01-2020-04-19-stat.txt")
+    # in_names = [
+    #     "disk/users-profile/202001.lj",
+    #     "disk/users-profile/202002.lj",
+    #     "disk/users-profile/202003.lj",
+    #     "disk/users-profile/202004.lj",
+    #     "disk/users-profile/202005.lj",
+    #     "disk/users-profile/202006.lj",
+    # ]
+    # write_locations(in_names, "disk/users-location/2020-01-2020-06-stat.txt")
 
     # from users' profile to users' location csv file
-    # write_users_csv("disk/users-profile/2020-01-01-2020-04-30.lj",
-                    # "disk/users-location/2020-04-30.csv")
+    write_users_csv("disk/users-profile/202001.lj", "disk/users-profile/202001.csv")
+    write_users_csv("disk/users-profile/202002.lj", "disk/users-profile/202002.csv")
+    write_users_csv("disk/users-profile/202003.lj", "disk/users-profile/202003.csv")
+    write_users_csv("disk/users-profile/202004.lj", "disk/users-profile/202004.csv")
+    write_users_csv("disk/users-profile/202005.lj", "disk/users-profile/202005.csv")
+    write_users_csv("disk/users-profile/202005.lj", "disk/users-profile/202006.csv")
+
+    # us2016
     # write_users_csv("data/us2016-users.lj", "data/us2016-users-location.csv")
 
     # dt = pendulum.datetime(2020, 3, 1, tz="UTC")
