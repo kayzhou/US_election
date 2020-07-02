@@ -57,8 +57,6 @@ def read_users_from_csv_from_uids(in_name, set_uids):
     for u, v in users.items():
         if u in set_uids:
             _users[u] = np.array([v["0"], v["1"]])
-            # _users[u] = np.array([v["0"], v["1"], v["2"], v["3"], v["4"], v["5"]])
-            # _users[u] = np.array([v["1"], v["2"], v["3"], v["4"], v["5"]])
     print("# of users:", len(_users))
     return _users
 
@@ -85,7 +83,7 @@ def union_users_from_yesterday_and_today(yes_users, today_users):
 
 
 def write_union_users_csv(union_users_dict, out_dir, dt):
-    print("Writing ...", f"disk/{out_dir}/{dt}.csv")
+    print("saving ...", f"disk/{out_dir}/{dt}.csv")
     rsts = []
     if union_users_dict:
         for u, v in union_users_dict.items():
@@ -103,7 +101,7 @@ def write_union_users_csv_v2(union_users_dict, out_dir, dt):
         0: "JB",
         1: "DT",
     }
-    print("Writing ...", f"disk/{out_dir}/{dt}.csv")
+    print("saving ...", f"disk/{out_dir}/{dt}.csv")
     rsts = []
     if union_users_dict:
         for u, v in union_users_dict.items():
@@ -311,7 +309,7 @@ def predict_from_location(start, end, out_dir, save_csv=True, save_users=False):
         csv_file = f"disk/users-{out_dir}/{dt.to_date_string()}.csv"
         users_dict = read_users_from_csv(csv_file)
 
-        for _s in tqdm(US_states):
+        for _s in US_states:
             # 选择每个洲的结果
             uid_in_s = set(df_user[df_user.state == _s].index)
             users_in_s = {u: v for u, v in users_dict.items() if u in uid_in_s}
