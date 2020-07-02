@@ -164,11 +164,11 @@ def calculate_window_share(start, end, win=14, save_csv=None):
         print(rst)
         rsts.append(rst)
 
-    rsts = pd.DataFrame(rsts).set_index("dt")
     if save_csv:
+        rsts = pd.DataFrame(rsts).set_index("dt")
+        rsts.rename(columns = {0: 'Joe Biden', 1: 'Donald Trump'})
         rsts.to_csv(
             f"data/csv/results-{win}days-from-{start.to_date_string()}-to-{end.to_date_string()}.csv")
-    return rsts
 
 
 def calculate_cumulative_share(start, end, super_start_month="01", save_csv=True, save_users=True):
@@ -235,7 +235,6 @@ def calculate_cumulative_share(start, end, super_start_month="01", save_csv=True
         rsts = pd.DataFrame(rsts).set_index("dt")
         rsts.rename(columns = {0: 'Joe Biden', 1: 'Donald Trump'})
         rsts.to_csv(f"data/csv/results-cumFrom{super_start_month}-from-{start.to_date_string()}-to-{end.to_date_string()}.csv")
-    return rsts
 
 
 def calculate_t0_share(start, super_end, save_csv=None):
