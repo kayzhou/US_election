@@ -76,7 +76,7 @@ def query_from_geolocator(in_name):
     print("Could not find:", len(could_not_find))
 
     states_count = Counter()
-    for loc, n in all_locs:
+    for loc, n in all_locs.most_common():
         if loc in loc_to_loc:
             w = loc_to_loc[loc].split(", ")
             if w[-1] != "United States" or len(w) < 2:
