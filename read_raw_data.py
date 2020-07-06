@@ -67,7 +67,8 @@ def read_historical_tweets(start, end):
         # "202003",
         # "202004",
         # "202005",
-        "202006",
+        # "202006",
+        "202007",
     ])
 
     set_tweets = set()
