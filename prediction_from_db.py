@@ -40,6 +40,12 @@ def save_user_snapshot(sess, now):
     csv.to_csv(f"data/users-day/{now.to_date_string()}.csv")
 
 
+def save_user_csv(sess, start, end):
+    for dt in pendulum.period(start, end.add(days=-1)):
+        print(dt)
+        save_user_snapshot(sess, dt)
+
+
 def read_users_from_csv(in_name):
     print("Reading users from csv ...", in_name)
     users = pd.read_csv(in_name).set_index("uid").T.to_dict()
@@ -429,14 +435,14 @@ def daily_prediction():
 
 
 if __name__ == "__main__":
+    start = pendulum.datetime(2020, 7, 1, tz="UTC")
+    end = pendulum.datetime(2020, 7, 6, tz="UTC")
+    sess = get_session()
+    # -- to database --
+    tweets_to_db(sess, start, end, clear=True)               
     # -- save users' snapshot --
-    # start = pendulum.datetime(2020, 6, 22, tz="UTC")
-    # end = pendulum.datetime(2020, 7, 1, tz="UTC")
-    # sess = get_session()
-    # for dt in pendulum.period(start, end):
-    #     print(dt)
-    #     save_user_snapshot(sess, dt)
-    # sess.close()
+    save_user_csv(sess, start, end)
+    sess.close()
 
     # run it per day
     # daily_prediction()
@@ -454,8 +460,8 @@ if __name__ == "__main__":
     # -- window end --
 
     # -- cumulative start --
-    start = pendulum.datetime(2020, 6, 21, tz="UTC")
-    end = pendulum.datetime(2020, 7, 1, tz="UTC")
+    start = pendulum.datetime(2020, 7, 1, tz="UTC")
+    end = pendulum.datetime(2020, 7, 6, tz="UTC")
     calculate_cumulative_share(start, end, super_start_month="01", save_csv=True, save_users=True)
 
     # start = pendulum.datetime(2020, 2, 2, tz="UTC")
@@ -483,9 +489,9 @@ if __name__ == "__main__":
     # end = pendulum.datetime(2020, 2, 29, tz="UTC")
     # predict_from_location(start, end, out_dir="40days")
 
-    start = pendulum.datetime(2020, 6, 21, tz="UTC")
-    end = pendulum.datetime(2020, 7, 1, tz="UTC")
-    predict_from_location(start, end, out_dir="culFrom01")
+    # start = pendulum.datetime(2020, 6, 21, tz="UTC")
+    # end = pendulum.datetime(2020, 7, 1, tz="UTC")
+    # predict_from_location(start, end, out_dir="culFrom01")
 
     # start = pendulum.datetime(2020, 1, 15, tz="UTC")
     # end = pendulum.datetime(2020, 2, 26, tz="UTC")
