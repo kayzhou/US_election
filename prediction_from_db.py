@@ -430,13 +430,13 @@ def daily_prediction():
 
 if __name__ == "__main__":
     # -- save users' snapshot --
-    start = pendulum.datetime(2020, 6, 22, tz="UTC")
-    end = pendulum.datetime(2020, 7, 1, tz="UTC")
-    sess = get_session()
-    for dt in pendulum.period(start, end):
-        print(dt)
-        save_user_snapshot(sess, dt)
-    sess.close()
+    # start = pendulum.datetime(2020, 6, 22, tz="UTC")
+    # end = pendulum.datetime(2020, 7, 1, tz="UTC")
+    # sess = get_session()
+    # for dt in pendulum.period(start, end):
+    #     print(dt)
+    #     save_user_snapshot(sess, dt)
+    # sess.close()
 
     # run it per day
     # daily_prediction()
@@ -454,9 +454,9 @@ if __name__ == "__main__":
     # -- window end --
 
     # -- cumulative start --
-    # start = pendulum.datetime(2020, 1, 2, tz="UTC")
-    # end = pendulum.datetime(2020, 6, 21, tz="UTC")
-    # calculate_cumulative_share(start, end, super_start_month="01", save_csv=True, save_users=True)
+    start = pendulum.datetime(2020, 6, 21, tz="UTC")
+    end = pendulum.datetime(2020, 7, 1, tz="UTC")
+    calculate_cumulative_share(start, end, super_start_month="01", save_csv=True, save_users=True)
 
     # start = pendulum.datetime(2020, 2, 2, tz="UTC")
     # end = pendulum.datetime(2020, 2, 26, tz="UTC")
