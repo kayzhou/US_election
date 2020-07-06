@@ -2308,8 +2308,8 @@ def init_db():
 
 if __name__ == "__main__":
     init_db()
-    start = pendulum.datetime(2020, 6, 22, tz="UTC")
-    end = pendulum.datetime(2020, 7, 1, tz="UTC")
+    start = pendulum.datetime(2020, 7, 1, tz="UTC")
+    end = pendulum.datetime(2020, 7, 6, tz="UTC")
     sess = get_session()
     tweets_to_db(sess, start, end, clear=True)               
     sess.close()
