@@ -14,8 +14,9 @@ import pendulum
 from pathlib import Path
 
 # from make_csv_for_web import *
-# from prediction_from_db import *
-# from SQLite_handler import *
+from SQLite_handler import *
+from prediction_from_db import *
+
 
 from analyze_user import write_users_today
 from analyze_user_location import write_users_today_csv

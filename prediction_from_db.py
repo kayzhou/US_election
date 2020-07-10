@@ -435,8 +435,8 @@ def daily_prediction():
 
 
 if __name__ == "__main__":
-    start = pendulum.datetime(2020, 7, 1, tz="UTC")
-    end = pendulum.datetime(2020, 7, 6, tz="UTC")
+    start = pendulum.datetime(2020, 7, 6, tz="UTC")
+    end = pendulum.datetime(2020, 7, 10, tz="UTC")
     sess = get_session()
     # -- to database --
     tweets_to_db(sess, start, end, clear=True)               
@@ -460,8 +460,8 @@ if __name__ == "__main__":
     # -- window end --
 
     # -- cumulative start --
-    start = pendulum.datetime(2020, 7, 1, tz="UTC")
-    end = pendulum.datetime(2020, 7, 6, tz="UTC")
+    start = pendulum.datetime(2020, 7, 6, tz="UTC")
+    end = pendulum.datetime(2020, 7, 10, tz="UTC")
     calculate_cumulative_share(start, end, super_start_month="01", save_csv=True, save_users=True)
 
     # start = pendulum.datetime(2020, 2, 2, tz="UTC")
