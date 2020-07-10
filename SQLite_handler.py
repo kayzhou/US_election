@@ -2304,6 +2304,20 @@ def get_term_stat():
     return new_data
 
 
+def cumulative_prediction_results_to_db(rsts):
+    sess = get_session()
+    for r in rsts:
+        sess.add(Cumulative_Predict_v2({
+            "_id": r["_id"],
+            "dt": pendulum.parse(r["dt"]),
+            "state": r["state"],
+            "Biden": r["Biden"],
+            "Trump": r["Trump"]
+        }))
+    sess.commit()
+    sess.close()
+
+
 def get_session():
     engine = create_engine("sqlite:////home/alex/kayzhou/US_election/data/election-trump-biden.db")
     DBSession = sessionmaker(bind=engine)

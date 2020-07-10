@@ -176,7 +176,7 @@ def calculate_window_share(start, end, win=14, save_csv=None):
             f"data/csv/results-{win}days-from-{start.to_date_string()}-to-{end.to_date_string()}.csv")
 
 
-def calculate_cumulative_share(start, end, super_start_month="01", save_csv=True, save_users=True):
+def calculate_cumulative_share(start, end, super_start_month="01", save_csv=True, save_users=True, save_db=False):
     # from super_start (include) to -1
     if super_start_month == "09":
         super_start = pendulum.datetime(2019, 9, 3, tz="UTC")
@@ -229,9 +229,20 @@ def calculate_cumulative_share(start, end, super_start_month="01", save_csv=True
         rsts.append(rst)
 
     if save_csv:
-        rsts = pd.DataFrame(rsts).set_index("dt")
-        rsts.rename(columns = {0: 'Joe Biden', 1: 'Donald Trump'})
-        rsts.to_csv(f"data/csv/results-cumFrom{super_start_month}-from-{start.to_date_string()}-to-{end.to_date_string()}.csv")
+        pd_rsts = pd.DataFrame(rsts).set_index("dt")
+        pd_rsts.index = pd.to_datetime(pd_rsts.index)
+        pd_rsts.rename(columns = {0: 'Joe Biden', 1: 'Donald Trump'})
+        pd_rsts.to_csv(f"data/csv/results-cumFrom{super_start_month}-from-{start.to_date_string()}-to-{end.to_date_string()}.csv")
+
+    if save_db:
+        rsts = [{
+            "id": r["dt"] + "-USA",
+            "dt": r["dt"], 
+            "state": "USA"
+            "Biden": r[0],
+            "Trump": r[1]
+            } for r in rsts]
+        cumulative_prediction_results_to_db(rsts)
 
 
 def calculate_t0_share(start, super_end, save_csv=None):
@@ -462,7 +473,7 @@ if __name__ == "__main__":
     # -- cumulative start --
     start = pendulum.datetime(2020, 7, 6, tz="UTC")
     end = pendulum.datetime(2020, 7, 10, tz="UTC")
-    calculate_cumulative_share(start, end, super_start_month="01", save_csv=True, save_users=True)
+    calculate_cumulative_share(start, end, super_start_month="01", save_csv=True, save_users=True, save_db=True)
 
     # start = pendulum.datetime(2020, 2, 2, tz="UTC")
     # end = pendulum.datetime(2020, 2, 26, tz="UTC")
