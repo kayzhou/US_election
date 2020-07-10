@@ -61,6 +61,7 @@ def union_files(in_name1, in_name2, out_name):
 
 
 def write_users_today(dt):
+    # 首先遍历所有用户1月~6月，之后再每日产生新的
     start = last_dt = dt.add(days=-1)
     end = dt
     set_users_before = read_users_set(f"disk/users-profile/{last_dt.to_date_string()}.lj")

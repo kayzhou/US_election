@@ -91,7 +91,7 @@ def read_historical_tweets(start, end):
                     except:
                         print('json.loads Error:', line)
                         continue
-                    
+
                     tweet_id = d["id"]
                     if tweet_id in set_tweets:
                         continue
@@ -161,7 +161,7 @@ def read_tweets_json(start, end):
 
 
 def read_raw_user_month(month, set_users_before=None):
-
+    # 只保留有location信息的
     if set_users_before:
         set_users = set_users_before
     else:
@@ -480,6 +480,7 @@ if __name__ == '__main__':
     #             }
     #             f.write(json.dumps(u, ensure_ascii=False) + "\n")
 
+    # 需要重新跑一遍
     _set_users = read_users_set()
     with open("disk/users-profile/202006.lj", "w") as f:
         users_iter = read_raw_user_month("202006", _set_users)
