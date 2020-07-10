@@ -251,25 +251,36 @@ class Tweet(Base):
 #     U_unclassified = Column(Integer)
 #     U_irrelevant = Column(Integer)
 
+# Democrats
+# class Cumulative_Predict_v1(Base):
+#     __tablename__ = "cumualtive_predict_v1"
+#     _id = Column(String, primary_key=True) # date_string + "-" + state
+#     dt = Column(DateTime, primary_key=True)
+#     state = Column(String) # USA
+#     c0 = Column(Integer)
+#     c1 = Column(Integer)
+#     c2 = Column(Integer)
+#     c3 = Column(Integer)
 
-class Cumulative_Predict_v1(Base):
-    __tablename__ = "cumualtive_predict_v1"
+
+# Biden and Trump
+class Cumulative_Predict_v2(Base):
+    __tablename__ = "cumualtive_predict_v2"
     _id = Column(String, primary_key=True) # date_string + "-" + state
-    dt = Column(DateTime, primary_key=True)
-    state = Column(String) # USA
-    c0 = Column(Integer)
-    c1 = Column(Integer)
-    c2 = Column(Integer)
-    c3 = Column(Integer)
+    dt = Column(DateTime)
+    state = Column(String) # state name or null (USA)
+    Biden = Column(Integer)
+    Trump = Column(Integer)
 
-class Weekly_Predict_v1(Base):
-    __tablename__ = "weekly_predict_v1"
-    dt = Column(DateTime, primary_key=True)
-    c0 = Column(Integer)
-    c1 = Column(Integer)
-    c2 = Column(Integer)
-    c3 = Column(Integer)
-    c4 = Column(Integer)
+
+# class Weekly_Predict_v1(Base):
+#     __tablename__ = "weekly_predict_v1"
+#     dt = Column(DateTime, primary_key=True)
+#     c0 = Column(Integer)
+#     c1 = Column(Integer)
+#     c2 = Column(Integer)
+#     c3 = Column(Integer)
+#     c4 = Column(Integer)
 
 
 # ------------- class definition ove -------------
