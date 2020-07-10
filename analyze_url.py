@@ -15,22 +15,52 @@ from pathlib import Path
 from tqdm import tqdm
 from collections import Counter
 
-trump_files = [
-    "trump",
-    "biden",
-]
- 
-months = set([
-    "202006",
-    # "202005",
-    # "202004",
-    # "202003",
-])
+def read_tweets(start, end):
+    months = set([
+        "202006",
+        "202007",
+    ])
+
+    set_tweets = set()
+    file_names = sorted(Path("raw_data").rglob("*.txt"), reverse=True)
+
+    for in_name in file_names:
+        if in_name.stem.split("-")[-1] in election_files and in_name.parts[1] in months:
+            print(in_name)
+            cnt = 0
+            with FileReadBackwards(in_name) as f:
+                while True:
+                    line = f.readline()
+                    if not line:
+                        print(cnt, "end of the file!")
+                        print("-" * 50)
+                        break
+    
+                    try:
+                        d = json.loads(line.strip())
+                    except:
+                        print('json.loads Error:', line)
+                    tweet_id = d["id"]
+                    if tweet_id in set_tweets:
+                        continue
+                    set_tweets.add(tweet_id)
+
+                    dt = pendulum.from_format(
+                        d["created_at"], 'ddd MMM DD HH:mm:ss ZZ YYYY')
+                    if dt < start:
+                        print("sum:", cnt, d["created_at"], "end!")
+                        break
+                    if dt >= end:
+                        continue
+
+                    if cnt % 50000 == 0:
+                        print("New data ->", cnt)
+                    cnt += 1
+                    yield d, dt
 
 
 def write_top_trump_biden_url(start, end, out_name):
     url_counter = Counter()
-    from read_raw_data import read_historical_tweets as read_tweets
     for d, dt in read_tweets(start, end):
         if d["urls"]:
             for url in d["urls"]:
@@ -42,6 +72,6 @@ def write_top_trump_biden_url(start, end, out_name):
             
 
 if __name__ == "__main__":
-    start = pendulum.datetime(2020, 6, 22, tz="UTC")
-    end = pendulum.datetime(2020, 6, 29, tz="UTC")
-    write_top_trump_biden_url(start, end, "data/url-0615-0622.txt")
+    start = pendulum.datetime(2020, 6, 29, tz="UTC")
+    end = pendulum.datetime(2020, 7, 6, tz="UTC")
+    write_top_trump_biden_url(start, end, "data/url-0629-0706.txt")
