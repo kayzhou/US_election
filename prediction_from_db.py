@@ -238,7 +238,7 @@ def calculate_cumulative_share(start, end, super_start_month="01", save_csv=True
         rsts = [{
             "id": r["dt"] + "-USA",
             "dt": r["dt"], 
-            "state": "USA"
+            "state": "USA",
             "Biden": r[0],
             "Trump": r[1]
             } for r in rsts]
