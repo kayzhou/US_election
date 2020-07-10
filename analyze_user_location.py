@@ -112,7 +112,7 @@ def write_users_csv(in_name, out_name):
             if loc in loc_to_county:
                 county = loc_to_county[loc]
 
-            if state:
+            if state: # 只要识别到state的用户才会被保存
                 if len(state) != 2:
                     print("Error: len(state) != 2", state)
 

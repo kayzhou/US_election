@@ -1,4 +1,4 @@
-# 美国总统大选预测
+# 总统大选预测
 
 关键代码流程
 - read_raw_data.py 获取原始数据
@@ -13,3 +13,6 @@
 - collect_user.py 重新收集用户的profile，尤其是针对头像的url。因为url是临时的，有可能存在失效的情况
 - analyze_hashtag.py 分析话题标签，用于标注训练数据以及提取需要标注的hashtag
 - get_ht_network.py 和 run_stat_sign_cooc.py 用以实现共现网络
+
+每日执行代码（自动化展示）
+- daily_predict.py 分类并入库，用户数据收集，执行累计预测，生成结果csv，上传展示网站
