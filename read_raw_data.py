@@ -90,6 +90,8 @@ def read_historical_tweets(start, end):
                         d = json.loads(line.strip())
                     except:
                         print('json.loads Error:', line)
+                        continue
+                    
                     tweet_id = d["id"]
                     if tweet_id in set_tweets:
                         continue
