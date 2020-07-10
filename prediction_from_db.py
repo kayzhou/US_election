@@ -439,7 +439,7 @@ if __name__ == "__main__":
     end = pendulum.datetime(2020, 7, 10, tz="UTC")
     sess = get_session()
     # -- to database --
-    tweets_to_db(sess, start, end, clear=True)               
+    tweets_to_db(sess, start, end, clear=False)             
     # -- save users' snapshot --
     save_user_csv(sess, start, end)
     sess.close()

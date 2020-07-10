@@ -78,16 +78,18 @@ def read_historical_tweets(start, end):
         if in_name.stem.split("-")[-1] in election_files and in_name.parts[1] in months:
             print(in_name)
             cnt = 0
-
             with FileReadBackwards(in_name) as f:
                 while True:
                     line = f.readline()
                     if not line:
-                        print(cnt, "end!")
+                        print(cnt, "end of the file!")
                         print("-" * 50)
                         break
-
-                    d = json.loads(line.strip())
+    
+                    try:
+                        d = json.loads(line.strip())
+                    except:
+                        print('json.loads Error:', line)
                     tweet_id = d["id"]
                     if tweet_id in set_tweets:
                         continue

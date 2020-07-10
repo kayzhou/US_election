@@ -500,8 +500,7 @@ def tweets_to_db(sess, start, end, clear=False):
         try:
             _sou = get_source_text(d["source"])
         except KeyError:
-            print(d)
-            print("No source Key. Continue") # Why no source?
+            print("No source. Data:", d) # Why no source?
             continue
         
         # hts = get_hashtags_from_tweet(d["hashtags"])
