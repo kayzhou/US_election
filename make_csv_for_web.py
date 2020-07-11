@@ -15,76 +15,22 @@ from SQLite_handler import *
 import math
 
 
-# def make_main_plot(now=None):
-#     all_data = []
-#     wiki_data = pd.read_csv("data/wiki-updated-0503.csv").set_index("dt")
-#     wiki_data["Fernandez (Aggregate Polls)"] = wiki_data["K"] / (wiki_data["K"] + wiki_data["M"])
-#     wiki_data["Macri (Aggregate Polls)"] = wiki_data["M"] / (wiki_data["K"] + wiki_data["M"])
-#     wiki_data = wiki_data.round(3)
-
-#     day_wiki_data = wiki_data.reset_index().pivot_table(columns=["dt"]).transpose()
-#     print(day_wiki_data)
-
-#     all_data.append(day_wiki_data)
-#     to_show_cols = ["Fernandez (AI)", "Macri (AI)",
-#                     "Fernandez (Aggregate Polls)", "Macri (Aggregate Polls)"]
-#     trusted_name = wiki_data.name.unique()
-#     for _name in trusted_name:
-#         _d = wiki_data[wiki_data.name == _name].copy()
-#         _d.loc[:, f"Fernandez ({_name})"] = _d["Fernandez (Aggregate Polls)"]
-#         _d.loc[:, "Fernandez (Aggregate Polls)"] = None
-#         _d.loc[:, f"Macri ({_name})"] = _d["Macri (Aggregate Polls)"]
-#         _d.loc[:, "Macri (Aggregate Polls)"] = None
-#         if len(_d) > 0:
-#             all_data.append(_d)
-#             to_show_cols.append(f"Fernandez ({_name})")
-#             to_show_cols.append(f"Macri ({_name})")
-
-#     pred_rst = []
-#     sess = get_session()
-#     for r in sess.query(Weekly_Predict):
-#         if r.dt.strftime("%Y-%m-%d") <= "2019-05-22":
-#             pred_rst.append({
-#                 "dt": r.dt.strftime("%Y-%m-%d"),
-#                 "K_ai": r.U_Cristina,
-#                 "M_ai": r.U_Macri,
-#             })
-
-#     # print(pd.DataFrame(pred_rst))
-#     pred = pd.DataFrame(pred_rst).set_index("dt")
-#     pred["Fernandez (AI)"] = pred["K_ai"] / (pred["K_ai"] + pred["M_ai"])
-#     pred["Macri (AI)"] = pred["M_ai"] / (pred["K_ai"] + pred["M_ai"])
-
-#     support_data = pred[["K_ai", "M_ai"]].copy()
-#     support_data = support_data.rename(columns = {
-#         "K_ai": "Fernandez (AI)",
-#         "M_ai": "Macri (AI)",
-#     })
-#     # print(support_data)
-#     support_data = support_data[support_data.index >= "2019-03-01"]
-
-#     all_data.append(pred)
-#     data = pd.concat(all_data, sort=True)
-
-#     if now is None:
-#         now = pendulum.now().to_date_string()
-    
-#     data = data[to_show_cols]
-#     data = data.round(3)
-#     data = data.sort_index()
-#     data = data.dropna(how='all')
-
-#     # print(data)
-
-#     print("save:", f"web/data/{now}/p1-h.csv")
-#     data.to_csv(f"web/data/{now}/p1-h.csv")
-
-#     data = data[data.index >= "2019-03-01"]
-#     print("save:", f"web/data/{now}/p1.csv")
-#     data.to_csv(f"web/data/{now}/p1.csv")
-
-#     print("save:", f"web/data/{now}/p2.csv")
-#     support_data.to_csv(f"web/data/{now}/p2.csv")
+def make_main_cumulative_plot():
+    rsts = get_db_prediction_results(state="USA")
+    print(rsts)
+    data = [
+        {
+            "dt": r.dt,
+            "Joe Biden": r["Biden"] / (r["Biden"] + r["Trump"]),
+            "Donald Trump": r["Trump"] / (r["Biden"] + r["Trump"])
+        } for r in rsts
+    ]
+    data = pd.DataFrame(data).set_index("dt")
+    data = data.round(3)
+    data = data.sort_index()
+    data = data.dropna(how='all')
+    print("save:", f"web/data/p1.csv")
+    data.to_csv(f"web/data/p1.csv")
     
 
 def make_main_plot_v2(last, now=None):

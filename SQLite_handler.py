@@ -2322,6 +2322,16 @@ def cumulative_prediction_results_to_db(rsts):
     sess.close()
 
 
+def get_db_prediction_results(state="all"):
+    sess = get_session()
+    if state == "all":
+        rsts = sess.query(Cumulative_Predict_v2).all()
+    else:
+        rsts = sess.query(Cumulative_Predict_v2).filter(Cumulative_Predict_v2.state==state).all()
+    sess.close()
+    return rsts
+
+
 def get_session():
     engine = create_engine("sqlite:////home/alex/kayzhou/US_election/data/election-trump-biden.db")
     DBSession = sessionmaker(bind=engine)
