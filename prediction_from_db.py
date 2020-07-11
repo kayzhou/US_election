@@ -61,7 +61,7 @@ def read_users_from_csv(in_name):
         if line.startswith("uid"):
             continue
         uid, v0, v1 = line.strip().split(",")
-        users[uid] = [v0, v1]
+        users[uid] = [int(v0), int(v1)]
     print("# of users:", len(users))
     return users
 
@@ -83,7 +83,7 @@ def read_users_from_csv_from_uids(in_name, set_uids):
             continue
         uid, v0, v1 = line.strip().split(",")
         if uid in set_uids:
-            users[uid] = [v0, v1]
+            users[uid] = [int(v0), int(v1)]
     print("# of users:", len(users))
     return users
 
