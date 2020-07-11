@@ -1001,8 +1001,9 @@ def add_camp_hashtags(clear=False):
         # print(line)
         w = line.strip().split()
         ht = normalize_lower(w[1])
-        d = Camp_Hashtag(hashtag=ht, update_dt=pendulum.datetime(
-            2019, 6, 23), camp=w[0])
+        d = Camp_Hashtag(hashtag=ht, 
+            update_dt=pendulum.datetime(2019, 6, 23), camp=w[0]
+        )
         try:
             sess.add(d)
             sess.commit()
@@ -2307,14 +2308,18 @@ def get_term_stat():
 def cumulative_prediction_results_to_db(rsts):
     sess = get_session()
     for r in rsts:
-        sess.add(Cumulative_Predict_v2({
+        d = Cumulative_Predict_v2({
             "_id": r["_id"],
             "dt": pendulum.parse(r["dt"]),
             "state": r["state"],
             "Biden": r["Biden"],
             "Trump": r["Trump"]
-        }))
-    sess.commit()
+        })
+        try:
+            sess.add(d)
+            sess.commit()
+        except Exception as e:
+            print(e)
     sess.close()
 
 
