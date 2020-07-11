@@ -150,7 +150,6 @@ def get_share_from_users_dict(users_dict):
         elif v[0] < v[1]:
             counts[1] += 1
         else:
-            print(v)
             counts[2] += 1
     return counts
 
