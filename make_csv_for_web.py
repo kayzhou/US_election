@@ -17,16 +17,16 @@ import math
 
 def make_main_cumulative_plot():
     rsts = get_db_prediction_results(state="USA")
-    print(rsts)
-    data = [
-        {
+    # print(rsts)
+    data = []
+    for r in rsts:
+        data.append({
             "dt": r.dt,
-            "Joe Biden": r["Biden"] / (r["Biden"] + r["Trump"]),
-            "Donald Trump": r["Trump"] / (r["Biden"] + r["Trump"])
-        } for r in rsts
-    ]
+            "Joe Biden": r["Biden"] / (r["Biden"] + r["Trump"]) * 100,
+            "Donald Trump": r["Trump"] / (r["Biden"] + r["Trump"]) * 100,
+        })
     data = pd.DataFrame(data).set_index("dt")
-    data = data.round(3)
+    data = data.round(1)
     data = data.sort_index()
     data = data.dropna(how='all')
     print("save:", f"web/data/p1.csv")
@@ -984,35 +984,4 @@ def make_train_plot():
 
 if __name__ == "__main__":
     
-    dt = "2019-06"
-    make_main_plot_v3(last=None, now=dt)
-    make_main_plot_Elypsis(last=dt, now=dt)
-    make_stat_plot(now=dt)
-    make_bot_stat_plot(now=dt)
-    make_fitting_plot(now=dt)
-    make_history_predict(now=dt)
-
-    dt = "2019-05-14"
-    make_main_plot_v3(last=dt, now=dt)
-    make_main_plot_Elypsis(last=dt, now=dt)
-    make_stat_plot(now=dt)
-    make_bot_stat_plot(now=dt)
-    make_fitting_plot(now=dt)
-    make_history_predict(dt)
-
-    # make_dayN_plot(n=3, now=dt)
-    # make_dayN_plot(n=7, now=dt)
-    # make_dayN_plot(n=14, now=dt)
-    # make_dayN_plot(n=30, now=dt)
-
-    # moving_average(n=1, now=dt)
-    # moving_average(n=3, now=dt)
-    # moving_average(n=7, now=dt)
-    # moving_average(n=14, now=dt)
-    # moving_average(n=30, now=dt)
-
-    # percentage_change(n=1, now=dt)
-    # percentage_change(n=3, now=dt)
-    # percentage_change(n=7, now=dt)
-    # percentage_change(n=14, now=dt)
-    # percentage_change(n=30, now=dt)
+    make_main_cumulative_plot()
