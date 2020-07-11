@@ -27,7 +27,8 @@ def get_hts():
     for line in open("data/train-20200627/hashtags.txt"):
         w = line.strip().split()
         ht, label = w[0], w[1]
-        if label in ["JB", "DT"]:
+        # if label in ["JB", "DT"]:
+        if label in ["JB", "DT", "DP", "UNK"]:
             focus_ht[ht] = label
     print(len(focus_ht))
     return focus_ht
@@ -59,14 +60,13 @@ if __name__ == "__main__":
 
     for n in G.nodes():
         G.nodes[n]["num"] = hts_count[n]
-        if focus_ht[n] not in ["DP", "DT", "JB", "UNK"]:
-            focus_ht[n] = "DP"
-
+        # if focus_ht[n] not in ["DP", "DT", "JB", "UNK"]:
+        #     focus_ht[n] = "DP"
         G.nodes[n]["camp"] = focus_ht[n]
     G.graph["Ntweets"] = Ntweets
 
     print(G.number_of_nodes(), G.number_of_edges())
-    nx.write_gpickle(G, "data/hts_20200301-20200625.TB.gpickle")
+    nx.write_gpickle(G, "data/hts_202003-202007.gpickle")
 
     largest_components = max(nx.connected_components(G), key=len)
     G = G.subgraph(largest_components)
@@ -74,4 +74,4 @@ if __name__ == "__main__":
 
     G = run_stat_sign_cooc.add_prop_to_edges(G)
     G = run_stat_sign_cooc.remove_edges_by_prop(G)
-    nx.write_gml(G, "data/hts_20200301-20200625.sig.TB.gml")
+    nx.write_gml(G, "data/hts_202003-202007.sig.gml")

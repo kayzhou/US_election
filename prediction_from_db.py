@@ -236,7 +236,7 @@ def calculate_cumulative_share(start, end, super_start_month="01", save_csv=True
 
     if save_db:
         rsts = [{
-            "id": r["dt"] + "-USA",
+            "_id": r["dt"] + "-USA",
             "dt": r["dt"], 
             "state": "USA",
             "Biden": r[0],
@@ -448,12 +448,12 @@ def daily_prediction():
 if __name__ == "__main__":
     start = pendulum.datetime(2020, 7, 6, tz="UTC")
     end = pendulum.datetime(2020, 7, 10, tz="UTC")
-    sess = get_session()
+    # sess = get_session()
     # -- to database --
-    tweets_to_db(sess, start, end, clear=False)             
+    # tweets_to_db(sess, start, end, clear=False)             
     # -- save users' snapshot --
-    save_user_csv(sess, start, end)
-    sess.close()
+    # save_user_csv(sess, start, end)
+    # sess.close()
 
     # run it per day
     # daily_prediction()
