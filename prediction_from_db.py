@@ -122,12 +122,17 @@ def write_union_users_csv_v2(union_users_dict, out_dir, dt):
 
 def get_share_from_users_dict(users_dict):
     counts = {
-        0: 0,
-        1: 0,
+        "Biden": 0,
+        "Trump": 0,
+        "Undecided": 0,
     }
-    for u, v in users_dict.items():
-        max_i = v.argmax()
-        counts[max_i] += 1
+    for _, v in users_dict.values():
+        if v[0] > v[1]:
+            counts["Biden"] += 1
+        elif v[0] < v[1]:
+            counts["Trump"] += 1
+        else:
+            counts["Undecided"] += 1
     return counts
 
 
@@ -171,7 +176,6 @@ def calculate_window_share(start, end, win=14, save_csv=None):
 
     if save_csv:
         rsts = pd.DataFrame(rsts).set_index("dt")
-        rsts.rename(columns = {0: 'Joe Biden', 1: 'Donald Trump'})
         rsts.to_csv(
             f"data/csv/results-{win}days-from-{start.to_date_string()}-to-{end.to_date_string()}.csv")
 
@@ -231,16 +235,15 @@ def calculate_cumulative_share(start, end, super_start_month="01", save_csv=True
     if save_csv:
         pd_rsts = pd.DataFrame(rsts).set_index("dt")
         pd_rsts.index = pd.to_datetime(pd_rsts.index)
-        pd_rsts.rename(columns = {0: 'Joe Biden', 1: 'Donald Trump'})
         pd_rsts.to_csv(f"data/csv/results-cumFrom{super_start_month}-from-{start.to_date_string()}-to-{end.to_date_string()}.csv")
 
     if save_db:
         rsts = [{
-            "_id": r["dt"] + "-USA",
-            "dt": r["dt"], 
-            "state": "USA",
-            "Biden": r[0],
-            "Trump": r[1]
+                "_id": r["dt"] + "-USA",
+                "dt": r["dt"], 
+                "state": "USA",
+                "Biden": r["Biden"],
+                "Trump": r["Trump"]
             } for r in rsts]
         cumulative_prediction_results_to_db(rsts)
 
@@ -446,8 +449,8 @@ def daily_prediction():
 
 
 if __name__ == "__main__":
-    start = pendulum.datetime(2020, 7, 6, tz="UTC")
-    end = pendulum.datetime(2020, 7, 10, tz="UTC")
+    # start = pendulum.datetime(2020, 7, 6, tz="UTC")
+    # end = pendulum.datetime(2020, 7, 10, tz="UTC")
     # sess = get_session()
     # -- to database --
     # tweets_to_db(sess, start, end, clear=False)             
