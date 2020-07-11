@@ -35,7 +35,7 @@ def save_user_snapshot(sess, now):
             users[uid] = [0, 0] # Biden and Trump
         users[uid][t.camp] += 1
     print("# of users:", len(users))
-    with open(f"data/users-day/{now.to_date_string()}.csv") as f:
+    with open(f"data/users-day/{now.to_date_string()}.csv", "w") as f:
         f.write("uid,0,1\n")
         for u, v in users.items():
             f.write(f"{u},{v[0]},{v[1]}\n")
@@ -144,7 +144,7 @@ def get_share_from_users_dict(users_dict):
         1: 0, # Trump
         2: 0, # Undecided
     }
-    for v in users_dict.values():
+    for _, v in users_dict.items():
         if v[0] > v[1]:
             counts[0] += 1
         elif v[0] < v[1]:
