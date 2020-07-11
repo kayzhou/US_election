@@ -2308,13 +2308,13 @@ def get_term_stat():
 def cumulative_prediction_results_to_db(rsts):
     sess = get_session()
     for r in rsts:
-        d = Cumulative_Predict_v2({
-            "_id": r["_id"],
-            "dt": pendulum.parse(r["dt"]),
-            "state": r["state"],
-            "Biden": r["Biden"],
-            "Trump": r["Trump"]
-        })
+        d = Cumulative_Predict_v2(
+            _id=r["_id"],
+            dt=pendulum.parse(r["dt"]),
+            state=r["state"],
+            Biden=r["Biden"],
+            Trump=r["Trump"],
+        )
         try:
             sess.add(d)
             sess.commit()
