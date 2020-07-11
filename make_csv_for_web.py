@@ -18,13 +18,13 @@ import math
 def make_main_cumulative_plot():
     rsts = get_db_prediction_results(state="USA")
     # print(rsts)
-    data = []
-    for r in rsts:
-        data.append({
+    data = [
+        {
             "dt": r.dt,
-            "Joe Biden": r["Biden"] / (r["Biden"] + r["Trump"]) * 100,
-            "Donald Trump": r["Trump"] / (r["Biden"] + r["Trump"]) * 100,
-        })
+            "Joe Biden": r.Biden / (r.Biden + r.Trump) * 100,
+            "Donald Trump": r.Trump / (r.Biden + r.Trump) * 100,
+        } for r in rsts
+    ]
     data = pd.DataFrame(data).set_index("dt")
     data = data.round(1)
     data = data.sort_index()
