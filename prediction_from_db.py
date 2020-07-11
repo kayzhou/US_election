@@ -46,25 +46,46 @@ def save_user_csv(sess, start, end):
         save_user_snapshot(sess, dt)
 
 
+# def read_users_from_csv(in_name):
+#     print("Reading users from csv ...", in_name)
+#     users = pd.read_csv(in_name).set_index("uid").T.to_dict()
+#     _users = {}
+#     for u, v in users.items():
+#         _users[u] = np.array([v["0"], v["1"]])
+#     print("# of users:", len(_users))
+#     return _users
 def read_users_from_csv(in_name):
     print("Reading users from csv ...", in_name)
-    users = pd.read_csv(in_name).set_index("uid").T.to_dict()
-    _users = {}
-    for u, v in users.items():
-        _users[u] = np.array([v["0"], v["1"]])
-    print("# of users:", len(_users))
-    return _users
+    users = {}
+    for line in open(in_name):
+        if line.startswith("uid"):
+            continue
+        uid, v0, v1 = line.strip().split(",")
+        users[uid] = [v0, v1]
+    print("# of users:", len(users))
+    return users
 
 
+# def read_users_from_csv_from_uids(in_name, set_uids):
+#     print("Reading users from csv ...", in_name)
+#     users = pd.read_csv(in_name).set_index("uid").T.to_dict()
+#     _users = {}
+#     for u, v in users.items():
+#         if u in set_uids:
+#             _users[u] = np.array([v["0"], v["1"]])
+#     print("# of users:", len(_users))
+#     return _users
 def read_users_from_csv_from_uids(in_name, set_uids):
     print("Reading users from csv ...", in_name)
-    users = pd.read_csv(in_name).set_index("uid").T.to_dict()
-    _users = {}
-    for u, v in users.items():
-        if u in set_uids:
-            _users[u] = np.array([v["0"], v["1"]])
-    print("# of users:", len(_users))
-    return _users
+    users = {}
+    for line in open(in_name):
+        if line.startswith("uid"):
+            continue
+        uid, v0, v1 = line.strip().split(",")
+        if uid in set_uids:
+            users[uid] = [v0, v1]
+    print("# of users:", len(users))
+    return users
 
 
 def union_users_from_dict(users_groups):
@@ -74,7 +95,8 @@ def union_users_from_dict(users_groups):
             if u not in all_users:
                 all_users[u] = v
             else:
-                all_users[u] = all_users[u] + v
+                all_users[u][0] += v[0]
+                all_users[u][1] += v[1]
     return all_users
 
 
@@ -84,21 +106,17 @@ def union_users_from_yesterday_and_today(yes_users, today_users):
         if u not in all_users:
             all_users[u] = v
         else:
-            all_users[u] = all_users[u] + v
+            all_users[u][0] += v[0]
+            all_users[u][1] += v[1]
     return all_users
 
 
 def write_union_users_csv(union_users_dict, out_dir, dt):
     print("saving ...", f"disk/{out_dir}/{dt}.csv")
-    rsts = []
-    if union_users_dict:
+    with open(f"disk/{out_dir}/{dt}.csv", "w") as f:
+        f.write("uid,0,1\n")
         for u, v in union_users_dict.items():
-            rsts.append({"uid": u, "0": v[0], "1": v[1]})
-        pd.DataFrame(rsts).set_index("uid").to_csv(f"disk/{out_dir}/{dt}.csv")
-    else:
-        with open(f"disk/{out_dir}/{dt}.csv", "w") as f:
-            f.write("uid,0,1\n")
-            # f.write("uid,0,1,2,3,4,5\n")
+            f.write(f"{u},{v[0]},{v[1]}\n")
 
 
 def write_union_users_csv_v2(union_users_dict, out_dir, dt):
