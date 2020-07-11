@@ -140,9 +140,9 @@ def write_union_users_csv_v2(union_users_dict, out_dir, dt):
 
 def get_share_from_users_dict(users_dict):
     counts = {
-        0: 0,
-        1: 0,
-        2: 0,
+        0: 0, # Biden
+        1: 0, # Trump
+        2: 0, # Undecided
     }
     for v in users_dict.values():
         if v[0] > v[1]:
@@ -219,8 +219,7 @@ def calculate_cumulative_share(start, end, super_start_month="01", save_csv=True
     # super_start = start
     yesterday_users = None
 
-    for dt in pendulum.period(start, end):
-        print(dt)
+    for dt in tqdm(pendulum.period(start, end)):
 
         if dt <= super_start:
             print("Error: start <= super_start.")
@@ -228,14 +227,14 @@ def calculate_cumulative_share(start, end, super_start_month="01", save_csv=True
 
         elif dt == super_start.add(days=1):
             union_users_dict = read_users_from_csv(f"data/users-day/{super_start.to_date_string()}.csv")
-            print("Writing the first!")
+            print("Writing the first!（载入最早那天的数据）")
             write_union_users_csv(union_users_dict, f"users-culFrom{super_start_month}", dt.to_date_string())
 
         else:
             # just from the cumulative yesterday
             # So I must have the yesterday's cumulative csv
             if yesterday_users is None:
-                print("Loading yesterday users' csv at", dt.add(days=-1))
+                print("Loading yesterday users' csv at （载入最早第一天数据）", dt.add(days=-1))
                 yesterday_users = read_users_from_csv(
                     f"disk/users-culFrom{super_start_month}/{dt.add(days=-1).to_date_string()}.csv")
 
@@ -253,7 +252,7 @@ def calculate_cumulative_share(start, end, super_start_month="01", save_csv=True
     if save_csv:
         pd_rsts = pd.DataFrame(rsts).set_index("dt")
         pd_rsts.index = pd.to_datetime(pd_rsts.index)
-        pd_rsts.rename({0: "Biden", 1: "Trump"})
+        pd_rsts = pd_rsts.rename({0: "Biden", 1: "Trump"})
         pd_rsts.to_csv(f"data/csv/results-cumFrom{super_start_month}-from-{start.to_date_string()}-to-{end.to_date_string()}.csv")
 
     if save_db:
@@ -493,7 +492,7 @@ if __name__ == "__main__":
     # -- window end --
 
     # -- cumulative start --
-    start = pendulum.datetime(2020, 7, 1, tz="UTC")
+    start = pendulum.datetime(2020, 1, 2, tz="UTC")
     end = pendulum.datetime(2020, 7, 10, tz="UTC")
     calculate_cumulative_share(start, end, super_start_month="01", save_csv=True, save_users=True, save_db=True)
 
