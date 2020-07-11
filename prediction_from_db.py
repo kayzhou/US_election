@@ -122,17 +122,17 @@ def write_union_users_csv_v2(union_users_dict, out_dir, dt):
 
 def get_share_from_users_dict(users_dict):
     counts = {
-        "Biden": 0,
-        "Trump": 0,
-        "Undecided": 0,
+        0: 0,
+        1: 0,
+        2: 0,
     }
     for _, v in users_dict.values():
         if v[0] > v[1]:
-            counts["Biden"] += 1
+            counts[0] += 1
         elif v[0] < v[1]:
-            counts["Trump"] += 1
+            counts[1] += 1
         else:
-            counts["Undecided"] += 1
+            counts[2] += 1
     return counts
 
 
@@ -235,6 +235,7 @@ def calculate_cumulative_share(start, end, super_start_month="01", save_csv=True
     if save_csv:
         pd_rsts = pd.DataFrame(rsts).set_index("dt")
         pd_rsts.index = pd.to_datetime(pd_rsts.index)
+        pd_rsts.rename({0: "Biden", 1: "Trump"})
         pd_rsts.to_csv(f"data/csv/results-cumFrom{super_start_month}-from-{start.to_date_string()}-to-{end.to_date_string()}.csv")
 
     if save_db:
@@ -242,8 +243,8 @@ def calculate_cumulative_share(start, end, super_start_month="01", save_csv=True
                 "_id": r["dt"] + "-USA",
                 "dt": r["dt"], 
                 "state": "USA",
-                "Biden": r["Biden"],
-                "Trump": r["Trump"]
+                "Biden": r[0],
+                "Trump": r[1]
             } for r in rsts]
         cumulative_prediction_results_to_db(rsts)
 
