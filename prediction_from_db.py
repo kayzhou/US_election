@@ -55,9 +55,9 @@ def save_user_csv(sess, start, end):
 #     print("# of users:", len(_users))
 #     return _users
 def read_users_from_csv(in_name):
-    print("Reading users from csv ...", in_name)
+    print("Loading users from csv:", in_name)
     users = {}
-    for line in open(in_name):
+    for line in tqdm(open(in_name)):
         if line.startswith("uid"):
             continue
         uid, v0, v1 = line.strip().split(",")
@@ -76,7 +76,7 @@ def read_users_from_csv(in_name):
 #     print("# of users:", len(_users))
 #     return _users
 def read_users_from_csv_from_uids(in_name, set_uids):
-    print("Reading users from csv ...", in_name)
+    print("Loading users from csv:", in_name)
     users = {}
     for line in open(in_name):
         if line.startswith("uid"):
@@ -112,7 +112,7 @@ def union_users_from_yesterday_and_today(yes_users, today_users):
 
 
 def write_union_users_csv(union_users_dict, out_dir, dt):
-    print("saving ...", f"disk/{out_dir}/{dt}.csv")
+    print("Saving ...", f"disk/{out_dir}/{dt}.csv")
     with open(f"disk/{out_dir}/{dt}.csv", "w") as f:
         f.write("uid,0,1\n")
         for u, v in union_users_dict.items():
@@ -144,8 +144,7 @@ def get_share_from_users_dict(users_dict):
         1: 0,
         2: 0,
     }
-    for _, v in users_dict.values():
-        print(v)
+    for v in users_dict.values():
         if v[0] > v[1]:
             counts[0] += 1
         elif v[0] < v[1]:
