@@ -29,8 +29,8 @@ def make_main_cumulative_plot():
     data = data.round(1)
     data = data.sort_index()
     data = data.dropna(how='all')
-    print("save:", f"web/data/p1.csv")
-    data.to_csv(f"web/data/p1.csv")
+    print("save:", f"web/data/nation-trump-biden-cum.csv")
+    data.to_csv(f"web/data/nation-trump-biden-cum.csv")
     
 
 def make_main_plot_v2(last, now=None):
