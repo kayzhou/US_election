@@ -42,6 +42,8 @@ demo_files = set([
 
 
 election_files = set([
+    "Biden"
+    "Trump",
     "Joe Biden",
     "JoeBiden",
     "Donald Trump",

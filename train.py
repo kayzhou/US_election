@@ -36,9 +36,9 @@ from TwProcess import *
 
 
 class Classifer(object):
-    def __init__(self, now):
+    def __init__(self, train_dir):
         "init Classifer!"
-        self.now = now
+        self.train_dir = train_dir
 
         # 2020-03-06
         # label2num = {
@@ -59,22 +59,18 @@ class Classifer(object):
             "JB": 0,
             "DT": 1,
         }
-        self.hts, _ = read_classified_hashtags(self.now, self.label2num)
+        self.hts, _ = read_classified_hashtags(self.train_dir, self.label2num)
         
     def save_tokens(self):
         """
         text > tokens
         """
         tokenizer = CustomTweetTokenizer(hashtags=self.hts)
-        with open(f"data/{self.now}/tokens.txt", "w") as f:
-            print("save tokens from:", f"data/{self.now}/train.txt")
-            for line in tqdm(open(f"data/{self.now}/train.txt", encoding="utf8")):
+        with open(f"data/{self.train_dir}/tokens.txt", "w") as f:
+            print("save tokens from:", f"data/{self.train_dir}/train.txt")
+            for line in tqdm(open(f"data/{self.train_dir}/train.txt", encoding="utf8")):
                 try:
                     camp, text = line.strip().split("\t")
-                    if camp != "DT":
-                        camp = "DP"
-                    if camp not in self.label2num:
-                        continue
                     camp = self.label2num[camp]
                     words = tokenizer.tokenize(text)
                     f.write(str(camp) + "\t" + " ".join(words) + "\n")
@@ -83,15 +79,13 @@ class Classifer(object):
                 
 
     def load_tokens(self):
-        X = []
-        y = []
-        for line in tqdm(open(f"data/{self.now}/tokens.txt")):
+        X = []; y = []
+        for line in tqdm(open(f"data/{self.train_dir}/tokens.txt")):
             camp, line = line.strip().split("\t")
             # words = line.split()
             # print(words)
             # if len(words) > 0:
                 # X.append(bag_of_words_and_bigrams(words))
-            
             if line:
                 X.append(line)
                 y.append(int(camp))
@@ -118,8 +112,8 @@ class Classifer(object):
         X_train = v.fit_transform(X_train)
         X_test = v.transform(X_test)
 
-        # joblib.dump(v, f'data/{self.now}/DictVectorizer.joblib')
-        joblib.dump(v, f'data/{self.now}/TfidfVectorizer.joblib')
+        # joblib.dump(v, f'data/{self.train_dir}/DictVectorizer.joblib')
+        joblib.dump(v, f'data/{self.train_dir}/TfidfVectorizer.joblib')
         print("Building word embedding finished!")
         print(X_train[0].shape, X_train[1].shape)
         print(X_train.shape, X_test.shape)
@@ -127,7 +121,7 @@ class Classifer(object):
         # X_train, y_train = SMOTE().fit_sample(X_train, y_train)
         # X_train, y_train = ADASYN().fit_sample(X_train, y_train)
         # X_train, y_train = RandomOverSampler(random_state=24).fit_sample(X_train, y_train)
-        X_train, y_train = RandomUnderSampler(random_state=24).fit_sample(X_train, y_train)
+        X_train, y_train = RandomUnderSampler(random_state=42).fit_sample(X_train, y_train)
 
         print("After sampling!")
         print(X_train.shape, X_test.shape)
@@ -163,7 +157,7 @@ class Classifer(object):
                 clf = classifiers[classifier](X_train, y_train)
             # print("fitting finished! Lets evaluate!")
             self.evaluate(clf, X_train, y_train, X_test, y_test)
-            joblib.dump(clf, f'data/{self.now}/{classifier}.joblib')
+            joblib.dump(clf, f'data/{self.train_dir}/{classifier}.joblib')
 
 
     def evaluate(self, clf, X_train, y_train, X_test, y_test):
@@ -179,8 +173,9 @@ if __name__ == "__main__":
     #dt = "2020-03-06-tfidf"
     #dt ="2020-03-08-tfidf_model3"
     #dt = "model 4_omg"
-    dt = "train-20200627"
-    Lebron = Classifer(now=dt)
+
+    _dir = "train-07"
+    Lebron = Classifer(train_dir=_dir)
     # After extract_train_data.py
     Lebron.save_tokens()
     Lebron.train()
