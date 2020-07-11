@@ -29,7 +29,7 @@ US_states = ['NY', 'DC', 'IN', 'AR', 'WY', 'ME', 'TX', 'NH', 'CO', 'CA', 'IL',
 
 def save_user_snapshot(sess, now):
     users = {}
-    for t in tqdm(get_tweets(sess, now, now.add(days=1))):
+    for t in get_tweets(sess, now, now.add(days=1)):
         uid = t.user_id
         if uid not in users:
             users[uid] = [0, 0] # Biden and Trump
@@ -198,20 +198,16 @@ def calculate_window_share(start, end, win=14, save_csv=None):
             f"data/csv/results-{win}days-from-{start.to_date_string()}-to-{end.to_date_string()}.csv")
 
 
-def calculate_cumulative_share(start, end, super_start_month="01", save_csv=True, save_users=True, save_db=False):
+def calculate_cumulative_share(start, end, super_start_month="01", save_users=True, save_db=True):
     # from super_start (include) to -1
     if super_start_month == "09":
-        super_start = pendulum.datetime(2019, 9, 3, tz="UTC")
+        super_start = pendulum.datetime(2019, 9, 1, tz="UTC")
     elif super_start_month == "11":
         super_start = pendulum.datetime(2019, 11, 1, tz="UTC")
     elif super_start_month == "01":
         super_start = pendulum.datetime(2020, 1, 1, tz="UTC")
-    elif super_start_month == "0115":
-        super_start = pendulum.datetime(2020, 1, 15, tz="UTC")
-    elif super_start_month == "0201":
-        super_start = pendulum.datetime(2020, 2, 1, tz="UTC")
-    elif super_start_month == "0215":
-        super_start = pendulum.datetime(2020, 2, 19, tz="UTC")
+    elif super_start_month == "03":
+        super_start = pendulum.datetime(2020, 3, 1, tz="UTC")
     else:
         super_start = "?"
 
@@ -249,11 +245,10 @@ def calculate_cumulative_share(start, end, super_start_month="01", save_csv=True
         print(rst)
         rsts.append(rst)
 
-    if save_csv:
-        pd_rsts = pd.DataFrame(rsts).set_index("dt")
-        pd_rsts.index = pd.to_datetime(pd_rsts.index)
-        pd_rsts = pd_rsts.rename({0: "Biden", 1: "Trump"})
-        pd_rsts.to_csv(f"data/csv/results-cumFrom{super_start_month}-from-{start.to_date_string()}-to-{end.to_date_string()}.csv")
+    pd_rsts = pd.DataFrame(rsts).set_index("dt")
+    pd_rsts.index = pd.to_datetime(pd_rsts.index)
+    pd_rsts = pd_rsts.rename(columns={0: "Biden", 1: "Trump", 2: "Undecided"})
+    pd_rsts.to_csv(f"data/csv/results-cumFrom{super_start_month}-from-{start.to_date_string()}-to-{end.to_date_string()}.csv")
 
     if save_db:
         rsts = [{
@@ -261,7 +256,8 @@ def calculate_cumulative_share(start, end, super_start_month="01", save_csv=True
                 "dt": r["dt"], 
                 "state": "USA",
                 "Biden": r[0],
-                "Trump": r[1]
+                "Trump": r[1],
+                "Undec": r[2],
             } for r in rsts]
         cumulative_prediction_results_to_db(rsts)
 
@@ -467,14 +463,14 @@ def daily_prediction():
 
 
 if __name__ == "__main__":
-    start = pendulum.datetime(2020, 1, 1, tz="UTC")
-    end = pendulum.datetime(2020, 7, 10, tz="UTC")
-    sess = get_session()
+    # start = pendulum.datetime(2020, 1, 1, tz="UTC")
+    # end = pendulum.datetime(2020, 7, 10, tz="UTC")
+    # sess = get_session()
     # -- to database --
     # tweets_to_db(sess, start, end, clear=False)             
     # -- save users' snapshot --
-    save_user_csv(sess, start, end)
-    sess.close()
+    # save_user_csv(sess, start, end)
+    # sess.close()
 
     # run it per day
     # daily_prediction()
@@ -492,50 +488,18 @@ if __name__ == "__main__":
     # -- window end --
 
     # -- cumulative start --
-    # start = pendulum.datetime(2020, 1, 2, tz="UTC")
-    # end = pendulum.datetime(2020, 7, 10, tz="UTC")
-    # calculate_cumulative_share(start, end, super_start_month="01", save_csv=True, save_users=True, save_db=True)
-
-    # start = pendulum.datetime(2020, 2, 2, tz="UTC")
-    # end = pendulum.datetime(2020, 2, 26, tz="UTC")
-    # calculate_cumulative_share(start, end, super_start_month="0201", save_csv=True)
-
-    # start = pendulum.datetime(2020, 2, 16, tz="UTC")
-    # end = pendulum.datetime(2020, 2, 26, tz="UTC")
-    # calculate_cumulative_share(start, end, super_start_month="0215", save_csv=True)
+    start = pendulum.datetime(2020, 1, 2, tz="UTC")
+    end = pendulum.datetime(2020, 7, 10, tz="UTC")
+    calculate_cumulative_share(start, end, super_start_month="01")
     # -- cumulative end --
-
-    # start = pendulum.datetime(2020, 1, 15, tz="UTC")
-    # end = pendulum.datetime(2020, 2, 26, tz="UTC")
-    # predict_from_location(start, end, out_dir="7days")
-
+    
     # start = pendulum.datetime(2020, 1, 15, tz="UTC")
     # end = pendulum.datetime(2020, 2, 26, tz="UTC")
     # predict_from_location(start, end, out_dir="14days")
 
-    # start = pendulum.datetime(2020, 1, 22, tz="UTC")
-    # end = pendulum.datetime(2020, 2, 26, tz="UTC")
-    # predict_from_location(start, end, out_dir="21days")
-
-    # start = pendulum.datetime(2020, 2, 11, tz="UTC")
-    # end = pendulum.datetime(2020, 2, 29, tz="UTC")
-    # predict_from_location(start, end, out_dir="40days")
-
     # start = pendulum.datetime(2020, 6, 21, tz="UTC")
     # end = pendulum.datetime(2020, 7, 1, tz="UTC")
     # predict_from_location(start, end, out_dir="culFrom01")
-
-    # start = pendulum.datetime(2020, 1, 15, tz="UTC")
-    # end = pendulum.datetime(2020, 2, 26, tz="UTC")
-    # predict_from_location(start, end, out_dir="culFrom0115")
-
-    # start = pendulum.datetime(2020, 2, 2, tz="UTC")
-    # end = pendulum.datetime(2020, 2, 26, tz="UTC")
-    # predict_from_location(start, end, out_dir="culFrom0201")
-
-    # start = pendulum.datetime(2020, 2, 16, tz="UTC")
-    # end = pendulum.datetime(2020, 2, 26, tz="UTC")
-    # predict_from_location(start, end, out_dir="culFrom0215")
 
     # t0
     # start = pendulum.datetime(2019, 9, 4, tz="UTC")

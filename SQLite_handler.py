@@ -271,6 +271,7 @@ class Cumulative_Predict_v2(Base):
     state = Column(String) # state name or null (USA)
     Biden = Column(Integer)
     Trump = Column(Integer)
+    Undec = Column(Integer)
 
 
 # class Weekly_Predict_v1(Base):
@@ -518,7 +519,7 @@ def tweets_to_db(sess, start, end, clear=False):
             for i in range(len(tweets_data)):
                 rst = json_rst[tweets_data[i].tweet_id]
                 tweets_data[i].max_proba = round(rst.max(), 3)
-                tweets_data[i].camp = int(rst.argmax())
+                tweets_data[i].camp = int(rst.argmax()) # 0 for Biden, 1 for Trump
 
             sess.add_all(tweets_data)
             sess.commit()
@@ -530,7 +531,7 @@ def tweets_to_db(sess, start, end, clear=False):
         for i in range(len(tweets_data)):
             rst = json_rst[tweets_data[i].tweet_id]
             tweets_data[i].max_proba = round(rst.max(), 3)
-            tweets_data[i].camp = int(rst.argmax())
+            tweets_data[i].camp = int(rst.argmax()) # 0 for Biden, 1 for Trump
 
         sess.add_all(tweets_data)
         sess.commit()
@@ -2305,19 +2306,20 @@ def get_term_stat():
     return new_data
 
 
-def cumulative_prediction_results_to_db(rsts):
+def cumulative_prediction_results_to_db(rsts): # rewrite
     sess = get_session()
     for r in rsts:
-        if sess.query(exists().where(Cumulative_Predict_v2._id == r["_id"])).scalar():
+        if sess.query(exists().where(Cumulative_Predict_v2._id == r["_id"])).scalar(): # 若存在，则删除
             sess.query(Cumulative_Predict_v2).filter(Cumulative_Predict_v2._id == r["_id"]).delete()
-            d = Cumulative_Predict_v2(
-                _id=r["_id"],
-                dt=pendulum.parse(r["dt"]),
-                state=r["state"],
-                Biden=r["Biden"],
-                Trump=r["Trump"],
-            )
-            sess.add(d)
+        d = Cumulative_Predict_v2(
+            _id=r["_id"],
+            dt=pendulum.parse(r["dt"]),
+            state=r["state"],
+            Biden=r["Biden"],
+            Trump=r["Trump"],
+            Undec=r["Undec"],
+        )
+        sess.add(d)
         sess.commit()
     sess.close()
 
