@@ -71,10 +71,8 @@ class Classifer(object):
             for line in tqdm(open(f"data/{self.now}/train.txt", encoding="utf8")):
                 try:
                     camp, text = line.strip().split("\t")
-
                     if camp != "DT":
                         camp = "DP"
-
                     if camp not in self.label2num:
                         continue
                     camp = self.label2num[camp]

@@ -62,7 +62,7 @@ def read_users_from_csv(in_name):
         if line.startswith("uid"):
             continue
         uid, v0, v1 = line.strip().split(",")
-        users[uid] = [int(v0), int(v1)]
+        users[uid] = [int(v0), int(v1)] # 0 for Biden, 1 for Trump
     print("# of users:", len(users))
     return users
 
@@ -150,6 +150,7 @@ def get_share_from_users_dict(users_dict):
         elif v[0] < v[1]:
             counts[1] += 1
         else:
+            print(v)
             counts[2] += 1
     return counts
 
@@ -215,7 +216,7 @@ def calculate_cumulative_share(start, end, super_start_month="01", save_users=Tr
     # super_start = start
     yesterday_users = None
 
-    for dt in tqdm(pendulum.period(start, end)):
+    for dt in pendulum.period(start, end):
 
         if dt <= super_start:
             print("Error: start <= super_start.")
@@ -223,20 +224,20 @@ def calculate_cumulative_share(start, end, super_start_month="01", save_users=Tr
 
         elif dt == super_start.add(days=1):
             union_users_dict = read_users_from_csv(f"data/users-day/{super_start.to_date_string()}.csv")
-            print("Writing the first!（载入最早那天的数据）")
+            print("载入super_start数据~", super_start.to_date_string())
             write_union_users_csv(union_users_dict, f"users-culFrom{super_start_month}", dt.to_date_string())
 
         else:
             # just from the cumulative yesterday
             # So I must have the yesterday's cumulative csv
             if yesterday_users is None:
-                print("Loading yesterday users' csv at （载入最早第一天数据）", dt.add(days=-1))
+                print("Loading yesterday users' csv at （载入初始数据）", dt.add(days=-1))
                 yesterday_users = read_users_from_csv(
                     f"disk/users-culFrom{super_start_month}/{dt.add(days=-1).to_date_string()}.csv")
 
             today_users = read_users_from_csv(f"data/users-day/{dt.add(days=-1).to_date_string()}.csv")
             union_users_dict = union_users_from_yesterday_and_today(yesterday_users, today_users)
-            yesterday_users = union_users_dict
+            yesterday_users = union_users_dict # Today will be the yesterday.
             if save_users:
                 write_union_users_csv(union_users_dict, f"users-culFrom{super_start_month}", dt.to_date_string())
 
@@ -488,11 +489,15 @@ if __name__ == "__main__":
     # -- window end --
 
     # -- cumulative start --
-    start = pendulum.datetime(2020, 1, 2, tz="UTC")
+    # start = pendulum.datetime(2020, 1, 2, tz="UTC")
+    # end = pendulum.datetime(2020, 7, 10, tz="UTC")
+    # calculate_cumulative_share(start, end, super_start_month="01")
+
+    start = pendulum.datetime(2020, 3, 2, tz="UTC")
     end = pendulum.datetime(2020, 7, 10, tz="UTC")
-    calculate_cumulative_share(start, end, super_start_month="01")
+    calculate_cumulative_share(start, end, super_start_month="03", save_db=False)
     # -- cumulative end --
-    
+
     # start = pendulum.datetime(2020, 1, 15, tz="UTC")
     # end = pendulum.datetime(2020, 2, 26, tz="UTC")
     # predict_from_location(start, end, out_dir="14days")
