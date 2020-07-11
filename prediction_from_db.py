@@ -32,12 +32,13 @@ def save_user_snapshot(sess, now):
     for t in tqdm(get_tweets(sess, now, now.add(days=1))):
         uid = t.user_id
         if uid not in users:
-            users[uid] = [0, 0]
+            users[uid] = [0, 0] # Biden and Trump
         users[uid][t.camp] += 1
     print("# of users:", len(users))
-    csv = pd.DataFrame(users).T
-    csv.index.names = ['uid']
-    csv.to_csv(f"data/users-day/{now.to_date_string()}.csv")
+    with open(f"data/users-day/{now.to_date_string()}.csv") as f:
+        f.write("uid,0,1\n")
+        for u, v in users.items():
+            f.write(f"{u},{v[0]},{v[1]}\n")
 
 
 def save_user_csv(sess, start, end):
@@ -55,7 +56,7 @@ def save_user_csv(sess, start, end):
 #     print("# of users:", len(_users))
 #     return _users
 def read_users_from_csv(in_name):
-    print("Loading users from csv:", in_name)
+    print("Loading users from:", in_name)
     users = {}
     for line in tqdm(open(in_name)):
         if line.startswith("uid"):
@@ -76,7 +77,7 @@ def read_users_from_csv(in_name):
 #     print("# of users:", len(_users))
 #     return _users
 def read_users_from_csv_from_uids(in_name, set_uids):
-    print("Loading users from csv:", in_name)
+    print("Loading users from:", in_name)
     users = {}
     for line in open(in_name):
         if line.startswith("uid"):
@@ -104,10 +105,9 @@ def union_users_from_yesterday_and_today(yes_users, today_users):
     all_users = yes_users
     for u, v in today_users.items():
         if u not in all_users:
-            all_users[u] = v
-        else:
-            all_users[u][0] += v[0]
-            all_users[u][1] += v[1]
+            all_users[u] = [0, 0]
+        all_users[u][0] += v[0]
+        all_users[u][1] += v[1]
     return all_users
 
 
@@ -467,14 +467,14 @@ def daily_prediction():
 
 
 if __name__ == "__main__":
-    # start = pendulum.datetime(2020, 7, 6, tz="UTC")
-    # end = pendulum.datetime(2020, 7, 10, tz="UTC")
-    # sess = get_session()
+    start = pendulum.datetime(2020, 1, 1, tz="UTC")
+    end = pendulum.datetime(2020, 7, 10, tz="UTC")
+    sess = get_session()
     # -- to database --
     # tweets_to_db(sess, start, end, clear=False)             
     # -- save users' snapshot --
-    # save_user_csv(sess, start, end)
-    # sess.close()
+    save_user_csv(sess, start, end)
+    sess.close()
 
     # run it per day
     # daily_prediction()
@@ -492,9 +492,9 @@ if __name__ == "__main__":
     # -- window end --
 
     # -- cumulative start --
-    start = pendulum.datetime(2020, 1, 2, tz="UTC")
-    end = pendulum.datetime(2020, 7, 10, tz="UTC")
-    calculate_cumulative_share(start, end, super_start_month="01", save_csv=True, save_users=True, save_db=True)
+    # start = pendulum.datetime(2020, 1, 2, tz="UTC")
+    # end = pendulum.datetime(2020, 7, 10, tz="UTC")
+    # calculate_cumulative_share(start, end, super_start_month="01", save_csv=True, save_users=True, save_db=True)
 
     # start = pendulum.datetime(2020, 2, 2, tz="UTC")
     # end = pendulum.datetime(2020, 2, 26, tz="UTC")
