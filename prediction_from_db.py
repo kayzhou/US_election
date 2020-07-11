@@ -145,6 +145,7 @@ def get_share_from_users_dict(users_dict):
         2: 0,
     }
     for _, v in users_dict.values():
+        print(v)
         if v[0] > v[1]:
             counts[0] += 1
         elif v[0] < v[1]:
