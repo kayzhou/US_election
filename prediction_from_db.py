@@ -202,15 +202,17 @@ def calculate_window_share(start, end, win=14, save_csv=None):
 def calculate_cumulative_share(start, end, super_start_month="01", save_users=True, save_db=True):
     # from super_start (include) to -1
     if super_start_month == "09":
-        super_start = pendulum.datetime(2019, 9, 1, tz="UTC")
+        super_start = pendulum.datetime(2019, 9, 1)
     elif super_start_month == "11":
-        super_start = pendulum.datetime(2019, 11, 1, tz="UTC")
+        super_start = pendulum.datetime(2019, 11, 1)
     elif super_start_month == "01":
-        super_start = pendulum.datetime(2020, 1, 1, tz="UTC")
+        super_start = pendulum.datetime(2020, 1, 1)
     elif super_start_month == "03":
-        super_start = pendulum.datetime(2020, 3, 1, tz="UTC")
+        super_start = pendulum.datetime(2020, 3, 1)
+    elif super_start_month == "05":
+        super_start = pendulum.datetime(2020, 3, 1)
     else:
-        super_start = "?"
+        super_start = "Unknown super_start_month"
 
     rsts = []
     # super_start = start
@@ -248,7 +250,7 @@ def calculate_cumulative_share(start, end, super_start_month="01", save_users=Tr
 
     pd_rsts = pd.DataFrame(rsts).set_index("dt")
     pd_rsts.index = pd.to_datetime(pd_rsts.index)
-    pd_rsts = pd_rsts.rename(columns={0: "Biden", 1: "Trump", 2: "Undecided"})
+    pd_rsts = pd_rsts.rename(columns={0: "Joe Biden", 1: "Donald Trump", 2: "Undecided"})
     pd_rsts.to_csv(f"data/csv/results-cumFrom{super_start_month}-from-{start.to_date_string()}-to-{end.to_date_string()}.csv")
 
     if save_db:

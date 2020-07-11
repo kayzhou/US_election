@@ -29,6 +29,7 @@ def make_main_cumulative_plot():
     data = data.round(1)
     data = data.sort_index()
     data = data.dropna(how='all')
+    data = data[["Joe Biden", "Donald Trump"]]
     print("save:", f"web/data/nation-trump-biden-cum.csv")
     data.to_csv(f"web/data/nation-trump-biden-cum.csv")
     
