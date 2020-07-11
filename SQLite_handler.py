@@ -265,7 +265,7 @@ class Tweet(Base):
 
 # Biden and Trump
 class Cumulative_Predict_v2(Base):
-    __tablename__ = "cumualtive_predict_v2"
+    __tablename__ = "cumualtive_predict"
     _id = Column(String, primary_key=True) # date_string + "-" + state
     dt = Column(DateTime)
     state = Column(String) # state name or null (USA)
