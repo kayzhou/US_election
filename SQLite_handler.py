@@ -2308,18 +2308,17 @@ def get_term_stat():
 def cumulative_prediction_results_to_db(rsts):
     sess = get_session()
     for r in rsts:
-        d = Cumulative_Predict_v2(
-            _id=r["_id"],
-            dt=pendulum.parse(r["dt"]),
-            state=r["state"],
-            Biden=r["Biden"],
-            Trump=r["Trump"],
-        )
-        try:
+        if sess.query(exists().where(Cumulative_Predict_v2._id == r["_id"])).scalar():
+            sess.query(Cumulative_Predict_v2).filter(Cumulative_Predict_v2._id == r["_id"]).delete()
+            d = Cumulative_Predict_v2(
+                _id=r["_id"],
+                dt=pendulum.parse(r["dt"]),
+                state=r["state"],
+                Biden=r["Biden"],
+                Trump=r["Trump"],
+            )
             sess.add(d)
-            sess.commit()
-        except Exception as e:
-            print(e)
+        sess.commit()
     sess.close()
 
 
