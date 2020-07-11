@@ -23,7 +23,7 @@ def make_main_cumulative_plot():
             "dt": r.dt,
             "Joe Biden": r.Biden / (r.Biden + r.Trump) * 100,
             "Donald Trump": r.Trump / (r.Biden + r.Trump) * 100,
-        } for r in rsts
+        } for r in rsts if (r.Biden + r.Trump) > 0
     ]
     data = pd.DataFrame(data).set_index("dt")
     data = data.round(1)
