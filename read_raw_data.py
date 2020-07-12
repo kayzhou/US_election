@@ -179,6 +179,21 @@ def read_raw_user_month(month, _set_users):
                     yield u
 
 
+def read_raw_data_month(month, _set_tweet_ids):
+    # 只保留有location信息的
+    file_names = sorted(Path("raw_data").rglob("*.txt"), reverse=True)
+
+    for in_name in file_names:
+        if in_name.stem.split("-")[-1] in election_files and in_name.parts[1] == month:
+            print(in_name)
+            for line in open(in_name):
+                d = json.loads(line.strip())
+                if d["id"] in _set_tweet_ids:
+                    continue
+                _set_tweet_ids.add(d["id"])
+                yield d
+
+
 def read_raw_user(start, end, set_users_before=None):
 
     months = set([
@@ -329,85 +344,6 @@ def write_fast_raw_data(start, end):
                     out_file.write(json.dumps(d, ensure_ascii=False) + "\n")
 
 
-def write_fast_raw_data_v2(start, end):
-    months = set([
-        #"201909",
-        #"201910",
-        #"201911",
-        #"201912",
-        #"202001",
-        #"202002",
-        "202003",
-    ])
-    out_file = open(f"/media/zhen/fast_raw_tweets_after_BT_4Q/{start.to_date_string()}-{end.to_date_string()}.lj", "w")
-    set_tweets = set()
-    file_names = sorted(Path("raw_data").rglob("*.txt"), reverse=True)
-    for in_name in file_names:
-        if in_name.stem.split("-")[-1] in demo_files and in_name.parts[1] in months:
-            print(in_name)
-            cnt = 0
-            with FileReadBackwards(in_name) as f:
-                while True:
-                    line = f.readline()
-                    if not line:
-                        print(cnt, "end!")
-                        print("-" * 50)
-                        break
-
-                    d = json.loads(line.strip())
-
-                    tweet_id = d["id"]
-                    if tweet_id in set_tweets:
-                        continue
-                    set_tweets.add(tweet_id)
-
-                    dt = pendulum.from_format(
-                        d["created_at"], 'ddd MMM DD HH:mm:ss ZZ YYYY')
-                    if dt < start:
-                        print("sum:", cnt, d["created_at"], "end!")
-                        break
-                    if dt >= end:
-                        continue
-
-                    if cnt % 50000 == 0:
-                        print("New data ->", cnt)
-                    cnt += 1
-
-                    u = d["user"]
-                    if "location" in u:
-                        _u = {
-                            "id": u["id"],
-                            "screen_name": u["screen_name"],
-                            "location": u["location"],
-                            "profile_image_url": u["profile_image_url"],
-                        }
-                    else:
-                        _u = {
-                            "id": u["id"],
-                            "screen_name": u["screen_name"],
-                        }
-
-                    if "retweeted_status" in d and d["text"].startswith("RT @"):
-                        d = {
-                            "created_at": d["created_at"],
-                            "hashtags": d["retweeted_status"]["hashtags"],
-                            "id": d["id"],
-                            "user": _u,
-                            "source": d["source"],
-                            "text": d["retweeted_status"]["full_text"]
-                        }
-                    else:
-                        d = {
-                            "created_at": d["created_at"],
-                            "hashtags": d["hashtags"],
-                            "id": d["id"],
-                            "user": _u,
-                            "source": d["source"],
-                            "text": d["text"]
-                        }
-                    out_file.write(json.dumps(d, ensure_ascii=False) + "\n")
-
-
 def read_tweets_json_fast():
     for line in tqdm(open("/media/zhen/fast_raw_tweets_after_BT_4Q/2019-09-01-2020-03-06.lj")):
         d = json.loads(line.strip())
@@ -461,18 +397,19 @@ def read_users_set():
 
 
 if __name__ == '__main__':
-    _set_users = set()
-    months = ["202001", "202002", "202003", "202004", "202005", "202006"]
-    for month in months:
-        with open(f"disk/users-profile/{month}.lj", "w") as f:
-            users_iter = read_raw_user_month(month, _set_users)
-            for u in users_iter:
-                u = {
-                    "id": u["id"],
-                    "location": u["location"],
-                    "screen_name": u["screen_name"],
-                }
-                f.write(json.dumps(u, ensure_ascii=False) + "\n")
+
+    # _set_users = set()
+    # months = ["202001", "202002", "202003", "202004", "202005", "202006"]
+    # for month in months:
+    #     with open(f"disk/users-profile/{month}.lj", "w") as f:
+    #         users_iter = read_raw_user_month(month, _set_users)
+    #         for u in users_iter:
+    #             u = {
+    #                 "id": u["id"],
+    #                 "location": u["location"],
+    #                 "screen_name": u["screen_name"],
+    #             }
+    #             f.write(json.dumps(u, ensure_ascii=False) + "\n")
 
     # 需要重新跑一遍
     # _set_users = read_users_set()
@@ -485,5 +422,14 @@ if __name__ == '__main__':
     #             "screen_name": u["screen_name"],
     #         }
     #         f.write(json.dumps(u, ensure_ascii=False) + "\n")
+
+    # 组合新的原始数据
+    _set_tweetid = set()
+    months = ["202001", "202002", "202003", "202004", "202005", "202006"]
+    for month in months:
+        with open(f"disk/raw_data/{month}.lj", "w") as f:
+            data_iter = read_raw_data_month(month, _set_tweetid)
+            for d in data_iter:
+                f.write(json.dumps(d, ensure_ascii=False) + "\n")
 
 
