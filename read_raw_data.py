@@ -170,13 +170,12 @@ def read_raw_user_month(month, _set_users):
         if in_name.stem.split("-")[-1] in election_files and in_name.parts[1] == month:
             print(in_name)
             for line in open(in_name):
-                d = json.loads(line.strip())
-                u = d["user"]
+                u = json.loads(line.strip())["user"]
                 user_id = u["id"]
                 if user_id in _set_users:
                     continue
                 _set_users.add(user_id)
-                if "location" not in u:
+                if "location" in u:
                     yield u
 
 
