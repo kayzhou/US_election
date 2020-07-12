@@ -137,8 +137,9 @@ def write_users_today_csv(dt):
     dt_str = dt.to_date_string()
 
     # load json
-    loc_to_state = json.load(open("data/loc-to-state.json"))
-    loc_to_county = json.load(open("data/loc-to-county.json"))
+    from collect_locations import load_location_mapping
+
+    loc_to_loc, loc_to_state, loc_to_county = load_location_mapping("-20200604")
 
     set_users = set()
     data = []

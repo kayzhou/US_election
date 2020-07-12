@@ -177,6 +177,8 @@ def analyze_face_from_file(in_name, out_name, have_name=None):
                 # print(cnt)
                 pool = Pool(4)
                 rsts = pool.map(analyze_image, urls)
+                pool.close()
+                pool.join()
                 for d in rsts:
                     if d is not None:
                         if "faces" in d:
@@ -216,6 +218,7 @@ def get_users_from_lj(in_name, out_name=None):
         age = face['attributes']["age"]["value"]
         gender = face['attributes']["gender"]["value"]
 
+        age_range = "UNK"
         if age < 18:
             continue
         elif age >= 18 and age < 30:

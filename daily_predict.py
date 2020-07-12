@@ -12,16 +12,14 @@
 
 import pendulum
 from pathlib import Path
+
 from SQLite_handler import get_session, tweets_to_db
-from prediction_from_db import save_user_snapshot
-# from make_csv_for_web import *
-
-
-
-
 from analyze_user import write_users_today
 from analyze_user_location import write_users_today_csv
 from analyze_user_face import write_users_today_face_csv
+from prediction_from_db import save_user_snapshot, calculate_cumulative_share
+from make_csv_for_web import make_main_cumulative_plot
+
 
 # crontab -e
 # 30 0 * * * cd /home/alex/kayzhou/US_election; nohup /home/alex/anaconda3/bin/python daily_predict.py >> log.txt 2>&1 & 
@@ -34,11 +32,13 @@ def remove_yesterday_temp_files(dt):
     Path(f"disk/users-face/{dt_str}.csv").unlink()
 
 
-# 需要先测试，再写入
-def daily_election():
+def daily_election(dt=None):
     sess = get_session()
-    end = pendulum.today(tz="UTC")
-    start = pendulum.yesterday(tz="UTC")
+    if dt:
+        end = dt
+    else:
+        end = pendulum.today(tz="UTC")
+    start = end.add(days=-1)
     print(f"{start} <= run < {end} ")
 
     # Tweets to Database
@@ -56,14 +56,9 @@ def daily_election():
 
     # Predict
     # calculate_window_share(start, end) # make *.csv
-    calculate_cumulative_share(start, end, super_start_month="01", save_csv=False, save_users=True, save_db=True) # make *.csv
+    calculate_cumulative_share(start, end, super_start_month="01", save_csv=False, save_users=True) # make *.csv
 
-    # demo_predict_to_db(end, clear=False)
-
-    # Other stats
-    # db_to_users(sess, start, end)
-    # db_to_stat_predict(sess, start, end, clear=True)
-
+    make_main_cumulative_plot()
 
 
 if __name__ == "__main__":

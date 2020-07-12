@@ -20,7 +20,7 @@ def read_users_set(in_name):
 
 def write_users(start, end, set_users_before, out_name):
     with open(out_name, "w") as f:
-        for u in read_user_profile(start, end, set_users_before):
+        for u in read_raw_user(start, end, set_users_before):
             # only users with locations
             u = {
                 "id": u["id"],
