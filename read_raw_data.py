@@ -465,7 +465,7 @@ if __name__ == '__main__':
     _set_users = set()
     months = ["202001", "202002", "202003", "202004", "202005", "202006"]
     for month in months:
-        with open("disk/users-profile/" + month, "w") as f:
+        with open(f"disk/users-profile/{month}.lj", "w") as f:
             users_iter = read_raw_user_month(month, _set_users)
             for u in users_iter:
                 u = {
