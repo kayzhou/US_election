@@ -162,13 +162,8 @@ def read_tweets_json(start, end):
                     yield d, dt
 
 
-def read_raw_user_month(month, set_users_before=None):
+def read_raw_user_month(month, _set_users):
     # 只保留有location信息的
-    if set_users_before:
-        set_users = set_users_before
-    else:
-        set_users = set()
-
     file_names = sorted(Path("raw_data").rglob("*.txt"), reverse=True)
 
     for in_name in file_names:
@@ -178,12 +173,11 @@ def read_raw_user_month(month, set_users_before=None):
                 d = json.loads(line.strip())
                 u = d["user"]
                 user_id = u["id"]
+                if user_id in _set_users:
+                    continue
+                _set_users.add(user_id)
                 if "location" not in u:
-                    continue
-                if user_id in set_users:
-                    continue
-                set_users.add(user_id)
-                yield u
+                    yield u
 
 
 def read_raw_user(start, end, set_users_before=None):
