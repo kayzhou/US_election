@@ -91,7 +91,7 @@ def write_users_csv(in_name, out_name):
 
     from collect_locations import load_location_mapping
 
-    loc_to_loc, loc_to_state, loc_to_county = load_location_mapping("-20200604")
+    loc_to_loc, loc_to_state, loc_to_county = load_location_mapping("-20200622")
     set_users = set()
     data = []
 
@@ -180,7 +180,8 @@ def write_users_today_csv(dt):
 
 if __name__ == '__main__':
     # more loc information should be mapped to state and county infomation.
-    # write_locations("disk/users-profile/2020-01-01-2020-04-19.lj", "disk/users-location/2020-01-01-2020-04-19-stat.txt")
+    # write_locations("disk/users-profile/2020-01-01-2020-04-19.lj", 
+    # "disk/users-location/2020-01-01-2020-04-19-stat.txt")
     # in_names = [
     #     "disk/users-profile/202001.lj",
     #     "disk/users-profile/202002.lj",
@@ -192,11 +193,6 @@ if __name__ == '__main__':
     # write_locations(in_names, "disk/users-location/2020-01-2020-06-stat.txt")
 
     # from users' profile to users' location csv file
-    # write_users_csv("disk/users-profile/202001.lj", "disk/users-profile/202001.csv")
-    # write_users_csv("disk/users-profile/202002.lj", "disk/users-profile/202002.csv")
-    # write_users_csv("disk/users-profile/202003.lj", "disk/users-profile/202003.csv")
-    # write_users_csv("disk/users-profile/202004.lj", "disk/users-profile/202004.csv")
-    # write_users_csv("disk/users-profile/202005.lj", "disk/users-profile/202005.csv")
     write_users_csv("disk/users-profile/202006.lj", "disk/users-profile/202006.csv")
 
     # us2016

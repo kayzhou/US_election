@@ -468,30 +468,29 @@ def read_users_set():
 
 
 if __name__ == '__main__':
-    # _set_users = set()
-    # months = ["202001", "202002", "202003", "202004", "202005"]
-        
-    # for month in months:
-    #     with open("disk/users-profile/" + month, "w") as f:
-    #         users_iter = read_raw_user_month(month, _set_users)
-    #         for u in users_iter:
-    #             u = {
-    #                 "id": u["id"],
-    #                 "location": u["location"],
-    #                 "screen_name": u["screen_name"],
-    #             }
-    #             f.write(json.dumps(u, ensure_ascii=False) + "\n")
+    _set_users = set()
+    months = ["202001", "202002", "202003", "202004", "202005", "202006"]
+    for month in months:
+        with open("disk/users-profile/" + month, "w") as f:
+            users_iter = read_raw_user_month(month, _set_users)
+            for u in users_iter:
+                u = {
+                    "id": u["id"],
+                    "location": u["location"],
+                    "screen_name": u["screen_name"],
+                }
+                f.write(json.dumps(u, ensure_ascii=False) + "\n")
 
     # 需要重新跑一遍
-    _set_users = read_users_set()
-    with open("disk/users-profile/202006.lj", "w") as f:
-        users_iter = read_raw_user_month("202006", _set_users)
-        for u in users_iter:
-            u = {
-                "id": u["id"],
-                "location": u["location"],
-                "screen_name": u["screen_name"],
-            }
-            f.write(json.dumps(u, ensure_ascii=False) + "\n")
+    # _set_users = read_users_set()
+    # with open("disk/users-profile/20200701.lj", "w") as f:
+    #     users_iter = read_raw_user_month("202006", _set_users)
+    #     for u in users_iter:
+    #         u = {
+    #             "id": u["id"],
+    #             "location": u["location"],
+    #             "screen_name": u["screen_name"],
+    #         }
+    #         f.write(json.dumps(u, ensure_ascii=False) + "\n")
 
 
