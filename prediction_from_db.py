@@ -375,7 +375,7 @@ def predict_from_location(start, end, out_dir, save_csv=True, save_users=False):
             rst["state"] = _s
             print(rst)
             rsts.append(rst)
--
+
     if save_csv:
         rsts = pd.DataFrame(rsts).set_index("id")
         rsts.to_csv(f"data/csv/results-states-{out_dir}-from-{start.to_date_string()}-to-{end.to_date_string()}.csv")
