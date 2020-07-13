@@ -335,7 +335,7 @@ def predict_from_location_from_csv(csv_file, save_csv=None):
 def predict_from_location(start, end, out_dir, save_csv=True, save_users=False):
     # df_user = load_df_user_loc(end)
     # 需要已经保存了每天预测的用户列表
-    df_user = pd.read_csv(f"disk/users-location/202006-all.csv", usecols=["uid", "state"]).set_index("uid")
+    df_user = pd.read_csv(f"disk/users-location/20200701.csv", usecols=["uid", "state"]).set_index("uid")
 
     rsts = []
     for dt in pendulum.period(start, end):
@@ -494,18 +494,18 @@ if __name__ == "__main__":
     # end = pendulum.datetime(2020, 7, 10, tz="UTC")
     # calculate_cumulative_share(start, end, super_start_month="01")
 
-    start = pendulum.datetime(2020, 3, 2, tz="UTC")
-    end = pendulum.datetime(2020, 7, 10, tz="UTC")
-    calculate_cumulative_share(start, end, super_start_month="03", save_db=False)
+    # start = pendulum.datetime(2020, 3, 2, tz="UTC")
+    # end = pendulum.datetime(2020, 7, 10, tz="UTC")
+    # calculate_cumulative_share(start, end, super_start_month="03", save_db=False)
     # -- cumulative end --
 
     # start = pendulum.datetime(2020, 1, 15, tz="UTC")
     # end = pendulum.datetime(2020, 2, 26, tz="UTC")
     # predict_from_location(start, end, out_dir="14days")
 
-    # start = pendulum.datetime(2020, 6, 21, tz="UTC")
-    # end = pendulum.datetime(2020, 7, 1, tz="UTC")
-    # predict_from_location(start, end, out_dir="culFrom01")
+    start = pendulum.datetime(2020, 1, 2, tz="UTC")
+    end = pendulum.datetime(2020, 7, 1, tz="UTC")
+    predict_from_location(start, end, out_dir="culFrom01")
 
     # t0
     # start = pendulum.datetime(2019, 9, 4, tz="UTC")
