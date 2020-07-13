@@ -398,18 +398,18 @@ def read_users_set():
 
 if __name__ == '__main__':
 
-    # _set_users = set()
-    # months = ["202001", "202002", "202003", "202004", "202005", "202006"]
-    # for month in months:
-    #     with open(f"disk/users-profile/{month}.lj", "w") as f:
-    #         users_iter = read_raw_user_month(month, _set_users)
-    #         for u in users_iter:
-    #             u = {
-    #                 "id": u["id"],
-    #                 "location": u["location"],
-    #                 "screen_name": u["screen_name"],
-    #             }
-    #             f.write(json.dumps(u, ensure_ascii=False) + "\n")
+    _set_users = set()
+    months = ["202001", "202002", "202003", "202004", "202005", "202006"]
+    for month in months:
+        with open(f"disk/users-profile/{month}.lj", "w") as f:
+            users_iter = read_raw_user_month(month, _set_users)
+            for u in users_iter:
+                u = {
+                    "id": u["id"],
+                    "location": u["location"],
+                    "screen_name": u["screen_name"],
+                }
+                f.write(json.dumps(u, ensure_ascii=False) + "\n")
 
     # 需要重新跑一遍
     # _set_users = read_users_set()
@@ -424,12 +424,12 @@ if __name__ == '__main__':
     #         f.write(json.dumps(u, ensure_ascii=False) + "\n")
 
     # 组合新的原始数据
-    _set_tweetid = set()
-    months = ["202001", "202002", "202003", "202004", "202005", "202006"]
-    for month in months:
-        with open(f"disk/raw_data/{month}.lj", "w") as f:
-            data_iter = read_raw_data_month(month, _set_tweetid)
-            for d in data_iter:
-                f.write(json.dumps(d, ensure_ascii=False) + "\n")
+    # _set_tweetid = set()
+    # months = ["202001", "202002", "202003", "202004", "202005", "202006"]
+    # for month in months:
+    #     with open(f"disk/raw_data/{month}.lj", "w") as f:
+    #         data_iter = read_raw_data_month(month, _set_tweetid)
+    #         for d in data_iter:
+    #             f.write(json.dumps(d, ensure_ascii=False) + "\n")
 
 

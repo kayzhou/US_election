@@ -335,7 +335,7 @@ def predict_from_location_from_csv(csv_file, save_csv=None):
 def predict_from_location(start, end, out_dir, save_csv=True, save_users=False):
     # df_user = load_df_user_loc(end)
     # 需要已经保存了每天预测的用户列表
-    df_user = pd.read_csv(f"disk/users-location/20200701.csv", usecols=["uid", "state"]).set_index("uid")
+    df_user = pd.read_csv(f"disk/users-location/2020-07-01.csv", usecols=["uid", "state"]).set_index("uid")
 
     rsts = []
     for dt in pendulum.period(start, end):
