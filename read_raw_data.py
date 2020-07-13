@@ -400,6 +400,11 @@ if __name__ == '__main__':
             u = d["user"]
             if "location" not in u or u["id"] in _set_users:
                 continue
+            u = {
+                'id': u['id'],
+                'screen_name': u['screen_name'],
+                'location': u['location']
+            }
             f_user.write(json.dumps(u, ensure_ascii=False) + "\n")
             _set_users.add(u["id"])
         f_data.close()
