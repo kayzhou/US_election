@@ -349,10 +349,7 @@ def predict_from_location(start, end, out_dir, save_csv=True, save_users=False):
             # 选择每个洲的结果
             uid_in_s = set(df_user[df_user.state == _s].index)
             users_in_s = {u: v for u, v in users_dict.items() if u in uid_in_s}
-            print(_s, len(uid_in_s), len(users_dict))
-
-            if save_users:
-                write_union_users_csv(users_dict, out_dir + "_loc", dt.to_date_string() + "-" + _s)
+            print(_s, len(uid_in_s), len(users_in_s)) # 州，该州多少用户，命中多少用户
 
             rst = get_share_from_users_dict(users_in_s)
             rst["id"] = _s + ":" + dt.to_date_string()
@@ -360,6 +357,9 @@ def predict_from_location(start, end, out_dir, save_csv=True, save_users=False):
             rst["state"] = _s
             print(rst)
             rsts.append(rst)
+-
+            if save_users:
+                write_union_users_csv(users_dict, out_dir + "_loc", dt.to_date_string() + "-" + _s)
 
     if save_csv:
         rsts = pd.DataFrame(rsts).set_index("id")
