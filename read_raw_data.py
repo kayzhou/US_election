@@ -190,18 +190,6 @@ def read_raw_data_month(month, _set_tweet_ids):
                 if d["id"] in _set_tweet_ids:
                     continue
                 _set_tweet_ids.add(d["id"])
-                try:
-                    d = {
-                        "created_at": d["created_at"],
-                        "hashtags": d["hashtags"],
-                        "id": d["id"],
-                        "user": d["user"],
-                        "source": d["source"],
-                        "text": d["text"]
-                    }
-                except:
-                    print("ERROR:", d)
-                    continue
                 yield d
 
 
