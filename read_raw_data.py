@@ -164,19 +164,14 @@ def read_tweets_json(start, end):
 
 def read_raw_user_month(month, _set_users):
     # 只保留有location信息的
-    file_names = sorted(Path("raw_data").rglob("*.txt"), reverse=True)
-
-    for in_name in file_names:
-        if in_name.stem.split("-")[-1] in election_files and in_name.parts[1] == month:
-            print(in_name)
-            for line in open(in_name):
-                u = json.loads(line.strip())["user"]
-                user_id = u["id"]
-                if user_id in _set_users:
-                    continue
-                _set_users.add(user_id)
-                if "location" in u:
-                    yield u
+    for line in open(f"disk/raw_data/{month}.lj"):
+        u = json.loads(line.strip())["user"]
+        user_id = u["id"]
+        if user_id in _set_users:
+            continue
+        _set_users.add(user_id)
+        if "location" in u:
+            yield u
 
 
 def read_raw_data_month(month, _set_tweet_ids):
@@ -391,30 +386,7 @@ def read_users_set():
 
 if __name__ == '__main__':
 
-    # _set_users = set()
-    # months = ["202001", "202002", "202003", "202004", "202005", "202006"]
-    # for month in months:
-    #     with open(f"disk/users-profile/{month}.lj", "w") as f:
-    #         users_iter = read_raw_user_month(month, _set_users)
-    #         for u in users_iter:
-    #             u = {
-    #                 "id": u["id"],
-    #                 "location": u["location"],
-    #                 "screen_name": u["screen_name"],
-    #             }
-    #             f.write(json.dumps(u, ensure_ascii=False) + "\n")
 
-    # 需要重新跑一遍
-    # _set_users = read_users_set()
-    # with open("disk/users-profile/20200701.lj", "w") as f:
-    #     users_iter = read_raw_user_month("202006", _set_users)
-    #     for u in users_iter:
-    #         u = {
-    #             "id": u["id"],
-    #             "location": u["location"],
-    #             "screen_name": u["screen_name"],
-    #         }
-    #         f.write(json.dumps(u, ensure_ascii=False) + "\n")
 
     # 组合新的原始数据
     _set_tweetid = set()
@@ -424,5 +396,17 @@ if __name__ == '__main__':
             data_iter = read_raw_data_month(month, _set_tweetid)
             for d in data_iter:
                 f.write(json.dumps(d, ensure_ascii=False) + "\n")
+
+    _set_users = set()
+    for month in months:
+        with open(f"disk/users-profile/{month}.lj", "w") as f:
+            users_iter = read_raw_user_month(month, _set_users)
+            for u in users_iter:
+                u = {
+                    "id": u["id"],
+                    "location": u["location"],
+                    "screen_name": u["screen_name"],
+                }
+                f.write(json.dumps(u, ensure_ascii=False) + "\n")
 
 
