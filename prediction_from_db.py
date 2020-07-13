@@ -336,6 +336,11 @@ def predict_from_location(start, end, out_dir, save_csv=True, save_users=False):
     # df_user = load_df_user_loc(end)
     # 需要已经保存了每天预测的用户列表
     df_user = pd.read_csv(f"disk/users-location/2020-07-01.csv", usecols=["uid", "state"], dtype=str).set_index("uid")
+    df_state_user = {}
+    df_state_user["USA"] = set(df_user.index)
+    for _s in US_states:
+        uid_in_s = set(df_user[df_user.state == _s].index)
+        df_state_user[_s] = uid_in_s
 
     rsts = []
     for dt in pendulum.period(start, end):
@@ -345,12 +350,25 @@ def predict_from_location(start, end, out_dir, save_csv=True, save_users=False):
         csv_file = f"disk/users-{out_dir}/{dt.to_date_string()}.csv"
         users_dict = read_users_from_csv(csv_file)
 
+        # country
+        uid_in_s = df_state_user["USA"]
+        users_in_s = {u: v for u, v in users_dict.items() if u in uid_in_s}
+        print("USA", len(uid_in_s), len(users_in_s)) # 州，该州多少用户，命中多少用户
+        rst = get_share_from_users_dict(users_in_s)
+        rst["id"] = "USA:" + dt.to_date_string()
+        rst["dt"] = dt.to_date_string()
+        rst["state"] = "USA"
+        print(rst)
+        rsts.append(rst)
+
+        if save_users:
+            write_union_users_csv(users_dict, out_dir + "_loc", dt.to_date_string() + "-" + _s)
+
         for _s in US_states:
             # 选择每个洲的结果
-            uid_in_s = set(df_user[df_user.state == _s].index)
+            uid_in_s = df_state_user[_s]
             users_in_s = {u: v for u, v in users_dict.items() if u in uid_in_s}
             print(_s, len(uid_in_s), len(users_in_s)) # 州，该州多少用户，命中多少用户
-
             rst = get_share_from_users_dict(users_in_s)
             rst["id"] = _s + ":" + dt.to_date_string()
             rst["dt"] = dt.to_date_string()
@@ -358,9 +376,6 @@ def predict_from_location(start, end, out_dir, save_csv=True, save_users=False):
             print(rst)
             rsts.append(rst)
 -
-            if save_users:
-                write_union_users_csv(users_dict, out_dir + "_loc", dt.to_date_string() + "-" + _s)
-
     if save_csv:
         rsts = pd.DataFrame(rsts).set_index("id")
         rsts.to_csv(f"data/csv/results-states-{out_dir}-from-{start.to_date_string()}-to-{end.to_date_string()}.csv")
