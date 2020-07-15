@@ -14,6 +14,13 @@ from my_weapon import *
 from pathlib import Path
 from tqdm import tqdm
 from collections import Counter
+from file_read_backwards import FileReadBackwards
+
+
+election_files = set([
+    "biden OR joebiden",
+    "trump OR donaldtrump OR realdonaldtrump",
+])
 
 def read_tweets(start, end):
     months = set([
@@ -63,7 +70,7 @@ def read_tweets(start, end):
 
 def write_top_trump_biden_url(start, end, out_name):
     url_counter = Counter()
-    for d, dt in read_tweets(start, end):
+    for d, _ in read_tweets(start, end):
         if d["urls"]:
             for url in d["urls"]:
                 url = url["expanded_url"]
@@ -75,5 +82,5 @@ def write_top_trump_biden_url(start, end, out_name):
 
 if __name__ == "__main__":
     start = pendulum.datetime(2020, 6, 29, tz="UTC")
-    end = pendulum.datetime(2020, 7, 6, tz="UTC")
-    write_top_trump_biden_url(start, end, "data/url-0629-0706.txt")
+    end = pendulum.datetime(2020, 7, 13, tz="UTC")
+    write_top_trump_biden_url(start, end, "data/url-0629-0713.txt")
