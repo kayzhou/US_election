@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    classifier.py                                      :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
+#    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/22 12:48:20 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/07/17 07:53:34 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/03/29 21:15:57 by Kay Zhou         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,12 +32,24 @@ from my_weapon import *
 # from myclf import *
 from TwProcess import *
 
+# def load_models(dt):
+#     print("load models ", dt)
+#     label2num = {
+#         "BS": 0,
+#         "JB": 1
+#     }
+#     hts, classified_hts = read_classified_hashtags(dt, label2num=label2num)
+#     tokenizer = CustomTweetTokenizer(hashtags=hts)
+#     v = joblib.load(f'data/{dt}/TfidfVectorizer.joblib')
+#     clf = joblib.load(f'data/{dt}/LR.joblib')
+#     return classified_hts, tokenizer, v, clf
+
 
 def load_models_2party(dt):
     print("load models ", dt)
     # 一定要区分好
     label2num = {
-        "JB": 0,
+        "DP": 0,
         "DT": 1
     }
     hts, classified_hts = read_classified_hashtags(dt, label2num=label2num)
@@ -49,11 +61,16 @@ def load_models_2party(dt):
 
 class Camp_Classifier(object):
 
+    # know how many categories
+
     def __init__(self):
         "Init Classifer."
 
-    def load(self):
-        self.classified_hts, self.token, self.v, self.clf = load_models_2party("train-07")
+    # def load(self):
+    #     self.classified_hts, self.token, self.v, self.clf = load_models("2020-03-25-2") 
+        
+    def load_2party(self):
+        self.classified_hts, self.token, self.v, self.clf = load_models_2party("2020-03-25-2party")
         
     def predict(self, ds):
 
@@ -98,7 +115,8 @@ class Camp_Classifier(object):
             ids.append(d["id"])
             X.append(" ".join(words))
 
-        y = self.clf.predict_proba(self.v.transform(X))
+        X = self.v.transform(X)
+        y = self.clf.predict_proba(X)
 
         for _id, _y in zip(ids, y):
             json_rst[_id] = _y

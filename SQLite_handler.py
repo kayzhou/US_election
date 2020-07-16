@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/07 20:40:05 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/06/16 17:32:19 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/07/17 07:54:32 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -487,7 +487,7 @@ def tweets_to_db(sess, start, end, clear=False):
     
     from classifier import Camp_Classifier
     Lebron = Camp_Classifier()
-    Lebron.load_2party()
+    Lebron.load()
 
     X = []
     tweets_data = []

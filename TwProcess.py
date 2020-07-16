@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    TwProcess.py                                       :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
+#    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/23 21:42:53 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/03/30 11:00:29 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/07/17 07:43:59 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,15 +27,7 @@ from nltk.tokenize.casual import (EMOTICON_RE, HANG_RE, WORD_RE,
 
 
 def read_classified_hashtags(now, label2num=None):
-    print("func read_classified_hashtags ...")
-    # *** very important ***
-    # labels = ["BS, "JB"]
-    if label2num is None:
-        label2num = {
-            "BS": 0,
-            "JB": 1,
-        }
-        
+    print("func read_classified_hashtags ...")        
     print("label > num:", label2num)
     
     hts = []
@@ -43,8 +35,7 @@ def read_classified_hashtags(now, label2num=None):
 
     for line in open(f"data/{now}/hashtags.txt"):
         if not line.startswith("#"):
-            w = line.strip().split()
-            _ht, _label = w[0], w[1]
+            _ht, _label = line.strip().split()
             print("hashtag:", _ht, "label:", _label)
             if _label in label2num:
                 hts.append(_ht)

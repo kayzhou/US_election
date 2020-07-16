@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/19 04:01:00 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/06/26 08:04:02 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/07/17 07:33:18 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -480,14 +480,14 @@ def daily_prediction():
 
 
 if __name__ == "__main__":
-    # start = pendulum.datetime(2020, 1, 1, tz="UTC")
-    # end = pendulum.datetime(2020, 7, 10, tz="UTC")
-    # sess = get_session()
+    start = pendulum.datetime(2020, 7, 10, tz="UTC")
+    end = pendulum.datetime(2020, 7, 16, tz="UTC")
+    sess = get_session()
     # -- to database --
-    # tweets_to_db(sess, start, end, clear=False)             
+    tweets_to_db(sess, start, end, clear=False)             
     # -- save users' snapshot --
-    # save_user_csv(sess, start, end)
-    # sess.close()
+    save_user_csv(sess, start, end)
+    sess.close()
 
     # run it per day
     # daily_prediction()
@@ -518,9 +518,9 @@ if __name__ == "__main__":
     # end = pendulum.datetime(2020, 2, 26, tz="UTC")
     # predict_from_location(start, end, out_dir="14days")
 
-    start = pendulum.datetime(2020, 1, 10, tz="UTC")
-    end = pendulum.datetime(2020, 7, 1, tz="UTC")
-    predict_from_location(start, end, out_dir="culFrom01")
+    # start = pendulum.datetime(2020, 1, 10, tz="UTC")
+    # end = pendulum.datetime(2020, 7, 1, tz="UTC")
+    # predict_from_location(start, end, out_dir="culFrom01")
 
     # t0
     # start = pendulum.datetime(2019, 9, 4, tz="UTC")
