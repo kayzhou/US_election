@@ -392,7 +392,7 @@ if __name__ == '__main__':
     months = ["202001", "202002", "202003", "202004", "202005", "202006"]
     
     for month in months:
-        f_data = open(f"disk/raw_data/{month}.lj", "w")
+        f_data = open(f"/media/alex/data/US2020_raw/{month}.lj", "w")
         f_user = open(f"disk/users-profile/{month}.lj", "w")
         data_iter = read_raw_data_month(month, _set_tweetid)
         for d in data_iter:
