@@ -480,11 +480,12 @@ def daily_prediction():
 
 
 if __name__ == "__main__":
+    # 07-10 the second
     start = pendulum.datetime(2020, 7, 10, tz="UTC")
-    end = pendulum.datetime(2020, 7, 16, tz="UTC")
+    end = pendulum.datetime(2020, 7, 15, tz="UTC")
     sess = get_session()
     # -- to database --
-    tweets_to_db(sess, start, end, clear=False)             
+    tweets_to_db(sess, start, end, clear=True)             
     # -- save users' snapshot --
     save_user_csv(sess, start, end)
     sess.close()

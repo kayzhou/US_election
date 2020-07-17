@@ -2336,6 +2336,7 @@ def get_db_prediction_results(state="all"):
 
 def get_session():
     engine = create_engine("sqlite:////home/alex/kayzhou/US_election/data/election-trump-biden.db")
+    # engine = create_engine("sqlite:////home/alex/kayzhou/US_election/data/election-trump-biden-July.db")
     DBSession = sessionmaker(bind=engine)
     session = DBSession()
     return session
@@ -2343,6 +2344,7 @@ def get_session():
     
 def init_db():
     engine = create_engine("sqlite:////home/alex/kayzhou/US_election/data/election-trump-biden.db")
+    # engine = create_engine("sqlite:////home/alex/kayzhou/US_election/data/election-trump-biden-July.db")
     Base.metadata.create_all(engine)
 
 
