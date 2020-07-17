@@ -193,7 +193,7 @@ if __name__ == '__main__':
     # write_locations(in_names, "disk/users-location/2020-01-2020-06-stat.txt")
 
     # from users' profile to users' location csv file
-    write_users_csv("disk/users-profile/2020-07-01.lj", "disk/users-profile/2020-07-01.csv")
+    write_users_csv("disk/users-profile/2020-07-01.lj", "disk/users-location/2020-07-01.csv")
 
     # us2016
     # write_users_csv("data/us2016-users.lj", "data/us2016-users-location.csv")

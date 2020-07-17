@@ -159,7 +159,7 @@ def get_share_from_csv(csv_name):
     return get_share_from_users_dict(users_dict)
 
 
-def calculate_window_share(start, end, win=14, save_csv=None):
+def calculate_window_share(start, end, win=14, save_csv=True):
     rsts = []
     users_cache = {}
 
@@ -198,7 +198,7 @@ def calculate_window_share(start, end, win=14, save_csv=None):
             f"data/csv/results-{win}days-from-{start.to_date_string()}-to-{end.to_date_string()}.csv")
 
 
-def calculate_cumulative_share(start, end, super_start_month="01", save_users=True, save_db=True):
+def calculate_cumulative_share(start, end, super_start_month="01", save_users=True, save_db=False):
     # from super_start (include) to -1
     if super_start_month == "09":
         super_start = pendulum.datetime(2019, 9, 1)
@@ -335,7 +335,7 @@ def predict_from_location_from_csv(csv_file, save_csv=None):
 def predict_from_location(start, end, out_dir, save_csv=True, save_users=False):
     # df_user = load_df_user_loc(end)
     # 需要已经保存了每天预测的用户列表
-    df_user = pd.read_csv(f"disk/users-location/202006-all.csv", usecols=["uid", "state"], dtype=str).set_index("uid")
+    df_user = pd.read_csv(f"disk/users-location/2020-07-01.csv", usecols=["uid", "state"], dtype=str).set_index("uid")
     df_state_user = {}
     df_state_user["USA"] = set(df_user.index)
     for _s in US_states:
@@ -481,14 +481,14 @@ def daily_prediction():
 
 if __name__ == "__main__":
     # 07-10 the second
-    start = pendulum.datetime(2020, 7, 10, tz="UTC")
-    end = pendulum.datetime(2020, 7, 15, tz="UTC")
-    sess = get_session()
-    # -- to database --
-    tweets_to_db(sess, start, end, clear=True)             
-    # -- save users' snapshot --
-    save_user_csv(sess, start, end)
-    sess.close()
+    # start = pendulum.datetime(2020, 7, 10, tz="UTC")
+    # end = pendulum.datetime(2020, 7, 15, tz="UTC")
+    # sess = get_session()
+    # # -- to database --
+    # tweets_to_db(sess, start, end, clear=True)             
+    # # -- save users' snapshot --
+    # save_user_csv(sess, start, end)
+    # sess.close()
 
     # run it per day
     # daily_prediction()
@@ -500,15 +500,15 @@ if __name__ == "__main__":
     # calculate_window_share(start, end, win=7, save_csv=True)
 
     # 14 days
-    # start = pendulum.datetime(2020, 1, 15, tz="UTC")
-    # end = pendulum.datetime(2020, 6, 21, tz="UTC")
-    # calculate_window_share(start, end, win=14, save_csv=True)
+    start = pendulum.datetime(2020, 1, 15, tz="UTC")
+    end = pendulum.datetime(2020, 7, 15, tz="UTC")
+    calculate_window_share(start, end, win=14)
     # -- window end --
 
     # -- cumulative start --
-    # start = pendulum.datetime(2020, 1, 2, tz="UTC")
-    # end = pendulum.datetime(2020, 7, 10, tz="UTC")
-    # calculate_cumulative_share(start, end, super_start_month="01")
+    start = pendulum.datetime(2020, 1, 2, tz="UTC")
+    end = pendulum.datetime(2020, 7, 15, tz="UTC")
+    calculate_cumulative_share(start, end, super_start_month="01", save_users=True)
 
     # start = pendulum.datetime(2020, 3, 2, tz="UTC")
     # end = pendulum.datetime(2020, 7, 10, tz="UTC")
@@ -519,9 +519,9 @@ if __name__ == "__main__":
     # end = pendulum.datetime(2020, 2, 26, tz="UTC")
     # predict_from_location(start, end, out_dir="14days")
 
-    # start = pendulum.datetime(2020, 1, 10, tz="UTC")
-    # end = pendulum.datetime(2020, 7, 1, tz="UTC")
-    # predict_from_location(start, end, out_dir="culFrom01")
+    start = pendulum.datetime(2020, 1, 10, tz="UTC")
+    end = pendulum.datetime(2020, 7, 1, tz="UTC")
+    predict_from_location(start, end, out_dir="culFrom01")
 
     # t0
     # start = pendulum.datetime(2019, 9, 4, tz="UTC")
