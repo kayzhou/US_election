@@ -24,11 +24,11 @@ import run_stat_sign_cooc
 
 def get_hts():
     focus_ht = {}
-    for line in open("data/train-20200627/hashtags.txt"):
+    for line in open("data/train-07/hashtags.txt"):
         w = line.strip().split()
         ht, label = w[0], w[1]
-        # if label in ["JB", "DT"]:
-        if label in ["JB", "DT", "DP", "UNK"]:
+        if label in ["JB", "DT"]:
+        # if label in ["JB", "DT", "DP", "UNK"]:
             focus_ht[ht] = label
     print(len(focus_ht))
     return focus_ht

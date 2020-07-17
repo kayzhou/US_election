@@ -498,12 +498,10 @@ def tweets_to_db(sess, start, end, clear=False):
         # print(d)
         tweet_id = d["id"]
         uid = d["user"]["id"]
-        try:
+        if 'source' in d:
             _sou = get_source_text(d["source"])
-        except KeyError:
-            print("No source. Data:", d) # Why no source?
-            continue
-        
+        else:
+            _sou = "No source"
         # hts = get_hashtags_from_tweet(d["hashtags"])
 
         tweets_data.append(
