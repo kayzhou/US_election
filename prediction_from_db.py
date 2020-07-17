@@ -500,15 +500,15 @@ if __name__ == "__main__":
     # calculate_window_share(start, end, win=7, save_csv=True)
 
     # 14 days
-    start = pendulum.datetime(2020, 1, 15, tz="UTC")
-    end = pendulum.datetime(2020, 7, 15, tz="UTC")
-    calculate_window_share(start, end, win=14)
+    # start = pendulum.datetime(2020, 1, 15, tz="UTC")
+    # end = pendulum.datetime(2020, 7, 15, tz="UTC")
+    # calculate_window_share(start, end, win=14)
     # -- window end --
 
     # -- cumulative start --
-    start = pendulum.datetime(2020, 1, 2, tz="UTC")
-    end = pendulum.datetime(2020, 7, 15, tz="UTC")
-    calculate_cumulative_share(start, end, super_start_month="01", save_users=True)
+    # start = pendulum.datetime(2020, 1, 2, tz="UTC")
+    # end = pendulum.datetime(2020, 7, 15, tz="UTC")
+    # calculate_cumulative_share(start, end, super_start_month="01", save_users=True)
 
     # start = pendulum.datetime(2020, 3, 2, tz="UTC")
     # end = pendulum.datetime(2020, 7, 10, tz="UTC")
@@ -519,8 +519,12 @@ if __name__ == "__main__":
     # end = pendulum.datetime(2020, 2, 26, tz="UTC")
     # predict_from_location(start, end, out_dir="14days")
 
-    start = pendulum.datetime(2020, 1, 10, tz="UTC")
-    end = pendulum.datetime(2020, 7, 1, tz="UTC")
+    start = pendulum.datetime(2020, 1, 15, tz="UTC")
+    end = pendulum.datetime(2020, 7, 15, tz="UTC")
+    predict_from_location(start, end, out_dir="14days")
+
+    start = pendulum.datetime(2020, 7, 1, tz="UTC")
+    end = pendulum.datetime(2020, 7, 15, tz="UTC")
     predict_from_location(start, end, out_dir="culFrom01")
 
     # t0
