@@ -24,7 +24,7 @@ election_files = set([
 
 def read_tweets(start, end):
     months = set([
-        "202006",
+        # "202006",
         "202007",
     ])
 
@@ -74,6 +74,8 @@ def write_top_trump_biden_url(start, end, out_name):
         if d["urls"]:
             for url in d["urls"]:
                 url = url["expanded_url"]
+                if url.startswith("https://twitter.com"):
+                    continue
                 url_counter[url] += 1
     with open(out_name, "w") as f:
         for ht, cnt in url_counter.most_common():
@@ -81,6 +83,6 @@ def write_top_trump_biden_url(start, end, out_name):
             
 
 if __name__ == "__main__":
-    start = pendulum.datetime(2020, 6, 29, tz="UTC")
-    end = pendulum.datetime(2020, 7, 13, tz="UTC")
-    write_top_trump_biden_url(start, end, "data/url-0629-0713.txt")
+    start = pendulum.datetime(2020, 7, 13, tz="UTC")
+    end = pendulum.datetime(2020, 7, 20, tz="UTC")
+    write_top_trump_biden_url(start, end, "data/url-0713-0720.txt")
