@@ -113,6 +113,24 @@ def read_historical_tweets(start, end):
                     yield d, dt
 
 
+def read_raw_tweets_fromlj():
+    set_tweetid = set()
+    months = ["202001", "202002", "202003", "202004", "202005", "202006"]
+    for month in months:
+        print(month)
+        for line in tqdm(open(f"/media/alex/data/US2020_raw/{month}.lj")):
+            try:
+                d = json.loads(line.strip())
+            except:
+                print('json.loads Error:', line)
+                continue
+            if d['id'] in set_tweetid:
+                continue
+            set_tweetid.add(d['id'])
+            dt = pendulum.from_format(d["created_at"], 'ddd MMM DD HH:mm:ss ZZ YYYY')
+            yield d, dt
+
+
 def read_tweets_json(start, end):
 
     months = set([

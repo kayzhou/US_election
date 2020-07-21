@@ -534,7 +534,62 @@ def tweets_to_db(sess, start, end, clear=False):
         sess.add_all(tweets_data)
         sess.commit()
 
+
+def tweets_to_db_fast(sess):
+    """
+    import tweets to database with prediction
+    """
+    from classifier import Camp_Classifier
+    Lebron = Camp_Classifier()
+    Lebron.load()
+
+    X = []
+    tweets_data = []
+
+    # from read_raw_data import read_historical_tweets as read_tweets
+    from read_raw_data import read_raw_tweets_fromlj as read_tweets
+
+    for d, dt in read_tweets():
+        # print(d)
+        tweet_id = d["id"]
+        uid = d["user"]["id"]
+        if 'source' in d:
+            _sou = get_source_text(d["source"])
+        else:
+            _sou = "No source"
+        # hts = get_hashtags_from_tweet(d["hashtags"])
+
+        tweets_data.append(
+            Tweet(tweet_id=tweet_id,
+                  user_id=uid,
+                  dt=dt,
+                  source=_sou)
+        )
+        X.append(d)
         
+        if len(tweets_data) == 5000:
+            json_rst = Lebron.predict(X)
+            for i in range(len(tweets_data)):
+                rst = json_rst[tweets_data[i].tweet_id]
+                tweets_data[i].max_proba = round(rst.max(), 3)
+                tweets_data[i].camp = int(rst.argmax()) # 0 for Biden, 1 for Trump
+
+            sess.add_all(tweets_data)
+            sess.commit()
+            X = []
+            tweets_data = []
+
+    if tweets_data:
+        json_rst = Lebron.predict(X)
+        for i in range(len(tweets_data)):
+            rst = json_rst[tweets_data[i].tweet_id]
+            tweets_data[i].max_proba = round(rst.max(), 3)
+            tweets_data[i].camp = int(rst.argmax()) # 0 for Biden, 1 for Trump
+
+        sess.add_all(tweets_data)
+        sess.commit()
+
+
 def demo_tweets_to_db_fast(sess, start, end, clear=False):
     """
     import tweets to database with prediction
@@ -2339,12 +2394,26 @@ def get_session():
     session = DBSession()
     return session
 
-    
-def init_db():
+
+def get_session_2():
     engine = create_engine("sqlite:////home/alex/kayzhou/US_election/data/election-trump-biden.db")
     # engine = create_engine("sqlite:////home/alex/kayzhou/US_election/data/election-trump-biden-July.db")
+    DBSession = sessionmaker(bind=engine)
+    session = DBSession()
+    return session
+
+    
+def init_db():
+    engine = create_engine("sqlite://///media/zhenkun/election-from-Jan-to-June.db")
+    Base.metadata.create_all(engine)
+
+
+def init_db_2():
+    engine = create_engine("sqlite:////media/zhenkun/election-from-Jan-to-June.db")
     Base.metadata.create_all(engine)
 
 
 if __name__ == "__main__":
-    init_db()
+    init_db_2()
+    sess = get_session_2()
+    tweets_to_db_fast(sess)
