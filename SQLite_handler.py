@@ -2396,7 +2396,7 @@ def get_session():
 
 
 def get_session_2():
-    engine = create_engine("sqlite://///media/zhenkun/election-from-Jan-to-June.db")
+    engine = create_engine("sqlite:////media/zhenkun/election-from-Jan-to-June.db")
     # engine = create_engine("sqlite:////home/alex/kayzhou/US_election/data/election-trump-biden-July.db")
     DBSession = sessionmaker(bind=engine)
     session = DBSession()
@@ -2404,7 +2404,7 @@ def get_session_2():
 
     
 def init_db():
-    engine = create_engine("sqlite://///media/zhenkun/election-from-Jan-to-June.db")
+    engine = create_engine("sqlite:////home/alex/kayzhou/US_election/data/election-trump-biden.db")
     Base.metadata.create_all(engine)
 
 
