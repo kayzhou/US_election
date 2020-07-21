@@ -90,7 +90,7 @@ official_twitter_clients = set([
 ## Matteo Changed it
 class Demo_Tweet(Base):
     __tablename__ = "demo_tweets_v2"
-    tweet_id = Column(Integer, primary_key=True)
+    tweet_id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer)
     dt = Column(DateTime)
     camp = Column(Integer)
@@ -102,7 +102,7 @@ class Demo_Tweet(Base):
 
 class Tweet(Base):
     __tablename__ = "tweets"
-    tweet_id = Column(Integer, primary_key=True)
+    tweet_id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer)
     dt = Column(DateTime)
     camp = Column(Integer)

@@ -36,12 +36,12 @@ def read_classified_hashtags(now, label2num=None):
     for line in open(f"data/{now}/hashtags.txt"):
         if not line.startswith("#"):
             _ht, _label = line.strip().split()
-            print("hashtag:", _ht, "label:", _label)
+            # print("hashtag:", _ht, "label:", _label)
             if _label in label2num:
                 hts.append(_ht)
                 classified_hts[label2num[_label]].add(_ht)
-    print(hts)
-    print(classified_hts)
+    # print(hts)
+    # print(classified_hts)
     return hts, classified_hts
 
 #==============================================================================
