@@ -232,7 +232,11 @@ def read_raw_user(start, end, set_users_before=None):
                         print("-" * 50)
                         break
 
-                    d = json.loads(line.strip())
+                    try:
+                        d = json.loads(line.strip())
+                    except:
+                        print("ERROR line")
+                        continue
                     u = d["user"]
                     user_id = u["id"]
                     if "location" not in u:
@@ -249,7 +253,7 @@ def read_raw_user(start, end, set_users_before=None):
                     if dt >= end:
                         continue
 
-                    if cnt % 2000 == 0:
+                    if cnt % 1000 == 0:
                         print("New user ->", cnt)
                     cnt += 1
                     yield u
