@@ -42,13 +42,13 @@ demo_files = set([
 
 
 election_files = set([
-    "Biden"
-    "Trump",
-    "Joe Biden",
-    "JoeBiden",
-    "Donald Trump",
-    "realDonaldTrump"
-    "Trump OR Biden",
+    # "Biden"
+    # "Trump",
+    # "Joe Biden",
+    # "JoeBiden",
+    # "Donald Trump",
+    # "realDonaldTrump"
+    # "Trump OR Biden",
     "biden OR joebiden",
     "trump OR donaldtrump OR realdonaldtrump",
 ])
@@ -209,7 +209,7 @@ def read_raw_data_month(month, _set_tweet_ids):
 def read_raw_user(start, end, set_users_before=None):
 
     months = set([
-        "202006",
+        "202007",
     ])
 
     if set_users_before:
@@ -220,10 +220,10 @@ def read_raw_user(start, end, set_users_before=None):
     file_names = sorted(Path("raw_data").rglob("*.txt"), reverse=True)
 
     for in_name in file_names:
-        if in_name.stem.split("-")[-1] in election_files and in_name.parts[1] in months:
+        word = in_name.stem.split("-")[-1].lower()
+        if ("biden" in word or "trump" in word) and in_name.parts[1] in months:
             print(in_name)
             cnt = 0
-
             with FileReadBackwards(in_name) as f:
                 while True:
                     line = f.readline()
@@ -405,27 +405,29 @@ def read_users_set():
 if __name__ == '__main__':
 
     # 组合新的原始数据
-    _set_tweetid = set()
-    _set_users = set()
-    months = ["202001", "202002", "202003", "202004", "202005", "202006"]
+    # _set_tweetid = set()
+    # _set_users = set()
+    # months = ["202001", "202002", "202003", "202004", "202005", "202006"]
     
-    for month in months:
-        f_data = open(f"/media/alex/data/US2020_raw/{month}.lj", "w")
-        f_user = open(f"disk/users-profile/{month}.lj", "w")
-        data_iter = read_raw_data_month(month, _set_tweetid)
-        for d in data_iter:
-            f_data.write(json.dumps(d, ensure_ascii=False) + "\n")
-            u = d["user"]
-            if "location" not in u or u["id"] in _set_users:
-                continue
-            u = {
-                'id': u['id'],
-                'screen_name': u['screen_name'],
-                'location': u['location']
-            }
-            f_user.write(json.dumps(u, ensure_ascii=False) + "\n")
-            _set_users.add(u["id"])
-        f_data.close()
-        f_user.close()
+    # for month in months:
+    #     f_data = open(f"/media/alex/data/US2020_raw/{month}.lj", "w")
+    #     f_user = open(f"disk/users-profile/{month}.lj", "w")
+    #     data_iter = read_raw_data_month(month, _set_tweetid)
+    #     for d in data_iter:
+    #         f_data.write(json.dumps(d, ensure_ascii=False) + "\n")
+    #         u = d["user"]
+    #         if "location" not in u or u["id"] in _set_users:
+    #             continue
+    #         u = {
+    #             'id': u['id'],
+    #             'screen_name': u['screen_name'],
+    #             'location': u['location']
+    #         }
+    #         f_user.write(json.dumps(u, ensure_ascii=False) + "\n")
+    #         _set_users.add(u["id"])
+    #     f_data.close()
+    #     f_user.close()
+
+    pass
 
 

@@ -74,10 +74,10 @@ def write_users_today(dt):
 
 
 if __name__ == '__main__':
-    # set_users_before = read_users_set("disk/users-profile/2020-04-24.lj")
-    set_users_before = None
-    start = pendulum.datetime(2020, 1, 1, tz="UTC")
-    end = pendulum.datetime(2020, 5, 1, tz="UTC")
-    write_users(start, end, set_users_before, "disk/users-profile/2020-01-01-2020-04-30.lj")
+    set_users_before = read_users_set("disk/users-profile/2020-07-01.lj")
+    # set_users_before = None
+    start = pendulum.datetime(2020, 7, 1, tz="UTC")
+    end = pendulum.datetime(2020, 7, 20, tz="UTC")
+    write_users(start, end, set_users_before, "disk/users-profile/2020-07-01-2020-07-20.lj")
     # write_users_fast(set_users_before, "disk/users-profile/2019-09-01-2020-03-01.lj")
     
