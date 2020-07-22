@@ -511,7 +511,7 @@ if __name__ == "__main__":
     # 1 day
     start = pendulum.datetime(2020, 1, 8, tz="UTC")
     end = pendulum.datetime(2020, 7, 20, tz="UTC")
-    calculate_window_share_size_1(start, end, win=1, save_csv=True)
+    calculate_window_share_size_1(start, end, save_csv=True)
 
     # 7 days
     # start = pendulum.datetime(2020, 1, 8, tz="UTC")
