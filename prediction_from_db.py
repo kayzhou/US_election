@@ -25,6 +25,12 @@ US_states = ['NY', 'DC', 'IN', 'AR', 'WY', 'ME', 'TX', 'NH', 'CO', 'CA', 'IL',
 # USERS_STSTE_GENDER_AGE = USERS.join(USERS_STATE, how="inner")
 # SET_USERS = set(USERS_STSTE_GENDER_AGE.index)
 # SET_USERS = set(USERS_STATE.index)
+def load_bots(in_name):
+    all_bots = set()
+    for line in open(in_name):
+        all_bots.add(line.strip())
+    return all_bots
+all_bots = load_bots("disk/users-profile/bots-20200719.txt")
 
 
 def save_user_snapshot(sess, now):
@@ -62,6 +68,8 @@ def read_users_from_csv(in_name):
         if line.startswith("uid"):
             continue
         uid, v0, v1 = line.strip().split(",")
+        if uid in all_bots:
+            continue
         users[uid] = [int(v0), int(v1)] # 0 for Biden, 1 for Trump
     print("# of users:", len(users))
     return users
@@ -519,15 +527,15 @@ if __name__ == "__main__":
     # calculate_window_share(start, end, win=7, save_csv=True)
 
     # 14 days
-    # start = pendulum.datetime(2020, 1, 15, tz="UTC")
-    # end = pendulum.datetime(2020, 7, 15, tz="UTC")
-    # calculate_window_share(start, end, win=14)
+    start = pendulum.datetime(2020, 1, 15, tz="UTC")
+    end = pendulum.datetime(2020, 7, 19, tz="UTC")
+    calculate_window_share(start, end, win=14)
     # -- window end --
 
     # -- cumulative start --
-    # start = pendulum.datetime(2020, 1, 2, tz="UTC")
-    # end = pendulum.datetime(2020, 7, 15, tz="UTC")
-    # calculate_cumulative_share(start, end, super_start_month="01", save_users=True)
+    start = pendulum.datetime(2020, 1, 2, tz="UTC")
+    end = pendulum.datetime(2020, 7, 15, tz="UTC")
+    calculate_cumulative_share(start, end, super_start_month="01", save_users=True)
 
     # start = pendulum.datetime(2020, 3, 2, tz="UTC")
     # end = pendulum.datetime(2020, 7, 10, tz="UTC")
