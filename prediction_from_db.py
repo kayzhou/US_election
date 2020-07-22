@@ -159,6 +159,20 @@ def get_share_from_csv(csv_name):
     return get_share_from_users_dict(users_dict)
 
 
+def calculate_window_share_size_1(start, end, save_csv=True):
+    rsts = []
+    for dt in pendulum.period(start, end):
+        _u = read_users_from_csv(f"data/users-day/{dt.to_date_string()}.csv")
+        rst = get_share_from_users_dict(_u)
+        rst["dt"] = dt.to_date_string()
+        print(rst)
+        rsts.append(rst)
+
+    if save_csv:
+        rsts = pd.DataFrame(rsts).set_index("dt")
+        rsts.to_csv(f"data/csv/results-1day-from-{start.to_date_string()}-to-{end.to_date_string()}.csv")
+
+
 def calculate_window_share(start, end, win=14, save_csv=True):
     rsts = []
     users_cache = {}
@@ -481,19 +495,24 @@ def daily_prediction():
 
 if __name__ == "__main__":
     # 07-10 the second
-    start = pendulum.datetime(2020, 7, 15, tz="UTC")
-    end = pendulum.datetime(2020, 7, 20, tz="UTC")
-    sess = get_session_2()
+    # start = pendulum.datetime(2020, 7, 15, tz="UTC")
+    # end = pendulum.datetime(2020, 7, 20, tz="UTC")
+    # sess = get_session_2()
     # -- to database --
-    tweets_to_db(sess, start, end, clear=True)             
+    # tweets_to_db(sess, start, end, clear=True)             
     # -- save users' snapshot --
-    save_user_csv(sess, start, end)
-    sess.close()
+    # save_user_csv(sess, start, end)
+    # sess.close()
 
     # run it per day
     # daily_prediction()
 
     # -- window start --
+    # 1 day
+    start = pendulum.datetime(2020, 1, 8, tz="UTC")
+    end = pendulum.datetime(2020, 7, 20, tz="UTC")
+    calculate_window_share_size_1(start, end, win=1, save_csv=True)
+
     # 7 days
     # start = pendulum.datetime(2020, 1, 8, tz="UTC")
     # end = pendulum.datetime(2020, 2, 26, tz="UTC")
