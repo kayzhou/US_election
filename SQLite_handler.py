@@ -2270,6 +2270,14 @@ def get_tweets(sess, start, end):
     return tweets
 
 
+def get_tweets_bots(sess, start, end):
+    tweets = sess.query(Tweet.user_id).filter(
+        Tweet.source.isnot(None),
+        Tweet.dt >= start,
+        Tweet.dt < end).yield_per(5000)
+    return tweets
+
+
 def get_demo_tweets(sess, start, end):
     tweets = sess.query(Demo_Tweet).filter(
         Demo_Tweet.source.is_(None),
@@ -2359,6 +2367,18 @@ def get_term_stat():
     return new_data
 
 
+def save_all_bots_users():
+    start = pendulum.datetime(2020, 1, 1, tz="UTC")
+    end = pendulum.datetime(2020, 7, 19, tz="UTC")
+    sess = get_session()
+    bots = set()
+    with open("disk/users-profile/bots-20200719.txt", "w") as f:
+        for t in get_tweets_bots(sess, start, end):
+            if t[0] not in bots:
+                f.write(str(t[0]) + '\n')
+                bots.add(t[0])
+
+
 def cumulative_prediction_results_to_db(rsts): # rewrite
     sess = get_session()
     for r in rsts:
@@ -2414,6 +2434,7 @@ def init_db_2():
 
 
 if __name__ == "__main__":
-    init_db_2()
-    sess = get_session_2()
-    tweets_to_db_fast(sess)
+    # init_db_2()
+    # sess = get_session_2()
+    # tweets_to_db_fast(sess)
+    save_all_bots_users()
