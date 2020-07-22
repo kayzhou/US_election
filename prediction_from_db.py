@@ -534,7 +534,7 @@ if __name__ == "__main__":
 
     # -- cumulative start --
     start = pendulum.datetime(2020, 1, 2, tz="UTC")
-    end = pendulum.datetime(2020, 7, 15, tz="UTC")
+    end = pendulum.datetime(2020, 7, 19, tz="UTC")
     calculate_cumulative_share(start, end, super_start_month="01", save_users=True)
 
     # start = pendulum.datetime(2020, 3, 2, tz="UTC")
