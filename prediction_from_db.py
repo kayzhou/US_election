@@ -401,7 +401,7 @@ def predict_from_location(start, end, out_dir, save_csv=True):
     if save_csv:
         rsts = pd.DataFrame(rsts).set_index("id")
         rsts.to_csv(f"data/csv/results-states-{out_dir}-from-{start.to_date_string()}-to-{end.to_date_string()}.csv")
-        
+
     return rsts
 
 
@@ -547,9 +547,9 @@ if __name__ == "__main__":
     # end = pendulum.datetime(2020, 2, 26, tz="UTC")
     # predict_from_location(start, end, out_dir="14days")
 
-    start = pendulum.datetime(2020, 1, 15, tz="UTC")
-    end = pendulum.datetime(2020, 7, 1, tz="UTC")
-    predict_from_location(start, end, out_dir="14days")
+    # start = pendulum.datetime(2020, 1, 15, tz="UTC")
+    # end = pendulum.datetime(2020, 7, 1, tz="UTC")
+    # predict_from_location(start, end, out_dir="14days")
 
     start = pendulum.datetime(2020, 1, 15, tz="UTC")
     end = pendulum.datetime(2020, 7, 1, tz="UTC")
