@@ -2270,6 +2270,15 @@ def get_tweets(sess, start, end):
     return tweets
 
 
+def get_tweets_proba(sess, start, end, proba=0.66):
+    tweets = sess.query(Tweet).filter(
+        Tweet.source.is_(None),
+        Tweet.dt >= start,
+        Tweet.dt < end,
+        Tweet.max_proba > proba).yield_per(5000)
+    return tweets
+
+
 def get_tweets_bots(sess, start, end):
     tweets = sess.query(Tweet.user_id).filter(
         Tweet.source.isnot(None),
