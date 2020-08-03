@@ -507,7 +507,7 @@ if __name__ == "__main__":
     # 07-10 the second
     start = pendulum.datetime(2020, 1, 1, tz="UTC")
     end = pendulum.datetime(2020, 6, 1, tz="UTC")
-    # sess = get_session_2()
+    sess = get_session_2()
     # -- to database --
     # tweets_to_db(sess, start, end, clear=True)             
     # -- save users' snapshot --
