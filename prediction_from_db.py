@@ -504,14 +504,14 @@ def daily_prediction():
 
 if __name__ == "__main__":
     # 07-10 the second
-    start = pendulum.datetime(2020, 1, 1, tz="UTC")
-    end = pendulum.datetime(2020, 7, 1, tz="UTC")
-    sess = get_session_2()
+    # start = pendulum.datetime(2020, 1, 1, tz="UTC")
+    # end = pendulum.datetime(2020, 6, 1, tz="UTC")
+    # sess = get_session_2()
     # -- to database --
     # tweets_to_db(sess, start, end, clear=True)             
     # -- save users' snapshot --
-    save_user_csv(sess, start, end)
-    sess.close()
+    # save_user_csv(sess, start, end)
+    # sess.close()
 
     # run it per day
     # daily_prediction()
@@ -528,15 +528,15 @@ if __name__ == "__main__":
     # calculate_window_share(start, end, win=7, save_csv=True)
 
     # 14 days
-    # start = pendulum.datetime(2020, 1, 15, tz="UTC")
-    # end = pendulum.datetime(2020, 7, 19, tz="UTC")
-    # calculate_window_share(start, end, win=14)
+    start = pendulum.datetime(2020, 1, 15, tz="UTC")
+    end = pendulum.datetime(2020, 6, 1, tz="UTC")
+    calculate_window_share(start, end, win=14)
     # -- window end --
 
     # -- cumulative start --
-    # start = pendulum.datetime(2020, 1, 2, tz="UTC")
-    # end = pendulum.datetime(2020, 7, 19, tz="UTC")
-    # calculate_cumulative_share(start, end, super_start_month="01", save_users=True)
+    start = pendulum.datetime(2020, 1, 2, tz="UTC")
+    end = pendulum.datetime(2020, 6, 1, tz="UTC")
+    calculate_cumulative_share(start, end, super_start_month="01", save_users=True)
 
     # start = pendulum.datetime(2020, 3, 2, tz="UTC")
     # end = pendulum.datetime(2020, 7, 10, tz="UTC")
@@ -547,13 +547,13 @@ if __name__ == "__main__":
     # end = pendulum.datetime(2020, 2, 26, tz="UTC")
     # predict_from_location(start, end, out_dir="14days")
 
-    # start = pendulum.datetime(2020, 1, 15, tz="UTC")
-    # end = pendulum.datetime(2020, 7, 1, tz="UTC")
-    # predict_from_location(start, end, out_dir="14days")
+    start = pendulum.datetime(2020, 1, 15, tz="UTC")
+    end = pendulum.datetime(2020, 6, 1, tz="UTC")
+    predict_from_location(start, end, out_dir="14days")
 
-    # start = pendulum.datetime(2020, 1, 15, tz="UTC")
-    # end = pendulum.datetime(2020, 7, 1, tz="UTC")
-    # predict_from_location(start, end, out_dir="culFrom01")
+    start = pendulum.datetime(2020, 1, 15, tz="UTC")
+    end = pendulum.datetime(2020, 6, 1, tz="UTC")
+    predict_from_location(start, end, out_dir="culFrom01")
 
     # t0
     # start = pendulum.datetime(2019, 9, 4, tz="UTC")
