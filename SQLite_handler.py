@@ -2436,5 +2436,5 @@ def init_db_2():
 if __name__ == "__main__":
     # init_db_2()
     # sess = get_session_2()
-    # tweets_to_db_fast(sess)
-    save_all_bots_users()
+    tweets_to_db_fast(sess)
+    # save_all_bots_users()
