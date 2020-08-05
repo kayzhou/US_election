@@ -79,6 +79,10 @@ def write_top_hashtags_mex(out_name):
 
     for in_name in file_names:
         print(in_name)
+        if in_name.endswith("202007-(Sinhue AND presidente) OR.txt"):
+            continue
+        if "202007_hold" in in_name:
+            continue
         for line in tqdm(open(in_name)):
             try:
                 hts = json.loads(line)["hashtags"]
