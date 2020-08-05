@@ -80,7 +80,11 @@ def write_top_hashtags_mex(out_name):
     for in_name in file_names:
         print(in_name)
         for line in tqdm(open(in_name)):
-            hts = json.loads(line)["hashtags"]
+            try:
+                hts = json.loads(line)["hashtags"]
+            except:
+                print("json.loads() Error.")
+                continue
             for ht in hts:
                 all_hts[ht["text"].lower()] += 1
 
