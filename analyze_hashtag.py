@@ -79,7 +79,7 @@ def write_top_hashtags_mex(out_name):
 
     for in_name in file_names:
         print(in_name)
-        if str(in_name).endswith("202007-(Sinhue AND presidente) OR.txt"):
+        if str(in_name).endswith("OR.txt"):
             continue
         if "202007_hold" in str(in_name):
             continue
