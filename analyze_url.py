@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/21 09:47:55 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/06/22 09:43:13 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/08/06 16:23:32 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,6 +26,7 @@ def read_tweets(start, end):
     months = set([
         # "202006",
         "202007",
+        "202008",
     ])
 
     set_tweets = set()
@@ -42,7 +43,6 @@ def read_tweets(start, end):
                         print(cnt, "end of the file!")
                         print("-" * 50)
                         break
-    
                     try:
                         d = json.loads(line.strip())
                     except:
@@ -83,6 +83,6 @@ def write_top_trump_biden_url(start, end, out_name):
             
 
 if __name__ == "__main__":
-    start = pendulum.datetime(2020, 7, 13, tz="UTC")
-    end = pendulum.datetime(2020, 7, 20, tz="UTC")
-    write_top_trump_biden_url(start, end, "data/url-0713-0720.txt")
+    start = pendulum.datetime(2020, 7, 20, tz="UTC")
+    end = pendulum.datetime(2020, 8, 3, tz="UTC")
+    write_top_trump_biden_url(start, end, "data/url-0720-0803.txt")
