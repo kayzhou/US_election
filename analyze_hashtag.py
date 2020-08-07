@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/21 09:47:55 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/06/22 09:43:23 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/08/07 16:22:13 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -75,13 +75,11 @@ def write_top_hashtags(in_files, out_name):
 
 def write_top_hashtags_mex(out_name):
     all_hts = Counter()
-    file_names = sorted(Path("/media/wangjiannan/Mexico_election_raw_tweets").rglob("*.txt"), reverse=True)
+    file_names = sorted(Path("/media/wangjiannan/Mexico_election_raw_tweets/202008").rglob("*.txt"), reverse=True)
 
     for in_name in file_names:
         print(in_name)
         if str(in_name).endswith("OR.txt"):
-            continue
-        if "202007_hold" in str(in_name):
             continue
         for line in tqdm(open(in_name)):
             try:
@@ -155,7 +153,7 @@ def label_based_on_before(in_name, out_name):
 if __name__ == "__main__":
     # write_top_hashtags(demo_files, "hashtags-democrats-20200305.txt")
     # write_top_trump_biden_hashtags("data/hashtags-democrats-20200305.txt")
-    write_top_hashtags_mex("hashtags-MEX-20200805.txt")
+    write_top_hashtags_mex("hashtags-MEX-20200807.txt")
 
 
     # write_top_hashtags(trump_files, "hashtags-trump-20200318.txt")
