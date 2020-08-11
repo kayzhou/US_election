@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/21 09:47:55 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/08/11 08:54:03 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/08/11 09:17:20 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -174,8 +174,8 @@ def label_based_on_before(in_name, out_name):
 if __name__ == "__main__":
     # write_top_hashtags(demo_files, "hashtags-democrats-20200305.txt")
     # write_top_trump_biden_hashtags("data/hashtags-democrats-20200305.txt")
-    # write_top_hashtags_mex("hashtags-MEX-20200807.txt")
-    write_top_words_mex("data/words-MEX-20200811.txt")
+    write_top_hashtags_mex("hashtags-MEX-20200811.txt")
+    # write_top_words_mex("data/words-MEX-20200811.txt")
 
 
     # write_top_hashtags(trump_files, "hashtags-trump-20200318.txt")
