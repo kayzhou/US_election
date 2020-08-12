@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/21 09:47:55 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/08/12 18:56:05 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/08/12 19:09:59 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -131,7 +131,7 @@ def read_classified_hashtags():
             _ht, label, category = w[0], w[1], w[2]
             if label == "UNK":
                 continue
-            print(_ht, label)
+            # print(_ht, label)
             if label in classified_hts:
                 classified_hts[label].add(_ht)
                 category_hts[category].add(_ht)
