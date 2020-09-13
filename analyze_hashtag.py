@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/21 09:47:55 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/08/11 09:17:20 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/09/13 21:35:33 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,10 +49,12 @@ trump_files = [
 ]
  
 months = set([
-    "202006",
-    "202005",
-    "202004",
-    "202003",
+    "202008",
+    "202007",
+    # "202006",
+    # "202005",
+    # "202004",
+    # "202003",
 ])
 
 
@@ -130,7 +132,6 @@ def write_top_trump_biden_hashtags(out_name):
                     for ht in hts:
                         all_hts[ht["text"].lower()] += 1
 
-
     with open(out_name, "w") as f:
         for ht, cnt in all_hts.most_common(1000):
             f.write(f"{ht},{cnt}\n")
@@ -173,8 +174,8 @@ def label_based_on_before(in_name, out_name):
 
 if __name__ == "__main__":
     # write_top_hashtags(demo_files, "hashtags-democrats-20200305.txt")
-    # write_top_trump_biden_hashtags("data/hashtags-democrats-20200305.txt")
-    write_top_hashtags_mex("hashtags-MEX-20200811.txt")
+    write_top_trump_biden_hashtags("data/hashtags-trump-biden-202007.08.txt")
+    # write_top_hashtags_mex("data/hashtags-MEX-20200811.txt")
     # write_top_words_mex("data/words-MEX-20200811.txt")
 
 
