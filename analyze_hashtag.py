@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/21 09:47:55 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/09/13 21:35:33 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/09/15 14:05:14 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -128,7 +128,10 @@ def write_top_trump_biden_hashtags(out_name):
             if in_name.parts[1] in months:
                 print(in_name)
                 for line in tqdm(open(in_name)):
-                    hts = json.loads(line)["hashtags"]
+                    try:
+                        hts = json.loads(line)["hashtags"]
+                    except:
+                        pass
                     for ht in hts:
                         all_hts[ht["text"].lower()] += 1
 
