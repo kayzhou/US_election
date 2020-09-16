@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/21 09:47:55 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/09/16 14:48:24 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/09/16 14:51:12 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,6 @@ def read_tweets(start, end):
         # "202007",
         "202008",
     ])
-
     set_tweets = set()
     file_names = sorted(Path("raw_data").rglob("*.txt"), reverse=True)
 
