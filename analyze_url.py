@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/21 09:47:55 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/09/16 14:41:59 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/09/16 14:48:24 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -81,9 +81,21 @@ def write_top_trump_biden_url(start, end, out_name):
     with open(out_name, "w") as f:
         for ht, cnt in url_counter.most_common():
             print(ht, cnt, file=f)
-            
+
 
 if __name__ == "__main__":
     start = pendulum.datetime(2020, 8, 3, tz="UTC")
     end = pendulum.datetime(2020, 8, 10, tz="UTC")
-    write_top_trump_biden_url(start, end, "data/url-08-0803.txt")
+    write_top_trump_biden_url(start, end, "data/url-0803-0810.txt")
+
+    start = pendulum.datetime(2020, 8, 10, tz="UTC")
+    end = pendulum.datetime(2020, 8, 17, tz="UTC")
+    write_top_trump_biden_url(start, end, "data/url-0810-0817.txt")
+    
+    start = pendulum.datetime(2020, 8, 17, tz="UTC")
+    end = pendulum.datetime(2020, 8, 24, tz="UTC")
+    write_top_trump_biden_url(start, end, "data/url-0817-0824.txt")
+    
+    start = pendulum.datetime(2020, 8, 24, tz="UTC")
+    end = pendulum.datetime(2020, 8, 31, tz="UTC")
+    write_top_trump_biden_url(start, end, "data/url-0824-0831.txt")
