@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/07 20:40:05 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/09/16 07:58:31 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/09/21 13:46:01 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -330,9 +330,9 @@ def get_US_hts_for_web(num):
 if __name__ == "__main__":
     init_db()
     # add_camp_hashtags_from_file("/home/alex/kayzhou/US_election/data/hashtags/hashtags-democrats-20200121-v2.txt")
-    add_weekly_hashtags_from_file("/home/alex/kayzhou/US_election/data/hashtags-trump-biden-202007.08.txt", clear=True)
+    # add_weekly_hashtags_from_file("/home/alex/kayzhou/US_election/data/hashtags-trump-biden-202007.08.txt", clear=True)
 
-    # add_camp_hashtags_from_json("/media/zhenkun/Argentina_election/web/data/submit/2020-06-24 14:29:58.json")
+    add_camp_hashtags_from_json("/media/zhenkun/Argentina_election/web/data/submit/2020-09-20 09:48:39.json")
     # add_camp_hashtags_from_json("/media/zhenkun/Argentina_election/web/data/submit/2020-06-24 17:25:32.json")
     # add_camp_hashtags_from_json("/media/zhenkun/Argentina_election/web/data/submit/2020-06-24 17:25:41.json")
 
