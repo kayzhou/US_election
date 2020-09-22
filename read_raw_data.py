@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/11 11:16:25 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/09/22 11:06:30 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/09/22 14:58:43 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -199,7 +199,10 @@ def read_raw_data_month(month, _set_tweet_ids):
         if ("biden" in word or "trump" in word) and in_name.parts[1] == month:
             print(in_name)
             for line in open(in_name):
-                d = json.loads(line.strip())
+                try:
+                    d = json.loads(line.strip())
+                except Exception:
+                    print("JSON loading error")
                 if d["id"] in _set_tweet_ids:
                     continue
                 _set_tweet_ids.add(d["id"])
@@ -419,7 +422,10 @@ if __name__ == '__main__':
         # f_user = open(f"disk/users-profile/{month}.lj", "w")
         data_iter = read_raw_data_month(month, _set_tweetid)
         for d in data_iter:
-            f_data.write(json.dumps(d, ensure_ascii=False) + "\n")
+            try:
+                f_data.write(json.dumps(d, ensure_ascii=False) + "\n")
+            except Exception:
+                print("JSON dump error.")
             # u = d["user"]
             # if "location" not in u or u["id"] in _set_users:
             #     continue
