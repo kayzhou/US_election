@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/11 11:16:25 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/06/16 17:31:06 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/09/22 11:06:30 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -409,29 +409,29 @@ def read_users_set():
 if __name__ == '__main__':
 
     # 组合新的原始数据
-    # _set_tweetid = set()
     # _set_users = set()
     # months = ["202001", "202002", "202003", "202004", "202005", "202006"]
+    months = ["202007", "202008"]
     
-    # for month in months:
-    #     f_data = open(f"/media/alex/data/US2020_raw/{month}.lj", "w")
-    #     f_user = open(f"disk/users-profile/{month}.lj", "w")
-    #     data_iter = read_raw_data_month(month, _set_tweetid)
-    #     for d in data_iter:
-    #         f_data.write(json.dumps(d, ensure_ascii=False) + "\n")
-    #         u = d["user"]
-    #         if "location" not in u or u["id"] in _set_users:
-    #             continue
-    #         u = {
-    #             'id': u['id'],
-    #             'screen_name': u['screen_name'],
-    #             'location': u['location']
-    #         }
-    #         f_user.write(json.dumps(u, ensure_ascii=False) + "\n")
-    #         _set_users.add(u["id"])
-    #     f_data.close()
-    #     f_user.close()
+    for month in months:
+        _set_tweetid = set()
+        f_data = open(f"/external1/zhenkun/raw_data/{month}.lj", "w")
+        # f_user = open(f"disk/users-profile/{month}.lj", "w")
+        data_iter = read_raw_data_month(month, _set_tweetid)
+        for d in data_iter:
+            f_data.write(json.dumps(d, ensure_ascii=False) + "\n")
+            # u = d["user"]
+            # if "location" not in u or u["id"] in _set_users:
+            #     continue
+            # u = {
+            #     'id': u['id'],
+            #     'screen_name': u['screen_name'],
+            #     'location': u['location']
+            # }
+            # f_user.write(json.dumps(u, ensure_ascii=False) + "\n")
+            # _set_users.add(u["id"])
+        f_data.close()
+        # f_user.close()
 
-    pass
-
+    # pass
 
