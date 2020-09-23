@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/21 09:47:55 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/09/23 14:56:51 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/09/23 15:15:48 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -77,44 +77,6 @@ months = set([
 
 # PB BS EW JB OT=others
 def read_classified_hashtags():
-    # labels = "PB BS EW JB OT".split()
-    # classified_hts = {
-    #     "PB": set(),
-    #     "BS": set(),
-    #     "EW": set(),
-    #     "JB": set(),
-    #     "OT": set(),
-    # }
-
-    # 2020-01-21
-    # classified_hts = {
-    #     "PB": set(),
-    #     "BS": set(),
-    #     "EW": set(),
-    #     "JB": set(),
-    #     "OT": set(),
-    #     "MB": set()
-    # }
-
-    # 2020-03-06
-    #classified_hts = {
-    #    "BS": set(),
-    #    "JB": set(),
-    #    "OT": set(),
-    #}
-    
-    # 2020-03-25
-    # classified_hts = {
-    #     "BS": set(),
-    #     "JB": set(),
-    # }
-
-    # classified_hts = {
-    #     "DT": set(),
-    #     "BS": set(),
-    #     "JB": set(),
-    #     "OT": set(),
-    # }
 
     classified_hts = {
         "JB": set(),
@@ -128,6 +90,7 @@ def read_classified_hashtags():
     for line in open(train_dir + "hashtags.txt"):     # 2020-03-06
         if not line.startswith("#"):
             w = line.strip().split()
+            print(w)
             _ht, label, category = w[0], w[1], w[2]
             if label == "UNK":
                 continue
@@ -195,7 +158,6 @@ def ext_2():
         #     for in_name in dt_dir.iterdir():
         #         if in_name.stem.split("-")[-1] in election_files and in_name.parts[1] in months:
         #             print(in_name)
-
         months = ["202001", "202002", "202003", "202004", "202005", "202006"]
         for month in months:
             print(month)
