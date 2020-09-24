@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/07/06 14:11:24 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/09/24 08:46:05 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/09/24 14:42:15 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -169,7 +169,7 @@ class Classifer(object):
 
 if __name__ == "__main__":
     #dt = "2020-03-06-tfidf"
-    #dt ="2020-03-08-tfidf_model3"
+    #dt = "2020-03-08-tfidf_model3"
     #dt = "model 4_omg"
 
     _dir = "train-08"

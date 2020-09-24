@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/21 09:47:55 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/09/24 09:05:47 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/09/24 14:45:21 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -180,7 +180,7 @@ def ext_2():
             label = None
             for _label, _set_hts in classified_hts.items():
                 for _ht in set_hts:
-                    if _ht in _set_hts and _ht in DT_hts:
+                    if _ht in _set_hts and _ht in DT_hts_c:
                         label = _label
                         label_bingo_times += 1
                         break   
@@ -193,7 +193,7 @@ def ext_2():
             label = None
             for _label, _set_hts in classified_hts.items():
                 for _ht in set_hts:
-                    if _ht in _set_hts and _ht in JB_hts:
+                    if _ht in _set_hts and _ht in JB_hts_c:
                         label = _label
                         label_bingo_times += 1
                         break   
