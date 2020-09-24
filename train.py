@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    train.py                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
+#    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/07/06 14:11:24 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/03/29 20:51:04 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/09/24 08:46:05 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -76,7 +76,6 @@ class Classifer(object):
                     f.write(str(camp) + "\t" + " ".join(words) + "\n")
                 except ValueError as e:
                     print(e)
-                
 
     def load_tokens(self):
         X = []; y = []
@@ -92,7 +91,6 @@ class Classifer(object):
 
         print("count of text in camps:", Counter(y).most_common())
         return X, y
-
 
     def train(self):
         # read data
@@ -174,7 +172,7 @@ if __name__ == "__main__":
     #dt ="2020-03-08-tfidf_model3"
     #dt = "model 4_omg"
 
-    _dir = "train-07"
+    _dir = "train-08"
     Lebron = Classifer(train_dir=_dir)
     # After extract_train_data.py
     Lebron.save_tokens()
