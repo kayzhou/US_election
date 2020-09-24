@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/21 09:47:55 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/09/23 15:15:48 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/09/24 09:05:47 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -144,80 +144,65 @@ def ext_1():
 def ext_2():
     """
     考虑支持和类别
+    根据category完全分成两个分类器～ 
     """
     classified_hts, category_hts = read_classified_hashtags()
     JB_hts = classified_hts["JB"]
     DT_hts = classified_hts["DT"]
     JB_hts_c = category_hts["JB"]
     DT_hts_c = category_hts["DT"]
+
     print(len(JB_hts), len(JB_hts_c), len(DT_hts), len(DT_hts_c))
 
-    with open(train_dir + "train.txt", "w") as f:
-        # for dt_dir in Path("raw_data").iterdir():
-        set_id = set()  # remove dups
-        #     for in_name in dt_dir.iterdir():
-        #         if in_name.stem.split("-")[-1] in election_files and in_name.parts[1] in months:
-        #             print(in_name)
-        months = ["202001", "202002", "202003", "202004", "202005", "202006"]
-        for month in months:
-            print(month)
-            for line in tqdm(open(f"/media/alex/data/US2020_raw/{month}.lj")):
-                try:
-                    data = json.loads(line.strip())
-                except Exception:
-                    print('json.loads Error:', line)
-                    continue
+    f_trump = open(train_dir + "train-T.txt", "w")
+    f_biden = open(train_dir + "train-B.txt", "w")
 
-                label_bingo_times = 0
-                label = None
+    months = ["202001", "202002", "202003", "202004", "202005", "202006"]
+
+    for month in months:
+        print(month)
+        for line in tqdm(open(f"raw_data/raw_data/{month}.lj")):       
+            try:
+                data = json.loads(line)
+            except Exception:
+                print("json.loads ERROR:", line)
                 
-                # ignoring retweets
-                if 'retweeted_status' in data and data["text"].startswith("RT @"): 
-                    continue
-                set_hts = set([ht["text"].lower() for ht in data["hashtags"]])
-                if not set_hts:
-                    continue
-                    
-                if data["id"] in set_id:
-                    continue
-                set_id.add(data["id"])
-
+            # ignoring retweets
+            if 'retweeted_status' in data and data["text"].startswith("RT @"): 
+                continue
+            set_hts = set([ht["text"].lower() for ht in data["hashtags"]])
+            
+            # 如果没有hashtags
+            if not set_hts:
+                continue
+            
+            label_bingo_times = 0
+            label = None
+            for _label, _set_hts in classified_hts.items():
                 for _ht in set_hts:
-                    if _ht in JB_hts:
+                    if _ht in _set_hts and _ht in DT_hts:
+                        label = _label
                         label_bingo_times += 1
-                        label = "JB"
-                        break
+                        break   
+            # one tweet (in traindata) should have 0 or 1 class hashtag
+            if label and label_bingo_times == 1:
+                text = data["text"].replace("\n", " ").replace("\t", " ")
+                f_trump.write(label + "\t" + text + "\n")
+
+            label_bingo_times = 0
+            label = None
+            for _label, _set_hts in classified_hts.items():
                 for _ht in set_hts:
-                    if _ht in DT_hts:
+                    if _ht in _set_hts and _ht in JB_hts:
+                        label = _label
                         label_bingo_times += 1
-                        label = "DT"
-                        break
-
-                if not (label and label_bingo_times == 1):
-                    continue
-
-                # 判断类别
-                cate = "UNK"
-                cate_bingo_times = 0
-                for _ht in set_hts:
-                    if _ht in JB_hts_c:
-                        cate_bingo_times += 1
-                        cate = "JB"
-                        break
-                for _ht in set_hts:
-                    if _ht in DT_hts_c:
-                        cate_bingo_times += 1
-                        cate = "DT"
-                        break
-                
-                if cate_bingo_times == 2:
-                    cate = "JB+DT"
-                    
-                # one tweet (in traindata) should have 0 or 1 class hashtag
-                if label and label_bingo_times == 1:
-                    text = data["text"].replace("\n", " ").replace("\t", " ")
-                    f.write(label + "\t" + cate + "\t" + text + "\n")
+                        break   
+            # one tweet (in traindata) should have 0 or 1 class hashtag
+            if label and label_bingo_times == 1:
+                text = data["text"].replace("\n", " ").replace("\t", " ")
+                f_biden.write(label + "\t" + text + "\n")
 
 
 if __name__ == "__main__":
-    ext_1()
+    # ext_1()
+    ext_2()
