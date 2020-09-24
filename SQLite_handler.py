@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/07 20:40:05 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/07/17 07:54:32 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/09/24 16:27:37 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -572,7 +572,7 @@ def tweets_to_db_fast(sess):
             for i in range(len(tweets_data)):
                 rst = json_rst[tweets_data[i].tweet_id]
                 tweets_data[i].max_proba = round(rst.max(), 3)
-                tweets_data[i].camp = int(rst.argmax()) # 0 for Biden, 1 for Trump
+                tweets_data[i].camp = int(rst.argmax())
 
             sess.add_all(tweets_data)
             sess.commit()
@@ -584,7 +584,7 @@ def tweets_to_db_fast(sess):
         for i in range(len(tweets_data)):
             rst = json_rst[tweets_data[i].tweet_id]
             tweets_data[i].max_proba = round(rst.max(), 3)
-            tweets_data[i].camp = int(rst.argmax()) # 0 for Biden, 1 for Trump
+            tweets_data[i].camp = int(rst.argmax())
 
         sess.add_all(tweets_data)
         sess.commit()
@@ -1453,180 +1453,6 @@ def predict_culmulative_swing_loyal_v2(start, end, prob=0.68):
         f"data/swings_and_loyals-end-{dt.to_date_string()}.csv")
 
 
-def predict_culmulative_user_class(start, end, prob=0.68):
-    """
-    从历史开始每天累积
-    """
-    _period = pendulum.Period(start, end)
-    for dt in _period:
-        print(dt)
-        # save
-        print(
-            "load ~", f"disk/cul_from_March_1/{dt.to_date_string()}-{prob}.txt")
-        cul_today = json.load(
-            open(f"disk/cul_from_March_1/{dt.to_date_string()}-{prob}.txt"))
-
-        # cnt = {
-        #     "dt": dt.to_date_string(),
-        #     "Fl": [],
-        #     "Ml": [],
-        #     "Fs": [],
-        #     "Ms": [],
-        #     "U": [],
-        #     "I": [],
-        # }
-        # # user-level
-        # for u, v in cul_today.items():
-        #     if v["I"] > 0:
-        #         continue
-        #     if v["M"] > v["K"]:
-        #         if v["M"] > (v["K"] * 2):
-        #             cnt["Ml"].append(u)
-        #         else:
-        #             cnt["Ms"].append(u)
-        #     elif v["M"] < v["K"]:
-        #         if v["K"] > (v["M"] * 2):
-        #             cnt["Fl"].append(u)
-        #         else:
-        #             cnt["Fs"].append(u)
-        #     elif v["M"] > 0 or v["K"] > 0:
-        #         cnt["U"].append(u)
-        #     else:
-        #         cnt["I"].append(u)
-
-        # print("save ~", f"disk/user_class/{dt.to_date_string()}-{prob}.txt")
-        # json.dump(cnt, open(f"disk/user_class/{dt.to_date_string()}-{prob}.txt", "w"))
-
-
-def new_users_in_different_class(start, end, w=14, prob=0.68):
-    rsts = []
-    for dt in pendulum.Period(start, end):
-        print(
-            "load ~", f"disk/cul_from_March_1/{dt.to_date_string()}-{prob}.txt")
-        previous = json.load(
-            open(f"disk/cul_from_March_1/{dt.to_date_string()}-{prob}.txt"))
-        previous_users = set(previous.keys())
-        today_str = dt.add(days=w).to_date_string()
-        if os.path.exists(f'disk/cul_from_March_1/{today_str}-{prob}.txt'):
-            today = json.load(
-                open(f'disk/cul_from_March_1/{today_str}-{prob}.txt'))
-        else:
-            break
-        today_users = set(today.keys())
-
-        new_users = today_users - previous_users
-        cnt = {
-            "dt": today_str,
-            "New users (FF)": 0,
-            "New users (MP)": 0,
-            "New users (Others)": 0
-        }
-        for u in new_users:
-            if today[u]["K"] > today[u]["M"]:
-                cnt["New users (FF)"] += 1
-            elif today[u]["K"] < today[u]["M"]:
-                cnt["New users (MP)"] += 1
-            else:
-                cnt["New users (Others)"] += 1
-        print(cnt)
-        rsts.append(cnt)
-    pd.DataFrame(rsts).set_index("dt").to_csv(
-        f"data/new-users-end-{today_str}-{w}.csv")
-
-
-def old_users_in_different_class(start, end, peri=1, w=14, prob=0.68, norm=False):
-    import ujson as json
-
-    rsts = []
-    for dt in pendulum.Period(start, end):
-        today_str = dt.add(days=peri * w).to_date_string()
-        if not os.path.exists(f'disk/users-14days/{today_str}-{prob}.txt'):
-            break
-
-        live_K = []
-        live_M = []
-        live_U = []
-
-        always_K_users = None
-        always_M_users = None
-        always_U_users = None
-
-        for i in range(peri):
-            print(f"period={peri}, i={i}")
-            print(
-                "load ~", f"disk/users-14days/{dt.add(days=i * w + w).to_date_string()}-{prob}.txt")
-            prev = json.load(
-                open(f"disk/users-14days/{dt.add(days=i * w + w).to_date_string()}-{prob}.txt"))
-            K_users = set()
-            M_users = set()
-            U_users = set()
-            for u, v in prev.items():
-                if v["I"] > 0:
-                    continue
-                if v["K"] > v["M"]:
-                    K_users.add(u)
-                elif v["K"] < v["M"]:
-                    M_users.add(u)
-                else:
-                    U_users.add(u)
-
-            live_K.append(K_users)
-            live_M.append(M_users)
-            live_U.append(U_users)
-            print(len(live_K[i]), len(live_M[i]), len(live_U[i]))
-
-        for i in range(peri):
-            Ku = live_K[i]
-            # print("Users of K:", len(Ku))
-            if always_K_users is None:
-                always_K_users = Ku
-            else:
-                always_K_users = always_K_users & Ku
-            # print("Union:", len(always_K_users))
-
-        for i in range(peri):
-            Mu = live_M[i]
-            # print("Users of M:", len(Mu))
-            if always_M_users is None:
-                always_M_users = Mu
-            else:
-                always_M_users = always_M_users & Mu
-            print("Union:", len(always_M_users))
-
-        for i in range(peri):
-            Uu = live_U[i]
-            # print("Users of U:", len(Uu))
-            if always_U_users is None:
-                always_U_users = Uu
-            else:
-                always_U_users = always_U_users & Uu
-            # print("Union:", len(always_U_users))
-
-        cnt = {
-            "dt": today_str,
-            "users (FF)": len(always_K_users),
-            "users (MP)": len(always_M_users),
-            "users (Others)": len(always_U_users)
-        }
-
-        # if norm:
-        #     today = json.load(open(f'disk/cul_from_March_1/{today_str}-{prob}.txt'))
-        #     today_users_set = get_user_set(today)
-        #     cnt["users (FF)"] /= len(today_users_set["K"])
-        #     cnt["users (MP)"] /= len(today_users_set["M"])
-        #     cnt["users (Other)"] /= len(today_users_set["U"])
-
-        print(cnt)
-        rsts.append(cnt)
-
-    if norm:
-        pd.DataFrame(rsts).set_index("dt").to_csv(
-            f"data/permenant-users-end-{today_str}-{peri}-norm.csv")
-    else:
-        pd.DataFrame(rsts).set_index("dt").to_csv(
-            f"data/permenant-users-end-{today_str}-{peri}.csv")
-
-
 def predict_cumulative_file(start, end, out_dir="culFromSep"):
     """
     making users-culFromSep
@@ -2417,33 +2243,34 @@ def get_db_prediction_results(state="all"):
 
 
 def get_session():
-    engine = create_engine("sqlite:////home/alex/kayzhou/US_election/data/election-trump-biden.db")
+    engine = create_engine("sqlite:////home/zhenkun/US_election/data/election.db")
     # engine = create_engine("sqlite:////home/alex/kayzhou/US_election/data/election-trump-biden-July.db")
     DBSession = sessionmaker(bind=engine)
     session = DBSession()
     return session
 
 
-def get_session_2():
-    engine = create_engine("sqlite:////media/zhenkun/election-from-Jan-to-June.db")
-    # engine = create_engine("sqlite:////home/alex/kayzhou/US_election/data/election-trump-biden-July.db")
-    DBSession = sessionmaker(bind=engine)
-    session = DBSession()
-    return session
+# def get_session_2():
+#     engine = create_engine("sqlite:////media/zhenkun/election-from-Jan-to-June.db")
+#     # engine = create_engine("sqlite:////home/alex/kayzhou/US_election/data/election-trump-biden-July.db")
+#     DBSession = sessionmaker(bind=engine)
+#     session = DBSession()
+#     return session
 
     
 def init_db():
-    engine = create_engine("sqlite:////home/alex/kayzhou/US_election/data/election-trump-biden.db")
+    engine = create_engine("sqlite:////home/zhenkun/US_election/data/election.db")
     Base.metadata.create_all(engine)
 
 
-def init_db_2():
-    engine = create_engine("sqlite:////media/zhenkun/election-from-Jan-to-June.db")
-    Base.metadata.create_all(engine)
+# def init_db_2():
+#     engine = create_engine("sqlite:////media/zhenkun/election-from-Jan-to-June.db")
+#     Base.metadata.create_all(engine)
 
 
 if __name__ == "__main__":
-    init_db_2()
-    sess = get_session_2()
+    init_db()
+    sess = get_session()
+    # tweets_to_db(sess, start, end)
     tweets_to_db_fast(sess)
     # save_all_bots_users()

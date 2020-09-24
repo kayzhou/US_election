@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/22 12:48:20 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/07/17 07:53:34 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/09/24 16:28:43 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,7 +33,7 @@ from my_weapon import *
 from TwProcess import *
 
 
-def load_models_2party(dt):
+def load_models(dt):
     print("load models ", dt)
     # 一定要区分好
     label2num = {
@@ -53,7 +53,7 @@ class Camp_Classifier(object):
         "Init Classifer."
 
     def load(self):
-        self.classified_hts, self.token, self.v, self.clf = load_models_2party("train-07")
+        self.classified_hts, self.token, self.v, self.clf = load_models("train-08")
         
     def predict(self, ds):
 

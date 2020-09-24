@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/11 11:16:25 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/09/23 14:44:29 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/09/24 16:25:32 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -114,15 +114,21 @@ def read_historical_tweets(start, end):
 
 
 def read_raw_tweets_fromlj():
-    set_tweetid = set()
-    months = ["202001", "202002", "202003", "202004", "202005", "202006"]
+    """直接读取raw_data/month.lj文件
+
+    Yields:
+        [type]: [description]
+    """
+    months = ["202008", "202007", "202006", "202005", "202004", "202003"]
     for month in months:
+        set_tweetid = set()
         print(month)
-        for line in tqdm(open(f"/media/alex/data/US2020_raw/{month}.lj")):
+        for line in tqdm(open(f"raw_data/raw_data/{month}.lj")):
             try:
                 d = json.loads(line.strip())
-            except:
-                print('json.loads Error:', line)
+            except Exception as e:
+                print('json.loads Error:', e)
+                print('line ->', line)
                 continue
             if d['id'] in set_tweetid:
                 continue
