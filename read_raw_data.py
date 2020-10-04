@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/11 11:16:25 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/09/24 16:25:32 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/10/04 10:37:47 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -113,14 +113,32 @@ def read_historical_tweets(start, end):
                     yield d, dt
 
 
-def read_raw_tweets_fromlj():
+def read_raw_tweets_fromlj(_month="all"):
     """直接读取raw_data/month.lj文件
 
     Yields:
         [type]: [description]
     """
-    months = ["202008", "202007", "202006", "202005", "202004", "202003"]
-    for month in months:
+    if _month == "all":
+        months = ["202008", "202007", "202006", "202005", "202004", "202003"]
+        for month in months:
+            set_tweetid = set()
+            print(month)
+            for line in tqdm(open(f"raw_data/raw_data/{month}.lj")):
+                try:
+                    d = json.loads(line.strip())
+                except Exception as e:
+                    print('json.loads Error:', e)
+                    print('line ->', line)
+                    continue
+                if d['id'] in set_tweetid:
+                    continue
+                set_tweetid.add(d['id'])
+                dt = pendulum.from_format(d["created_at"], 'ddd MMM DD HH:mm:ss ZZ YYYY')
+                yield d, dt
+    
+    else:
+        month = _month
         set_tweetid = set()
         print(month)
         for line in tqdm(open(f"raw_data/raw_data/{month}.lj")):
@@ -135,6 +153,7 @@ def read_raw_tweets_fromlj():
             set_tweetid.add(d['id'])
             dt = pendulum.from_format(d["created_at"], 'ddd MMM DD HH:mm:ss ZZ YYYY')
             yield d, dt
+
 
 
 def read_tweets_json(start, end):
