@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/07 20:40:05 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/10/06 23:40:25 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/10/06 23:43:58 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -631,9 +631,9 @@ def tweets_to_txt_fast():
                 json_rst = Lebron.predict(X)
                 for i in range(len(tweets_data)):
                     rst = json_rst[tweets_data[i].tweet_id]
-                    tweets_data[i].max_proba = rst[1]
+                    tweets_data[i].max_proba = rount(rst[1], 3)
                     # tweets_data[i].camp = int(rst.argmax())
-                    cnt += len(tweets_data)
+                cnt += len(tweets_data)
 
                 # sess.add_all(tweets_data)
                 # sess.commit()
@@ -648,9 +648,10 @@ def tweets_to_txt_fast():
             json_rst = Lebron.predict(X)
             for i in range(len(tweets_data)):
                 rst = json_rst[tweets_data[i].tweet_id]
-                tweets_data[i].max_proba = rst[1]
+                tweets_data[i].max_proba = rount(rst[1], 3)
                 # tweets_data[i].max_proba = round(rst.max(), 3)
                 # tweets_data[i].camp = int(rst.argmax())
+            cnt += len(tweets_data)
                                                                                                                                                                                                                            
             for _d in tweets_data:
                 out_file.write(f"{_d.tweet_id},{_d.user_id},{_d.dt.to_datetime_string()},{_d.source},{_d.max_proba}\n")
