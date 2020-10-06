@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/07 20:40:05 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/10/04 10:46:08 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/10/06 22:56:43 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -634,6 +634,9 @@ def tweets_to_txt_fast():
                 # sess.commit()
                 for _d in tweets_data:
                     out_file.write(f"{_d.tweet_id},{_d.user_id},{_d.dt.to_datetime_string()},{_d.source},{_d.max_proba},{_d.camp}\n")
+
+                X = []
+                tweets_data = []
 
         if tweets_data:
             json_rst = Lebron.predict(X)

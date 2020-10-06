@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/11 11:16:25 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/10/04 10:37:47 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/10/06 22:54:05 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -136,7 +136,7 @@ def read_raw_tweets_fromlj(_month="all"):
                 set_tweetid.add(d['id'])
                 dt = pendulum.from_format(d["created_at"], 'ddd MMM DD HH:mm:ss ZZ YYYY')
                 yield d, dt
-    
+
     else:
         month = _month
         set_tweetid = set()
