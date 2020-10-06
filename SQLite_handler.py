@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/07 20:40:05 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/10/06 22:56:43 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/10/06 23:18:42 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -598,9 +598,6 @@ def tweets_to_txt_fast():
     Lebron = Camp_Classifier()
     Lebron.load()
 
-    X = []
-    tweets_data = []
-
     # from read_raw_data import read_historical_tweets as read_tweets
     from read_raw_data import read_raw_tweets_fromlj as read_tweets
 
@@ -608,6 +605,9 @@ def tweets_to_txt_fast():
     for m in months:
         print(f"writing tweets to data/{m}-tweets-prediction.txt ...")
         out_file = open(f"data/{m}-tweets-prediction.txt", "w")
+        X = []
+        tweets_data = []
+        i = 0
         for d, dt in read_tweets(_month=m):
             # print(d)
             tweet_id = d["id"]
@@ -622,6 +622,7 @@ def tweets_to_txt_fast():
                 Tweet(tweet_id=tweet_id, user_id=uid, dt=dt, source=_sou)
             )
             X.append(d)
+            i += 1
             
             if len(tweets_data) == 5000:
                 json_rst = Lebron.predict(X)
@@ -635,6 +636,7 @@ def tweets_to_txt_fast():
                 for _d in tweets_data:
                     out_file.write(f"{_d.tweet_id},{_d.user_id},{_d.dt.to_datetime_string()},{_d.source},{_d.max_proba},{_d.camp}\n")
 
+                print(i)
                 X = []
                 tweets_data = []
 
@@ -644,7 +646,7 @@ def tweets_to_txt_fast():
                 rst = json_rst[tweets_data[i].tweet_id]
                 tweets_data[i].max_proba = round(rst.max(), 3)
                 tweets_data[i].camp = int(rst.argmax())
-
+                                                                                                                                                                                                                           
             for _d in tweets_data:
                 out_file.write(f"{_d.tweet_id},{_d.user_id},{_d.dt.to_datetime_string()},{_d.source},{_d.max_proba},{_d.camp}\n")
         
