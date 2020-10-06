@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/07 20:40:05 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/10/06 23:26:56 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/10/06 23:40:25 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -593,6 +593,8 @@ def tweets_to_db_fast(sess):
 def tweets_to_txt_fast():
     """
     import tweets to database with prediction
+
+    因为
     """
     from classifier import Camp_Classifier
     Lebron = Camp_Classifier()
@@ -604,7 +606,7 @@ def tweets_to_txt_fast():
     months = ["202007", "202006"]
     # months = ["202007", "202006", "202005", "202004", "202003"]
     for m in months:
-        i = 1
+        cnt = 1
         print(f"writing tweets to data/{m}-tweets-prediction.txt ...")
         out_file = open(f"data/{m}-tweets-prediction.txt", "w")
         X = []
@@ -624,7 +626,6 @@ def tweets_to_txt_fast():
                 Tweet(tweet_id=tweet_id, user_id=uid, dt=dt, source=_sou)
             )
             X.append(d)
-            i += 1
             
             if len(tweets_data) == 5000:
                 json_rst = Lebron.predict(X)
@@ -632,13 +633,14 @@ def tweets_to_txt_fast():
                     rst = json_rst[tweets_data[i].tweet_id]
                     tweets_data[i].max_proba = rst[1]
                     # tweets_data[i].camp = int(rst.argmax())
+                    cnt += len(tweets_data)
 
                 # sess.add_all(tweets_data)
                 # sess.commit()
                 for _d in tweets_data:
                     out_file.write(f"{_d.tweet_id},{_d.user_id},{_d.dt.to_datetime_string()},{_d.source},{_d.max_proba}\n")
 
-                print('count >', i)
+                print('\ncount >', cnt)
                 X = []
                 tweets_data = []
 
@@ -652,7 +654,7 @@ def tweets_to_txt_fast():
                                                                                                                                                                                                                            
             for _d in tweets_data:
                 out_file.write(f"{_d.tweet_id},{_d.user_id},{_d.dt.to_datetime_string()},{_d.source},{_d.max_proba}\n")
-            print('last count >', i)
+            print('\ncount >', cnt)
         
 
 def demo_tweets_to_db_fast(sess, start, end, clear=False):
