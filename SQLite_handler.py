@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/07 20:40:05 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/10/07 19:03:05 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/10/07 19:04:22 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -2351,7 +2351,7 @@ def get_tweets_August_July():
             for _d in tqdm(get_tweets_all(sess, start, start.add(days=1))):
                 if _d.camp == 0:
                     _d.max_proba = 1 - float(_d.max_proba)
-                _d.max_proba = round(_d.max_proba, 3)
+                _d.max_proba = round(float(_d.max_proba), 3)
                 _d.dt = pendulum.instance(_d.dt).add(hours=-4)
                 f.write(f"{_d.tweet_id},{_d.user_id},{_d.dt.to_datetime_string()},{_d.source},{_d.max_proba}\n")
             start = start.add(days=1)
@@ -2365,7 +2365,7 @@ def get_tweets_August_July():
             for _d in tqdm(get_tweets_all(sess, start, start.add(days=1))):
                 if _d.camp == 0:
                     _d.max_proba = 1 - float(_d.max_proba)
-                _d.max_proba = round(_d.max_proba, 3)
+                _d.max_proba = round(float(_d.max_proba), 3)
                 _d.dt = pendulum.instance(_d.dt).add(hours=-4)
                 f.write(f"{_d.tweet_id},{_d.user_id},{_d.dt.to_datetime_string()},{_d.source},{_d.max_proba}\n")
             start = start.add(days=1)
