@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/07 20:40:05 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/10/06 23:43:58 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/10/07 09:36:21 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -593,8 +593,6 @@ def tweets_to_db_fast(sess):
 def tweets_to_txt_fast():
     """
     import tweets to database with prediction
-
-    因为
     """
     from classifier import Camp_Classifier
     Lebron = Camp_Classifier()
@@ -603,7 +601,7 @@ def tweets_to_txt_fast():
     # from read_raw_data import read_historical_tweets as read_tweets
     from read_raw_data import read_raw_tweets_fromlj as read_tweets
 
-    months = ["202007", "202006"]
+    months = ["202006", "202005"]
     # months = ["202007", "202006", "202005", "202004", "202003"]
     for m in months:
         cnt = 1
@@ -631,7 +629,7 @@ def tweets_to_txt_fast():
                 json_rst = Lebron.predict(X)
                 for i in range(len(tweets_data)):
                     rst = json_rst[tweets_data[i].tweet_id]
-                    tweets_data[i].max_proba = rount(rst[1], 3)
+                    tweets_data[i].max_proba = round(rst[1], 3)
                     # tweets_data[i].camp = int(rst.argmax())
                 cnt += len(tweets_data)
 
@@ -648,11 +646,11 @@ def tweets_to_txt_fast():
             json_rst = Lebron.predict(X)
             for i in range(len(tweets_data)):
                 rst = json_rst[tweets_data[i].tweet_id]
-                tweets_data[i].max_proba = rount(rst[1], 3)
+                tweets_data[i].max_proba = round(rst[1], 3)
                 # tweets_data[i].max_proba = round(rst.max(), 3)
                 # tweets_data[i].camp = int(rst.argmax())
             cnt += len(tweets_data)
-                                                                                                                                                                                                                           
+                                                                     
             for _d in tweets_data:
                 out_file.write(f"{_d.tweet_id},{_d.user_id},{_d.dt.to_datetime_string()},{_d.source},{_d.max_proba}\n")
             print('\ncount >', cnt)

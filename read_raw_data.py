@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/11 11:16:25 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/10/06 22:59:58 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/10/07 09:36:50 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -115,7 +115,6 @@ def read_historical_tweets(start, end):
 
 def read_raw_tweets_fromlj(_month="all"):
     """直接读取raw_data/month.lj文件
-
     Yields:
         [type]: [description]
     """
@@ -135,6 +134,8 @@ def read_raw_tweets_fromlj(_month="all"):
                     continue
                 set_tweetid.add(d['id'])
                 dt = pendulum.from_format(d["created_at"], 'ddd MMM DD HH:mm:ss ZZ YYYY')
+                # 时差问题
+                dt = dt.add(hours=-4)
                 yield d, dt
 
     else:
