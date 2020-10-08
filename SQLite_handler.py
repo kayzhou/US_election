@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/07 20:40:05 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/10/08 09:40:59 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/10/08 09:45:53 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -606,7 +606,7 @@ def tweets_to_txt_fast():
     for m in months:
         cnt = 1
         print(f"writing tweets to data/{m}-tweets-prediction.txt ...")
-        out_file = open(f"data/{m}-tweets-prediction.txt", "w")
+        out_file = open(f"data/{m}-tweets-prediction.txt", "a")
         X = []
         tweets_data = []
 

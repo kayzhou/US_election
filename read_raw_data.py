@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/11 11:16:25 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/10/08 09:32:38 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/10/08 09:45:15 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -140,7 +140,13 @@ def read_raw_tweets_fromlj(_month="all"):
 
     else:
         month = _month
-        set_tweetid = set()
+        if month == "202006":
+            set_tweetid = set(
+                [int(line.split(",")[0]) for line in open("data/202006-tweets-prediction.txt")]
+            )
+            print("Have analyzed", len(set_tweetid), " tweets.")
+        else:
+            set_tweetid = set()
         print(month)
         for line in tqdm(open(f"raw_data/raw_data/{month}.lj")):
             try:
