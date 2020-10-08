@@ -6,25 +6,33 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/11 11:16:25 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/10/07 09:36:50 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/10/08 09:32:38 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
+
+from collections import Counter
+from pathlib import Path
+
+import pendulum
+import ujson as json
+from file_read_backwards import FileReadBackwards
+from tqdm import tqdm
 
 demo_files = set([
     "Bernie Sanders",
     "SenSanders",
     "Joe Biden",
     "JoeBiden",
-    ##"Mike Bloomberg",
-    ##"MikeBloomberg",
-    ##"Tulsi Gabbard",
-    ##"TulsiGabbard",
-    ##"Elizabeth Warren",
-    ##"ewarren",
-    ##"Amy Klobuchar",
-    ##"amyklobuchar",  
-    ##"Pete Buttigieg",
-    ##"PeteButtigieg",
+    # "Mike Bloomberg",
+    # "MikeBloomberg",
+    # "Tulsi Gabbard",
+    # "TulsiGabbard",
+    # "Elizabeth Warren",
+    # "ewarren",
+    # "Amy Klobuchar",
+    # "amyklobuchar",
+    # "Pete Buttigieg",
+    # "PeteButtigieg",
     # "Mayor Pete",
     # "Pete",
     # "Buttigieg",
@@ -52,14 +60,6 @@ election_files = set([
     "biden OR joebiden",
     "trump OR donaldtrump OR realdonaldtrump",
 ])
-
-from collections import Counter
-from pathlib import Path
-
-import pendulum
-import ujson as json
-from file_read_backwards import FileReadBackwards
-from tqdm import tqdm
 
 
 def read_historical_tweets(start, end):
@@ -156,7 +156,6 @@ def read_raw_tweets_fromlj(_month="all"):
             yield d, dt
 
 
-
 def read_tweets_json(start, end):
 
     months = set([
@@ -204,6 +203,31 @@ def read_tweets_json(start, end):
                         print("New data ->", cnt)
                     cnt += 1
                     yield d, dt
+
+
+def read_tweets_json_day(dt):
+    print("read_tweets_json_day:", dt.to_date_string)
+    set_tweets = set()
+    dt_str = dt.format('YYMMDD')
+    file_names = Path(f"raw_data/{dt.format('YYMM')}").rglob(f"{dt_str}*.txt")
+
+    for in_name in file_names:
+        print(in_name)
+        cnt = 0
+        for line in open(in_name):
+            d = json.loads(line.strip())
+            tweet_id = d["id"]
+            if tweet_id in set_tweets:
+                continue
+            set_tweets.add(tweet_id)
+
+            t_dt = pendulum.from_format(
+                d["created_at"], 'ddd MMM DD HH:mm:ss ZZ YYYY')
+
+            if cnt % 50000 == 0:
+                print("New data ->", cnt)
+            cnt += 1
+            yield d, t_dt
 
 
 def read_raw_user_month(month, _set_users):

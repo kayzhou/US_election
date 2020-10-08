@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/07 20:40:05 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/10/07 19:04:22 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/10/08 09:34:28 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -654,7 +654,69 @@ def tweets_to_txt_fast():
             for _d in tweets_data:
                 out_file.write(f"{_d.tweet_id},{_d.user_id},{_d.dt.to_datetime_string()},{_d.source},{_d.max_proba}\n")
             print('\ncount >', cnt)
-        
+
+
+def tweets_to_txt():
+    """
+    import tweets to database with prediction
+    """
+    from classifier import Camp_Classifier
+    Lebron = Camp_Classifier()
+    Lebron.load()
+
+    from read_raw_data import read_tweets_json_day
+    X = []
+    tweets_data = []
+    cnt = 0
+
+    start = pendulum.datetime(2020, 9, 1)
+    end = pendulum.datetime(2020, 9, 30)
+
+    print(f"writing tweets to data/202009-tweets-prediction.txt ...")
+    out_file = open(f"data/202009-tweets-prediction.txt", "w")
+    for dt in pendulum.period(start, end):
+        for d, t_dt in read_tweets_json_day(dt):
+            # print(d)
+            tweet_id = d["id"]
+            uid = d["user"]["id"]
+            _sou = get_source_text(d["source"]) if 'source' in d else "No source"
+            # hts = get_hashtags_from_tweet(d["hashtags"])
+
+            tweets_data.append(
+                Tweet(tweet_id=tweet_id, user_id=uid, dt=t_dt, source=_sou)
+            )
+            X.append(d)
+            
+            if len(tweets_data) == 5000:
+                json_rst = Lebron.predict(X)
+                for i in range(len(tweets_data)):
+                    rst = json_rst[tweets_data[i].tweet_id]
+                    tweets_data[i].max_proba = round(rst[1], 3)
+                    # tweets_data[i].camp = int(rst.argmax())
+                cnt += len(tweets_data)
+
+                # sess.add_all(tweets_data)
+                # sess.commit()
+                for _d in tweets_data:
+                    out_file.write(f"{_d.tweet_id},{_d.user_id},{_d.dt.to_datetime_string()},{_d.source},{_d.max_proba}\n")
+
+                print('\ncount >', cnt)
+                X = []
+                tweets_data = []
+
+        if tweets_data:  # the left
+            json_rst = Lebron.predict(X)
+            for i in range(len(tweets_data)):
+                rst = json_rst[tweets_data[i].tweet_id]
+                tweets_data[i].max_proba = round(rst[1], 3)
+                # tweets_data[i].max_proba = round(rst.max(), 3)
+                # tweets_data[i].camp = int(rst.argmax())
+            cnt += len(tweets_data)
+                                                                        
+            for _d in tweets_data:
+                out_file.write(f"{_d.tweet_id},{_d.user_id},{_d.dt.to_datetime_string()},{_d.source},{_d.max_proba}\n")
+            print('\ncount >', cnt)
+ 
 
 def demo_tweets_to_db_fast(sess, start, end, clear=False):
     """
@@ -2382,5 +2444,6 @@ if __name__ == "__main__":
     # tweets_to_db_fast(sess)
     # save_all_bots_users()
 
-    # tweets_to_txt_fast()
-    get_tweets_August_July()
+    tweets_to_txt_fast()
+    # get_tweets_August_July()
+    tweets_to_txt() # Sep
