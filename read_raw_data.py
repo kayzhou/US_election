@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/11 11:16:25 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/10/08 12:24:37 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/10/08 12:25:40 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -145,7 +145,7 @@ def read_raw_tweets_fromlj(_month="all"):
             for line in tqdm(open("data/202006-tweets-prediction.txt")):
                 try:
                     set_tweetid.add(int(line.strip().split(",")[0]))
-                except:
+                except Exception:
                     pass
             print("Have analyzed", len(set_tweetid), " tweets.")
         else:
