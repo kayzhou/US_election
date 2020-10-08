@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/11 11:16:25 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/10/08 09:45:15 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/10/08 12:17:10 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -141,9 +141,9 @@ def read_raw_tweets_fromlj(_month="all"):
     else:
         month = _month
         if month == "202006":
-            set_tweetid = set(
-                [int(line.split(",")[0]) for line in open("data/202006-tweets-prediction.txt")]
-            )
+            set_tweetid = set()
+            for line in tqdm(open("data/202006-tweets-prediction.txt")):
+                set_tweetid.add(int(line.strip().split(",")[0]))
             print("Have analyzed", len(set_tweetid), " tweets.")
         else:
             set_tweetid = set()
@@ -212,12 +212,14 @@ def read_tweets_json(start, end):
 
 
 def read_tweets_json_day(dt):
-    print("read_tweets_json_day:", dt.to_date_string)
+    print("read_tweets_json_day:", dt.to_date_string())
     set_tweets = set()
     dt_str = dt.format('YYMMDD')
-    file_names = Path(f"raw_data/{dt.format('YYMM')}").rglob(f"{dt_str}*.txt")
+    file_names = Path(f"raw_data/{dt.format('YYMM')}").rglob(f"*.txt")
 
     for in_name in file_names:
+        if not in_name.parts[-1].startswith(dt_str):
+            continue
         print(in_name)
         cnt = 0
         for line in open(in_name):

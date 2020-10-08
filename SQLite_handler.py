@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/07 20:40:05 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/10/08 09:45:53 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/10/08 12:10:14 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -614,12 +614,8 @@ def tweets_to_txt_fast():
             # print(d)
             tweet_id = d["id"]
             uid = d["user"]["id"]
-            if 'source' in d:
-                _sou = get_source_text(d["source"])
-            else:
-                _sou = "No source"
-            # hts = get_hashtags_from_tweet(d["hashtags"])
-
+            _sou = get_source_text(d["source"]) if 'source' in d else "No source"
+            
             tweets_data.append(
                 Tweet(tweet_id=tweet_id, user_id=uid, dt=dt, source=_sou)
             )
