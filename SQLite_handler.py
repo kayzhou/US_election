@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/07 20:40:05 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/10/08 12:26:00 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/10/11 12:34:08 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -601,7 +601,7 @@ def tweets_to_txt_fast():
     # from read_raw_data import read_historical_tweets as read_tweets
     from read_raw_data import read_raw_tweets_fromlj as read_tweets
 
-    months = ["202006", "202005"]
+    months = ["202005"]
     # months = ["202007", "202006", "202005", "202004", "202003"]
     for m in months:
         cnt = 1
@@ -665,11 +665,11 @@ def tweets_to_txt():
     tweets_data = []
     cnt = 0
 
-    start = pendulum.datetime(2020, 9, 22)
+    start = pendulum.datetime(2020, 9, 1)
     end = pendulum.datetime(2020, 9, 30)
 
     print(f"writing tweets to data/202009-tweets-prediction.txt ...")
-    out_file = open(f"data/202009-tweets-prediction.txt", "a")
+    out_file = open(f"data/202009-tweets-prediction.txt", "w")
     for dt in pendulum.period(start, end):
         for d, t_dt in read_tweets_json_day(dt):
             # print(d)
@@ -2440,6 +2440,6 @@ if __name__ == "__main__":
     # tweets_to_db_fast(sess)
     # save_all_bots_users()
 
-    # tweets_to_txt_fast() # May and July
+    tweets_to_txt_fast() # May and July
     # get_tweets_August_July()
-    tweets_to_txt() # Sep
+    # tweets_to_txt() # Sep
