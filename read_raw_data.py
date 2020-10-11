@@ -223,10 +223,15 @@ def read_tweets_json_day(dt):
     for in_name in file_names:
         if not in_name.parts[-1].startswith(dt_str):
             continue
+
         print(in_name)
         cnt = 0
         for line in open(in_name):
-            d = json.loads(line.strip())
+            try:
+                d = json.loads(line.strip())
+            except Exception:
+                print("ERROR: json.loads()")
+                continue
             tweet_id = d["id"]
             if tweet_id in set_tweets:
                 continue

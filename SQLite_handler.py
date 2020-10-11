@@ -665,11 +665,11 @@ def tweets_to_txt():
     tweets_data = []
     cnt = 0
 
-    start = pendulum.datetime(2020, 9, 1)
+    start = pendulum.datetime(2020, 9, 22)
     end = pendulum.datetime(2020, 9, 30)
 
     print(f"writing tweets to data/202009-tweets-prediction.txt ...")
-    out_file = open(f"data/202009-tweets-prediction.txt", "w")
+    out_file = open(f"data/202009-tweets-prediction.txt", "a")
     for dt in pendulum.period(start, end):
         for d, t_dt in read_tweets_json_day(dt):
             # print(d)
@@ -2440,6 +2440,6 @@ if __name__ == "__main__":
     # tweets_to_db_fast(sess)
     # save_all_bots_users()
 
-    tweets_to_txt_fast() # May and July
+    # tweets_to_txt_fast() # May and July
     # get_tweets_August_July()
-    # tweets_to_txt() # Sep
+    tweets_to_txt() # Sep

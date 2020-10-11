@@ -17,13 +17,15 @@ import random
 import sys
 import time
 import traceback
-from collections import defaultdict
+from collections import defaultdict,Counter
 
 import pandas as pd
 import pendulum
 from dateutil.parser import parse
 from tqdm import tqdm
+import glob
 
+from read_raw_data import  *
 import tweepy
 from file_read_backwards import FileReadBackwards
 
@@ -182,15 +184,83 @@ def get_user_list_us2016_loc():
 
 
 if __name__ == "__main__":
-    user_list = get_user_list_us2016_loc()
-    user_list_2 = []
-    start = 0
-    for u in user_list:
-        if u == 536107075:
-            start = 1
-        if start == 1:
-            user_list_2.append(u)
-
-    GetThem(user_list_2, out_name="data/us2016-location-face.lj", face_analyze=True)
-
+    def lst_2_mh():
+        months = set([
+            "202010",
+            "202009",
+        ])
+        file_names = sorted(Path("raw_data").rglob("*.txt"), reverse=True)
+        for in_name in file_names[38:]:
+            print(in_name)
+            if in_name.parts[1] in months:
+                print(in_name)
+                with FileReadBackwards(in_name) as f:
+                    while True:
+                        line = f.readline()
+                        if not line:
+                            print("end!")
+                            print("-" * 50)
+                            break
+                        try:
+                            d = json.loads(line.strip())
+                        except Exception:
+                            print('json.loads Error:')
+                            continue
+                        yield d
+    file_names=sorted(glob.glob('raw_data/raw_data/*lj'),reverse=True)
+    users_id=[]
+    with open('raw_data/user_info/Users_info.lj', "a") as out_file:
+        for d in lst_2_mh():
+            _id=d['user']['id']
+            if 'location' in d['user']:
+                lc=d['user']["location"]
+            else:
+                lc='No_location'
+                
+            if "profile_image_url" in d['user']:
+                img=d['user']["profile_image_url"]
+            else:
+                img='No_image'
+            if _id not in users_id:
+                users_id.append(_id)
+                users_to_image={
+                    "id": d['user']["id"],
+                    "location": lc,
+                    "profile_image_url": img,
+                    "screen_name": d['user']["screen_name"]}
+                out_file.write(json.dumps(users_to_image) + "\n")
+           
+        for _file in file_names:
+            print(_file)
+            for line in tqdm(open(_file)):
+                d=json.loads(line.strip())
+                _id=d['user']['id']
+                if 'location' in d['user']:
+                    lc=d['user']["location"]
+                else:
+                    lc='No_location'
+                if "profile_image_url" in d['user']:
+                    img=d['user']["profile_image_url"]
+                else:
+                    img='No_image'
+                if _id not in users_id:
+                    users_id.append(_id)
+                    users_to_image={
+                        "id": d['user']["id"],
+                        "location": lc,
+                        "profile_image_url": img,
+                        "screen_name": d['user']["screen_name"]}
+                    out_file.write(json.dumps(users_to_image) + "\n")
+                
+                
+#user_list = get_user_list_us2016_loc()
+#user_list_2 = []
+#start = 0
+#for u in user_list:
+#    if u == 536107075:
+#        start = 1
+#    if start == 1:
+#        user_list_2.append(u)
+#
+#    GetThem(user_list_2, out_name="data/us2016-location-face.lj", face_analyze=True)
 # Since the program stops, I restart this again. Should union 2020-04-30.lj with 2020-04-30_old.lj
