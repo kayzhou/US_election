@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/19 04:01:00 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/10/12 15:54:26 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/10/12 15:55:04 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,6 +45,7 @@ def load_bots(in_name):
     all_bots = set()
     for line in open(in_name):
         all_bots.add(line.strip())
+    print("# of bots:", len(all_bots))
     return all_bots
 # all_bots = load_bots("disk/users-profile/bots-20200719.txt")
 
