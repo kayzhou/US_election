@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/19 04:01:00 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/10/12 17:48:32 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/10/12 18:39:25 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -129,16 +129,12 @@ def read_users_from_csv(in_name):
     return users
 
 
-def read_users_from_json(in_name, bots=True):
+def read_users_from_json(in_name):
     print("Loading users from:", in_name)
     if os.path.exists(in_name):
         users = json.load(open(in_name))
     else:
         users = {}
-    if bots:
-        global ALL_BOTS
-        for _b in ALL_BOTS:
-            users.pop(_b)
     print("# of users:", len(users))
     return users
 
@@ -581,11 +577,11 @@ def daily_prediction():
 
 if __name__ == "__main__":
     # save_bots("data/users-profile/20201010bots.txt")
-    save_user_snapshot_json("data/202010-tweets-prediction.txt", p=0.66)
-    save_user_snapshot_json("data/202009-tweets-prediction.txt", p=0.66)
-    save_user_snapshot_json("data/202008-tweets-prediction.txt", p=0.66)
-    save_user_snapshot_json("data/202007-tweets-prediction.txt", p=0.66)
-    save_user_snapshot_json("data/202006-tweets-prediction.txt", p=0.66)
+    # save_user_snapshot_json("data/202010-tweets-prediction.txt", p=0.66)
+    # save_user_snapshot_json("data/202009-tweets-prediction.txt", p=0.66)
+    # save_user_snapshot_json("data/202008-tweets-prediction.txt", p=0.66)
+    # save_user_snapshot_json("data/202007-tweets-prediction.txt", p=0.66)
+    # save_user_snapshot_json("data/202006-tweets-prediction.txt", p=0.66)
 
     # 07-10 the second
     # start = pendulum.datetime(2020, 1, 1, tz="UTC")
