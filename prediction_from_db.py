@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/19 04:01:00 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/10/12 09:53:54 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/10/12 10:23:07 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -536,7 +536,8 @@ def daily_prediction():
 
 if __name__ == "__main__":
 
-    save_user_snapshot_json("data/202010-tweets-prediction.txt")
+    save_user_snapshot_json("data/202009-tweets-prediction.txt")
+    # save_user_snapshot_json("data/202010-tweets-prediction.txt")
 
     # 07-10 the second
     # start = pendulum.datetime(2020, 1, 1, tz="UTC")
