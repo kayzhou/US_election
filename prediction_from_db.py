@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/19 04:01:00 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/10/12 14:52:33 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/10/12 14:59:54 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -109,7 +109,10 @@ def read_users_from_csv(in_name):
 
 def read_users_from_json(in_name):
     print("Loading users from:", in_name)
-    users = json.load(open(in_name))
+    if os.path.exists(in_name):
+        users = json.load(open(in_name))
+    else:
+        users = {}
     print("# of users:", len(users))
     return users
 
