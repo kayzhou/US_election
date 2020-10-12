@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/19 04:01:00 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/10/12 14:47:21 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/10/12 14:52:33 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -109,7 +109,7 @@ def read_users_from_csv(in_name):
 
 def read_users_from_json(in_name):
     print("Loading users from:", in_name)
-    users = json.load(in_name)
+    users = json.load(open(in_name))
     print("# of users:", len(users))
     return users
 
@@ -167,8 +167,8 @@ def write_union_users_csv(union_users_dict, out_dir, dt):
 
 
 def write_union_users_json(union_users_dict, out_dir, dt):
-    print("Saving ...", f"disk/{out_dir}/{dt}.csv")
-    with open(f"disk/{out_dir}/{dt}.json", "w") as f:
+    print("Saving ...", f"data/{out_dir}/{dt}.csv")
+    with open(f"data/{out_dir}/{dt}.json", "w") as f:
         json.dump(union_users_dict, f)
 
 
@@ -581,7 +581,7 @@ if __name__ == "__main__":
     # calculate_window_share(start, end, win=7, save_csv=True)
 
     # 14 days
-    start = pendulum.datetime(2020, 6, 15, tz="UTC")
+    start = pendulum.datetime(2020, 6, 14, tz="UTC")
     end = pendulum.datetime(2020, 10, 10, tz="UTC")
     calculate_window_share(start, end, win=14)
     # -- window end --
