@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/19 04:01:00 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/10/12 16:44:16 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/10/12 16:49:35 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -580,7 +580,6 @@ def daily_prediction():
 
 
 if __name__ == "__main__":
-
     # save_bots("data/users-profile/20201010bots.txt")
     save_user_snapshot_json("data/202010-tweets-prediction.txt", p=0.66)
     save_user_snapshot_json("data/202009-tweets-prediction.txt", p=0.66)
