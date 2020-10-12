@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/19 04:01:00 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/10/12 15:55:18 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/10/12 16:17:51 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,17 +47,20 @@ def load_bots(in_name):
         all_bots.add(line.strip())
     print("# of bots:", len(all_bots))
     return all_bots
-# all_bots = load_bots("disk/users-profile/bots20201010.txt")
-
+ALL_BOTS = load_bots("disk/20201010bots.txt")
+    
 
 def save_user_snapshot_json(in_name, p=0.5):
     dict_date_users = {}
+    global ALL_BOTS
+    
     for line in tqdm(open(in_name)):
         d = line.strip().split(",")
-        if d[3] != "None":
-            continue
         # 先不查重tweet_id
         uid = d[1]
+        if uid in ALL_BOTS or d[3] != "None":
+            continue
+         
         date = d[2][:10]
         proba = float(d[-1])
 
@@ -76,7 +79,7 @@ def save_user_snapshot_json(in_name, p=0.5):
         if p == 0.5:
             f_name = f"data/users-day/{date}.json"
         else:
-            f_name = f"data/users-day{p}/{date}.json"
+            f_name = f"data/users-day-{p}/{date}.json"
         if os.path.exists(f_name):
             print(f_name, "已经存在。")
         else:
@@ -126,12 +129,16 @@ def read_users_from_csv(in_name):
     return users
 
 
-def read_users_from_json(in_name):
+def read_users_from_json(in_name, bots=True):
     print("Loading users from:", in_name)
     if os.path.exists(in_name):
         users = json.load(open(in_name))
     else:
         users = {}
+    if bots:
+        global ALL_BOTS
+        for _b in ALL_BOTS:
+            users.pop(_b)
     print("# of users:", len(users))
     return users
 
@@ -574,13 +581,12 @@ def daily_prediction():
 
 if __name__ == "__main__":
 
-    save_bots("data/users-profile/20201010bots.txt")
-
-    # save_user_snapshot_json("data/202010-tweets-prediction.txt", p=0.66)
-    # save_user_snapshot_json("data/202009-tweets-prediction.txt", p=0.66)
-    # save_user_snapshot_json("data/202008-tweets-prediction.txt", p=0.66)
-    # save_user_snapshot_json("data/202007-tweets-prediction.txt", p=0.66)
-    # save_user_snapshot_json("data/202006-tweets-prediction.txt", p=0.66)
+    # save_bots("data/users-profile/20201010bots.txt")
+    save_user_snapshot_json("data/202010-tweets-prediction.txt", p=0.66)
+    save_user_snapshot_json("data/202009-tweets-prediction.txt", p=0.66)
+    save_user_snapshot_json("data/202008-tweets-prediction.txt", p=0.66)
+    save_user_snapshot_json("data/202007-tweets-prediction.txt", p=0.66)
+    save_user_snapshot_json("data/202006-tweets-prediction.txt", p=0.66)
 
     # 07-10 the second
     # start = pendulum.datetime(2020, 1, 1, tz="UTC")
