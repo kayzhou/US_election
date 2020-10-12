@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/19 04:01:00 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/10/12 18:39:25 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/10/12 18:42:28 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -227,7 +227,7 @@ def get_share_from_users_dict(users_dict):
             counts[0] += 1
         elif v[0] < v[1]:
             counts[1] += 1
-        else:
+        elif v[0] == v[1] and v[0] > 0:
             counts[2] += 1
     return counts
 
@@ -295,6 +295,7 @@ def calculate_window_share(start, end, win=14, save_csv=True):
 
     if save_csv:
         rsts = pd.DataFrame(rsts).set_index("dt")
+        rsts = rsts.rename(columns={0: "Biden", 1: "Trump", 2: "Undecided"})
         rsts.to_csv(
             f"data/csv/results-{win}days-from-{start.to_date_string()}-to-{end.to_date_string()}-0.66.csv")
 
@@ -355,7 +356,7 @@ def calculate_cumulative_share(start, end, super_start_month="01", save_users=Tr
 
     pd_rsts = pd.DataFrame(rsts).set_index("dt")
     pd_rsts.index = pd.to_datetime(pd_rsts.index)
-    pd_rsts = pd_rsts.rename(columns={0: "Joe Biden", 1: "Donald Trump", 2: "Undecided"})
+    pd_rsts = pd_rsts.rename(columns={0: "Biden", 1: "Trump", 2: "Undecided"})
     pd_rsts.to_csv(f"data/csv/results-cumFrom{super_start_month}-from-{start.to_date_string()}-to-{end.to_date_string()}-0.66.csv")
     
 
