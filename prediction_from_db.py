@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/19 04:01:00 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/10/12 16:49:35 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/10/12 16:56:17 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,7 +47,7 @@ def load_bots(in_name):
         all_bots.add(line.strip())
     print("# of bots:", len(all_bots))
     return all_bots
-ALL_BOTS = load_bots("disk/20201010bots.txt")
+ALL_BOTS = load_bots("disk/users-profile/20201010bots.txt")
     
 
 def save_user_snapshot_json(in_name, p=0.5):
