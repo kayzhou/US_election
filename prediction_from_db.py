@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/19 04:01:00 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/10/12 15:32:46 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/10/12 15:50:52 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,6 +26,18 @@ US_states = ['NY', 'DC', 'IN', 'AR', 'WY', 'ME', 'TX', 'NH', 'CO', 'CA', 'IL',
 # USERS_STSTE_GENDER_AGE = USERS.join(USERS_STATE, how="inner")
 # SET_USERS = set(USERS_STSTE_GENDER_AGE.index)
 # SET_USERS = set(USERS_STATE.index)
+
+
+def save_bots(out_name):
+    with open(out_name, "w") as f:
+        months = ["10", "09", "08", "07", "06"]
+        for m in months:
+            for line in open(f"data/2020{m}-tweets-prediction.txt"):
+                d = line.strip().split(",")
+                if d[3] != "None":
+                    f.write(d[1] + "\n")
+                    
+
 def load_bots(in_name):
     all_bots = set()
     for line in open(in_name):
@@ -558,11 +570,13 @@ def daily_prediction():
 
 if __name__ == "__main__":
 
-    save_user_snapshot_json("data/202010-tweets-prediction.txt", p=0.66)
-    save_user_snapshot_json("data/202009-tweets-prediction.txt", p=0.66)
-    save_user_snapshot_json("data/202008-tweets-prediction.txt", p=0.66)
-    save_user_snapshot_json("data/202007-tweets-prediction.txt", p=0.66)
-    save_user_snapshot_json("data/202006-tweets-prediction.txt", p=0.66)
+    save_bots("data/users-profile/20201010bots.txt")
+
+    # save_user_snapshot_json("data/202010-tweets-prediction.txt", p=0.66)
+    # save_user_snapshot_json("data/202009-tweets-prediction.txt", p=0.66)
+    # save_user_snapshot_json("data/202008-tweets-prediction.txt", p=0.66)
+    # save_user_snapshot_json("data/202007-tweets-prediction.txt", p=0.66)
+    # save_user_snapshot_json("data/202006-tweets-prediction.txt", p=0.66)
 
     # 07-10 the second
     # start = pendulum.datetime(2020, 1, 1, tz="UTC")
@@ -599,13 +613,13 @@ if __name__ == "__main__":
     # end = pendulum.datetime(2020, 6, 1, tz="UTC")
     # calculate_cumulative_share(start, end, super_start_month="01", save_users=True)
 
-    start = pendulum.datetime(2020, 6, 2, tz="UTC")
-    end = pendulum.datetime(2020, 10, 10, tz="UTC")
-    calculate_cumulative_share(start, end, super_start_month="06", save_db=False)
+    # start = pendulum.datetime(2020, 6, 2, tz="UTC")
+    # end = pendulum.datetime(2020, 10, 10, tz="UTC")
+    # calculate_cumulative_share(start, end, super_start_month="06", save_db=False)
 
-    start = pendulum.datetime(2020, 6, 14, tz="UTC")
-    end = pendulum.datetime(2020, 10, 10, tz="UTC")
-    calculate_window_share(start, end, win=14)
+    # start = pendulum.datetime(2020, 6, 14, tz="UTC")
+    # end = pendulum.datetime(2020, 10, 10, tz="UTC")
+    # calculate_window_share(start, end, win=14)
     # -- cumulative end --
 
     # start = pendulum.datetime(2020, 1, 15, tz="UTC")
