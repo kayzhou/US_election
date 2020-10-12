@@ -6,11 +6,12 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/19 04:01:00 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/07/17 07:33:18 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/10/12 09:53:54 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 from SQLite_handler import *
+import os
 
 # 0 > JB; 1 > DT
 US_states = ['NY', 'DC', 'IN', 'AR', 'WY', 'ME', 'TX', 'NH', 'CO', 'CA', 'IL',
@@ -30,7 +31,37 @@ def load_bots(in_name):
     for line in open(in_name):
         all_bots.add(line.strip())
     return all_bots
-all_bots = load_bots("disk/users-profile/bots-20200719.txt")
+# all_bots = load_bots("disk/users-profile/bots-20200719.txt")
+
+
+def save_user_snapshot_json(in_name):
+    dict_date_users = {}
+    for line in tqdm(open(in_name)):
+        d = line.strip().split(",")
+        if d[3] != "None":
+            continue
+        # 先不查重tweet_id
+        uid = d[1]
+        date = d[2][:10]
+        proba = float(d[-1])
+
+        if date not in dict_date_users:
+            dict_date_users[date] = {}
+        if uid not in dict_date_users[date]:
+            dict_date_users[date][uid] = [0, 0]
+
+        # 0 for Biden, 1 for Trump
+        if proba <= 0.5:
+            dict_date_users[date][uid][0] += 1
+        else:
+            dict_date_users[date][uid][1] += 1
+
+    for date, dict_uid in dict_date_users.items():
+        f_name = f"data/users-day/{date}.json"
+        if os.path.exists(f_name):
+            print(f_name, "已经存在。")
+        else:
+            json.dump(dict_uid, open(f_name, "w"))
 
 
 def save_user_snapshot(sess, now):
@@ -504,15 +535,18 @@ def daily_prediction():
 
 
 if __name__ == "__main__":
+
+    save_user_snapshot_json("data/202010-tweets-prediction.txt")
+
     # 07-10 the second
-    start = pendulum.datetime(2020, 1, 1, tz="UTC")
-    end = pendulum.datetime(2020, 6, 1, tz="UTC")
-    sess = get_session_2()
-    # -- to database --
-    # tweets_to_db(sess, start, end, clear=True)             
-    # -- save users' snapshot --
-    save_user_csv(sess, start, end)
-    sess.close()
+    # start = pendulum.datetime(2020, 1, 1, tz="UTC")
+    # end = pendulum.datetime(2020, 6, 1, tz="UTC")
+    # sess = get_session_2()
+    # # -- to database --
+    # # tweets_to_db(sess, start, end, clear=True)             
+    # # -- save users' snapshot --
+    # save_user_csv(sess, start, end)
+    # sess.close()
 
     # run it per day
     # daily_prediction()
