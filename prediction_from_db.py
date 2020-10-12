@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/19 04:01:00 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/10/12 16:17:51 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/10/12 16:44:16 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -623,13 +623,13 @@ if __name__ == "__main__":
     # end = pendulum.datetime(2020, 6, 1, tz="UTC")
     # calculate_cumulative_share(start, end, super_start_month="01", save_users=True)
 
-    # start = pendulum.datetime(2020, 6, 2, tz="UTC")
-    # end = pendulum.datetime(2020, 10, 10, tz="UTC")
-    # calculate_cumulative_share(start, end, super_start_month="06", save_db=False)
+    start = pendulum.datetime(2020, 6, 2, tz="UTC")
+    end = pendulum.datetime(2020, 10, 10, tz="UTC")
+    calculate_cumulative_share(start, end, super_start_month="06", save_db=False)
 
-    # start = pendulum.datetime(2020, 6, 14, tz="UTC")
-    # end = pendulum.datetime(2020, 10, 10, tz="UTC")
-    # calculate_window_share(start, end, win=14)
+    start = pendulum.datetime(2020, 6, 14, tz="UTC")
+    end = pendulum.datetime(2020, 10, 10, tz="UTC")
+    calculate_window_share(start, end, win=14)
     # -- cumulative end --
 
     # start = pendulum.datetime(2020, 1, 15, tz="UTC")
