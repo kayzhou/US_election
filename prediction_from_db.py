@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/19 04:01:00 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/10/12 10:31:13 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/10/12 14:30:57 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -107,6 +107,13 @@ def read_users_from_csv(in_name):
     return users
 
 
+def read_users_from_json(in_name):
+    print("Loading users from:", in_name)
+    users = json.load(in_name)
+    print("# of users:", len(users))
+    return users
+
+
 # def read_users_from_csv_from_uids(in_name, set_uids):
 #     print("Reading users from csv ...", in_name)
 #     users = pd.read_csv(in_name).set_index("uid").T.to_dict()
@@ -157,6 +164,12 @@ def write_union_users_csv(union_users_dict, out_dir, dt):
         f.write("uid,0,1\n")
         for u, v in union_users_dict.items():
             f.write(f"{u},{v[0]},{v[1]}\n")
+
+
+def write_union_users_json(union_users_dict, out_dir, dt):
+    print("Saving ...", f"disk/{out_dir}/{dt}.csv")
+    with open(f"disk/{out_dir}/{dt}.json", "w") as f:
+        json.dump(union_users_dict, f)
 
 
 def write_union_users_csv_v2(union_users_dict, out_dir, dt):
@@ -218,7 +231,7 @@ def calculate_window_share(start, end, win=14, save_csv=True):
     users_cache = {}
 
     for dt in pendulum.period(start, end):
-
+        
         if dt == start:
             continue
 
@@ -231,15 +244,16 @@ def calculate_window_share(start, end, win=14, save_csv=True):
             if win_dt_str in users_cache:
                 _u = users_cache[win_dt_str]
             else:
-                _u = read_users_from_csv(f"data/users-day/{win_dt_str}.csv")
+                # _u = read_users_from_csv(f"data/users-day/{win_dt_str}.csv")
+                _u = read_users_from_csv(f"data/users-day/{win_dt_str}.json")
                 users_cache[win_dt_str] = _u
             users_groups.append(_u)
 
         users_cache.pop(dt.add(days=-win).to_date_string())
 
         union_users_dict = union_users_from_dict(users_groups)
-        write_union_users_csv(
-            union_users_dict, f"users-{win}days", dt.to_date_string())
+        write_union_users_json(union_users_dict, f"users-{win}days", dt.to_date_string())
+        # write_union_users_csv(union_users_dict, f"users-{win}days", dt.to_date_string())
 
         rst = get_share_from_users_dict(union_users_dict)
         rst["dt"] = dt.to_date_string()
@@ -536,9 +550,9 @@ def daily_prediction():
 
 if __name__ == "__main__":
 
-    save_user_snapshot_json("data/202008-tweets-prediction.txt")
-    save_user_snapshot_json("data/202007-tweets-prediction.txt")
-    save_user_snapshot_json("data/202006-tweets-prediction.txt")
+    # save_user_snapshot_json("data/202008-tweets-prediction.txt")
+    # save_user_snapshot_json("data/202007-tweets-prediction.txt")
+    # save_user_snapshot_json("data/202006-tweets-prediction.txt")
     # save_user_snapshot_json("data/202009-tweets-prediction.txt")
     # save_user_snapshot_json("data/202010-tweets-prediction.txt")
 
@@ -567,9 +581,9 @@ if __name__ == "__main__":
     # calculate_window_share(start, end, win=7, save_csv=True)
 
     # 14 days
-    # start = pendulum.datetime(2020, 1, 15, tz="UTC")
-    # end = pendulum.datetime(2020, 6, 1, tz="UTC")
-    # calculate_window_share(start, end, win=14)
+    start = pendulum.datetime(2020, 6, 15, tz="UTC")
+    end = pendulum.datetime(2020, 10, 10, tz="UTC")
+    calculate_window_share(start, end, win=14)
     # -- window end --
 
     # -- cumulative start --
