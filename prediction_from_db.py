@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/19 04:01:00 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/10/12 14:35:02 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/10/12 14:47:21 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -193,9 +193,9 @@ def write_union_users_csv_v2(union_users_dict, out_dir, dt):
 
 def get_share_from_users_dict(users_dict):
     counts = {
-        0: 0, # Biden
-        1: 0, # Trump
-        2: 0, # Undecided
+        0: 0,  # Biden
+        1: 0,  # Trump
+        2: 0,  # Undecided
     }
     for _, v in users_dict.items():
         if v[0] > v[1]:
@@ -251,8 +251,9 @@ def calculate_window_share(start, end, win=14, save_csv=True):
         users_cache.pop(dt.add(days=-win).to_date_string())
 
         union_users_dict = union_users_from_dict(users_groups)
-        write_union_users_json(union_users_dict, f"users-{win}days", dt.to_date_string())
-        # write_union_users_csv(union_users_dict, f"users-{win}days", dt.to_date_string())
+        if dt.day_of_week == 1:
+            write_union_users_json(union_users_dict, f"users-{win}days", dt.to_date_string())
+            # write_union_users_csv(union_users_dict, f"users-{win}days", dt.to_date_string())
 
         rst = get_share_from_users_dict(union_users_dict)
         rst["dt"] = dt.to_date_string()
