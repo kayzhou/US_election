@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/19 04:01:00 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/10/12 15:50:52 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/10/12 15:54:26 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,13 +29,16 @@ US_states = ['NY', 'DC', 'IN', 'AR', 'WY', 'ME', 'TX', 'NH', 'CO', 'CA', 'IL',
 
 
 def save_bots(out_name):
+    set_users = set()
     with open(out_name, "w") as f:
         months = ["10", "09", "08", "07", "06"]
         for m in months:
+            print(m)
             for line in open(f"data/2020{m}-tweets-prediction.txt"):
                 d = line.strip().split(",")
-                if d[3] != "None":
+                if d[3] != "None" and d[1] not in set_users:
                     f.write(d[1] + "\n")
+                    set_users.add(d[1])
                     
 
 def load_bots(in_name):
