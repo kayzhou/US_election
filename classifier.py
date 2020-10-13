@@ -6,12 +6,10 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/22 12:48:20 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/09/24 16:28:43 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/10/13 14:39:33 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-import collections
-import unicodedata
 from collections import Counter
 from itertools import chain
 from pathlib import Path
@@ -54,7 +52,7 @@ class Camp_Classifier(object):
 
     def load(self):
         self.classified_hts, self.token, self.v, self.clf = load_models("train-08")
-        
+
     def predict(self, ds):
 
         def predict_from_hts(_hts):
