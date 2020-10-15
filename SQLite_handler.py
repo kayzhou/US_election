@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/07 20:40:05 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/10/13 14:39:54 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/10/15 16:00:44 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -602,7 +602,8 @@ def tweets_to_txt_fast():
     from read_raw_data import read_raw_tweets_fromlj as read_tweets
 
     # months = ["202005"]
-    months = ["202004", "202003", "202002", "202001"]
+    # months = ["202004", "202003", "202002", "202001"]
+    months = ["202002", "202001"]
     for m in months:
         cnt = 1
         print(f"writing tweets to data/{m}-tweets-prediction.txt ...")

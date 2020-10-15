@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/11 11:16:25 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/10/08 12:25:40 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/10/15 16:03:52 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -127,7 +127,7 @@ def read_raw_tweets_fromlj(_month="all"):
                 try:
                     d = json.loads(line.strip())
                 except Exception as e:
-                    print('json.loads Error:', e)
+                    print('json.loads() Error:', e)
                     print('line ->', line)
                     continue
                 if d['id'] in set_tweetid:
@@ -137,7 +137,6 @@ def read_raw_tweets_fromlj(_month="all"):
                 # 时差问题
                 dt = dt.add(hours=-4)
                 yield d, dt
-
     else:
         month = _month
         if month == "202006":
@@ -150,8 +149,10 @@ def read_raw_tweets_fromlj(_month="all"):
             print("Have analyzed", len(set_tweetid), " tweets.")
         else:
             set_tweetid = set()
+
         print(month)
-        for line in tqdm(open(f"raw_data/raw_data/{month}.lj")):
+        # for line in tqdm(open(f"raw_data/raw_data/{month}.lj")):
+        for line in tqdm(open(f"/external2/zhenkun/US_election_data/raw_data/{month}.lj")):
             try:
                 d = json.loads(line.strip())
             except Exception as e:
@@ -166,7 +167,6 @@ def read_raw_tweets_fromlj(_month="all"):
 
 
 def read_tweets_json(start, end):
-
     months = set([
         "202004",
         "202003",
@@ -177,7 +177,6 @@ def read_tweets_json(start, end):
         # "201910",
         # "201909",
     ])
-
     set_tweets = set()
     file_names = sorted(Path("raw_data").rglob("*.txt"), reverse=True)
 
