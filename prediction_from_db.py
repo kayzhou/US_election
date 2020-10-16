@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/19 04:01:00 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/10/16 11:54:53 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/10/16 13:15:30 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -433,7 +433,7 @@ def read_located_users():
     for line in open("raw_data/user_info/located_users.lj"):
         u = json.loads(line.strip())
         users.append({"uid": str(u["user_id"]), "state": u["State"]})
-    return pd.DataFrame(users, index="uid")
+    return pd.DataFrame(users).set_index("uid")
 
 
 def predict_from_location(start, end, out_dir, save_users=False):
