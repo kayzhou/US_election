@@ -190,7 +190,7 @@ if __name__ == "__main__":
             "202009",
         ])
         file_names = sorted(Path("raw_data").rglob("*.txt"), reverse=True)
-        for in_name in file_names[38:]:
+        for in_name in file_names[44:]:
             print(in_name)
             if in_name.parts[1] in months:
                 print(in_name)
@@ -208,7 +208,9 @@ if __name__ == "__main__":
                             continue
                         yield d
     file_names=sorted(glob.glob('raw_data/raw_data/*lj'),reverse=True)
-    users_id=[]
+    user_id=set()
+    for i in open('raw_data/user_info/Users_info.lj'):
+        user_id.add(json.loads(i)['id'])
     with open('raw_data/user_info/Users_info.lj', "a") as out_file:
         for d in lst_2_mh():
             _id=d['user']['id']
@@ -221,8 +223,8 @@ if __name__ == "__main__":
                 img=d['user']["profile_image_url"]
             else:
                 img='No_image'
-            if _id not in users_id:
-                users_id.append(_id)
+            if _id not in user_id:
+                user_id.add(_id)
                 users_to_image={
                     "id": d['user']["id"],
                     "location": lc,
@@ -243,8 +245,8 @@ if __name__ == "__main__":
                     img=d['user']["profile_image_url"]
                 else:
                     img='No_image'
-                if _id not in users_id:
-                    users_id.append(_id)
+                if _id not in user_id:
+                    user_id.add(_id)
                     users_to_image={
                         "id": d['user']["id"],
                         "location": lc,
