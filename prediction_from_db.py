@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/19 04:01:00 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/10/16 13:31:56 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/10/16 13:33:29 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -439,6 +439,7 @@ def read_located_users():
 def predict_from_location(start, end, out_dir, save_users=False):
     # df_user = load_df_user_loc(end)
     df_user = read_located_users()
+    print(df_user.value_counts())
     df_state_user = {}
     df_state_user["USA"] = set(df_user.index)
     for _s in US_states:
