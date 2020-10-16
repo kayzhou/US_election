@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/19 04:01:00 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/10/16 13:15:30 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/10/16 13:22:25 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -432,13 +432,12 @@ def read_located_users():
     users = []
     for line in open("raw_data/user_info/located_users.lj"):
         u = json.loads(line.strip())
-        users.append({"uid": str(u["user_id"]), "state": u["State"]})
+        users.append({"uid": u["user_id"], "state": u["State"]})
     return pd.DataFrame(users).set_index("uid")
 
 
 def predict_from_location(start, end, out_dir, save_users=False):
     # df_user = load_df_user_loc(end)
-    # 需要已经保存了每天预测的用户列表
     df_user = read_located_users()
     df_state_user = {}
     df_state_user["USA"] = set(df_user.index)
@@ -466,11 +465,11 @@ def predict_from_location(start, end, out_dir, save_users=False):
         if save_users:
             write_union_users_csv(users_dict, out_dir + "_loc", dt.to_date_string() + "-" + _s)
 
+        # 选择每个洲的结果
         for _s in US_states:
-            # 选择每个洲的结果
             uid_in_s = df_state_user[_s]
             users_in_s = {u: v for u, v in users_dict.items() if u in uid_in_s}
-            print(_s, len(uid_in_s), len(users_in_s)) # 州，该州多少用户，命中多少用户
+            print(_s, len(uid_in_s), len(users_in_s))  # 州，该州多少用户，命中多少用户
             rst = get_share_from_users_dict(users_in_s)
             rst["id"] = _s + ":" + dt.to_date_string()
             rst["dt"] = dt.to_date_string()
