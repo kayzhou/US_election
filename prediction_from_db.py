@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/19 04:01:00 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/10/12 18:42:28 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/10/16 11:45:39 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -428,10 +428,18 @@ def predict_from_location_from_csv(csv_file, save_csv=None):
         rsts.to_csv(save_csv)
 
 
-def predict_from_location(start, end, out_dir, save_csv=True):
+def read_located_users():
+    users = []
+    for line in open("raw_data/user_info/located_users.lj"):
+        u = json.loads(line.strip())
+        users.append({"uid": str(u["user_id"]), "state": u["State"]})
+    return pd.DataFrame(users, index="uid")
+
+
+def predict_from_location(start, end, out_dir, save_users=False):
     # df_user = load_df_user_loc(end)
     # 需要已经保存了每天预测的用户列表
-    df_user = pd.read_csv(f"disk/users-location/2020-07-01.csv", usecols=["uid", "state"], dtype=str).set_index("uid")
+    df_user = read_located_users()
     df_state_user = {}
     df_state_user["USA"] = set(df_user.index)
     for _s in US_states:
@@ -440,11 +448,11 @@ def predict_from_location(start, end, out_dir, save_csv=True):
 
     rsts = []
     for dt in pendulum.period(start, end):
-        if dt == start:
+        if dt == start or dt.day_of_week != 1:
             continue
 
         csv_file = f"disk/users-{out_dir}/{dt.to_date_string()}.csv"
-        users_dict = read_users_from_csv(csv_file)
+        users_dict = read_users_from_json(csv_file)
 
         # country
         uid_in_s = df_state_user["USA"]
@@ -457,8 +465,8 @@ def predict_from_location(start, end, out_dir, save_csv=True):
         print(rst)
         rsts.append(rst)
 
-        # if save_users:
-        #     write_union_users_csv(users_dict, out_dir + "_loc", dt.to_date_string() + "-" + _s)
+        if save_users:
+            write_union_users_csv(users_dict, out_dir + "_loc", dt.to_date_string() + "-" + _s)
 
         for _s in US_states:
             # 选择每个洲的结果
@@ -472,9 +480,8 @@ def predict_from_location(start, end, out_dir, save_csv=True):
             print(rst)
             rsts.append(rst)
 
-    if save_csv:
-        rsts = pd.DataFrame(rsts).set_index("id")
-        rsts.to_csv(f"data/csv/results-states-{out_dir}-from-{start.to_date_string()}-to-{end.to_date_string()}.csv")
+    rsts = pd.DataFrame(rsts).set_index("id")
+    rsts.to_csv(f"data/csv/states-{out_dir}-from-{start.to_date_string()}-to-{end.to_date_string()}.csv")
 
     return rsts
 
@@ -619,26 +626,22 @@ if __name__ == "__main__":
     # end = pendulum.datetime(2020, 6, 1, tz="UTC")
     # calculate_cumulative_share(start, end, super_start_month="01", save_users=True)
 
-    start = pendulum.datetime(2020, 6, 2, tz="UTC")
-    end = pendulum.datetime(2020, 10, 10, tz="UTC")
-    calculate_cumulative_share(start, end, super_start_month="06", save_db=False)
-
-    start = pendulum.datetime(2020, 6, 14, tz="UTC")
-    end = pendulum.datetime(2020, 10, 10, tz="UTC")
-    calculate_window_share(start, end, win=14)
+    # start = pendulum.datetime(2020, 6, 2, tz="UTC")
+    # end = pendulum.datetime(2020, 10, 10, tz="UTC")
+    # calculate_cumulative_share(start, end, super_start_month="06", save_db=False)
     # -- cumulative end --
 
     # start = pendulum.datetime(2020, 1, 15, tz="UTC")
     # end = pendulum.datetime(2020, 2, 26, tz="UTC")
     # predict_from_location(start, end, out_dir="14days")
 
-    # start = pendulum.datetime(2020, 1, 15, tz="UTC")
-    # end = pendulum.datetime(2020, 6, 1, tz="UTC")
-    # predict_from_location(start, end, out_dir="14days")
+    start = pendulum.datetime(2020, 6, 14, tz="UTC")
+    end = pendulum.datetime(2020, 10, 10, tz="UTC")
+    predict_from_location(start, end, out_dir="14days", save_csv=False)
 
-    # start = pendulum.datetime(2020, 1, 15, tz="UTC")
-    # end = pendulum.datetime(2020, 6, 1, tz="UTC")
-    # predict_from_location(start, end, out_dir="culFrom01")
+    start = pendulum.datetime(2020, 6, 2, tz="UTC")
+    end = pendulum.datetime(2020, 10, 10, tz="UTC")
+    predict_from_location(start, end, out_dir="cumFrom06", save_csv=False)
 
     # t0
     # start = pendulum.datetime(2019, 9, 4, tz="UTC")
