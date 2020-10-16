@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/19 04:01:00 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/10/16 11:51:56 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/10/16 11:54:53 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -450,10 +450,8 @@ def predict_from_location(start, end, out_dir, save_users=False):
     for dt in pendulum.period(start, end):
         if dt == start or dt.day_of_week != 1:
             continue
-
         json_file = f"disk/users-{out_dir}/{dt.to_date_string()}.json"
         users_dict = read_users_from_json(json_file)
-
         # country
         uid_in_s = df_state_user["USA"]
         users_in_s = {u: v for u, v in users_dict.items() if u in uid_in_s}
