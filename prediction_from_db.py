@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/19 04:01:00 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/10/16 13:22:25 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/10/16 13:26:46 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -432,7 +432,7 @@ def read_located_users():
     users = []
     for line in open("raw_data/user_info/located_users.lj"):
         u = json.loads(line.strip())
-        users.append({"uid": u["user_id"], "state": u["State"]})
+        users.append({"uid": str(u["user_id"]), "state": u["State"]})
     return pd.DataFrame(users).set_index("uid")
 
 
@@ -449,7 +449,7 @@ def predict_from_location(start, end, out_dir, save_users=False):
     for dt in pendulum.period(start, end):
         if dt == start or dt.day_of_week != 1:
             continue
-        json_file = f"disk/users-{out_dir}/{dt.to_date_string()}.json"
+        json_file = f"data/users-{out_dir}/{dt.to_date_string()}.json"
         users_dict = read_users_from_json(json_file)
         # country
         uid_in_s = df_state_user["USA"]
