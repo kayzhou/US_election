@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/19 04:01:00 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/10/16 11:45:39 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/10/16 11:46:40 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -451,13 +451,13 @@ def predict_from_location(start, end, out_dir, save_users=False):
         if dt == start or dt.day_of_week != 1:
             continue
 
-        csv_file = f"disk/users-{out_dir}/{dt.to_date_string()}.csv"
-        users_dict = read_users_from_json(csv_file)
+        json_file = f"disk/users-{out_dir}/{dt.to_date_string()}.json"
+        users_dict = read_users_from_json(json_file)
 
         # country
         uid_in_s = df_state_user["USA"]
         users_in_s = {u: v for u, v in users_dict.items() if u in uid_in_s}
-        print("USA", len(uid_in_s), len(users_in_s)) # 州，该州多少用户，命中多少用户
+        print("USA", len(uid_in_s), len(users_in_s))  # 州，该州多少用户，命中多少用户
         rst = get_share_from_users_dict(users_in_s)
         rst["id"] = "USA:" + dt.to_date_string()
         rst["dt"] = dt.to_date_string()
