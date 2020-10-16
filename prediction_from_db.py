@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/19 04:01:00 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/10/16 15:12:04 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/10/16 15:15:37 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -276,8 +276,8 @@ def calculate_window_share(start, end, win=14, save_csv=True):
             if win_dt_str in users_cache:
                 _u = users_cache[win_dt_str]
             else:
-                # _u = read_users_from_csv(f"data/users-day/{win_dt_str}.csv")
-                _u = read_users_from_json(f"data/users-day-0.66/{win_dt_str}.json")
+                _u = read_users_from_csv(f"data/users-day/{win_dt_str}.json")
+                # _u = read_users_from_json(f"data/users-day-0.66/{win_dt_str}.json")
                 users_cache[win_dt_str] = _u
             users_groups.append(_u)
 
@@ -285,8 +285,8 @@ def calculate_window_share(start, end, win=14, save_csv=True):
 
         union_users_dict = union_users_from_dict(users_groups)
         if dt.day_of_week == 1:
-            write_union_users_json(union_users_dict, f"users-{win}days-0.66", dt.to_date_string())
-            # write_union_users_csv(union_users_dict, f"users-{win}days", dt.to_date_string())
+            write_union_users_json(union_users_dict, f"users-{win}days", dt.to_date_string())
+            # write_union_users_json(union_users_dict, f"users-{win}days-0.66", dt.to_date_string())
 
         rst = get_share_from_users_dict(union_users_dict)
         rst["dt"] = dt.to_date_string()
@@ -314,8 +314,8 @@ def calculate_cumulative_share(start, end, super_start_month="01", save_users=Tr
         [type]: [description]
     """
     # from super_start (include) to -1
-    if super_start_month == "03":
-        super_start = pendulum.datetime(2020, 3, 1)
+    if super_start_month == "02":
+        super_start = pendulum.datetime(2020, 2, 1)
     elif super_start_month == "06":
         super_start = pendulum.datetime(2020, 6, 1)
     else:
@@ -331,7 +331,8 @@ def calculate_cumulative_share(start, end, super_start_month="01", save_users=Tr
             return -1
 
         elif dt == super_start.add(days=1):
-            union_users_dict = read_users_from_json(f"data/users-day-0.66/{super_start.to_date_string()}.json")
+            union_users_dict = read_users_from_json(f"data/users-day/{super_start.to_date_string()}.json")
+            # union_users_dict = read_users_from_json(f"data/users-day-0.66/{super_start.to_date_string()}.json")
             print("Loading data on super_start ...", super_start.to_date_string())
             write_union_users_json(union_users_dict, f"users-cumFrom{super_start_month}-0.66", dt.to_date_string())
 
@@ -341,9 +342,11 @@ def calculate_cumulative_share(start, end, super_start_month="01", save_users=Tr
             if yesterday_users is None:
                 print("Loading yesterday users' json at （载入初始数据）", dt.add(days=-1))
                 yesterday_users = read_users_from_json(
-                    f"disk/users-cumFrom{super_start_month}-0.66/{dt.add(days=-1).to_date_string()}.json")
+                    f"disk/users-cumFrom{super_start_month}/{dt.add(days=-1).to_date_string()}.json")
+                    # f"disk/users-cumFrom{super_start_month}-0.66/{dt.add(days=-1).to_date_string()}.json")
 
-            today_users = read_users_from_json(f"data/users-day-0.66/{dt.add(days=-1).to_date_string()}.json")
+            today_users = read_users_from_json(f"data/users-day/{dt.add(days=-1).to_date_string()}.json")
+            # today_users = read_users_from_json(f"data/users-day-0.66/{dt.add(days=-1).to_date_string()}.json")
             union_users_dict = union_users_from_yesterday_and_today(yesterday_users, today_users)
             yesterday_users = union_users_dict  # Today will be the yesterday.
             if save_users and dt.day_of_week == 1:
@@ -357,7 +360,8 @@ def calculate_cumulative_share(start, end, super_start_month="01", save_users=Tr
     pd_rsts = pd.DataFrame(rsts).set_index("dt")
     pd_rsts.index = pd.to_datetime(pd_rsts.index)
     pd_rsts = pd_rsts.rename(columns={0: "Biden", 1: "Trump", 2: "Undecided"})
-    pd_rsts.to_csv(f"data/csv/results-cumFrom{super_start_month}-from-{start.to_date_string()}-to-{end.to_date_string()}-0.66.csv")
+    pd_rsts.to_csv(f"data/csv/results-cumFrom{super_start_month}-from-{start.to_date_string()}-to-{end.to_date_string()}.csv")
+    # pd_rsts.to_csv(f"data/csv/results-cumFrom{super_start_month}-from-{start.to_date_string()}-to-{end.to_date_string()}-0.66.csv")
     
 
 def calculate_t0_share(start, super_end, save_csv=None):
@@ -590,6 +594,10 @@ if __name__ == "__main__":
     # save_user_snapshot_json("data/202008-tweets-prediction.txt", p=0.66)
     # save_user_snapshot_json("data/202007-tweets-prediction.txt", p=0.66)
     # save_user_snapshot_json("data/202006-tweets-prediction.txt", p=0.66)
+    save_user_snapshot_json("data/202005-tweets-prediction.txt")
+    save_user_snapshot_json("data/202003-tweets-prediction.txt")
+    save_user_snapshot_json("data/202004-tweets-prediction.txt")
+    save_user_snapshot_json("data/202002-tweets-prediction.txt")
 
     # 07-10 the second
     # start = pendulum.datetime(2020, 1, 1, tz="UTC")
