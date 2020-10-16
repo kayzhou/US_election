@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/19 04:01:00 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/10/16 13:27:15 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/10/16 13:31:56 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -444,6 +444,7 @@ def predict_from_location(start, end, out_dir, save_users=False):
     for _s in US_states:
         uid_in_s = set(df_user[df_user.state == _s].index)
         df_state_user[_s] = uid_in_s
+        print(f"The count of {_s} is {len(uid_in_s)}.")
 
     rsts = []
     for dt in pendulum.period(start, end):
