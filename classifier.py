@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/22 12:48:20 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/10/13 14:39:33 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/10/18 17:09:52 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,8 +50,8 @@ class Camp_Classifier(object):
     def __init__(self):
         "Init Classifer."
 
-    def load(self):
-        self.classified_hts, self.token, self.v, self.clf = load_models("train-08")
+    def load(self, train_dir="train-08"):
+        self.classified_hts, self.token, self.v, self.clf = load_models(train_dir)
 
     def predict(self, ds):
 

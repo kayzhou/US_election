@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/11 11:16:25 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/10/18 11:18:51 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/10/18 17:04:47 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -140,8 +140,8 @@ def read_raw_tweets_fromlj(_month="all"):
     else:
         set_tweetid = set()
         print(_month)
-        # for line in tqdm(open(f"raw_data/raw_data/{month}.lj")):
-        for line in tqdm(open(f"/external2/zhenkun/US_election_data/raw_data/{month}.lj")):
+        for line in tqdm(open(f"raw_data/raw_data/{month}.lj")):
+        # for line in tqdm(open(f"/external2/zhenkun/US_election_data/raw_data/{month}.lj")):
             try:
                 d = json.loads(line.strip())
             except Exception as e:
