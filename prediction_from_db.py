@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/19 04:01:00 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/10/18 11:28:05 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/10/18 11:29:30 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -334,7 +334,7 @@ def calculate_cumulative_share(start, end, super_start_month="01", save_users=Tr
             union_users_dict = read_users_from_json(f"data/users-day/{super_start.to_date_string()}.json")
             # union_users_dict = read_users_from_json(f"data/users-day-0.66/{super_start.to_date_string()}.json")
             print("Loading data on super_start ...", super_start.to_date_string())
-            write_union_users_json(union_users_dict, f"users-cumFrom{super_start_month}-0.66", dt.to_date_string())
+            write_union_users_json(union_users_dict, f"users-cumFrom{super_start_month}", dt.to_date_string())
 
         else:
             # just from the cumulative yesterday
@@ -350,7 +350,7 @@ def calculate_cumulative_share(start, end, super_start_month="01", save_users=Tr
             union_users_dict = union_users_from_yesterday_and_today(yesterday_users, today_users)
             yesterday_users = union_users_dict  # Today will be the yesterday.
             if save_users and dt.day_of_week == 1:
-                write_union_users_json(union_users_dict, f"users-cumFrom{super_start_month}-0.66", dt.to_date_string())
+                write_union_users_json(union_users_dict, f"users-cumFrom{super_start_month}", dt.to_date_string())
 
         rst = get_share_from_users_dict(union_users_dict)
         rst["dt"] = dt.to_date_string()
