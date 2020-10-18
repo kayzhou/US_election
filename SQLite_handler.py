@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/07 20:40:05 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/10/18 17:11:30 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/10/18 17:15:27 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -632,7 +632,7 @@ def tweets_to_txt_fast():
                 # sess.add_all(tweets_data)
                 # sess.commit()
                 for _d in tweets_data:
-                    out_file.write(f"{_d.tweet_id},{_d.user_id},{_d.dt.to_datetime_string()},{_d.source},{_d.max_proba}\n")
+                    out_file.write(f"{_d.user_id},{_d.dt.to_datetime_string()},{_d.source},{_d.max_proba}\n")
 
                 print('\ncount >', cnt)
                 X = []
@@ -648,7 +648,7 @@ def tweets_to_txt_fast():
             cnt += len(tweets_data)
                                                                      
             for _d in tweets_data:
-                out_file.write(f"{_d.tweet_id},{_d.user_id},{_d.dt.to_datetime_string()},{_d.source},{_d.max_proba}\n")
+                out_file.write(f"{_d.user_id},{_d.dt.to_datetime_string()},{_d.source},{_d.max_proba}\n")
             print('\ncount >', cnt)
 
 
@@ -694,7 +694,7 @@ def tweets_to_txt():
                 # sess.add_all(tweets_data)
                 # sess.commit()
                 for _d in tweets_data:
-                    out_file.write(f"{_d.tweet_id},{_d.user_id},{_d.dt.to_datetime_string()},{_d.source},{_d.max_proba}\n")
+                    out_file.write(f"{_d.user_id},{_d.dt.to_datetime_string()},{_d.source},{_d.max_proba}\n")
 
                 print('\ncount >', cnt)
                 X = []
@@ -710,7 +710,7 @@ def tweets_to_txt():
             cnt += len(tweets_data)
                                                                         
             for _d in tweets_data:
-                out_file.write(f"{_d.tweet_id},{_d.user_id},{_d.dt.to_datetime_string()},{_d.source},{_d.max_proba}\n")
+                out_file.write(f"{_d.user_id},{_d.dt.to_datetime_string()},{_d.source},{_d.max_proba}\n")
             print('\ncount >', cnt)
  
 
@@ -2441,5 +2441,5 @@ if __name__ == "__main__":
     # save_all_bots_users()
 
     # get_tweets_August_July()
-    # tweets_to_txt_fast()
+    tweets_to_txt_fast() # August and before
     tweets_to_txt() # Sep and Oct
