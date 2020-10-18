@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/19 04:01:00 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/10/18 15:33:03 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/10/18 15:34:30 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -251,7 +251,7 @@ def calculate_window_share_size_1(start, end, save_csv=True):
         rsts.to_csv(f"data/csv/results-1day-from-{start.to_date_string()}-to-{end.to_date_string()}.csv")
 
 
-def calculate_window_share(start, end, win=14, save_csv=True):
+def calculate_window_share(start, end, win=14, save_users=True):
     """VIP 1
 
     Args:
@@ -284,7 +284,7 @@ def calculate_window_share(start, end, win=14, save_csv=True):
         users_cache.pop(dt.add(days=-win).to_date_string())
 
         union_users_dict = union_users_from_dict(users_groups)
-        if dt.day_of_week == 1:
+        if save_users and dt.day_of_week == 1:
             write_union_users_json(union_users_dict, f"users-{win}days", dt.to_date_string())
             # write_union_users_json(union_users_dict, f"users-{win}days-0.66", dt.to_date_string())
 
@@ -293,11 +293,10 @@ def calculate_window_share(start, end, win=14, save_csv=True):
         print(rst)
         rsts.append(rst)
 
-    if save_csv:
-        rsts = pd.DataFrame(rsts).set_index("dt")
-        rsts = rsts.rename(columns={0: "Biden", 1: "Trump", 2: "Undecided"})
-        rsts.to_csv(
-            f"data/csv/results-{win}days-from-{start.to_date_string()}-to-{end.to_date_string()}-0.66.csv")
+    rsts = pd.DataFrame(rsts).set_index("dt")
+    rsts = rsts.rename(columns={0: "Biden", 1: "Trump", 2: "Undecided"})
+    rsts.to_csv(
+        f"data/csv/results-{win}days-from-{start.to_date_string()}-to-{end.to_date_string()}")
 
 
 def calculate_cumulative_share(start, end, super_start_month="01", save_users=True):
