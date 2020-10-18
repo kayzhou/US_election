@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/07 20:40:05 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/10/18 17:15:27 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/10/18 17:30:36 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -605,8 +605,8 @@ def tweets_to_txt_fast():
     # months = ["202002", "202001"]
     for m in months:
         cnt = 1
-        print(f"writing tweets to data/{m}-tweets-prediction.txt ...")
-        out_file = open(f"data/{m}-tweets-prediction.txt", "a")
+        print(f"writing tweets to data/{m}-tweets-prediction-v2.txt ...")
+        out_file = open(f"data/{m}-tweets-prediction.txt-v2", "a")
         X = []
         tweets_data = []
 
@@ -2441,5 +2441,5 @@ if __name__ == "__main__":
     # save_all_bots_users()
 
     # get_tweets_August_July()
-    tweets_to_txt_fast() # August and before
+    # tweets_to_txt_fast() # August and before
     tweets_to_txt() # Sep and Oct
