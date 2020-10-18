@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/19 04:01:00 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/10/18 11:29:30 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/10/18 15:33:03 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -626,21 +626,25 @@ if __name__ == "__main__":
     # calculate_window_share(start, end, win=7, save_csv=True)
 
     # 14 days
-    # start = pendulum.datetime(2020, 1, 21, tz="UTC")
-    # end = pendulum.datetime(2020, 10, 10, tz="UTC")
-    # calculate_window_share(start, end, win=14)
+    start = pendulum.datetime(2020, 1, 21, tz="UTC")
+    end = pendulum.datetime(2020, 10, 10, tz="UTC")
+    calculate_window_share(start, end, win=14)
     # -- window end --
 
     # -- cumulative start --
-    start = pendulum.datetime(2020, 1, 8, tz="UTC")
-    end = pendulum.datetime(2020, 10, 10, tz="UTC")
-    calculate_cumulative_share(start, end, super_start_month="01", save_users=True)
+    # start = pendulum.datetime(2020, 1, 8, tz="UTC")
+    # end = pendulum.datetime(2020, 10, 10, tz="UTC")
+    # calculate_cumulative_share(start, end, super_start_month="01", save_users=True)
     # -- cumulative end --
 
     # for states
-    start = pendulum.datetime(2020, 1, 8, tz="UTC")
+    start = pendulum.datetime(2020, 1, 21, tz="UTC")
     end = pendulum.datetime(2020, 10, 10, tz="UTC")
-    predict_from_location(start, end, out_dir="cumFrom01", save_users=False)
+    predict_from_location(start, end, out_dir="14days", save_users=False)
+
+    # start = pendulum.datetime(2020, 1, 8, tz="UTC")
+    # end = pendulum.datetime(2020, 10, 10, tz="UTC")
+    # predict_from_location(start, end, out_dir="cumFrom01", save_users=False)
 
     # t0
     # start = pendulum.datetime(2019, 9, 4, tz="UTC")
