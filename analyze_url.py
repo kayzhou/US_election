@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/21 09:47:55 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/10/16 14:31:36 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/10/18 11:19:14 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,52 +21,6 @@ election_files = set([
     "biden OR joebiden",
     "trump OR donaldtrump OR realdonaldtrump",
 ])
-
-def read_tweets(start, end):
-    months = set([
-        # "202006",
-        # "202007",
-        "202008",
-    ])
-    set_tweets = set()
-    file_names = sorted(Path("raw_data").rglob("*.txt"), reverse=True)
-
-    for in_name in file_names:
-        query = in_name.stem.split("-")[-1]
-        if ("biden" in query or "trump" in query) and in_name.parts[1] in months:
-            print(in_name)
-            cnt = 0
-            with FileReadBackwards(in_name) as f:
-                while True:
-                    line = f.readline()
-                    if not line:
-                        print(cnt, "end of the file!")
-                        print("-" * 50)
-                        break
-                    try:
-                        d = json.loads(line.strip())
-                    except:
-                        print('json.loads Error:', line)
-                        continue
-                    
-                    tweet_id = d["id"]
-                    if tweet_id in set_tweets:
-                        continue
-                    set_tweets.add(tweet_id)
-
-                    dt = pendulum.from_format(
-                        d["created_at"], 'ddd MMM DD HH:mm:ss ZZ YYYY')
-                    if dt < start:
-                        print("sum:", cnt, d["created_at"], "end!")
-                        break
-                    if dt >= end:
-                        continue
-
-                    if cnt % 50000 == 0:
-                        print("New data ->", cnt)
-                    cnt += 1
-                    yield d, dt
-
 
 def read_tweets(start, end):
     months = set([
