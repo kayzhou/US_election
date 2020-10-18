@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/19 04:01:00 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/10/18 10:26:39 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/10/18 10:37:28 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -594,11 +594,12 @@ if __name__ == "__main__":
     # save_user_snapshot_json("data/202008-tweets-prediction.txt", p=0.66)
     # save_user_snapshot_json("data/202007-tweets-prediction.txt", p=0.66)
     # save_user_snapshot_json("data/202006-tweets-prediction.txt", p=0.66)
+    
     # save_user_snapshot_json("data/202005-tweets-prediction.txt")
     # save_user_snapshot_json("data/202003-tweets-prediction.txt")
     # save_user_snapshot_json("data/202004-tweets-prediction.txt")
     # save_user_snapshot_json("data/202002-tweets-prediction.txt")
-    save_user_snapshot_json("data/202001-tweets-prediction.txt")
+    # save_user_snapshot_json("data/202001-tweets-prediction.txt")
 
     # 07-10 the second
     # start = pendulum.datetime(2020, 1, 1, tz="UTC")
@@ -625,28 +626,21 @@ if __name__ == "__main__":
     # calculate_window_share(start, end, win=7, save_csv=True)
 
     # 14 days
-    # start = pendulum.datetime(2020, 2, 14, tz="UTC")
-    # end = pendulum.datetime(2020, 10, 10, tz="UTC")
-    # calculate_window_share(start, end, win=14)
+    start = pendulum.datetime(2020, 1, 21, tz="UTC")
+    end = pendulum.datetime(2020, 10, 10, tz="UTC")
+    calculate_window_share(start, end, win=14)
     # -- window end --
 
     # -- cumulative start --
-    # start = pendulum.datetime(2020, 2, 2, tz="UTC")
-    # end = pendulum.datetime(2020, 10, 10, tz="UTC")
-    # calculate_cumulative_share(start, end, super_start_month="02", save_users=True)
+    start = pendulum.datetime(2020, 1, 8, tz="UTC")
+    end = pendulum.datetime(2020, 10, 10, tz="UTC")
+    calculate_cumulative_share(start, end, super_start_month="01", save_users=True)
     # -- cumulative end --
 
-    # start = pendulum.datetime(2020, 1, 15, tz="UTC")
-    # end = pendulum.datetime(2020, 2, 26, tz="UTC")
-    # predict_from_location(start, end, out_dir="14days")
-
-    # start = pendulum.datetime(2020, 6, 14, tz="UTC")
-    # end = pendulum.datetime(2020, 10, 10, tz="UTC")
-    # predict_from_location(start, end, out_dir="14days", save_users=False)
-
-    # start = pendulum.datetime(2020, 6, 2, tz="UTC")
-    # end = pendulum.datetime(2020, 10, 10, tz="UTC")
-    # predict_from_location(start, end, out_dir="cumFrom06", save_users=False)
+    # for states
+    start = pendulum.datetime(2020, 1, 8, tz="UTC")
+    end = pendulum.datetime(2020, 10, 10, tz="UTC")
+    predict_from_location(start, end, out_dir="cumFrom01", save_users=False)
 
     # t0
     # start = pendulum.datetime(2019, 9, 4, tz="UTC")
