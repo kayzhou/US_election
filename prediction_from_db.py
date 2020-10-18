@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/19 04:01:00 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/10/18 10:37:28 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/10/18 10:44:23 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -276,7 +276,7 @@ def calculate_window_share(start, end, win=14, save_csv=True):
             if win_dt_str in users_cache:
                 _u = users_cache[win_dt_str]
             else:
-                _u = read_users_from_csv(f"data/users-day/{win_dt_str}.json")
+                _u = read_users_from_json(f"data/users-day/{win_dt_str}.json")
                 # _u = read_users_from_json(f"data/users-day-0.66/{win_dt_str}.json")
                 users_cache[win_dt_str] = _u
             users_groups.append(_u)
