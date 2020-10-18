@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/19 04:01:00 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/10/18 15:34:30 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/10/18 15:59:49 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -296,7 +296,7 @@ def calculate_window_share(start, end, win=14, save_users=True):
     rsts = pd.DataFrame(rsts).set_index("dt")
     rsts = rsts.rename(columns={0: "Biden", 1: "Trump", 2: "Undecided"})
     rsts.to_csv(
-        f"data/csv/results-{win}days-from-{start.to_date_string()}-to-{end.to_date_string()}")
+        f"data/csv/{win}days-from-{start.to_date_string()}-to-{end.to_date_string()}")
 
 
 def calculate_cumulative_share(start, end, super_start_month="01", save_users=True):
@@ -359,7 +359,7 @@ def calculate_cumulative_share(start, end, super_start_month="01", save_users=Tr
     pd_rsts = pd.DataFrame(rsts).set_index("dt")
     pd_rsts.index = pd.to_datetime(pd_rsts.index)
     pd_rsts = pd_rsts.rename(columns={0: "Biden", 1: "Trump", 2: "Undecided"})
-    pd_rsts.to_csv(f"data/csv/results-cumFrom{super_start_month}-from-{start.to_date_string()}-to-{end.to_date_string()}.csv")
+    pd_rsts.to_csv(f"data/csv/cumFrom{super_start_month}-from-{start.to_date_string()}-to-{end.to_date_string()}.csv")
     # pd_rsts.to_csv(f"data/csv/results-cumFrom{super_start_month}-from-{start.to_date_string()}-to-{end.to_date_string()}-0.66.csv")
     
 
@@ -468,8 +468,8 @@ def predict_from_location(start, end, out_dir, save_users=False):
         print(rst)
         rsts.append(rst)
 
-        if save_users:
-            write_union_users_csv(users_dict, out_dir + "_loc", dt.to_date_string() + "-" + _s)
+        if dt.day_of_week == 1 and save_users:
+            write_union_users_json(users_dict, out_dir + "_loc", dt.to_date_string() + "-" + _s)
 
         # 选择每个洲的结果
         for _s in US_states:
@@ -625,25 +625,29 @@ if __name__ == "__main__":
     # calculate_window_share(start, end, win=7, save_csv=True)
 
     # 14 days
-    start = pendulum.datetime(2020, 1, 21, tz="UTC")
+    start = pendulum.datetime(2020, 6, 1, tz="UTC")
     end = pendulum.datetime(2020, 10, 10, tz="UTC")
     calculate_window_share(start, end, win=14)
     # -- window end --
 
     # -- cumulative start --
-    # start = pendulum.datetime(2020, 1, 8, tz="UTC")
-    # end = pendulum.datetime(2020, 10, 10, tz="UTC")
-    # calculate_cumulative_share(start, end, super_start_month="01", save_users=True)
+    start = pendulum.datetime(2020, 6, 2, tz="UTC")
+    end = pendulum.datetime(2020, 10, 10, tz="UTC")
+    calculate_cumulative_share(start, end, super_start_month="06", save_users=True)
     # -- cumulative end --
 
     # for states
-    start = pendulum.datetime(2020, 1, 21, tz="UTC")
+    start = pendulum.datetime(2020, 6, 1, tz="UTC")
     end = pendulum.datetime(2020, 10, 10, tz="UTC")
-    predict_from_location(start, end, out_dir="14days", save_users=False)
+    predict_from_location(start, end, out_dir="14days", save_users=True)
 
     # start = pendulum.datetime(2020, 1, 8, tz="UTC")
     # end = pendulum.datetime(2020, 10, 10, tz="UTC")
     # predict_from_location(start, end, out_dir="cumFrom01", save_users=False)
+
+    start = pendulum.datetime(2020, 6, 2, tz="UTC")
+    end = pendulum.datetime(2020, 10, 10, tz="UTC")
+    predict_from_location(start, end, out_dir="cumFrom06", save_users=True)
 
     # t0
     # start = pendulum.datetime(2019, 9, 4, tz="UTC")
