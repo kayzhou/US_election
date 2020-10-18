@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/19 04:01:00 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/10/18 15:59:49 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/10/18 16:42:42 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -625,15 +625,15 @@ if __name__ == "__main__":
     # calculate_window_share(start, end, win=7, save_csv=True)
 
     # 14 days
-    start = pendulum.datetime(2020, 6, 1, tz="UTC")
-    end = pendulum.datetime(2020, 10, 10, tz="UTC")
-    calculate_window_share(start, end, win=14)
+    # start = pendulum.datetime(2020, 6, 1, tz="UTC")
+    # end = pendulum.datetime(2020, 10, 10, tz="UTC")
+    # calculate_window_share(start, end, win=14)
     # -- window end --
 
     # -- cumulative start --
-    start = pendulum.datetime(2020, 6, 2, tz="UTC")
-    end = pendulum.datetime(2020, 10, 10, tz="UTC")
-    calculate_cumulative_share(start, end, super_start_month="06", save_users=True)
+    # start = pendulum.datetime(2020, 6, 2, tz="UTC")
+    # end = pendulum.datetime(2020, 10, 10, tz="UTC")
+    # calculate_cumulative_share(start, end, super_start_month="06", save_users=True)
     # -- cumulative end --
 
     # for states
