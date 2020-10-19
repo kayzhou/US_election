@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/21 09:47:55 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/09/24 14:45:21 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/10/19 10:57:43 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ from pathlib import Path
 from collections import Counter
 from tqdm import tqdm
 
-train_dir = "data/train-08/"
+train_dir = "data/train-10/"
 
 # demo_files = set([
 #     "Bernie Sanders",
@@ -72,6 +72,7 @@ months = set([
     "202005",
     "202006",
     "202007",
+    "202008",
 ])
 
 
@@ -87,7 +88,7 @@ def read_classified_hashtags():
         "DT": set()
     }
 
-    for line in open(train_dir + "hashtags.txt"):     # 2020-03-06
+    for line in open(train_dir + "hashtags.txt"):
         if not line.startswith("#"):
             w = line.strip().split()
             print(w)
@@ -109,10 +110,15 @@ def ext_1():
     """
     classified_hts, category_hts = read_classified_hashtags()
     with open(train_dir + "train.txt", "w") as f:
-        months = ["202001", "202002", "202003", "202004", "202005", "202006"]
+        months = ["202001", "202002", "202003", "202004", "202005", "202006", "202007", "202008"]
         for month in months:
             print(month)
-            for line in tqdm(open(f"raw_data/raw_data/{month}.lj")):       
+            if month in ["202001", "202002"]:
+                in_name = f"/external2/zhenkun/US_election_data/raw_data/{month}.lj"
+            else:
+                in_name = f"raw_data/raw_data/{month}.lj"
+
+            for line in tqdm(open(in_name)):       
                 label_bingo_times = 0
                 label = None
                 try:
@@ -204,5 +210,5 @@ def ext_2():
 
 
 if __name__ == "__main__":
-    # ext_1()
-    ext_2()
+    ext_1()
+    # ext_2()
