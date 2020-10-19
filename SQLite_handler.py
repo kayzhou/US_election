@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/07 20:40:05 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/10/19 22:41:06 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/10/19 22:43:46 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -670,7 +670,7 @@ def tweets_to_txt_Apr_to_Aug():
             uid = d["user"]["id"]
             _sou = get_source_text(d["source"]) if 'source' in d else "No source"
             
-            tweets_data.append([tweet_id, uid, t_dt.to_date_string(), _sou, "biden OR trump", -1.0])
+            tweets_data.append([tweet_id, uid, t_dt.to_date_string(), _sou, "~", -1.0])
             X.append(d)
             
             if len(tweets_data) == 5000:
@@ -725,7 +725,7 @@ def tweets_to_txt_Sep_to_Oct():
             uid = d["user"]["id"]
             _sou = get_source_text(d["source"]) if 'source' in d else "No source"
             
-            tweets_data.append([tweet_id, uid, t_dt.to_date_string(), _sou, "biden OR trump", -1.0])
+            tweets_data.append([tweet_id, uid, t_dt.to_date_string(), _sou, "~", -1.0])
             X.append(d)
             
             if len(tweets_data) == 5000:
@@ -2482,8 +2482,8 @@ if __name__ == "__main__":
     # save_all_bots_users()
 
     tweets_to_txt_Jan_to_Mar()
-    tweets_to_txt_Apr_to_Aug()
-    tweets_to_txt_Sep_to_Oct()
+    # tweets_to_txt_Apr_to_Aug()
+    # tweets_to_txt_Sep_to_Oct()
 
     # get_tweets_August_July()
     # tweets_to_txt_fast() # August and before
