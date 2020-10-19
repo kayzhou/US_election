@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/21 09:47:55 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/10/18 11:27:34 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/10/19 09:45:35 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -152,7 +152,7 @@ def write_cooccurrence_hashtags(out_name):
             hts = tweet["hashtags"]
             if hts and len(hts) >= 1:
                 f.write(" ".join([ht["text"].lower() for ht in hts]) + "\n")
-                    
+        
 
 def get_hts(in_name):
     hts = {}
@@ -182,7 +182,7 @@ if __name__ == "__main__":
     # write_top_hashtags_mex("data/hashtags-MEX-20200811.txt")
     # write_top_words_mex("data/words-MEX-20200811.txt")
 
-    write_cooccurrence_hashtags("data/hashtags-from-March-")
+    write_cooccurrence_hashtags("data/hashtags-from-Jan-to-Aug.txt")
 
 
     # write_top_hashtags(trump_files, "hashtags-trump-20200318.txt")
