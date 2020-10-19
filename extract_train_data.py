@@ -272,6 +272,6 @@ def ext_2():
 
 
 if __name__ == "__main__":
-    ext_1_Jan()
+    # ext_1_Jan()
     ext_1()
     # ext_2()
