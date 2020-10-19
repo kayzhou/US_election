@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/07 20:40:05 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/10/19 22:32:43 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/10/19 22:41:06 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -651,7 +651,7 @@ def tweets_to_txt_Apr_to_Aug():
     """
     from classifier import Camp_Classifier
     Lebron = Camp_Classifier()
-    Lebron.load()
+    Lebron.load(train_dir="train-10")
 
     # from read_raw_data import read_historical_tweets as read_tweets
     from read_raw_data import read_raw_tweets_fromlj as read_tweets
@@ -706,7 +706,7 @@ def tweets_to_txt_Sep_to_Oct():
     """
     from classifier import Camp_Classifier
     Lebron = Camp_Classifier()
-    Lebron.load(train_dir="train-04")
+    Lebron.load(train_dir="train-10")
 
     from read_raw_data import read_tweets_json_day
     X = []
