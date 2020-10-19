@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/07/06 14:11:24 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/10/19 19:30:46 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/10/19 19:56:10 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -76,6 +76,7 @@ class Classifer(object):
                     f.write(str(camp) + "\t" + " ".join(words) + "\n")
                 except ValueError as e:
                     print(e)
+                    print(line.strip())
 
     def load_tokens(self):
         X = []; y = []
@@ -119,7 +120,7 @@ class Classifer(object):
         # X_train, y_train = SMOTE().fit_sample(X_train, y_train)
         # X_train, y_train = ADASYN().fit_sample(X_train, y_train)
         # X_train, y_train = RandomOverSampler(random_state=24).fit_sample(X_train, y_train)
-        X_train, y_train = RandomUnderSampler(random_state=42).fit_sample(X_train, y_train)
+        # X_train, y_train = RandomUnderSampler(random_state=42).fit_sample(X_train, y_train)
 
         print("After sampling!")
         print(X_train.shape, X_test.shape)
