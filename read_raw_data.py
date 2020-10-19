@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/11 11:16:25 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/10/19 22:05:47 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/10/19 22:12:32 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -248,7 +248,8 @@ def read_raw_data_month_Jan_to_March(month):
     file_names = sorted(Path("raw_data").rglob("*.txt"), reverse=True)
     set_tweets = set()
     for in_name in file_names:
-        if in_name.stem.split("-")[-1] in demo_files and in_name.parts[1] == month:
+        word = in_name.stem.split("-")[-1]
+        if word in demo_files and in_name.parts[1] == month:
             print(in_name)
             for line in open(in_name):
                 try:
@@ -258,6 +259,8 @@ def read_raw_data_month_Jan_to_March(month):
                 if d["id"] in set_tweets:
                     continue
                 set_tweets.add(d["id"])
+
+                d["query"] = word
                 
                 t_dt = pendulum.from_format(
                     d["created_at"], 'ddd MMM DD HH:mm:ss ZZ YYYY')
