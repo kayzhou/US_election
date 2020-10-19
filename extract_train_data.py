@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/21 09:47:55 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/10/19 16:46:53 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/10/19 20:00:34 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -143,7 +143,7 @@ def ext_1():
                     data = json.loads(line)
                 except Exception:
                     print("json.loads ERROR:", line)
-                    
+                    continue
                 # ignoring retweets
                 if 'retweeted_status' in data and data["text"].startswith("RT @"): 
                     continue
@@ -178,14 +178,14 @@ def ext_1_Jan():
         for in_name in file_names:
             if in_name.stem.split("-")[-1] in demo_files and in_name.parts[1] in months:
                 print(in_name)
-                for line in tqdm(open(in_name)):       
+                for line in tqdm(open(in_name)):
                     label_bingo_times = 0
                     label = None
                     try:
                         data = json.loads(line)
                     except Exception:
                         print("json.loads ERROR:", line)
-                        
+                        continue
                     # ignoring retweets
                     if 'retweeted_status' in data and data["text"].startswith("RT @"): 
                         continue

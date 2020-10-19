@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/11 11:16:25 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/10/19 16:45:37 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/10/19 22:05:47 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,34 +18,32 @@ import ujson as json
 from file_read_backwards import FileReadBackwards
 from tqdm import tqdm
 
+# add trump
 demo_files = set([
     "Bernie Sanders",
     "SenSanders",
     "Joe Biden",
     "JoeBiden",
-    # "Mike Bloomberg",
-    # "MikeBloomberg",
-    # "Tulsi Gabbard",
-    # "TulsiGabbard",
-    # "Elizabeth Warren",
-    # "ewarren",
-    # "Amy Klobuchar",
-    # "amyklobuchar",
-    # "Pete Buttigieg",
-    # "PeteButtigieg",
-    # "Mayor Pete",
-    # "Pete",
-    # "Buttigieg",
-    # "Tom Steyer",
-    # "TomSteyer",
-    # "Michael Bennet",
-    # "SenatorBennet",
-    # "Andrew Yang",
-    # "AndrewYang",
-    # "Deval Patrick",
-    # "DevalPatrick",
-    # "John Delaney",
-    # "JohnDelaney",
+    "Mike Bloomberg",
+    "MikeBloomberg",
+    "Tulsi Gabbard",
+    "TulsiGabbard",
+    "Elizabeth Warren",
+    "ewarren",
+    "Amy Klobuchar",
+    "amyklobuchar",  
+    "Pete Buttigieg",
+    "PeteButtigieg",
+    "John Delaney",
+    "JohnDelaney",
+    "Deval Patrick",
+    "DevalPatrick",
+    "Tom Steyer",
+    "TomSteyer",
+    "Andrew Yang",
+    "AndrewYang",
+    "Donald Trump",
+    "realDonaldTrump",
 ])
 
 
@@ -244,6 +242,27 @@ def read_raw_user_month(month, _set_users):
         _set_users.add(user_id)
         if "location" in u:
             yield u
+
+
+def read_raw_data_month_Jan_to_March(month):
+    file_names = sorted(Path("raw_data").rglob("*.txt"), reverse=True)
+    set_tweets = set()
+    for in_name in file_names:
+        if in_name.stem.split("-")[-1] in demo_files and in_name.parts[1] == month:
+            print(in_name)
+            for line in open(in_name):
+                try:
+                    d = json.loads(line.strip())
+                except Exception:
+                    print("JSON loading error")
+                if d["id"] in set_tweets:
+                    continue
+                set_tweets.add(d["id"])
+                
+                t_dt = pendulum.from_format(
+                    d["created_at"], 'ddd MMM DD HH:mm:ss ZZ YYYY')
+
+                yield d, t_dt
 
 
 def read_raw_data_month(month, _set_tweet_ids):
