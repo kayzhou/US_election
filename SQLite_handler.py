@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/07 20:40:05 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/10/19 22:43:46 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/10/19 22:49:45 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -626,7 +626,7 @@ def tweets_to_txt_Jan_to_Mar():
                 cnt += len(tweets_data)
 
                 for _d in tweets_data:
-                    out_file.write(f"{_d[1]},{_d[2]},{_d[3]},{_d[-1]},{d[4]}\n")
+                    out_file.write(f"{_d[1]},{_d[2]},{_d[3]},{_d[-1]},{_d[4]}\n")
 
                 print('count >', cnt)
                 X = []
@@ -640,7 +640,7 @@ def tweets_to_txt_Jan_to_Mar():
             cnt += len(tweets_data)
 
             for _d in tweets_data:
-                out_file.write(f"{_d[1]},{_d[2]},{_d[3]},{_d[-1]},{d[4]}\n")
+                out_file.write(f"{_d[1]},{_d[2]},{_d[3]},{_d[-1]},{_d[4]}\n")
 
             print('count >', cnt)
             
@@ -681,7 +681,7 @@ def tweets_to_txt_Apr_to_Aug():
                 cnt += len(tweets_data)
 
                 for _d in tweets_data:
-                    out_file.write(f"{_d[1]},{_d[2]},{_d[3]},{_d[-1]},{d[4]}\n")
+                    out_file.write(f"{_d[1]},{_d[2]},{_d[3]},{_d[-1]},{_d[4]}\n")
 
                 print('count >', cnt)
                 X = []
@@ -695,7 +695,7 @@ def tweets_to_txt_Apr_to_Aug():
             cnt += len(tweets_data)
 
             for _d in tweets_data:
-                out_file.write(f"{_d[1]},{_d[2]},{_d[3]},{_d[-1]},{d[4]}\n")
+                out_file.write(f"{_d[1]},{_d[2]},{_d[3]},{_d[-1]},{_d[4]}\n")
 
             print('count >', cnt)
 
@@ -736,7 +736,7 @@ def tweets_to_txt_Sep_to_Oct():
                 cnt += len(tweets_data)
 
                 for _d in tweets_data:
-                    out_file.write(f"{_d[1]},{_d[2]},{_d[3]},{_d[-1]},{d[4]}\n")
+                    out_file.write(f"{_d[1]},{_d[2]},{_d[3]},{_d[-1]},{_d[4]}\n")
 
                 print('count >', cnt)
                 X = []
@@ -750,7 +750,7 @@ def tweets_to_txt_Sep_to_Oct():
             cnt += len(tweets_data)
 
             for _d in tweets_data:
-                out_file.write(f"{_d[1]},{_d[2]},{_d[3]},{_d[-1]},{d[4]}\n")
+                out_file.write(f"{_d[1]},{_d[2]},{_d[3]},{_d[-1]},{_d[4]}\n")
 
             print('count >', cnt)
  
