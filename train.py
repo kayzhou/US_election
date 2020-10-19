@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/07/06 14:11:24 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/09/24 14:42:15 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/10/19 19:29:44 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -172,7 +172,7 @@ if __name__ == "__main__":
     #dt = "2020-03-08-tfidf_model3"
     #dt = "model 4_omg"
 
-    _dir = "train-08"
+    _dir = "train-1-"
     Lebron = Classifer(train_dir=_dir)
     # After extract_train_data.py
     Lebron.save_tokens()

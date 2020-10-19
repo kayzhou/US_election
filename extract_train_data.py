@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/21 09:47:55 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/10/19 12:01:28 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/10/19 16:46:53 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -176,7 +176,8 @@ def ext_1_Jan():
         file_names = sorted(Path("raw_data").rglob("*.txt"), reverse=True)
         set_tweets = set()
         for in_name in file_names:
-            if in_name.stem.split("-")[-1] in election_files and in_name.parts[1] in months:
+            if in_name.stem.split("-")[-1] in demo_files and in_name.parts[1] in months:
+                print(in_name)
                 for line in tqdm(open(in_name)):       
                     label_bingo_times = 0
                     label = None
