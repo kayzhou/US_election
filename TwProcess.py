@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/23 21:42:53 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/09/24 08:47:38 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/10/19 19:32:38 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,7 +35,8 @@ def read_classified_hashtags(now, label2num=None):
 
     for line in open(f"data/{now}/hashtags.txt"):
         if not line.startswith("#"):
-            _ht, _label, _cate = line.strip().split()
+            # _ht, _label, _cate = line.strip().split()
+            _ht, _label, = line.strip().split()
             # print("hashtag:", _ht, "label:", _label)
             if _label in label2num:
                 hts.append(_ht)
