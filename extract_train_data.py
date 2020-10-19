@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/21 09:47:55 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/10/19 10:57:43 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/10/19 10:59:29 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -77,6 +77,33 @@ months = set([
 
 
 # PB BS EW JB OT=others
+# def read_classified_hashtags():
+
+#     classified_hts = {
+#         "JB": set(),
+#         "DT": set()
+#     }
+#     category_hts = {
+#         "JB": set(),
+#         "DT": set()
+#     }
+
+#     for line in open(train_dir + "hashtags.txt"):
+#         if not line.startswith("#"):
+#             w = line.strip().split()
+#             print(w)
+#             _ht, label, category = w[0], w[1], w[2]
+#             if label == "UNK":
+#                 continue
+#             # print(_ht, label)
+#             if label in classified_hts:
+#                 classified_hts[label].add(_ht)
+#                 category_hts[category].add(_ht)
+                
+#     print(classified_hts)
+#     return classified_hts, category_hts
+
+
 def read_classified_hashtags():
 
     classified_hts = {
@@ -92,13 +119,12 @@ def read_classified_hashtags():
         if not line.startswith("#"):
             w = line.strip().split()
             print(w)
-            _ht, label, category = w[0], w[1], w[2]
+            _ht, label = w[0], w[1]
             if label == "UNK":
                 continue
             # print(_ht, label)
             if label in classified_hts:
                 classified_hts[label].add(_ht)
-                category_hts[category].add(_ht)
                 
     print(classified_hts)
     return classified_hts, category_hts
