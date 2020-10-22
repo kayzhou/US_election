@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/19 04:01:00 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/10/18 16:42:42 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/10/22 10:23:47 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -594,9 +594,13 @@ if __name__ == "__main__":
     # save_user_snapshot_json("data/202007-tweets-prediction.txt", p=0.66)
     # save_user_snapshot_json("data/202006-tweets-prediction.txt", p=0.66)
     
+    save_user_snapshot_json("data/202009-tweets-prediction-v2.txt")
+    save_user_snapshot_json("data/202008-tweets-prediction-v2.txt")
+    # save_user_snapshot_json("data/202007-tweets-prediction.txt")
+    # save_user_snapshot_json("data/202006-tweets-prediction.txt")
     # save_user_snapshot_json("data/202005-tweets-prediction.txt")
-    # save_user_snapshot_json("data/202003-tweets-prediction.txt")
     # save_user_snapshot_json("data/202004-tweets-prediction.txt")
+    # save_user_snapshot_json("data/202003-tweets-prediction.txt")
     # save_user_snapshot_json("data/202002-tweets-prediction.txt")
     # save_user_snapshot_json("data/202001-tweets-prediction.txt")
 
@@ -637,17 +641,17 @@ if __name__ == "__main__":
     # -- cumulative end --
 
     # for states
-    start = pendulum.datetime(2020, 6, 1, tz="UTC")
-    end = pendulum.datetime(2020, 10, 10, tz="UTC")
-    predict_from_location(start, end, out_dir="14days", save_users=True)
+    # start = pendulum.datetime(2020, 6, 1, tz="UTC")
+    # end = pendulum.datetime(2020, 10, 10, tz="UTC")
+    # predict_from_location(start, end, out_dir="14days", save_users=True)
 
     # start = pendulum.datetime(2020, 1, 8, tz="UTC")
     # end = pendulum.datetime(2020, 10, 10, tz="UTC")
     # predict_from_location(start, end, out_dir="cumFrom01", save_users=False)
 
-    start = pendulum.datetime(2020, 6, 2, tz="UTC")
-    end = pendulum.datetime(2020, 10, 10, tz="UTC")
-    predict_from_location(start, end, out_dir="cumFrom06", save_users=True)
+    # start = pendulum.datetime(2020, 6, 2, tz="UTC")
+    # end = pendulum.datetime(2020, 10, 10, tz="UTC")
+    # predict_from_location(start, end, out_dir="cumFrom06", save_users=True)
 
     # t0
     # start = pendulum.datetime(2019, 9, 4, tz="UTC")
