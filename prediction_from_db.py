@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/19 04:01:00 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/10/22 10:23:47 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/10/22 10:36:49 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -52,17 +52,19 @@ ALL_BOTS = load_bots("data/users-profile/20201010bots.txt")
 
 def save_user_snapshot_json(in_name, p=0.5):
     dict_date_users = {}
-    global ALL_BOTS
+    # global ALL_BOTS
     
     for line in tqdm(open(in_name)):
         d = line.strip().split(",")
         # 先不查重tweet_id
-        uid = d[1]
-        if uid in ALL_BOTS or d[3] != "None":
+        uid = d[0]
+        # if uid in ALL_BOTS or d[3] != "None":
+        #     continue
+        date = d[1]
+        source = d[2]
+        if source != "None":
             continue
-         
-        date = d[2][:10]
-        proba = float(d[-1])
+        proba = float(d[3])
 
         if date not in dict_date_users:
             dict_date_users[date] = {}
