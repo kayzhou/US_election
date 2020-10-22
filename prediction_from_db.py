@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/19 04:01:00 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/10/22 10:38:39 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/10/22 11:20:58 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -596,8 +596,8 @@ if __name__ == "__main__":
     # save_user_snapshot_json("data/202007-tweets-prediction.txt", p=0.66)
     # save_user_snapshot_json("data/202006-tweets-prediction.txt", p=0.66)
     
-    save_user_snapshot_json("data/202009-tweets-prediction-v2.txt")
-    save_user_snapshot_json("data/202008-tweets-prediction-v2.txt")
+    # save_user_snapshot_json("data/202009-tweets-prediction-v2.txt")
+    # save_user_snapshot_json("data/202008-tweets-prediction-v2.txt")
     # save_user_snapshot_json("data/202007-tweets-prediction.txt")
     # save_user_snapshot_json("data/202006-tweets-prediction.txt")
     # save_user_snapshot_json("data/202005-tweets-prediction.txt")
@@ -631,15 +631,15 @@ if __name__ == "__main__":
     # calculate_window_share(start, end, win=7, save_csv=True)
 
     # 14 days
-    # start = pendulum.datetime(2020, 6, 1, tz="UTC")
-    # end = pendulum.datetime(2020, 10, 10, tz="UTC")
-    # calculate_window_share(start, end, win=14)
+    start = pendulum.datetime(2020, 9, 1, tz="UTC")
+    end = pendulum.datetime(2020, 10, 15, tz="UTC")
+    calculate_window_share(start, end, win=14)
     # -- window end --
 
     # -- cumulative start --
-    # start = pendulum.datetime(2020, 6, 2, tz="UTC")
-    # end = pendulum.datetime(2020, 10, 10, tz="UTC")
-    # calculate_cumulative_share(start, end, super_start_month="06", save_users=True)
+    start = pendulum.datetime(2020, 8, 2, tz="UTC")
+    end = pendulum.datetime(2020, 10, 10, tz="UTC")
+    calculate_cumulative_share(start, end, super_start_month="06", save_users=True)
     # -- cumulative end --
 
     # for states
