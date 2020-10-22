@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/07 20:40:05 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/10/19 22:49:45 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/10/21 11:12:46 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -656,7 +656,8 @@ def tweets_to_txt_Apr_to_Aug():
     # from read_raw_data import read_historical_tweets as read_tweets
     from read_raw_data import read_raw_tweets_fromlj as read_tweets
 
-    months = ["202008", "202007", "202006", "202005", "202004"]
+    # months = ["202008", "202007", "202006", "202005", "202004"]
+    months = ["202006", "202005", "202004"]
     for m in months:
         cnt = 1
         print(f"writing tweets to data/{m}-tweets-prediction.txt ...")
@@ -2484,6 +2485,8 @@ if __name__ == "__main__":
     # tweets_to_txt_Jan_to_Mar()
     # tweets_to_txt_Apr_to_Aug()
     tweets_to_txt_Sep_to_Oct()
+    tweets_to_txt_Apr_to_Aug()
+    # tweets_to_txt_Sep_to_Oct()
 
     # get_tweets_August_July()
     # tweets_to_txt_fast() # August and before

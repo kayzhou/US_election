@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/11 11:16:25 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/10/19 22:12:32 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/10/21 11:12:31 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -138,7 +138,11 @@ def read_raw_tweets_fromlj(_month="all"):
     else:
         set_tweetid = set()
         print(_month)
-        for line in tqdm(open(f"raw_data/raw_data/{_month}.lj")):
+        if _month in ["202004", "202005", "202006"]:
+            in_name = f"/media/alex/data/US2020_raw/{_month}.lj"
+        else:
+            in_name = f"raw_data/raw_data/{_month}.lj"
+        for line in open(in_name):
         # for line in tqdm(open(f"/external2/zhenkun/US_election_data/raw_data/{month}.lj")):
             try:
                 d = json.loads(line.strip())
@@ -336,6 +340,7 @@ def read_raw_user(start, end, set_users_before=None):
                         print("New user ->", cnt)
                     cnt += 1
                     yield u
+
 
 def count_tweets_users():
     
