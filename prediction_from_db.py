@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/19 04:01:00 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/10/22 10:37:49 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/10/22 10:38:39 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -53,7 +53,7 @@ ALL_BOTS = load_bots("data/users-profile/20201010bots.txt")
 def save_user_snapshot_json(in_name, p=0.5):
     dict_date_users = {}
     # global ALL_BOTS
-    
+    print("save_user_snapshot_json", in_name)
     for line in tqdm(open(in_name)):
         d = line.strip().split(",")
         # 先不查重tweet_id
