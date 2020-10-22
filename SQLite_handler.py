@@ -2481,9 +2481,9 @@ if __name__ == "__main__":
     # tweets_to_db_fast(sess)
     # save_all_bots_users()
 
-    tweets_to_txt_Jan_to_Mar()
+    # tweets_to_txt_Jan_to_Mar()
     # tweets_to_txt_Apr_to_Aug()
-    # tweets_to_txt_Sep_to_Oct()
+    tweets_to_txt_Sep_to_Oct()
 
     # get_tweets_August_July()
     # tweets_to_txt_fast() # August and before
