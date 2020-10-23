@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/05/03 09:01:29 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/10/23 22:51:51 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/10/23 23:01:43 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -138,21 +138,25 @@ def rescale_opinion(input_users, state_name):
         users_tmp = input_users[input_users.State == state_name]
         
     groups = users_tmp.groupby(["age_range", "gender", "Camp"]).size()
-    # print(groups)
-    _rst = {}
+    print(groups)
+    _rst = {"Biden": 0, "Trump": 0}
     _analysis = {}
 
     # cross-classification weight table
     # first index: female -> 2, male -> 1
     # second index: ages from young to old
-    G12 = sum(groups[">=18, <30"]["Female"])
-    G11 = sum(groups[">=18, <30"]["Male"])
-    G22 = sum(groups[">=30, <50"]["Female"])
-    G21 = sum(groups[">=30, <50"]["Male"])
-    G32 = sum(groups[">=50, <65"]["Female"])
-    G31 = sum(groups[">=50, <65"]["Male"])
-    G42 = sum(groups[">=65"]["Female"])
-    G41 = sum(groups[">=65"]["Male"])
+    try:
+        G12 = sum(groups[">=18, <30"]["Female"])
+        G11 = sum(groups[">=18, <30"]["Male"])
+        G22 = sum(groups[">=30, <50"]["Female"])
+        G21 = sum(groups[">=30, <50"]["Male"])
+        G32 = sum(groups[">=50, <65"]["Female"])
+        G31 = sum(groups[">=50, <65"]["Male"])
+        G42 = sum(groups[">=65"]["Female"])
+        G41 = sum(groups[">=65"]["Male"])
+    except Exception:
+        print("No enough groups.")
+        return {}
 
     for _camp in camps:
         # T means the number of users in each group
