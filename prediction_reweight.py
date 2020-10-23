@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/05/03 09:01:29 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/10/23 22:41:01 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/10/23 22:42:09 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -59,7 +59,7 @@ def load_users_location(in_name):
 def load_users_face(in_name):
     users = []
     print("loading_users_face()", in_name)
-    for line in open(in_name):
+    for line in tqdm(open(in_name)):
         d = json.loads(line.strip())
         if not d["faces"] or len(d["faces"]) == 0:
             continue
@@ -104,12 +104,12 @@ def pred_per_state():
     users = load_users_union()
     rst = []
     for state_name in USA_STATES:
-        users_tmp = users[users.state == state_name]
+        users_tmp = users[users.State == state_name]
         groups = users_tmp.groupby(["Camp"]).size()
         print(state_name, groups)
         rst.append(
             {
-                "state": USA_ADDR_NAME[state_name],
+                "State": USA_ADDR_NAME[state_name],
                 "abbr": state_name,
                 "Biden": groups.get("Biden", 0),
                 "Trump": groups.get("Trump", 0),
@@ -182,7 +182,7 @@ def rescale_per_state():
         _r, _ana = rescale_opinion(input_users, state_name)
         rst.append(
             {
-                "state": USA_ADDR_NAME[state_name],
+                "State": USA_ADDR_NAME[state_name],
                 "abbr": state_name,
                 "Biden": _r["Biden"],
                 "Trump": _r["Trump"],
