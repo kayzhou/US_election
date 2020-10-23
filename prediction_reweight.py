@@ -6,12 +6,13 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/05/03 09:01:29 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/10/23 22:33:15 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/10/23 22:34:13 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 import pandas as pd
 import us # USA address
+import os
 
 USA_ADDR_NAME = us.states.mapping('abbr', 'name')
 USA_STATES = ['CA', 'TX', 'NY', 'FL', 'IL', 'GA',
