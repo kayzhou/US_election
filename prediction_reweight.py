@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/05/03 09:01:29 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/10/23 23:01:43 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/10/23 23:10:47 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -156,7 +156,7 @@ def rescale_opinion(input_users, state_name):
         G41 = sum(groups[">=65"]["Male"])
     except Exception:
         print("No enough groups.")
-        return {}
+        return _rst, _analysis
 
     for _camp in camps:
         # T means the number of users in each group
