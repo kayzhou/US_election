@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/19 04:01:00 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/10/23 11:13:35 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/10/23 15:44:35 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -299,7 +299,7 @@ def calculate_window_share(start, end, win=14, save_users=True):
     rsts = pd.DataFrame(rsts).set_index("dt")
     rsts = rsts.rename(columns={0: "Biden", 1: "Trump", 2: "Undecided"})
     rsts.to_csv(
-        f"data/csv/{win}days-from-{start.to_date_string()}-to-{end.to_date_string()}")
+        f"data/csv/{win}days-from-{start.to_date_string()}-to-{end.to_date_string()}.csv")
 
 
 def calculate_cumulative_share(start, end, super_start_month="01", save_users=True):
@@ -436,9 +436,19 @@ def predict_from_location_from_csv(csv_file, save_csv=None):
 
 def read_located_users():
     users = []
-    for line in open("raw_data/user_info/located_users.lj"):
+    user_ids = set()
+    for line in open("data/located_users.lj"):
         u = json.loads(line.strip())
-        users.append({"uid": str(u["user_id"]), "state": u["State"]})
+        _uid = str(u["user_id"])
+        if u["user_id"] not in user_ids:
+            users.append({"uid": _uid, "state": u["State"]})
+            user_ids.add(_uid)
+    for line in open("data/located_users_Jan_March.lj"):
+        u = json.loads(line.strip())
+        _uid = str(u["user_id"])
+        if u["user_id"] not in user_ids:
+            users.append({"uid": _uid, "state": u["State"]})
+            user_ids.add(_uid)
     return pd.DataFrame(users).set_index("uid")
 
 
@@ -638,19 +648,19 @@ if __name__ == "__main__":
     # -- window end --
 
     # -- cumulative start --
-    start = pendulum.datetime(2020, 1, 2, tz="UTC")
-    end = pendulum.datetime(2020, 10, 15, tz="UTC")
-    calculate_cumulative_share(start, end, super_start_month="01", save_users=True)
+    # start = pendulum.datetime(2020, 1, 2, tz="UTC")
+    # end = pendulum.datetime(2020, 10, 15, tz="UTC")
+    # calculate_cumulative_share(start, end, super_start_month="01", save_users=True)
     # -- cumulative end --
 
     # for states
-    # start = pendulum.datetime(2020, 6, 1, tz="UTC")
-    # end = pendulum.datetime(2020, 10, 10, tz="UTC")
-    # predict_from_location(start, end, out_dir="14days", save_users=True)
+    start = pendulum.datetime(2020, 6, 1, tz="UTC")
+    end = pendulum.datetime(2020, 10, 10, tz="UTC")
+    predict_from_location(start, end, out_dir="14days", save_users=True)
 
-    # start = pendulum.datetime(2020, 1, 8, tz="UTC")
-    # end = pendulum.datetime(2020, 10, 10, tz="UTC")
-    # predict_from_location(start, end, out_dir="cumFrom01", save_users=False)
+    start = pendulum.datetime(2020, 1, 2, tz="UTC")
+    end = pendulum.datetime(2020, 10, 10, tz="UTC")
+    predict_from_location(start, end, out_dir="cumFrom01", save_users=False)
 
     # start = pendulum.datetime(2020, 6, 2, tz="UTC")
     # end = pendulum.datetime(2020, 10, 10, tz="UTC")
