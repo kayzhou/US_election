@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/05/03 09:01:29 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/06/16 17:26:28 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/10/23 22:31:57 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,27 +25,69 @@ USA_STATES = ['CA', 'TX', 'NY', 'FL', 'IL', 'GA',
   'ND', 'VT', 'WY']
 
 
+# def load_users_opinion(in_name):
+#     users = pd.read_csv(in_name).set_index("uid")
+#     return users
+
 def load_users_opinion(in_name):
-    users = pd.read_csv(in_name).set_index("uid")
+    print("Loading users from:", in_name)
+    if os.path.exists(in_name):
+        users = json.load(open(in_name))
+    else:
+        print("Not exist")
+        users = {}
+    print("# of users:", len(users))
+
+    users_list = []
+    for uid, u in users.items():
+        users_list.append({"uid": uid, "0": u[0], "1": u[1]})
+    users = pd.DataFrame(users_list).set_index("uid")
     return users
     
 
 def load_users_location(in_name):
-    users = pd.read_csv(in_name).set_index("uid")
-    print(users)
-    return users
+    # users = pd.read_csv(in_name).set_index("uid")
+    # print(users)
+    # for line in open(in_name):
+    #     w = line.strip()
+    # return users
 
 
 def load_users_face(in_name):
-    users = pd.read_csv(in_name).set_index("uid")
+    users = []
+
+    for line in open(in_name):
+        d = json.loads(line.strip())
+        face = d["faces"][0]
+        # print(face)
+        age = face['attributes']["age"]["value"]
+        gender = face['attributes']["gender"]["value"]
+
+        if age < 18:
+            continue
+        elif age >= 18 and age < 30:
+            age_range = ">=18, <30"
+        elif age >= 30 and age < 50:
+            age_range = ">=30, <50"
+        elif age >= 50 and age < 65:
+            age_range = ">=50, <65"
+        else:
+            age_range = ">=65"
+        
+        users.append({"uid": d["id"], "age": age, "gender": gender, "age_range": age_range})
+            
+    users = pd.DataFrame(users).set_index("uid")
+    users = users[~users.index.duplicated(keep='first')]
     return users
   
 
 def load_users_union():
-    users = load_users_opinion("disk/users-culFrom01/2020-04-30.csv")
-    u2 = load_users_location("disk/users-location/2020-04-30.csv")
-    u3 = load_users_location("disk/users-face/2020-04-30.csv")
-    users = users.join(u2, how="inner").join(u3, how="inner")
+    users = load_users_opinion("data/users-cumFrom01/2020-10-12.json")
+    u2 = load_users_face("raw_data/user_info/Users_swing_info_final.lj")
+    # u2 = load_users_location("raw_data/user_info/Users_swing_info_final.lj")
+    # u3 = load_users_location("disk/users-face/2020-04-30.csv")
+    users = users.join(u2, how="inner")
+    # users = users.join(u2, how="inner").join(u3, how="inner")
     users["Camp"] = "None"
     users.loc[users["0"] >= users["1"], "Camp"] = "Biden"
     users.loc[users["0"] < users["1"], "Camp"] = "Trump"
@@ -129,7 +171,6 @@ def rescale_opinion(input_users, state_name):
 
 
 def rescale_per_state():
-    input_users = load_users_union()
     rst = []
     input_users = load_users_union()
     for state_name in USA_STATES:
@@ -142,7 +183,7 @@ def rescale_per_state():
                 "Trump": _r["Trump"],
             }
         )
-    pd.DataFrame(rst).to_csv("data/csv/0501-states-rescaled.csv")
+    pd.DataFrame(rst).to_csv("data/csv/states-rescale-2020-10-12.csv")
 
 
 if __name__ == "__main__":
