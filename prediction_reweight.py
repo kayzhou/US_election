@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/05/03 09:01:29 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/10/23 22:31:57 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/10/23 22:33:15 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,11 +46,11 @@ def load_users_opinion(in_name):
     
 
 def load_users_location(in_name):
-    # users = pd.read_csv(in_name).set_index("uid")
+    users = pd.read_csv(in_name).set_index("uid")
     # print(users)
     # for line in open(in_name):
     #     w = line.strip()
-    # return users
+    return users
 
 
 def load_users_face(in_name):
