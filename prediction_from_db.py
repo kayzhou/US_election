@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/19 04:01:00 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/10/23 15:44:35 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/10/23 15:47:33 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -461,7 +461,6 @@ def predict_from_location(start, end, out_dir, save_users=False):
     for _s in US_states:
         uid_in_s = set(df_user[df_user.state == _s].index)
         df_state_user[_s] = uid_in_s
-        print(f"The count of {_s} is {len(uid_in_s)}.")
 
     rsts = []
     for dt in pendulum.period(start, end):
@@ -654,12 +653,12 @@ if __name__ == "__main__":
     # -- cumulative end --
 
     # for states
-    start = pendulum.datetime(2020, 6, 1, tz="UTC")
-    end = pendulum.datetime(2020, 10, 10, tz="UTC")
+    start = pendulum.datetime(2020, 1, 1, tz="UTC")
+    end = pendulum.datetime(2020, 10, 15, tz="UTC")
     predict_from_location(start, end, out_dir="14days", save_users=True)
 
     start = pendulum.datetime(2020, 1, 2, tz="UTC")
-    end = pendulum.datetime(2020, 10, 10, tz="UTC")
+    end = pendulum.datetime(2020, 10, 15, tz="UTC")
     predict_from_location(start, end, out_dir="cumFrom01", save_users=False)
 
     # start = pendulum.datetime(2020, 6, 2, tz="UTC")
