@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/05/03 09:01:29 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/10/23 22:45:23 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/10/23 22:50:26 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -61,7 +61,7 @@ def load_users_location(in_name):
 def load_users_face(in_name):
     users = []
     print("loading_users_face()", in_name)
-    for line in (open(in_name)):
+    for line in tqdm(open(in_name)):
         d = json.loads(line.strip())
         if not d["faces"] or len(d["faces"]) == 0:
             continue
