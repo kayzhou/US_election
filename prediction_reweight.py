@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/05/03 09:01:29 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/10/23 22:50:26 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/10/23 22:51:51 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -81,7 +81,7 @@ def load_users_face(in_name):
         else:
             age_range = ">=65"
         
-        users.append({"uid": str(d["id"]), "age": age, "gender": gender, "age_range": age_range})
+        users.append({"uid": str(d["id"]), "age": age, "gender": gender, "age_range": age_range, "State": d["State"]})
             
     users = pd.DataFrame(users).set_index("uid")
     users = users[~users.index.duplicated(keep='first')]
