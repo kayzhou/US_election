@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/19 04:01:00 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/10/23 09:02:45 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/10/23 09:39:22 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -136,6 +136,7 @@ def read_users_from_json(in_name):
     if os.path.exists(in_name):
         users = json.load(open(in_name))
     else:
+        print("Not exist")
         users = {}
     print("# of users:", len(users))
     return users
@@ -598,13 +599,13 @@ if __name__ == "__main__":
     
     # save_user_snapshot_json("data/202009-tweets-prediction-v2.txt")
     # save_user_snapshot_json("data/202008-tweets-prediction-v2.txt")
-    save_user_snapshot_json("data/202007-tweets-prediction-v2.txt")
-    save_user_snapshot_json("data/202006-tweets-prediction-v2.txt")
-    save_user_snapshot_json("data/202005-tweets-prediction-v2.txt")
-    save_user_snapshot_json("data/202004-tweets-prediction-v2.txt")
-    save_user_snapshot_json("data/202003-tweets-prediction-v2.txt")
-    save_user_snapshot_json("data/202002-tweets-prediction-v2.txt")
-    save_user_snapshot_json("data/202001-tweets-prediction-v2.txt")
+    # save_user_snapshot_json("data/202007-tweets-prediction-v2.txt")
+    # save_user_snapshot_json("data/202006-tweets-prediction-v2.txt")
+    # save_user_snapshot_json("data/202005-tweets-prediction-v2.txt")
+    # save_user_snapshot_json("data/202004-tweets-prediction-v2.txt")
+    # save_user_snapshot_json("data/202003-tweets-prediction-v2.txt")
+    # save_user_snapshot_json("data/202002-tweets-prediction-v2.txt")
+    # save_user_snapshot_json("data/202001-tweets-prediction-v2.txt")
 
     # 07-10 the second
     # start = pendulum.datetime(2020, 1, 1, tz="UTC")
@@ -631,15 +632,15 @@ if __name__ == "__main__":
     # calculate_window_share(start, end, win=7, save_csv=True)
 
     # 14 days
-    # start = pendulum.datetime(2020, 9, 1, tz="UTC")
-    # end = pendulum.datetime(2020, 10, 15, tz="UTC")
-    # calculate_window_share(start, end, win=14)
+    start = pendulum.datetime(2020, 1, 1, tz="UTC")
+    end = pendulum.datetime(2020, 10, 15, tz="UTC")
+    calculate_window_share(start, end, win=14)
     # -- window end --
 
     # -- cumulative start --
-    # start = pendulum.datetime(2020, 8, 2, tz="UTC")
-    # end = pendulum.datetime(2020, 10, 10, tz="UTC")
-    # calculate_cumulative_share(start, end, super_start_month="06", save_users=True)
+    start = pendulum.datetime(2020, 1, 2, tz="UTC")
+    end = pendulum.datetime(2020, 10, 10, tz="UTC")
+    calculate_cumulative_share(start, end, super_start_month="01", save_users=True)
     # -- cumulative end --
 
     # for states
