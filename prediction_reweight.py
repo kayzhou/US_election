@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/05/03 09:01:29 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/10/23 22:34:46 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/10/23 22:38:19 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -58,9 +58,10 @@ def load_users_location(in_name):
 
 def load_users_face(in_name):
     users = []
-
     for line in open(in_name):
         d = json.loads(line.strip())
+        if not d["faces"] or len(d["faces"]) == 0:
+            continue
         face = d["faces"][0]
         # print(face)
         age = face['attributes']["age"]["value"]
