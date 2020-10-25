@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/19 04:01:00 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/10/25 16:59:48 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/10/25 17:44:35 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -362,13 +362,14 @@ def calculate_cumulative_share(start, end, super_start_month="01", save_users=Tr
                     f"disk/users-cumFrom{super_start_month}-onlyTB/{dt.add(days=-1).to_date_string()}.json")
                     # f"disk/users-cumFrom{super_start_month}-0.66/{dt.add(days=-1).to_date_string()}.json")
             
-            if win_dt_str < "2020-05-01":
-                today_users = read_users_from_json(f"data/users-day-onlyTB/{dt.add(days=-1).to_date_string()}.json")
+            today_str = dt.add(days=-1).to_date_string()
+            if today_str < "2020-05-01":
+                today_users = read_users_from_json(f"data/users-day-onlyTB/{today_str}.json")
             else:
-                today_users = read_users_from_json(f"data/users-day/{dt.add(days=-1).to_date_string()}.json")
+                today_users = read_users_from_json(f"data/users-day/{today_str}.json")
                     
-            # today_users = read_users_from_json(f"data/users-day/{dt.add(days=-1).to_date_string()}.json")
-            # today_users = read_users_from_json(f"data/users-day-0.66/{dt.add(days=-1).to_date_string()}.json")
+            # today_users = read_users_from_json(f"data/users-day/{today_str}.json")
+            # today_users = read_users_from_json(f"data/users-day-0.66/{today_str}.json")
             union_users_dict = union_users_from_yesterday_and_today(yesterday_users, today_users)
             yesterday_users = union_users_dict  # Today will be the yesterday.
             if save_users and dt.day_of_week == 1:
@@ -474,7 +475,7 @@ def read_located_users():
     return pd.DataFrame(users).set_index("uid")
 
 
-def predict_from_location(start, end, out_dir, save_users=False):
+def predict_from_location(start, end, in_dir, save_users=False):
     # df_user = load_df_user_loc(end)
     df_user = read_located_users()
     print(df_user["state"].value_counts())
@@ -489,7 +490,7 @@ def predict_from_location(start, end, out_dir, save_users=False):
         if dt == start or dt.day_of_week != 1:
             continue
         print("Date >", dt)
-        json_file = f"data/users-{out_dir}/{dt.to_date_string()}.json"
+        json_file = f"data/users-{in_dir}/{dt.to_date_string()}.json"
         users_dict = read_users_from_json(json_file)
         # country
         uid_in_s = df_state_user["USA"]
@@ -503,7 +504,7 @@ def predict_from_location(start, end, out_dir, save_users=False):
         rsts.append(rst)
 
         if dt.day_of_week == 1 and save_users:
-            write_union_users_json(users_dict, out_dir + "_loc", dt.to_date_string() + "-" + _s)
+            write_union_users_json(users_dict, in_dir + "_loc", dt.to_date_string() + "-" + _s)
 
         # 选择每个洲的结果
         for _s in US_states:
@@ -518,7 +519,7 @@ def predict_from_location(start, end, out_dir, save_users=False):
             rsts.append(rst)
 
     rsts = pd.DataFrame(rsts).set_index("id")
-    rsts.to_csv(f"data/csv/states-{out_dir}-from-{start.to_date_string()}-to-{end.to_date_string()}.csv")
+    rsts.to_csv(f"data/csv/states-{in_dir}-from-{start.to_date_string()}-to-{end.to_date_string()}.csv")
 
     return rsts
 
@@ -658,9 +659,9 @@ if __name__ == "__main__":
     # calculate_window_share(start, end, win=7, save_csv=True)
 
     # 14 days
-    start = pendulum.datetime(2020, 1, 15, tz="UTC")
-    end = pendulum.datetime(2020, 10, 20, tz="UTC")
-    calculate_window_share(start, end, win=14)
+    # start = pendulum.datetime(2020, 1, 15, tz="UTC")
+    # end = pendulum.datetime(2020, 10, 20, tz="UTC")
+    # calculate_window_share(start, end, win=14)
     # -- window end --
 
     # -- cumulative start --
@@ -670,13 +671,13 @@ if __name__ == "__main__":
     # -- cumulative end --
 
     # for states
-    # start = pendulum.datetime(2020, 1, 1, tz="UTC")
-    # end = pendulum.datetime(2020, 10, 15, tz="UTC")
-    # predict_from_location(start, end, out_dir="14days", save_users=True)
+    start = pendulum.datetime(2020, 1, 15, tz="UTC")
+    end = pendulum.datetime(2020, 10, 20, tz="UTC")
+    predict_from_location(start, end, out_dir="14days-onlyTB", save_users=True)
 
-    # start = pendulum.datetime(2020, 1, 2, tz="UTC")
-    # end = pendulum.datetime(2020, 10, 15, tz="UTC")
-    # predict_from_location(start, end, out_dir="cumFrom01", save_users=False)
+    start = pendulum.datetime(2020, 1, 2, tz="UTC")
+    end = pendulum.datetime(2020, 10, 20, tz="UTC")
+    predict_from_location(start, end, out_dir="cumFrom01-onlyTB", save_users=False)
 
     # start = pendulum.datetime(2020, 6, 2, tz="UTC")
     # end = pendulum.datetime(2020, 10, 10, tz="UTC")
