@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/19 04:01:00 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/10/25 16:56:55 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/10/25 16:59:48 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -361,9 +361,13 @@ def calculate_cumulative_share(start, end, super_start_month="01", save_users=Tr
                     # f"disk/users-cumFrom{super_start_month}/{dt.add(days=-1).to_date_string()}.json")
                     f"disk/users-cumFrom{super_start_month}-onlyTB/{dt.add(days=-1).to_date_string()}.json")
                     # f"disk/users-cumFrom{super_start_month}-0.66/{dt.add(days=-1).to_date_string()}.json")
-
+            
+            if win_dt_str < "2020-05-01":
+                today_users = read_users_from_json(f"data/users-day-onlyTB/{dt.add(days=-1).to_date_string()}.json")
+            else:
+                today_users = read_users_from_json(f"data/users-day/{dt.add(days=-1).to_date_string()}.json")
+                    
             # today_users = read_users_from_json(f"data/users-day/{dt.add(days=-1).to_date_string()}.json")
-            today_users = read_users_from_json(f"data/users-day-onlyTB/{dt.add(days=-1).to_date_string()}.json")
             # today_users = read_users_from_json(f"data/users-day-0.66/{dt.add(days=-1).to_date_string()}.json")
             union_users_dict = union_users_from_yesterday_and_today(yesterday_users, today_users)
             yesterday_users = union_users_dict  # Today will be the yesterday.
