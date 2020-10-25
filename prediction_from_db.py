@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/19 04:01:00 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/10/25 14:56:22 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/10/25 15:07:46 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -68,6 +68,9 @@ def save_user_snapshot_json(in_names, p=0.5):
                 set_bots.add(uid)
                 continue
             proba = float(d[3])
+            query = d[4].lower()
+            if not ("trump" in query or "biden" in query or "~" in query):
+                continue
 
             if date not in dict_date_users:
                 dict_date_users[date] = {}
@@ -82,9 +85,9 @@ def save_user_snapshot_json(in_names, p=0.5):
 
     for date, dict_uid in dict_date_users.items():
         if p == 0.5:
-            f_name = f"data/users-day/{date}.json"
+            f_name = f"data/users-day-onlyTB/{date}.json"
         else:
-            f_name = f"data/users-day-{p}/{date}.json"
+            f_name = f"data/users-day-onlyTB-{p}/{date}.json"
         if os.path.exists(f_name):
             print(f_name, "已经存在。")
         else:
@@ -603,17 +606,17 @@ def daily_prediction():
 
 if __name__ == "__main__":
     file_name_tweets_prediction = [
-        "data/202009-tweets-prediction-v2.txt",
-        "data/202008-tweets-prediction-v2.txt",
-        "data/202007-tweets-prediction-v2.txt",
-        "data/202006-tweets-prediction-v2.txt",
-        "data/202005-tweets-prediction-v2.txt",
+        # "data/202009-tweets-prediction-v2.txt",
+        # "data/202008-tweets-prediction-v2.txt",
+        # "data/202007-tweets-prediction-v2.txt",
+        # "data/202006-tweets-prediction-v2.txt",
+        # "data/202005-tweets-prediction-v2.txt",
         "data/202004-tweets-prediction-v2.txt",
         "data/202003-tweets-prediction-v2.txt",
         "data/202002-tweets-prediction-v2.txt",
         "data/202001-tweets-prediction-v2.txt",
     ]
-    # save_user_snapshot_json(file_name_tweets_prediction)
+    save_user_snapshot_json(file_name_tweets_prediction)
 
     # start = pendulum.datetime(2020, 1, 1, tz="UTC")
     # end = pendulum.datetime(2020, 6, 1, tz="UTC")
@@ -639,15 +642,15 @@ if __name__ == "__main__":
     # calculate_window_share(start, end, win=7, save_csv=True)
 
     # 14 days
-    start = pendulum.datetime(2020, 1, 15, tz="UTC")
-    end = pendulum.datetime(2020, 10, 20, tz="UTC")
-    calculate_window_share(start, end, win=14)
+    # start = pendulum.datetime(2020, 1, 15, tz="UTC")
+    # end = pendulum.datetime(2020, 10, 20, tz="UTC")
+    # calculate_window_share(start, end, win=14)
     # -- window end --
 
     # -- cumulative start --
-    start = pendulum.datetime(2020, 1, 2, tz="UTC")
-    end = pendulum.datetime(2020, 10, 20, tz="UTC")
-    calculate_cumulative_share(start, end, super_start_month="01", save_users=True)
+    # start = pendulum.datetime(2020, 1, 2, tz="UTC")
+    # end = pendulum.datetime(2020, 10, 20, tz="UTC")
+    # calculate_cumulative_share(start, end, super_start_month="01", save_users=True)
     # -- cumulative end --
 
     # for states
