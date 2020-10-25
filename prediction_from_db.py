@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/19 04:01:00 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/10/23 15:47:33 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/10/25 13:11:46 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,32 +50,33 @@ def load_bots(in_name):
 ALL_BOTS = load_bots("data/users-profile/20201010bots.txt")
     
 
-def save_user_snapshot_json(in_name, p=0.5):
+def save_user_snapshot_json(in_names, p=0.5):
     dict_date_users = {}
     # global ALL_BOTS
-    print("save_user_snapshot_json", in_name)
-    for line in tqdm(open(in_name)):
-        d = line.strip().split(",")
-        # 先不查重tweet_id
-        uid = d[0]
-        # if uid in ALL_BOTS or d[3] != "None":
-        #     continue
-        date = d[1]
-        source = d[2]
-        if source != "None":
-            continue
-        proba = float(d[3])
+    for in_name in in_names:
+        print("save_user_snapshot_json", in_name)
+        for line in tqdm(open(in_name)):
+            d = line.strip().split(",")
+            # 先不查重tweet_id
+            uid = d[0]
+            # if uid in ALL_BOTS or d[3] != "None":
+            #     continue
+            date = d[1]
+            source = d[2]
+            if source != "None":
+                continue
+            proba = float(d[3])
 
-        if date not in dict_date_users:
-            dict_date_users[date] = {}
-        if uid not in dict_date_users[date]:
-            dict_date_users[date][uid] = [0, 0]
+            if date not in dict_date_users:
+                dict_date_users[date] = {}
+            if uid not in dict_date_users[date]:
+                dict_date_users[date][uid] = [0, 0]
 
-        # 0 for Biden, 1 for Trump
-        if proba <= (1 - p):
-            dict_date_users[date][uid][0] += 1
-        elif proba > p:
-            dict_date_users[date][uid][1] += 1
+            # 0 for Biden, 1 for Trump
+            if proba <= (1 - p):
+                dict_date_users[date][uid][0] += 1
+            elif proba > p:
+                dict_date_users[date][uid][1] += 1
 
     for date, dict_uid in dict_date_users.items():
         if p == 0.5:
@@ -606,15 +607,18 @@ if __name__ == "__main__":
     # save_user_snapshot_json("data/202007-tweets-prediction.txt", p=0.66)
     # save_user_snapshot_json("data/202006-tweets-prediction.txt", p=0.66)
     
-    # save_user_snapshot_json("data/202009-tweets-prediction-v2.txt")
-    # save_user_snapshot_json("data/202008-tweets-prediction-v2.txt")
-    # save_user_snapshot_json("data/202007-tweets-prediction-v2.txt")
-    # save_user_snapshot_json("data/202006-tweets-prediction-v2.txt")
-    # save_user_snapshot_json("data/202005-tweets-prediction-v2.txt")
-    # save_user_snapshot_json("data/202004-tweets-prediction-v2.txt")
-    # save_user_snapshot_json("data/202003-tweets-prediction-v2.txt")
-    # save_user_snapshot_json("data/202002-tweets-prediction-v2.txt")
-    # save_user_snapshot_json("data/202001-tweets-prediction-v2.txt")
+    file_name_tweets_prediction = [
+        "data/202009-tweets-prediction-v2.txt",
+        "data/202008-tweets-prediction-v2.txt",
+        "data/202007-tweets-prediction-v2.txt",
+        "data/202006-tweets-prediction-v2.txt",
+        "data/202005-tweets-prediction-v2.txt",
+        "data/202004-tweets-prediction-v2.txt",
+        "data/202003-tweets-prediction-v2.txt",
+        "data/202002-tweets-prediction-v2.txt",
+        "data/202001-tweets-prediction-v2.txt",
+    ]
+    save_user_snapshot_json(file_name_tweets_prediction)
 
     # 07-10 the second
     # start = pendulum.datetime(2020, 1, 1, tz="UTC")
@@ -653,13 +657,13 @@ if __name__ == "__main__":
     # -- cumulative end --
 
     # for states
-    start = pendulum.datetime(2020, 1, 1, tz="UTC")
-    end = pendulum.datetime(2020, 10, 15, tz="UTC")
-    predict_from_location(start, end, out_dir="14days", save_users=True)
+    # start = pendulum.datetime(2020, 1, 1, tz="UTC")
+    # end = pendulum.datetime(2020, 10, 15, tz="UTC")
+    # predict_from_location(start, end, out_dir="14days", save_users=True)
 
-    start = pendulum.datetime(2020, 1, 2, tz="UTC")
-    end = pendulum.datetime(2020, 10, 15, tz="UTC")
-    predict_from_location(start, end, out_dir="cumFrom01", save_users=False)
+    # start = pendulum.datetime(2020, 1, 2, tz="UTC")
+    # end = pendulum.datetime(2020, 10, 15, tz="UTC")
+    # predict_from_location(start, end, out_dir="cumFrom01", save_users=False)
 
     # start = pendulum.datetime(2020, 6, 2, tz="UTC")
     # end = pendulum.datetime(2020, 10, 10, tz="UTC")
