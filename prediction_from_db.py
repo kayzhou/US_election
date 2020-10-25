@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/19 04:01:00 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/10/25 13:11:46 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/10/25 13:13:45 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -53,6 +53,7 @@ ALL_BOTS = load_bots("data/users-profile/20201010bots.txt")
 def save_user_snapshot_json(in_names, p=0.5):
     dict_date_users = {}
     # global ALL_BOTS
+    set_bots = set()
     for in_name in in_names:
         print("save_user_snapshot_json", in_name)
         for line in tqdm(open(in_name)):
@@ -63,7 +64,8 @@ def save_user_snapshot_json(in_names, p=0.5):
             #     continue
             date = d[1]
             source = d[2]
-            if source != "None":
+            if source != "None" or uid in set_bots:
+                set_bots.add(uid)
                 continue
             proba = float(d[3])
 
