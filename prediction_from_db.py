@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/19 04:01:00 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/10/25 14:55:21 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/10/25 14:56:22 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,7 +47,7 @@ def load_bots(in_name):
         all_bots.add(line.strip())
     print("# of bots:", len(all_bots))
     return all_bots
-ALL_BOTS = load_bots("data/users-profile/20201010bots.txt")
+# ALL_BOTS = load_bots("data/users-profile/20201010bots.txt")
     
 
 def save_user_snapshot_json(in_names, p=0.5):
@@ -613,7 +613,7 @@ if __name__ == "__main__":
         "data/202002-tweets-prediction-v2.txt",
         "data/202001-tweets-prediction-v2.txt",
     ]
-    save_user_snapshot_json(file_name_tweets_prediction)
+    # save_user_snapshot_json(file_name_tweets_prediction)
 
     # start = pendulum.datetime(2020, 1, 1, tz="UTC")
     # end = pendulum.datetime(2020, 6, 1, tz="UTC")
