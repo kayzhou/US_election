@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/21 09:47:55 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/06/05 22:59:52 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/10/26 16:36:53 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -57,6 +57,29 @@ MY_KEYS = [
     }, {
         "key": "BlXVdJebV15-tRHacCW3Qbzi7qwqQswH",
         "secret": "oWm0l4wTUXYdmw0-6BPH2mGerZ3PGu6k",
+    }, {
+        # new keys from CUEB
+        "key": "nbNtSBRvXbXp8tt21_eY1O8fPb663fuI",
+        "secret": "bZlEdtEhMoTvpDFz5i-tqwXrHopmwmed",
+    }, {
+        "key": "fNsp7KaGCAAzhxPbim9BBtmWI-XggHqa",
+        "secret": "9rHf6gYQ-L4pMzZBM42DRdivq9CN50Db",
+    }, {
+        "key": "qT5V9OxiV9M-OqYM6ii_va8NnloLTJbJ",
+        "secret": "iDtkD7TrMwyJiPLkebMCzc9z3gjPau18",
+    # }, {
+    #     "key": "BlXVdJebV15-tRHacCW3Qbzi7qwqQswH",
+    #     "secret": "oWm0l4wTUXYdmw0-6BPH2mGerZ3PGu6k",
+
+    # }, {
+    #     "key": "BlXVdJebV15-tRHacCW3Qbzi7qwqQswH",
+    #     "secret": "oWm0l4wTUXYdmw0-6BPH2mGerZ3PGu6k",
+    # }, {
+    #     "key": "BlXVdJebV15-tRHacCW3Qbzi7qwqQswH",
+    #     "secret": "oWm0l4wTUXYdmw0-6BPH2mGerZ3PGu6k",
+    # }, {
+    #     "key": "BlXVdJebV15-tRHacCW3Qbzi7qwqQswH",
+    #     "secret": "oWm0l4wTUXYdmw0-6BPH2mGerZ3PGu6k",
     }
 ]
 
