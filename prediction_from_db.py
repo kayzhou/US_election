@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/19 04:01:00 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/10/26 10:58:48 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/10/26 15:48:17 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -673,11 +673,13 @@ if __name__ == "__main__":
     # for states
     start = pendulum.datetime(2020, 1, 15, tz="UTC")
     end = pendulum.datetime(2020, 10, 20, tz="UTC")
-    predict_from_location(start, end, in_dir="14days-onlyTB", save_users=True)
+    predict_from_location(start, end, in_dir="14days", save_users=True)
 
     start = pendulum.datetime(2020, 1, 2, tz="UTC")
     end = pendulum.datetime(2020, 10, 20, tz="UTC")
-    predict_from_location(start, end, in_dir="cumFrom01-onlyTB", save_users=False)
+    predict_from_location(start, end, in_dir="cumFrom01", save_users=False)
+
+    # only-TB: 1~3月只有川普和拜登
 
     # start = pendulum.datetime(2020, 6, 2, tz="UTC")
     # end = pendulum.datetime(2020, 10, 10, tz="UTC")
