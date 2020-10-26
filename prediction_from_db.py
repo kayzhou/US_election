@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/19 04:01:00 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/10/25 17:44:35 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/10/26 10:58:48 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -665,19 +665,19 @@ if __name__ == "__main__":
     # -- window end --
 
     # -- cumulative start --
-    start = pendulum.datetime(2020, 1, 2, tz="UTC")
-    end = pendulum.datetime(2020, 10, 20, tz="UTC")
-    calculate_cumulative_share(start, end, super_start_month="01", save_users=True)
+    # start = pendulum.datetime(2020, 1, 2, tz="UTC")
+    # end = pendulum.datetime(2020, 10, 20, tz="UTC")
+    # calculate_cumulative_share(start, end, super_start_month="01", save_users=True)
     # -- cumulative end --
 
     # for states
     start = pendulum.datetime(2020, 1, 15, tz="UTC")
     end = pendulum.datetime(2020, 10, 20, tz="UTC")
-    predict_from_location(start, end, out_dir="14days-onlyTB", save_users=True)
+    predict_from_location(start, end, in_dir="14days-onlyTB", save_users=True)
 
     start = pendulum.datetime(2020, 1, 2, tz="UTC")
     end = pendulum.datetime(2020, 10, 20, tz="UTC")
-    predict_from_location(start, end, out_dir="cumFrom01-onlyTB", save_users=False)
+    predict_from_location(start, end, in_dir="cumFrom01-onlyTB", save_users=False)
 
     # start = pendulum.datetime(2020, 6, 2, tz="UTC")
     # end = pendulum.datetime(2020, 10, 10, tz="UTC")
