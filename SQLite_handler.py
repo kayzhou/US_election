@@ -657,11 +657,11 @@ def tweets_to_txt_Apr_to_Aug():
     from read_raw_data import read_raw_tweets_fromlj as read_tweets
 
     # months = ["202008", "202007", "202006", "202005", "202004"]
-    months = ["202006", "202005", "202004"]
+    months = ["202005"]
     for m in months:
         cnt = 1
         print(f"writing tweets to data/{m}-tweets-prediction.txt ...")
-        out_file = open(f"data/{m}-tweets-prediction-v2.txt", "a")
+        out_file = open(f"data/{m}-tweets-prediction-v3.txt", "a")
         X = []
         tweets_data = []
 

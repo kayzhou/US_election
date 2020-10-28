@@ -102,22 +102,22 @@ def analyze_image(_urls):
                 return d
 
             elif "error_message" in r:
-                print("Normal Error:", data['image_url'])
+                #print("Normal Error:", data['image_url'])
                 if r["error_message"] == "INVALID_IMAGE_URL":
                     d["error_message"] = r["error_message"]
                     return {"id": d["id"], "error_message": d["error_message"]}
                 elif r["error_message"] == "CONCURRENCY_LIMIT_EXCEEDED":
-                    print(f'{r["error_message"]}')
+                    #print(f'{r["error_message"]}')
                     time.sleep(0.5)
                 else:
-                    print("Other error:", r["error_message"])
+                    #print("Other error:", r["error_message"])
                     return {"id": d["id"], "error_message": d["error_message"]}
             else:
                 # print("No Face~")
                 d["faces"] = None
                 return d
         except Exception as e:
-            print("Special analyze_image() ERROR:", e)
+            #print("Special analyze_image() ERROR:", e)
             return None
 
 
@@ -157,10 +157,9 @@ def analyze_face_from_file(in_name, out_name, have_name=None):
     #print("need:", len(should_ids))
 
     # run it again
-    error_file = open(f"{out_name[:-4]}-error.lj", "a")
+    error_file = open(f"{out_name[:-3]}-error.lj", "a")
     # throw it away
-    no_face_file = open(f"{out_name[:-4]}_noFace.lj", "a")
-
+    no_face_file = open(f"{out_name[:-3]}_noFace.lj", "a")
     with open(f"{out_name}", "w") as f:
         for line in tqdm(open(in_name)):
             cnt += 1
@@ -175,7 +174,7 @@ def analyze_face_from_file(in_name, out_name, have_name=None):
 
             if len(urls) >= 1024:
                 # print(cnt)
-                pool = Pool(4)
+                pool = Pool(6)
                 rsts = pool.map(analyze_image, urls)
                 pool.close()
                 pool.join()
@@ -188,6 +187,7 @@ def analyze_face_from_file(in_name, out_name, have_name=None):
                         elif "no_face" in d:
                             no_face_file.write(json.dumps(d) + "\n")
                 urls = []
+                print('analyzed: ', cnt)
 
         for _url in tqdm(urls):
             d = analyze_image(_url)
@@ -277,7 +277,7 @@ if __name__ == '__main__':
     #                        f"disk/users-face/2020-03-02.lj",
     #                        out_name=f"2020-03-05-2020-03-06")
     
-    analyze_face_from_file('/home/zhenkun/US_election/raw_data/user_info/Users_swing_info.lj',
-                           '/home/zhenkun/US_election/raw_data/user_info/Users_swing_info_final.lj')
+    analyze_face_from_file('data/county_users/County_users_to_analyze.lj',
+                           'data/county_users/County_users_analyzed.lj')
                            
     #get_users_from_lj(f"disk/users-face/2020-04-30.new.lj").to_csv(f"disk/users-face/2020-04-30.csv")
