@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/05/03 09:01:29 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/10/28 17:23:58 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/10/28 17:25:56 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -90,7 +90,7 @@ def load_users_face(in_name):
   
 
 def load_users_union():
-    users = load_users_opinion("data/users-cumFrom01/2020-10-12.json")
+    users = load_users_opinion("data/users-cumFrom01/2020-10-19.json")
     u2 = load_users_face("raw_data/user_info/Users_swing_info_final.lj")
     # u2 = load_users_location("raw_data/user_info/Users_swing_info_final.lj")
     # u3 = load_users_location("disk/users-face/2020-04-30.csv")
