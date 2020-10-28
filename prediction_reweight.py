@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/05/03 09:01:29 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/10/28 17:42:42 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/10/28 17:59:09 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -91,7 +91,7 @@ def load_users_face(in_name):
   
 
 def load_users_union():
-    users = load_users_opinion("data/users-cumFrom01/2020-10-19.json")
+    users = load_users_opinion("data/users-cumFrom01-onlyTB/2020-10-19.json")
     u2 = load_users_face("raw_data/user_info/Users_swing_info_final.lj")
     # u2 = load_users_location("raw_data/user_info/Users_swing_info_final.lj")
     # u3 = load_users_location("disk/users-face/2020-04-30.csv")
@@ -111,15 +111,17 @@ def pred_per_state():
         users_tmp = users[users.State == state_name]
         groups = users_tmp.groupby(["Camp"]).size()
         print(state_name, groups)
-        rst.append(
-            {
-                "State": USA_ADDR_NAME[state_name],
-                "abbr": state_name,
-                "Biden": groups.get("Biden", 0),
-                "Trump": groups.get("Trump", 0),
-            }
-        )
-    pd.DataFrame(rst).to_csv("data/csv/states-2020-10-19.csv")
+        if groups.get("Biden", 0) + groups.get("Trump", 0) > 0:
+            count = groups.get("Biden", 0) + groups.get("Trump", 0)
+            rst.append(
+                {
+                    "State": USA_ADDR_NAME[state_name],
+                    "abbr": state_name,
+                    "Biden": groups.get("Biden", 0) / count,
+                    "Trump": groups.get("Trump", 0) / count,
+                }
+            )
+    pd.DataFrame(rst).to_csv("data/csv/states-2020-10-19-onlyTB.csv")
 
 
 def rescale_opinion(input_users, state_name):
