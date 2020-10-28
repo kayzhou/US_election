@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/05/03 09:01:29 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/10/28 17:40:16 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/10/28 17:42:42 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,6 +19,7 @@ import us  # USA address
 from tqdm import tqdm
 
 USA_ADDR_NAME = us.states.mapping('abbr', 'name')
+USA_ADDR_NAME["USA"] = "USA"
 USA_STATES = ['CA', 'TX', 'NY', 'FL', 'IL', 'GA',
     'PA', 'OH', 'DC', 'NC', 'MI', 'MA',
     'IN', 'NJ', 'VA', 'AZ', 'TN', 'WA',
@@ -188,27 +189,17 @@ def rescale_per_state():
     for state_name in USA_STATES:
         _r, _ana = rescale_opinion(input_users, state_name)
         if _r["Biden"] > 0:
-            if state_name == "USA":
-                rst.append(
-                    {
-                        "State": "USA",
-                        "abbr": state_name,
-                        "Biden": _r["Biden"],
-                        "Trump": _r["Trump"],
-                    }
-                )
-            else:
-                rst.append(
-                    {
-                        "State": USA_ADDR_NAME[state_name],
-                        "abbr": state_name,
-                        "Biden": _r["Biden"],
-                        "Trump": _r["Trump"],
-                    }
-                )
+            rst.append(
+                {
+                    "State": USA_ADDR_NAME[state_name],
+                    "abbr": state_name,
+                    "Biden": _r["Biden"],
+                    "Trump": _r["Trump"],
+                }
+            )
     pd.DataFrame(rst).to_csv("data/csv/states-rescale-2020-10-19-onlyTB.csv")
 
 
 if __name__ == "__main__":
-    # pred_per_state()
+    pred_per_state()
     rescale_per_state()
