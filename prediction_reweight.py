@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/05/03 09:01:29 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/10/28 17:35:41 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/10/28 17:40:16 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -122,7 +122,7 @@ def pred_per_state():
 
 
 def rescale_opinion(input_users, state_name):
-    if state_name == "US":
+    if state_name == "USA":
         cen = pd.read_csv(f"data/census/US.csv").set_index("category")
     else:
         addr = USA_ADDR_NAME[state_name]
@@ -133,7 +133,7 @@ def rescale_opinion(input_users, state_name):
          "Biden",
          "Trump",
     ]
-    if state_name == "US":
+    if state_name == "USA":
         users_tmp = input_users
     else:
         users_tmp = input_users[input_users.State == state_name]
@@ -187,14 +187,25 @@ def rescale_per_state():
     input_users = load_users_union()
     for state_name in USA_STATES:
         _r, _ana = rescale_opinion(input_users, state_name)
-        rst.append(
-            {
-                "State": USA_ADDR_NAME[state_name],
-                "abbr": state_name,
-                "Biden": _r["Biden"],
-                "Trump": _r["Trump"],
-            }
-        )
+        if _r["Biden"] > 0:
+            if state_name == "USA":
+                rst.append(
+                    {
+                        "State": "USA",
+                        "abbr": state_name,
+                        "Biden": _r["Biden"],
+                        "Trump": _r["Trump"],
+                    }
+                )
+            else:
+                rst.append(
+                    {
+                        "State": USA_ADDR_NAME[state_name],
+                        "abbr": state_name,
+                        "Biden": _r["Biden"],
+                        "Trump": _r["Trump"],
+                    }
+                )
     pd.DataFrame(rst).to_csv("data/csv/states-rescale-2020-10-19-onlyTB.csv")
 
 
