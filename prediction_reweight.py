@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/05/03 09:01:29 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/10/28 17:25:56 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/10/28 17:35:41 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,7 @@ USA_STATES = ['CA', 'TX', 'NY', 'FL', 'IL', 'GA',
     'IA', 'CT', 'KS', 'AR', 'UT', 'MS',
     'WV', 'NE', 'NM', 'HI', 'NH', 'RI',
     'ME', 'ID', 'AK', 'DE', 'MT', 'SD',
-    'ND', 'VT', 'WY'
+    'ND', 'VT', 'WY', 'USA'
 ]
 
 
@@ -195,7 +195,7 @@ def rescale_per_state():
                 "Trump": _r["Trump"],
             }
         )
-    pd.DataFrame(rst).to_csv("data/csv/states-rescale-2020-10-19.csv")
+    pd.DataFrame(rst).to_csv("data/csv/states-rescale-2020-10-19-onlyTB.csv")
 
 
 if __name__ == "__main__":
