@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/19 04:01:00 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/10/29 19:59:28 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/10/29 20:00:32 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -75,13 +75,15 @@ def save_user_snapshot_json(in_names, p=0.5):
             if date not in dict_date_users:
                 dict_date_users[date] = {}
             if uid not in dict_date_users[date]:
-                dict_date_users[date][uid] = [0, 0]
+                dict_date_users[date][uid] = [0, 0, 0]
 
             # 0 for Biden, 1 for Trump
             if proba <= (1 - p):
                 dict_date_users[date][uid][0] += 1
             elif proba > p:
                 dict_date_users[date][uid][1] += 1
+            else:
+                dict_date_users[date][uid][2] += 1
 
     for date, dict_uid in dict_date_users.items():
         if p == 0.5:
@@ -625,11 +627,11 @@ def daily_prediction():
 
 if __name__ == "__main__":
     file_name_tweets_prediction = [
-        # "data/202009-tweets-prediction-v2.txt",
-        # "data/202008-tweets-prediction-v2.txt",
-        # "data/202007-tweets-prediction-v2.txt",
-        # "data/202006-tweets-prediction-v2.txt",
-        # "data/202005-tweets-prediction-v2.txt",
+        "data/202009-tweets-prediction-v2.txt",
+        "data/202008-tweets-prediction-v2.txt",
+        "data/202007-tweets-prediction-v2.txt",
+        "data/202006-tweets-prediction-v2.txt",
+        "data/202005-tweets-prediction-v2.txt",
         "data/202004-tweets-prediction-v2.txt",
         "data/202003-tweets-prediction-v2.txt",
         "data/202002-tweets-prediction-v2.txt",
