@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/19 04:01:00 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/10/29 22:41:15 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/10/30 00:00:48 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -240,7 +240,8 @@ def get_share_from_users_dict(users_dict):
             counts[0] += 1
         elif v[0] < v[1]:
             counts[1] += 1
-        elif v[0] == v[1] and v[0] > 0:
+        elif v[0] == v[1]:
+        # elif v[0] == v[1] and v[0] > 0:
             counts[2] += 1
     return counts
 
@@ -640,7 +641,7 @@ if __name__ == "__main__":
         "data/202002-tweets-prediction-v2.txt",
         "data/202001-tweets-prediction-v2.txt",
     ]
-    save_user_snapshot_json(file_name_tweets_prediction, p=0.66)
+    # save_user_snapshot_json(file_name_tweets_prediction, p=0.66)
 
     # start = pendulum.datetime(2020, 1, 1, tz="UTC")
     # end = pendulum.datetime(2020, 6, 1, tz="UTC")
