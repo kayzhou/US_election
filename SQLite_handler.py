@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/07 20:40:05 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/10/23 09:02:19 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/10/29 20:23:10 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -707,7 +707,7 @@ def tweets_to_txt_Sep_to_Oct():
     """
     from classifier import Camp_Classifier
     Lebron = Camp_Classifier()
-    Lebron.load(train_dir="train-10")
+    Lebron.load(train_dir="train-08")
 
     from read_raw_data import read_tweets_json_day
     X = []
@@ -718,7 +718,7 @@ def tweets_to_txt_Sep_to_Oct():
     end = pendulum.datetime(2020, 10, 19)
 
     print(f"writing tweets to data/202009-tweets-prediction.txt ...")
-    out_file = open(f"data/202009-tweets-prediction-v2.txt", "w")
+    out_file = open(f"data/202009-tweets-prediction-v1.txt", "w")
     for dt in pendulum.period(start, end):
         for d, t_dt in read_tweets_json_day(dt):
             # print(d)
@@ -2484,11 +2484,10 @@ if __name__ == "__main__":
 
     # tweets_to_txt_Jan_to_Mar()
     # tweets_to_txt_Apr_to_Aug()
-    tweets_to_txt_Sep_to_Oct()
-    tweets_to_txt_Apr_to_Aug()
     # tweets_to_txt_Sep_to_Oct()
+    # tweets_to_txt_Apr_to_Aug()
+    tweets_to_txt_Sep_to_Oct()
 
     # get_tweets_August_July()
     # tweets_to_txt_fast() # August and before
     # tweets_to_txt() # Sep and Oct
-    
