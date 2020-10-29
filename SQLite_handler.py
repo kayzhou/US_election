@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/07 20:40:05 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/10/29 20:23:10 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/10/29 21:26:15 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -705,6 +705,8 @@ def tweets_to_txt_Sep_to_Oct():
     """
     import tweets to database with prediction
     """
+    set_users_county = set([json.loads(line.strip())["user"]["id"] for line in open("data/County_users.lj")])
+
     from classifier import Camp_Classifier
     Lebron = Camp_Classifier()
     Lebron.load(train_dir="train-08")
@@ -724,6 +726,8 @@ def tweets_to_txt_Sep_to_Oct():
             # print(d)
             tweet_id = d["id"]
             uid = d["user"]["id"]
+            if uid not in set_users_county:
+                continue
             _sou = get_source_text(d["source"]) if 'source' in d else "No source"
             
             tweets_data.append([tweet_id, uid, t_dt.to_date_string(), _sou, "~", -1.0])
