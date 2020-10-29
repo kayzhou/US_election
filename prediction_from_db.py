@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/19 04:01:00 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/10/26 15:57:14 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/10/29 19:59:28 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -85,9 +85,11 @@ def save_user_snapshot_json(in_names, p=0.5):
 
     for date, dict_uid in dict_date_users.items():
         if p == 0.5:
+            # f_name = f"data/users-day-onlyTB/{date}.json"
             f_name = f"data/users-day-onlyTB/{date}.json"
         else:
-            f_name = f"data/users-day-onlyTB-{p}/{date}.json"
+            # f_name = f"data/users-day-onlyTB-{p}/{date}.json"
+            f_name = f"data/users-day-{p}/{date}.json"
         if os.path.exists(f_name):
             print(f_name, "已经存在。")
         else:
@@ -633,7 +635,7 @@ if __name__ == "__main__":
         "data/202002-tweets-prediction-v2.txt",
         "data/202001-tweets-prediction-v2.txt",
     ]
-    # save_user_snapshot_json(file_name_tweets_prediction)
+    save_user_snapshot_json(file_name_tweets_prediction, p=0.66)
 
     # start = pendulum.datetime(2020, 1, 1, tz="UTC")
     # end = pendulum.datetime(2020, 6, 1, tz="UTC")
@@ -671,13 +673,13 @@ if __name__ == "__main__":
     # -- cumulative end --
 
     # for states
-    start = pendulum.datetime(2020, 1, 15, tz="UTC")
-    end = pendulum.datetime(2020, 10, 20, tz="UTC")
-    predict_from_location(start, end, in_dir="14days", save_users=True)
+    # start = pendulum.datetime(2020, 1, 15, tz="UTC")
+    # end = pendulum.datetime(2020, 10, 20, tz="UTC")
+    # predict_from_location(start, end, in_dir="14days", save_users=True)
 
-    start = pendulum.datetime(2020, 1, 2, tz="UTC")
-    end = pendulum.datetime(2020, 10, 20, tz="UTC")
-    predict_from_location(start, end, in_dir="cumFrom01", save_users=False)
+    # start = pendulum.datetime(2020, 1, 2, tz="UTC")
+    # end = pendulum.datetime(2020, 10, 20, tz="UTC")
+    # predict_from_location(start, end, in_dir="cumFrom01", save_users=False)
 
     # only-TB: 1~3月只有川普和拜登
 
