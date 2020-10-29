@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/07 20:40:05 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/10/29 21:26:15 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/10/29 21:27:22 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -705,10 +705,11 @@ def tweets_to_txt_Sep_to_Oct():
     """
     import tweets to database with prediction
     """
-    set_users_county = set([json.loads(line.strip())["user"]["id"] for line in open("data/County_users.lj")])
+    set_users_county = set([json.loads(line.strip())["id"] for line in open("data/County_users.lj")])
 
     from classifier import Camp_Classifier
     Lebron = Camp_Classifier()
+    # Lebron.load(train_dir="train-10)
     Lebron.load(train_dir="train-08")
 
     from read_raw_data import read_tweets_json_day
