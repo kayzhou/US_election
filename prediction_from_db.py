@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/19 04:01:00 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/10/30 13:44:36 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/10/30 13:52:32 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,11 +51,12 @@ def load_bots(in_name):
     
 
 def save_user_snapshot_json(in_names, p=0.5):
-    dict_date_users = {}
+
     # global ALL_BOTS
     set_bots = set()
     for in_name in in_names:
         print("save_user_snapshot_json", in_name)
+        dict_date_users = {}
         for line in tqdm(open(in_name)):
             d = line.strip().split(",")
             # 先不查重tweet_id
@@ -85,18 +86,18 @@ def save_user_snapshot_json(in_names, p=0.5):
             # else:
             #     dict_date_users[date][uid][2] += 1
 
-    for date, dict_uid in dict_date_users.items():
-        print("save", date)
-        if p == 0.5:
-            # f_name = f"data/users-day-onlyTB/{date}.json"
-            f_name = f"data/users-day-onlyTB/{date}.json"
-        else:
-            # f_name = f"data/users-day-onlyTB-{p}/{date}.json"
-            f_name = f"data/users-day-{p}/{date}.json"
-        if os.path.exists(f_name):
-            print(f_name, "已经存在。")
-        else:
-            json.dump(dict_uid, open(f_name, "w"))
+        for date, dict_uid in dict_date_users.items():
+            print("save", date)
+            if p == 0.5:
+                # f_name = f"data/users-day-onlyTB/{date}.json"
+                f_name = f"data/users-day-onlyTB/{date}.json"
+            else:
+                # f_name = f"data/users-day-onlyTB-{p}/{date}.json"
+                f_name = f"data/users-day-{p}/{date}.json"
+            if os.path.exists(f_name):
+                print(f_name, "已经存在。")
+            else:
+                json.dump(dict_uid, open(f_name, "w"))
 
 
 def save_user_snapshot(sess, now):
