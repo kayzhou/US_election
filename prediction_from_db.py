@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/19 04:01:00 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/10/30 20:02:25 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/10/30 20:11:21 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -378,7 +378,7 @@ def calculate_cumulative_share(start, end, super_start_month="01", save_users=Tr
                     f"disk/users-cumFrom{super_start_month}-0.75/{dt.add(days=-1).to_date_string()}.json")
             
             today_str = dt.add(days=-1).to_date_string()
-            if today_str < "2020-05-01":
+            if today_str < "2020-09-01":
                 today_users = read_users_from_json(f"data/users-day-0.7/{today_str}.json")
             else:
                 today_users = read_users_from_json(f"data/users-day-v1-0.7/{today_str}.json")
