@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/19 04:01:00 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/10/30 16:34:16 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/10/30 19:13:36 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -93,7 +93,8 @@ def save_user_snapshot_json(in_names, p=0.5):
                 f_name = f"data/users-day-onlyTB/{date}.json"
             else:
                 # f_name = f"data/users-day-onlyTB-{p}/{date}.json"
-                f_name = f"data/users-day-{p}/{date}.json"
+                # f_name = f"data/users-day-{p}/{date}.json"
+                f_name = f"data/users-day-v1-{p}/{date}.json"
             if os.path.exists(f_name):
                 print(f_name, "已经存在。")
             else:
@@ -633,17 +634,19 @@ def daily_prediction():
 
 if __name__ == "__main__":
     file_name_tweets_prediction = [
-        "data/202009-tweets-prediction-v2.txt",
-        "data/202008-tweets-prediction-v2.txt",
-        "data/202007-tweets-prediction-v2.txt",
-        "data/202006-tweets-prediction-v2.txt",
-        "data/202005-tweets-prediction-v2.txt",
-        "data/202004-tweets-prediction-v2.txt",
-        "data/202003-tweets-prediction-v2.txt",
-        "data/202002-tweets-prediction-v2.txt",
-        "data/202001-tweets-prediction-v2.txt",
+        "data/202009-tweets-prediction-v1.txt",
+        # "data/202009-tweets-prediction-v2.txt",
+        # "data/202008-tweets-prediction-v2.txt",
+        # "data/202007-tweets-prediction-v2.txt",
+        # "data/202006-tweets-prediction-v2.txt",
+        # "data/202005-tweets-prediction-v2.txt",
+        # "data/202004-tweets-prediction-v2.txt",
+        # "data/202003-tweets-prediction-v2.txt",
+        # "data/202002-tweets-prediction-v2.txt",
+        # "data/202001-tweets-prediction-v2.txt",
     ]
-    save_user_snapshot_json(file_name_tweets_prediction, p=0.75)
+    save_user_snapshot_json(file_name_tweets_prediction, p=0.7)
+    # save_user_snapshot_json(file_name_tweets_prediction, p=0.75)
 
     # start = pendulum.datetime(2020, 1, 1, tz="UTC")
     # end = pendulum.datetime(2020, 6, 1, tz="UTC")
