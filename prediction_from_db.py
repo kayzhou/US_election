@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/19 04:01:00 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/10/30 13:40:08 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/10/30 13:44:36 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -86,6 +86,7 @@ def save_user_snapshot_json(in_names, p=0.5):
             #     dict_date_users[date][uid][2] += 1
 
     for date, dict_uid in dict_date_users.items():
+        print("save", date)
         if p == 0.5:
             # f_name = f"data/users-day-onlyTB/{date}.json"
             f_name = f"data/users-day-onlyTB/{date}.json"
