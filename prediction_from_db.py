@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/19 04:01:00 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/10/30 20:11:21 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/10/30 20:33:49 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -388,7 +388,8 @@ def calculate_cumulative_share(start, end, super_start_month="01", save_users=Tr
             
             union_users_dict = union_users_from_yesterday_and_today(yesterday_users, today_users)
             yesterday_users = union_users_dict  # Today will be the yesterday.
-            if save_users and dt.day_of_week == 1 and dt == end:
+            # if save_users and dt.day_of_week == 1 and dt == end:
+            if save_users and dt == end:
                 # write_union_users_json(union_users_dict, f"users-cumFrom{super_start_month}-onlyTB", dt.to_date_string())
                 # write_union_users_json(union_users_dict, f"users-cumFrom{super_start_month}-0.75", dt.to_date_string())
                 write_union_users_json(union_users_dict, f"users-cumFrom{super_start_month}-v1-0.7", dt.to_date_string())
