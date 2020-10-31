@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/07 20:40:05 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/10/31 15:42:07 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/10/31 15:43:57 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -705,7 +705,7 @@ def tweets_to_txt_Sep_to_Oct():
     """
     import tweets to database with prediction
     """
-    set_users_county = set([json.loads(line.strip())["id"] for line in open("data/County_users.lj")])
+    # set_users_county = set([json.loads(line.strip())["id"] for line in open("data/County_users.lj")])
 
     from classifier import Camp_Classifier
     Lebron = Camp_Classifier()
@@ -727,8 +727,8 @@ def tweets_to_txt_Sep_to_Oct():
             # print(d)
             tweet_id = d["id"]
             uid = d["user"]["id"]
-            if uid not in set_users_county:
-                continue
+            # if uid not in set_users_county:
+            #     continue
             _sou = get_source_text(d["source"]) if 'source' in d else "No source"
             
             tweets_data.append([tweet_id, uid, t_dt.to_date_string(), _sou, "~", -1.0])
@@ -2488,8 +2488,6 @@ if __name__ == "__main__":
     # save_all_bots_users()
 
     # tweets_to_txt_Jan_to_Mar()
-    # tweets_to_txt_Apr_to_Aug()
-    # tweets_to_txt_Sep_to_Oct()
     # tweets_to_txt_Apr_to_Aug()
     tweets_to_txt_Sep_to_Oct()
 
