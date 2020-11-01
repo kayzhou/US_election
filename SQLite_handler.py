@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/07 20:40:05 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/10/31 22:31:52 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/11/02 00:01:21 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -710,18 +710,18 @@ def tweets_to_txt_Sep_to_Oct():
     from classifier import Camp_Classifier
     Lebron = Camp_Classifier()
     # Lebron.load(train_dir="train-10)
-    Lebron.load(train_dir="train-10")
+    Lebron.load(train_dir="train-08")
 
     from read_raw_data import read_tweets_json_day
     X = []
     tweets_data = []
     cnt = 0
 
-    start = pendulum.datetime(2020, 10, 19)
-    end = pendulum.datetime(2020, 10, 30)
+    start = pendulum.datetime(2020, 10, 20)
+    end = pendulum.datetime(2020, 10, 31)
 
     print(f"writing tweets to data/202009-tweets-prediction.txt ...")
-    out_file = open(f"data/202009-tweets-prediction-v2.txt", "a")
+    out_file = open(f"data/202009-tweets-prediction-v1.txt", "a")
     for dt in pendulum.period(start, end):
         for d, t_dt in read_tweets_json_day(dt):
             # print(d)
