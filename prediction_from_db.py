@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/19 04:01:00 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/11/01 11:30:03 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/11/01 11:53:27 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -88,13 +88,9 @@ def save_user_snapshot_json(in_names, p=0.5):
 
         for date, dict_uid in dict_date_users.items():
             print("save", date)
-            if p == 0.5:
-                # f_name = f"data/users-day-onlyTB/{date}.json"
-                f_name = f"data/users-day-onlyTB/{date}.json"
-            else:
-                # f_name = f"data/users-day-onlyTB-{p}/{date}.json"
-                # f_name = f"data/users-day-{p}/{date}.json"
-                f_name = f"data/users-day-v1-{p}/{date}.json"
+            # f_name = f"data/users-day-onlyTB/{date}.json"
+            # f_name = f"data/users-day-onlyTB/{date}.json"
+            f_name = f"data/users-day-v1-{p}/{date}.json"
             if os.path.exists(f_name):
                 print(f_name, "已经存在。")
             else:
@@ -652,7 +648,7 @@ if __name__ == "__main__":
         # "data/202002-tweets-prediction-v2.txt",
         # "data/202001-tweets-prediction-v2.txt",
     ]
-    # save_user_snapshot_json(file_name_tweets_prediction, p=0.7)
+    save_user_snapshot_json(file_name_tweets_prediction, p=0.7)
     # save_user_snapshot_json(file_name_tweets_prediction, p=0.75)
 
     # start = pendulum.datetime(2020, 1, 1, tz="UTC")
