@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/19 04:01:00 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/11/01 14:40:29 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/11/01 14:43:10 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,7 +51,6 @@ def load_bots(in_name):
     
 
 def save_user_snapshot_json(in_names, p=0.5):
-
     # global ALL_BOTS
     set_bots = set()
     for in_name in in_names:
