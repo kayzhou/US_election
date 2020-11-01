@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/19 04:01:00 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/11/01 14:18:35 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/11/01 14:40:29 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -89,8 +89,8 @@ def save_user_snapshot_json(in_names, p=0.5):
         for date, dict_uid in dict_date_users.items():
             print("save", date)
             # f_name = f"data/users-day-onlyTB/{date}.json"
-            # f_name = f"data/users-day-onlyTB/{date}.json"
-            f_name = f"data/users-day-v1-{p}/{date}.json"
+            # f_name = f"data/users-day-v1-{p}/{date}.json"
+            f_name = f"data/users-day-{p}/{date}.json"
             if os.path.exists(f_name):
                 print(f_name, "已经存在。")
             else:
