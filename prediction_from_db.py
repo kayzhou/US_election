@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/19 04:01:00 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/11/02 20:36:11 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/11/02 23:38:59 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -641,9 +641,9 @@ if __name__ == "__main__":
         # "data/202002-tweets-prediction-v2.txt",
         # "data/202001-tweets-prediction-v2.txt",
     ]
-    save_user_snapshot_json(file_name_tweets_prediction, p=0.5)
-    save_user_snapshot_json(file_name_tweets_prediction, p=0.66)
-    save_user_snapshot_json(file_name_tweets_prediction, p=0.7)
+    # save_user_snapshot_json(file_name_tweets_prediction, p=0.5)
+    # save_user_snapshot_json(file_name_tweets_prediction, p=0.66)
+    # save_user_snapshot_json(file_name_tweets_prediction, p=0.7)
 
     # start = pendulum.datetime(2020, 1, 1, tz="UTC")
     # end = pendulum.datetime(2020, 6, 1, tz="UTC")
