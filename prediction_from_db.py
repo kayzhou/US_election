@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/19 04:01:00 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/11/02 10:29:04 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/11/02 10:29:27 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -683,8 +683,8 @@ if __name__ == "__main__":
     start = pendulum.datetime(2020, 1, 2, tz="UTC")
     end = pendulum.datetime(2020, 10, 31, tz="UTC")
     calculate_cumulative_share(start, end, super_start_month="01", p=0.5)
-    # calculate_cumulative_share(start, end, super_start_month="01", p=0.66)
-    # calculate_cumulative_share(start, end, super_start_month="01", p=0.7)
+    calculate_cumulative_share(start, end, super_start_month="01", p=0.66)
+    calculate_cumulative_share(start, end, super_start_month="01", p=0.7)
     # -- cumulative end --
 
     # for states
