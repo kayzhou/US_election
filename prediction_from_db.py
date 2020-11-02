@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/19 04:01:00 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/11/02 10:30:25 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/11/02 20:36:11 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -88,8 +88,8 @@ def save_user_snapshot_json(in_names, p=0.5):
         for date, dict_uid in dict_date_users.items():
             print("save", date)
             # f_name = f"data/users-day-onlyTB/{date}.json"
-            # f_name = f"data/users-day-v1-{p}/{date}.json"
-            f_name = f"data/users-day-{p}/{date}.json"
+            f_name = f"data/users-day-v1-{p}/{date}.json"
+            # f_name = f"data/users-day-{p}/{date}.json"
             if os.path.exists(f_name):
                 print(f_name, "已经存在。")
             else:
@@ -204,11 +204,11 @@ def write_union_users_csv(union_users_dict, out_dir, dt):
 
 def write_union_users_json(union_users_dict, out_dir, dt):
     print("Saving ...", f"data/{out_dir}/{dt}.csv")
-    set_users_county = set([str(json.loads(line.strip())["id"]) for line in open("data/County_users.lj")])
-    union_users_dict_county = {uid: v for uid, v in union_users_dict.items() if uid in set_users_county}
+    # set_users_county = set([str(json.loads(line.strip())["id"]) for line in open("data/County_users.lj")])
+    # union_users_dict_county = {uid: v for uid, v in union_users_dict.items() if uid in set_users_county}
     with open(f"data/{out_dir}/{dt}.json", "w") as f:
-        # json.dump(union_users_dict, f)
-        json.dump(union_users_dict_county, f)
+        json.dump(union_users_dict, f)
+        # json.dump(union_users_dict_county, f)
 
 
 def write_union_users_csv_v2(union_users_dict, out_dir, dt):
@@ -349,9 +349,7 @@ def calculate_cumulative_share(start, end, super_start_month="01", p=0.5, save_u
 
         elif dt == super_start.add(days=1):  # 从第二天开始
             union_users_dict = read_users_from_json(f"data/users-day-{p}/{super_start.to_date_string()}.json")
-
             # union_users_dict = read_users_from_json(f"data/users-day-onlyTB-{p}/{super_start.to_date_string()}.json")
-            # union_users_dict = read_users_from_json(f"data/users-day-0.75/{super_start.to_date_string()}.json")
             # if dt.to_date_string() < "2020-09-01":
             #     union_users_dict = read_users_from_json(f"data/users-day-{p}/{super_start.to_date_string()}.json")
             # else:
@@ -374,16 +372,16 @@ def calculate_cumulative_share(start, end, super_start_month="01", p=0.5, save_u
                     f"disk/users-cumFrom{super_start_month}-{p}/{yes_str}.json")
             
             yes_users = read_users_from_json(f"data/users-day-{p}/{yes_str}.json")
-            # if today_str < "2020-09-01":
-            #     today_users = read_users_from_json(f"data/users-day-{p}/{today_str}.json")
-            # else:
-            #     today_users = read_users_from_json(f"data/users-day-v1-{p}/{today_str}.json")
+            if yes_str < "2020-09-01":
+                yes_users = read_users_from_json(f"data/users-day-{p}/{yes_str}.json")
+            else:
+                yes_users = read_users_from_json(f"data/users-day-v1-{p}/{yes_str}.json")
             union_users_dict = union_users_from_yesterday_and_today(yesterday_users, yes_users)
             yesterday_users = union_users_dict  # Today will be the yesterday.
             if (save_users and dt.day_of_week) == 1 or dt == end:
                 # write_union_users_json(union_users_dict, f"users-cumFrom{super_start_month}-onlyTB", dt.to_date_string())
-                # write_union_users_json(union_users_dict, f"users-cumFrom{super_start_month}-v1-{p}", dt.to_date_string())
-                write_union_users_json(union_users_dict, f"users-cumFrom{super_start_month}-{p}", dt.to_date_string())
+                write_union_users_json(union_users_dict, f"users-cumFrom{super_start_month}-v3-{p}", dt.to_date_string())
+                # write_union_users_json(union_users_dict, f"users-cumFrom{super_start_month}-{p}", dt.to_date_string())
 
         rst = get_share_from_users_dict(union_users_dict)
         rst["dt"] = dt.to_date_string()
@@ -395,7 +393,7 @@ def calculate_cumulative_share(start, end, super_start_month="01", p=0.5, save_u
     pd_rsts = pd_rsts.rename(columns={0: "Biden", 1: "Trump", 2: "Undecided"})
     # pd_rsts.to_csv(f"data/csv/cumFrom{super_start_month}-from-{start.to_date_string()}-to-{end.to_date_string()}.csv")
     # pd_rsts.to_csv(f"data/csv/cumFrom{super_start_month}-from-{start.to_date_string()}-to-{end.to_date_string()}-{p}-v1.csv")
-    pd_rsts.to_csv(f"data/csv/cumFrom{super_start_month}-from-{start.to_date_string()}-to-{end.to_date_string()}-{p}.csv")
+    pd_rsts.to_csv(f"data/csv/cumFrom{super_start_month}-from-{start.to_date_string()}-to-{end.to_date_string()}-{p}-v3.csv")
     
 
 def calculate_t0_share(start, super_end, save_csv=None):
@@ -632,8 +630,8 @@ def daily_prediction():
 
 if __name__ == "__main__":
     file_name_tweets_prediction = [
-        # "data/202009-tweets-prediction-v1.txt",
-        "data/202009-tweets-prediction-v2.txt",
+        "data/202009-tweets-prediction-v1.txt",
+        # "data/202009-tweets-prediction-v2.txt",
         # "data/202008-tweets-prediction-v2.txt",
         # "data/202007-tweets-prediction-v2.txt",
         # "data/202006-tweets-prediction-v2.txt",
@@ -643,10 +641,9 @@ if __name__ == "__main__":
         # "data/202002-tweets-prediction-v2.txt",
         # "data/202001-tweets-prediction-v2.txt",
     ]
-    # save_user_snapshot_json(file_name_tweets_prediction, p=0.5)
-    # save_user_snapshot_json(file_name_tweets_prediction, p=0.66)
-    # save_user_snapshot_json(file_name_tweets_prediction, p=0.7)
-    # save_user_snapshot_json(file_name_tweets_prediction, p=0.75)
+    save_user_snapshot_json(file_name_tweets_prediction, p=0.5)
+    save_user_snapshot_json(file_name_tweets_prediction, p=0.66)
+    save_user_snapshot_json(file_name_tweets_prediction, p=0.7)
 
     # start = pendulum.datetime(2020, 1, 1, tz="UTC")
     # end = pendulum.datetime(2020, 6, 1, tz="UTC")
