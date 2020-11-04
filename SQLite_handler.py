@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/07 20:40:05 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/11/04 12:58:25 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/11/04 16:50:36 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -596,7 +596,7 @@ def tweets_to_txt_Jan_to_Mar():
     """
     from classifier import Camp_Classifier
     Lebron = Camp_Classifier()
-    Lebron.load(train_dir="train-10")
+    Lebron.load(train_dir="train-08")
 
     # from read_raw_data import read_historical_tweets as read_tweets
     from read_raw_data import read_raw_data_month_Jan_to_March as read_tweets
@@ -605,7 +605,7 @@ def tweets_to_txt_Jan_to_Mar():
     for m in months:
         cnt = 0
         print(f"writing tweets to data/{m}-tweets-prediction.txt ...")
-        out_file = open(f"data/{m}-tweets-prediction-v2.txt", "a")
+        out_file = open(f"data/{m}-tweets-prediction-v1.txt", "a")
         X = []
         tweets_data = []
 
@@ -2487,9 +2487,9 @@ if __name__ == "__main__":
     # tweets_to_db_fast(sess)
     # save_all_bots_users()
 
-    # tweets_to_txt_Jan_to_Mar()
+    tweets_to_txt_Jan_to_Mar()
     # tweets_to_txt_Apr_to_Aug()
-    tweets_to_txt_Sep_to_Oct()
+    # tweets_to_txt_Sep_to_Oct()
 
     # get_tweets_August_July()
     # tweets_to_txt_fast() # August and before
