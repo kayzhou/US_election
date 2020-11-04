@@ -6,46 +6,97 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/05/03 09:01:29 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/06/16 17:26:28 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/10/28 22:59:23 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
+import json
+import os
+
 import pandas as pd
-import us # USA address
+import ujson as json
+import us  # USA address
+from tqdm import tqdm
 
 USA_ADDR_NAME = us.states.mapping('abbr', 'name')
+USA_ADDR_NAME["USA"] = "USA"
 USA_STATES = ['CA', 'TX', 'NY', 'FL', 'IL', 'GA',
-  'PA', 'OH', 'DC', 'NC', 'MI', 'MA',
-  'IN', 'NJ', 'VA', 'AZ', 'TN', 'WA',
-  'MD', 'CO', 'MO', 'KY', 'LA', 'MN',
-  'OR', 'AL', 'SC', 'NV', 'OK', 'WI',
-  'IA', 'CT', 'KS', 'AR', 'UT', 'MS',
-  'WV', 'NE', 'NM', 'HI', 'NH', 'RI',
-  'ME', 'ID', 'AK', 'DE', 'MT', 'SD',
-  'ND', 'VT', 'WY']
+    'PA', 'OH', 'DC', 'NC', 'MI', 'MA',
+    'IN', 'NJ', 'VA', 'AZ', 'TN', 'WA',
+    'MD', 'CO', 'MO', 'KY', 'LA', 'MN',
+    'OR', 'AL', 'SC', 'NV', 'OK', 'WI',
+    'IA', 'CT', 'KS', 'AR', 'UT', 'MS',
+    'WV', 'NE', 'NM', 'HI', 'NH', 'RI',
+    'ME', 'ID', 'AK', 'DE', 'MT', 'SD',
+    'ND', 'VT', 'WY', 'USA'
+]
 
+
+# def load_users_opinion(in_name):
+#     users = pd.read_csv(in_name).set_index("uid")
+#     return users
 
 def load_users_opinion(in_name):
-    users = pd.read_csv(in_name).set_index("uid")
+    print("Loading users from:", in_name)
+    if os.path.exists(in_name):
+        users = json.load(open(in_name))
+    else:
+        print("Not exist")
+        users = {}
+    print("# of users:", len(users))
+
+    users_list = []
+    for uid, u in users.items():
+        users_list.append({"uid": uid, "0": u[0], "1": u[1]})
+    users = pd.DataFrame(users_list).set_index("uid")
     return users
     
 
 def load_users_location(in_name):
     users = pd.read_csv(in_name).set_index("uid")
-    print(users)
+    # print(users)
+    # for line in open(in_name):
+    #     w = line.strip()
     return users
 
 
 def load_users_face(in_name):
-    users = pd.read_csv(in_name).set_index("uid")
+    users = []
+    print("loading_users_face()", in_name)
+    for line in tqdm(open(in_name)):
+        d = json.loads(line.strip())
+        if not d["faces"] or len(d["faces"]) == 0:
+            continue
+        face = d["faces"][0]
+        # print(face)
+        age = face['attributes']["age"]["value"]
+        gender = face['attributes']["gender"]["value"]
+
+        if age < 18:
+            continue
+        elif age >= 18 and age < 30:
+            age_range = ">=18, <30"
+        elif age >= 30 and age < 50:
+            age_range = ">=30, <50"
+        elif age >= 50 and age < 65:
+            age_range = ">=50, <65"
+        else:
+            age_range = ">=65"
+        
+        users.append({"uid": str(d["id"]), "age": age, "gender": gender, "age_range": age_range, "State": d["State"]})
+            
+    users = pd.DataFrame(users).set_index("uid")
+    users = users[~users.index.duplicated(keep='first')]
     return users
   
 
 def load_users_union():
-    users = load_users_opinion("disk/users-culFrom01/2020-04-30.csv")
-    u2 = load_users_location("disk/users-location/2020-04-30.csv")
-    u3 = load_users_location("disk/users-face/2020-04-30.csv")
-    users = users.join(u2, how="inner").join(u3, how="inner")
+    users = load_users_opinion("data/users-cumFrom01-onlyTB/2020-10-19.json")
+    u2 = load_users_face("data/County_users_analyzed.lj")
+    # u2 = load_users_location("raw_data/user_info/Users_swing_info_final.lj")
+    # u3 = load_users_location("disk/users-face/2020-04-30.csv")
+    users = users.join(u2, how="inner")
+    # users = users.join(u2, how="inner").join(u3, how="inner")
     users["Camp"] = "None"
     users.loc[users["0"] >= users["1"], "Camp"] = "Biden"
     users.loc[users["0"] < users["1"], "Camp"] = "Trump"
@@ -57,22 +108,24 @@ def pred_per_state():
     users = load_users_union()
     rst = []
     for state_name in USA_STATES:
-        users_tmp = users[users.state == state_name]
+        users_tmp = users[users.State == state_name]
         groups = users_tmp.groupby(["Camp"]).size()
         print(state_name, groups)
-        rst.append(
-            {
-                "state": USA_ADDR_NAME[state_name],
-                "abbr": state_name,
-                "Biden": groups.get("Biden", 0),
-                "Trump": groups.get("Trump", 0),
-            }
-        )
-    pd.DataFrame(rst).to_csv("data/csv/0501-states.csv")
+        if groups.get("Biden", 0) + groups.get("Trump", 0) > 0:
+            count = groups.get("Biden", 0) + groups.get("Trump", 0)
+            rst.append(
+                {
+                    "State": USA_ADDR_NAME[state_name],
+                    "abbr": state_name,
+                    "Biden": groups.get("Biden", 0) / count,
+                    "Trump": groups.get("Trump", 0) / count,
+                }
+            )
+    pd.DataFrame(rst).to_csv("data/csv/states-2020-10-19-onlyTB.csv")
 
 
 def rescale_opinion(input_users, state_name):
-    if state_name == "US":
+    if state_name == "USA":
         cen = pd.read_csv(f"data/census/US.csv").set_index("category")
     else:
         addr = USA_ADDR_NAME[state_name]
@@ -83,27 +136,31 @@ def rescale_opinion(input_users, state_name):
          "Biden",
          "Trump",
     ]
-    if state_name == "US":
+    if state_name == "USA":
         users_tmp = input_users
     else:
-        users_tmp = input_users[input_users.state == state_name]
+        users_tmp = input_users[input_users.State == state_name]
         
     groups = users_tmp.groupby(["age_range", "gender", "Camp"]).size()
-    # print(groups)
-    _rst = {}
+    print(groups)
+    _rst = {"Biden": 0, "Trump": 0}
     _analysis = {}
 
     # cross-classification weight table
     # first index: female -> 2, male -> 1
     # second index: ages from young to old
-    G12 = sum(groups[">=18, <30"]["Female"])
-    G11 = sum(groups[">=18, <30"]["Male"])
-    G22 = sum(groups[">=30, <50"]["Female"])
-    G21 = sum(groups[">=30, <50"]["Male"])
-    G32 = sum(groups[">=50, <65"]["Female"])
-    G31 = sum(groups[">=50, <65"]["Male"])
-    G42 = sum(groups[">=65"]["Female"])
-    G41 = sum(groups[">=65"]["Male"])
+    try:
+        G12 = sum(groups[">=18, <30"]["Female"])
+        G11 = sum(groups[">=18, <30"]["Male"])
+        G22 = sum(groups[">=30, <50"]["Female"])
+        G21 = sum(groups[">=30, <50"]["Male"])
+        G32 = sum(groups[">=50, <65"]["Female"])
+        G31 = sum(groups[">=50, <65"]["Male"])
+        G42 = sum(groups[">=65"]["Female"])
+        G41 = sum(groups[">=65"]["Male"])
+    except Exception:
+        print("No enough groups.")
+        return _rst, _analysis
 
     for _camp in camps:
         # T means the number of users in each group
@@ -129,22 +186,22 @@ def rescale_opinion(input_users, state_name):
 
 
 def rescale_per_state():
-    input_users = load_users_union()
     rst = []
     input_users = load_users_union()
     for state_name in USA_STATES:
         _r, _ana = rescale_opinion(input_users, state_name)
-        rst.append(
-            {
-                "state": USA_ADDR_NAME[state_name],
-                "abbr": state_name,
-                "Biden": _r["Biden"],
-                "Trump": _r["Trump"],
-            }
-        )
-    pd.DataFrame(rst).to_csv("data/csv/0501-states-rescaled.csv")
+        if _r["Biden"] > 0:
+            rst.append(
+                {
+                    "State": USA_ADDR_NAME[state_name],
+                    "abbr": state_name,
+                    "Biden": _r["Biden"],
+                    "Trump": _r["Trump"],
+                }
+            )
+    pd.DataFrame(rst).to_csv("data/csv/states-rescale-2020-10-19-onlyTB.csv")
 
 
 if __name__ == "__main__":
-    # pred_per_state()
+    pred_per_state()
     rescale_per_state()

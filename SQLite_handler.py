@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/07 20:40:05 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/10/21 11:12:46 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/10/23 09:02:19 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -2483,9 +2483,12 @@ if __name__ == "__main__":
     # save_all_bots_users()
 
     # tweets_to_txt_Jan_to_Mar()
+    # tweets_to_txt_Apr_to_Aug()
+    tweets_to_txt_Sep_to_Oct()
     tweets_to_txt_Apr_to_Aug()
     # tweets_to_txt_Sep_to_Oct()
 
     # get_tweets_August_July()
     # tweets_to_txt_fast() # August and before
     # tweets_to_txt() # Sep and Oct
+    
