@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/07 20:40:05 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/11/04 17:18:06 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/11/04 17:33:17 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -645,13 +645,14 @@ def tweets_to_txt_Jan_to_Mar():
             print('count >', cnt)
             
 
-def tweets_to_txt_Apr_to_Aug():
+def tweets_to_txt_Apr_to_Jun():
     """
     import tweets to database with prediction
     """
     from classifier import Camp_Classifier
     Lebron = Camp_Classifier()
-    Lebron.load(train_dir="train-10")
+    # Lebron.load(train_dir="train-10")
+    Lebron.load(train_dir="train-08")
 
     # from read_raw_data import read_historical_tweets as read_tweets
     from read_raw_data import read_raw_tweets_fromlj as read_tweets
@@ -661,7 +662,65 @@ def tweets_to_txt_Apr_to_Aug():
     for m in months:
         cnt = 1
         print(f"writing tweets to data/{m}-tweets-prediction.txt ...")
-        out_file = open(f"data/{m}-tweets-prediction-v2.txt", "a")
+        out_file = open(f"data/{m}-tweets-prediction-v1.txt", "a")
+        X = []
+        tweets_data = []
+
+        for d, t_dt in read_tweets(_month=m):
+            # print(d)
+            tweet_id = d["id"]
+            uid = d["user"]["id"]
+            _sou = get_source_text(d["source"]) if 'source' in d else "No source"
+            
+            tweets_data.append([tweet_id, uid, t_dt.to_date_string(), _sou, "~", -1.0])
+            X.append(d)
+            
+            if len(tweets_data) == 5000:
+                json_rst = Lebron.predict(X)
+                for i in range(len(tweets_data)):
+                    rst = json_rst[tweets_data[i][0]]
+                    tweets_data[i][-1] = round(rst[1], 3)
+                cnt += len(tweets_data)
+
+                for _d in tweets_data:
+                    out_file.write(f"{_d[1]},{_d[2]},{_d[3]},{_d[-1]},{_d[4]}\n")
+
+                print('count >', cnt)
+                X = []
+                tweets_data = []
+
+        if tweets_data:
+            json_rst = Lebron.predict(X)
+            for i in range(len(tweets_data)):
+                rst = json_rst[tweets_data[i][0]]
+                tweets_data[i][-1] = round(rst[1], 3)
+            cnt += len(tweets_data)
+
+            for _d in tweets_data:
+                out_file.write(f"{_d[1]},{_d[2]},{_d[3]},{_d[-1]},{_d[4]}\n")
+
+            print('count >', cnt)
+
+
+def tweets_to_txt_July_to_Aug():
+    """
+    import tweets to database with prediction
+    """
+    from classifier import Camp_Classifier
+    Lebron = Camp_Classifier()
+    # Lebron.load(train_dir="train-10")
+    Lebron.load(train_dir="train-08")
+
+    # from read_raw_data import read_historical_tweets as read_tweets
+    from read_raw_data import read_raw_tweets_fromlj as read_tweets
+
+    # months = ["202008", "202007", "202006", "202005", "202004"]
+    # months = ["202006", "202005", "202004"]
+    months = ["202008", "202007"]
+    for m in months:
+        cnt = 1
+        print(f"writing tweets to data/{m}-tweets-prediction.txt ...")
+        out_file = open(f"data/{m}-tweets-prediction-v1.txt", "a")
         X = []
         tweets_data = []
 
@@ -2487,8 +2546,9 @@ if __name__ == "__main__":
     # tweets_to_db_fast(sess)
     # save_all_bots_users()
 
-    tweets_to_txt_Jan_to_Mar()
-    # tweets_to_txt_Apr_to_Aug()
+    # tweets_to_txt_Jan_to_Mar()
+    tweets_to_txt_Apr_to_Jun()
+    # tweets_to_txt_Jul_to_Aug()
     # tweets_to_txt_Sep_to_Oct()
 
     # get_tweets_August_July()
