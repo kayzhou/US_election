@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/19 04:01:00 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/10/26 15:57:14 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/11/02 23:38:59 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,11 +51,11 @@ def load_bots(in_name):
     
 
 def save_user_snapshot_json(in_names, p=0.5):
-    dict_date_users = {}
     # global ALL_BOTS
     set_bots = set()
     for in_name in in_names:
         print("save_user_snapshot_json", in_name)
+        dict_date_users = {}
         for line in tqdm(open(in_name)):
             d = line.strip().split(",")
             # 先不查重tweet_id
@@ -78,20 +78,22 @@ def save_user_snapshot_json(in_names, p=0.5):
                 dict_date_users[date][uid] = [0, 0]
 
             # 0 for Biden, 1 for Trump
-            if proba <= (1 - p):
+            if proba < (1 - p):
                 dict_date_users[date][uid][0] += 1
-            elif proba > p:
+            elif proba >= p:
                 dict_date_users[date][uid][1] += 1
+            # else:
+            #     dict_date_users[date][uid][2] += 1
 
-    for date, dict_uid in dict_date_users.items():
-        if p == 0.5:
-            f_name = f"data/users-day-onlyTB/{date}.json"
-        else:
-            f_name = f"data/users-day-onlyTB-{p}/{date}.json"
-        if os.path.exists(f_name):
-            print(f_name, "已经存在。")
-        else:
-            json.dump(dict_uid, open(f_name, "w"))
+        for date, dict_uid in dict_date_users.items():
+            print("save", date)
+            # f_name = f"data/users-day-onlyTB/{date}.json"
+            f_name = f"data/users-day-v1-{p}/{date}.json"
+            # f_name = f"data/users-day-{p}/{date}.json"
+            if os.path.exists(f_name):
+                print(f_name, "已经存在。")
+            else:
+                json.dump(dict_uid, open(f_name, "w"))
 
 
 def save_user_snapshot(sess, now):
@@ -202,8 +204,11 @@ def write_union_users_csv(union_users_dict, out_dir, dt):
 
 def write_union_users_json(union_users_dict, out_dir, dt):
     print("Saving ...", f"data/{out_dir}/{dt}.csv")
+    # set_users_county = set([str(json.loads(line.strip())["id"]) for line in open("data/County_users.lj")])
+    # union_users_dict_county = {uid: v for uid, v in union_users_dict.items() if uid in set_users_county}
     with open(f"data/{out_dir}/{dt}.json", "w") as f:
         json.dump(union_users_dict, f)
+        # json.dump(union_users_dict_county, f)
 
 
 def write_union_users_csv_v2(union_users_dict, out_dir, dt):
@@ -236,7 +241,8 @@ def get_share_from_users_dict(users_dict):
             counts[0] += 1
         elif v[0] < v[1]:
             counts[1] += 1
-        elif v[0] == v[1] and v[0] > 0:
+        elif v[0] == v[1]:
+        # elif v[0] == v[1] and v[0] > 0:
             counts[2] += 1
     return counts
 
@@ -260,7 +266,7 @@ def calculate_window_share_size_1(start, end, save_csv=True):
         rsts.to_csv(f"data/csv/results-1day-from-{start.to_date_string()}-to-{end.to_date_string()}.csv")
 
 
-def calculate_window_share(start, end, win=14, save_users=True):
+def calculate_window_share(start, end, win=14, p=0.5, save_users=True):
     """VIP 1
 
     Args:
@@ -285,11 +291,11 @@ def calculate_window_share(start, end, win=14, save_users=True):
             if win_dt_str in users_cache:
                 _u = users_cache[win_dt_str]
             else:
-                if win_dt_str < "2020-05-01":
-                    _u = read_users_from_json(f"data/users-day-onlyTB/{win_dt_str}.json")
-                else:
-                    _u = read_users_from_json(f"data/users-day/{win_dt_str}.json")
-                # _u = read_users_from_json(f"data/users-day-0.66/{win_dt_str}.json")
+                # if win_dt_str < "2020-05-01":
+                #     _u = read_users_from_json(f"data/users-day-onlyTB/{win_dt_str}.json")
+                # else:
+                #     _u = read_users_from_json(f"data/users-day/{win_dt_str}.json")
+                _u = read_users_from_json(f"data/users-day-{p}/{win_dt_str}.json")
                 users_cache[win_dt_str] = _u
             users_groups.append(_u)
 
@@ -298,8 +304,8 @@ def calculate_window_share(start, end, win=14, save_users=True):
         union_users_dict = union_users_from_dict(users_groups)
         if save_users and dt.day_of_week == 1:
             # write_union_users_json(union_users_dict, f"users-{win}days", dt.to_date_string())
-            write_union_users_json(union_users_dict, f"users-{win}days-onlyTB", dt.to_date_string())
-            # write_union_users_json(union_users_dict, f"users-{win}days-0.66", dt.to_date_string())
+            # write_union_users_json(union_users_dict, f"users-{win}days-onlyTB", dt.to_date_string())
+            write_union_users_json(union_users_dict, f"users-{win}days-{p}", dt.to_date_string())
 
         rst = get_share_from_users_dict(union_users_dict)
         rst["dt"] = dt.to_date_string()
@@ -308,12 +314,10 @@ def calculate_window_share(start, end, win=14, save_users=True):
 
     rsts = pd.DataFrame(rsts).set_index("dt")
     rsts = rsts.rename(columns={0: "Biden", 1: "Trump", 2: "Undecided"})
-    rsts.to_csv(
-        f"data/csv/{win}days-from-{start.to_date_string()}-to-{end.to_date_string()}-onlyTB.csv")
-        # f"data/csv/{win}days-from-{start.to_date_string()}-to-{end.to_date_string()}.csv")
+    rsts.to_csv(f"data/csv/{win}days-from-{start.to_date_string()}-to-{end.to_date_string()}-{p}.csv")
 
 
-def calculate_cumulative_share(start, end, super_start_month="01", save_users=True):
+def calculate_cumulative_share(start, end, super_start_month="01", p=0.5, save_users=False):
     """VIP 2
 
     Args:
@@ -343,38 +347,41 @@ def calculate_cumulative_share(start, end, super_start_month="01", save_users=Tr
             print("Error: start <= super_start.")
             return -1
 
-        elif dt == super_start.add(days=1):
-            # union_users_dict = read_users_from_json(f"data/users-day/{super_start.to_date_string()}.json")
-            union_users_dict = read_users_from_json(f"data/users-day-onlyTB/{super_start.to_date_string()}.json")
-            # union_users_dict = read_users_from_json(f"data/users-day-0.66/{super_start.to_date_string()}.json")
+        elif dt == super_start.add(days=1):  # 从第二天开始
+            union_users_dict = read_users_from_json(f"data/users-day-{p}/{super_start.to_date_string()}.json")
+            # union_users_dict = read_users_from_json(f"data/users-day-onlyTB-{p}/{super_start.to_date_string()}.json")
+            # if dt.to_date_string() < "2020-09-01":
+            #     union_users_dict = read_users_from_json(f"data/users-day-{p}/{super_start.to_date_string()}.json")
+            # else:
+            #     union_users_dict = read_users_from_json(f"data/users-day-v1-{p}/{super_start.to_date_string()}.json")
             print("Loading data on super_start ...", super_start.to_date_string())
             # write_union_users_json(union_users_dict, f"users-cumFrom{super_start_month}", dt.to_date_string())
-            write_union_users_json(union_users_dict, f"users-cumFrom{super_start_month}-onlyTB", dt.to_date_string())
-            # write_union_users_json(union_users_dict, f"users-cumFrom{super_start_month}-0.66", dt.to_date_string())
+            # write_union_users_json(union_users_dict, f"users-cumFrom{super_start_month}-onlyTB", dt.to_date_string())
+            write_union_users_json(union_users_dict, f"users-cumFrom{super_start_month}-{p}", dt.to_date_string())
 
         else:
             # just from the cumulative yesterday
             # So I must have the yesterday's cumulative csv
+            yes_str = dt.add(days=-1).to_date_string()
+
             if yesterday_users is None:
                 print("Loading yesterday users' json at （载入初始数据）", dt.add(days=-1))
                 yesterday_users = read_users_from_json(
                     # f"disk/users-cumFrom{super_start_month}/{dt.add(days=-1).to_date_string()}.json")
-                    f"disk/users-cumFrom{super_start_month}-onlyTB/{dt.add(days=-1).to_date_string()}.json")
-                    # f"disk/users-cumFrom{super_start_month}-0.66/{dt.add(days=-1).to_date_string()}.json")
+                    # f"disk/users-cumFrom{super_start_month}-onlyTB/{dt.add(days=-1).to_date_string()}.json")
+                    f"disk/users-cumFrom{super_start_month}-{p}/{yes_str}.json")
             
-            today_str = dt.add(days=-1).to_date_string()
-            if today_str < "2020-05-01":
-                today_users = read_users_from_json(f"data/users-day-onlyTB/{today_str}.json")
+            yes_users = read_users_from_json(f"data/users-day-{p}/{yes_str}.json")
+            if yes_str < "2020-09-01":
+                yes_users = read_users_from_json(f"data/users-day-{p}/{yes_str}.json")
             else:
-                today_users = read_users_from_json(f"data/users-day/{today_str}.json")
-                    
-            # today_users = read_users_from_json(f"data/users-day/{today_str}.json")
-            # today_users = read_users_from_json(f"data/users-day-0.66/{today_str}.json")
-            union_users_dict = union_users_from_yesterday_and_today(yesterday_users, today_users)
+                yes_users = read_users_from_json(f"data/users-day-v1-{p}/{yes_str}.json")
+            union_users_dict = union_users_from_yesterday_and_today(yesterday_users, yes_users)
             yesterday_users = union_users_dict  # Today will be the yesterday.
-            if save_users and dt.day_of_week == 1:
-                write_union_users_json(union_users_dict, f"users-cumFrom{super_start_month}-onlyTB", dt.to_date_string())
-                # write_union_users_json(union_users_dict, f"users-cumFrom{super_start_month}", dt.to_date_string())
+            if (save_users and dt.day_of_week) == 1 or dt == end:
+                # write_union_users_json(union_users_dict, f"users-cumFrom{super_start_month}-onlyTB", dt.to_date_string())
+                write_union_users_json(union_users_dict, f"users-cumFrom{super_start_month}-v3-{p}", dt.to_date_string())
+                # write_union_users_json(union_users_dict, f"users-cumFrom{super_start_month}-{p}", dt.to_date_string())
 
         rst = get_share_from_users_dict(union_users_dict)
         rst["dt"] = dt.to_date_string()
@@ -384,9 +391,9 @@ def calculate_cumulative_share(start, end, super_start_month="01", save_users=Tr
     pd_rsts = pd.DataFrame(rsts).set_index("dt")
     pd_rsts.index = pd.to_datetime(pd_rsts.index)
     pd_rsts = pd_rsts.rename(columns={0: "Biden", 1: "Trump", 2: "Undecided"})
-    pd_rsts.to_csv(f"data/csv/cumFrom{super_start_month}-from-{start.to_date_string()}-to-{end.to_date_string()}.csv")
-    pd_rsts.to_csv(f"data/csv/cumFrom{super_start_month}-from-{start.to_date_string()}-to-{end.to_date_string()}-onlyTB.csv")
-    # pd_rsts.to_csv(f"data/csv/cumFrom{super_start_month}-from-{start.to_date_string()}-to-{end.to_date_string()}-0.66.csv")
+    # pd_rsts.to_csv(f"data/csv/cumFrom{super_start_month}-from-{start.to_date_string()}-to-{end.to_date_string()}.csv")
+    # pd_rsts.to_csv(f"data/csv/cumFrom{super_start_month}-from-{start.to_date_string()}-to-{end.to_date_string()}-{p}-v1.csv")
+    pd_rsts.to_csv(f"data/csv/cumFrom{super_start_month}-from-{start.to_date_string()}-to-{end.to_date_string()}-{p}-v3.csv")
     
 
 def calculate_t0_share(start, super_end, save_csv=None):
@@ -623,17 +630,20 @@ def daily_prediction():
 
 if __name__ == "__main__":
     file_name_tweets_prediction = [
+        "data/202009-tweets-prediction-v1.txt",
         # "data/202009-tweets-prediction-v2.txt",
         # "data/202008-tweets-prediction-v2.txt",
         # "data/202007-tweets-prediction-v2.txt",
         # "data/202006-tweets-prediction-v2.txt",
         # "data/202005-tweets-prediction-v2.txt",
-        "data/202004-tweets-prediction-v2.txt",
-        "data/202003-tweets-prediction-v2.txt",
-        "data/202002-tweets-prediction-v2.txt",
-        "data/202001-tweets-prediction-v2.txt",
+        # "data/202004-tweets-prediction-v2.txt",
+        # "data/202003-tweets-prediction-v2.txt",
+        # "data/202002-tweets-prediction-v2.txt",
+        # "data/202001-tweets-prediction-v2.txt",
     ]
-    # save_user_snapshot_json(file_name_tweets_prediction)
+    # save_user_snapshot_json(file_name_tweets_prediction, p=0.5)
+    # save_user_snapshot_json(file_name_tweets_prediction, p=0.66)
+    # save_user_snapshot_json(file_name_tweets_prediction, p=0.7)
 
     # start = pendulum.datetime(2020, 1, 1, tz="UTC")
     # end = pendulum.datetime(2020, 6, 1, tz="UTC")
@@ -660,27 +670,30 @@ if __name__ == "__main__":
 
     # 14 days
     # start = pendulum.datetime(2020, 1, 15, tz="UTC")
-    # end = pendulum.datetime(2020, 10, 20, tz="UTC")
-    # calculate_window_share(start, end, win=14)
+    # end = pendulum.datetime(2020, 10, 31, tz="UTC")
+    # calculate_window_share(start, end, win=14, p=0.5)
+    # calculate_window_share(start, end, win=14, p=0.66)
+    # calculate_window_share(start, end, win=14, p=0.7)
     # -- window end --
 
     # -- cumulative start --
-    # start = pendulum.datetime(2020, 1, 2, tz="UTC")
-    # end = pendulum.datetime(2020, 10, 20, tz="UTC")
-    # calculate_cumulative_share(start, end, super_start_month="01", save_users=True)
+    start = pendulum.datetime(2020, 1, 2, tz="UTC")
+    end = pendulum.datetime(2020, 10, 31, tz="UTC")
+    calculate_cumulative_share(start, end, super_start_month="01", p=0.5)
+    calculate_cumulative_share(start, end, super_start_month="01", p=0.66)
+    calculate_cumulative_share(start, end, super_start_month="01", p=0.7)
     # -- cumulative end --
 
     # for states
-    start = pendulum.datetime(2020, 1, 15, tz="UTC")
-    end = pendulum.datetime(2020, 10, 20, tz="UTC")
-    predict_from_location(start, end, in_dir="14days", save_users=True)
+    # start = pendulum.datetime(2020, 1, 15, tz="UTC")
+    # end = pendulum.datetime(2020, 10, 20, tz="UTC")
+    # predict_from_location(start, end, in_dir="14days", save_users=True)
 
-    start = pendulum.datetime(2020, 1, 2, tz="UTC")
-    end = pendulum.datetime(2020, 10, 20, tz="UTC")
-    predict_from_location(start, end, in_dir="cumFrom01", save_users=False)
+    # start = pendulum.datetime(2020, 1, 2, tz="UTC")
+    # end = pendulum.datetime(2020, 10, 20, tz="UTC")
+    # predict_from_location(start, end, in_dir="cumFrom01", save_users=False)
 
     # only-TB: 1~3月只有川普和拜登
-
     # start = pendulum.datetime(2020, 6, 2, tz="UTC")
     # end = pendulum.datetime(2020, 10, 10, tz="UTC")
     # predict_from_location(start, end, out_dir="cumFrom06", save_users=True)

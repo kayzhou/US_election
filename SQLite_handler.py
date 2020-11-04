@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/07 20:40:05 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/10/23 09:02:19 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/11/04 17:18:06 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -596,7 +596,7 @@ def tweets_to_txt_Jan_to_Mar():
     """
     from classifier import Camp_Classifier
     Lebron = Camp_Classifier()
-    Lebron.load(train_dir="train-10")
+    Lebron.load(train_dir="train-08")
 
     # from read_raw_data import read_historical_tweets as read_tweets
     from read_raw_data import read_raw_data_month_Jan_to_March as read_tweets
@@ -605,7 +605,7 @@ def tweets_to_txt_Jan_to_Mar():
     for m in months:
         cnt = 0
         print(f"writing tweets to data/{m}-tweets-prediction.txt ...")
-        out_file = open(f"data/{m}-tweets-prediction-v2.txt", "a")
+        out_file = open(f"data/{m}-tweets-prediction-v1.txt", "a")
         X = []
         tweets_data = []
 
@@ -705,9 +705,12 @@ def tweets_to_txt_Sep_to_Oct():
     """
     import tweets to database with prediction
     """
+    # set_users_county = set([json.loads(line.strip())["id"] for line in open("data/County_users.lj")])
+
     from classifier import Camp_Classifier
     Lebron = Camp_Classifier()
-    Lebron.load(train_dir="train-10")
+    # Lebron.load(train_dir="train-10)
+    Lebron.load(train_dir="train-08")
 
     from read_raw_data import read_tweets_json_day
     X = []
@@ -715,15 +718,17 @@ def tweets_to_txt_Sep_to_Oct():
     cnt = 0
 
     start = pendulum.datetime(2020, 9, 1)
-    end = pendulum.datetime(2020, 10, 19)
+    end = pendulum.datetime(2020, 10, 31)
 
-    print(f"writing tweets to data/202009-tweets-prediction.txt ...")
-    out_file = open(f"data/202009-tweets-prediction-v2.txt", "w")
+    print(f"writing tweets to data/20200910-tweets-prediction.txt ...")
+    out_file = open(f"data/20200910-tweets-prediction-v1.txt", "a")
     for dt in pendulum.period(start, end):
         for d, t_dt in read_tweets_json_day(dt):
             # print(d)
             tweet_id = d["id"]
             uid = d["user"]["id"]
+            # if uid not in set_users_county:
+            #     continue
             _sou = get_source_text(d["source"]) if 'source' in d else "No source"
             
             tweets_data.append([tweet_id, uid, t_dt.to_date_string(), _sou, "~", -1.0])
@@ -2482,13 +2487,10 @@ if __name__ == "__main__":
     # tweets_to_db_fast(sess)
     # save_all_bots_users()
 
-    # tweets_to_txt_Jan_to_Mar()
+    tweets_to_txt_Jan_to_Mar()
     # tweets_to_txt_Apr_to_Aug()
-    tweets_to_txt_Sep_to_Oct()
-    tweets_to_txt_Apr_to_Aug()
     # tweets_to_txt_Sep_to_Oct()
 
     # get_tweets_August_July()
     # tweets_to_txt_fast() # August and before
     # tweets_to_txt() # Sep and Oct
-    
