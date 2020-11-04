@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/07 20:40:05 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/11/02 00:01:21 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/11/04 12:58:25 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -717,11 +717,11 @@ def tweets_to_txt_Sep_to_Oct():
     tweets_data = []
     cnt = 0
 
-    start = pendulum.datetime(2020, 10, 20)
+    start = pendulum.datetime(2020, 9, 1)
     end = pendulum.datetime(2020, 10, 31)
 
-    print(f"writing tweets to data/202009-tweets-prediction.txt ...")
-    out_file = open(f"data/202009-tweets-prediction-v1.txt", "a")
+    print(f"writing tweets to data/20200910-tweets-prediction.txt ...")
+    out_file = open(f"data/20200910-tweets-prediction-v1.txt", "a")
     for dt in pendulum.period(start, end):
         for d, t_dt in read_tweets_json_day(dt):
             # print(d)
