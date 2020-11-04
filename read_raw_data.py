@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/11 11:16:25 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/10/21 11:12:31 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/11/04 17:17:54 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,28 +20,28 @@ from tqdm import tqdm
 
 # add trump
 demo_files = set([
-    "Bernie Sanders",
-    "SenSanders",
+    # "Bernie Sanders",
+    # "SenSanders",
     "Joe Biden",
     "JoeBiden",
-    "Mike Bloomberg",
-    "MikeBloomberg",
-    "Tulsi Gabbard",
-    "TulsiGabbard",
-    "Elizabeth Warren",
-    "ewarren",
-    "Amy Klobuchar",
-    "amyklobuchar",  
-    "Pete Buttigieg",
-    "PeteButtigieg",
-    "John Delaney",
-    "JohnDelaney",
-    "Deval Patrick",
-    "DevalPatrick",
-    "Tom Steyer",
-    "TomSteyer",
-    "Andrew Yang",
-    "AndrewYang",
+    # "Mike Bloomberg",
+    # "MikeBloomberg",
+    # "Tulsi Gabbard",
+    # "TulsiGabbard",
+    # "Elizabeth Warren",
+    # "ewarren",
+    # "Amy Klobuchar",
+    # "amyklobuchar",  
+    # "Pete Buttigieg",
+    # "PeteButtigieg",
+    # "John Delaney",
+    # "JohnDelaney",
+    # "Deval Patrick",
+    # "DevalPatrick",
+    # "Tom Steyer",
+    # "TomSteyer",
+    # "Andrew Yang",
+    # "AndrewYang",
     "Donald Trump",
     "realDonaldTrump",
 ])
