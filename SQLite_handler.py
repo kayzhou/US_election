@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/07 20:40:05 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/11/04 17:33:17 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/11/09 10:34:47 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -702,7 +702,7 @@ def tweets_to_txt_Apr_to_Jun():
             print('count >', cnt)
 
 
-def tweets_to_txt_July_to_Aug():
+def tweets_to_txt_Jul_to_Aug():
     """
     import tweets to database with prediction
     """
@@ -2547,8 +2547,8 @@ if __name__ == "__main__":
     # save_all_bots_users()
 
     # tweets_to_txt_Jan_to_Mar()
-    tweets_to_txt_Apr_to_Jun()
-    # tweets_to_txt_Jul_to_Aug()
+    # tweets_to_txt_Apr_to_Jun()
+    tweets_to_txt_Jul_to_Aug()
     # tweets_to_txt_Sep_to_Oct()
 
     # get_tweets_August_July()
