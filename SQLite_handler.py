@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/07 20:40:05 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/11/26 09:54:55 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/11/26 10:18:00 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -832,8 +832,8 @@ def count_Sep_to_Oct():
     cnt = {}
     for dt in pendulum.period(start, end):
         print(dt)
-        for cnt_B, cnt_T in count_tweets_json_day(dt):
-            cnt[dt.to_date_string()] = {"cnt_B": cnt_B, "cnt_T": cnt_T}
+        for cnt_B_T in count_tweets_json_day(dt):
+            cnt[dt.to_date_string()] = {"cnt_B": cnt_B_T[0], "cnt_T": cnt_B_T[1]}
     json.dump(cnt, open("data/cnt-tweets-20200901-20201124.json", "w"), indent=2)
 
 
