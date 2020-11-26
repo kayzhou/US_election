@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/11 11:16:25 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/11/04 17:17:54 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/11/26 09:52:24 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -62,12 +62,12 @@ election_files = set([
 
 def read_historical_tweets(start, end):
     months = set([
-        # "202001",
-        # "202002",
-        # "202003",
-        # "202004",
-        # "202005",
-        # "202006",
+        "202001",
+        "202002",
+        "202003",
+        "202004",
+        "202005",
+        "202006",
         "202007",
     ])
 
@@ -234,6 +234,23 @@ def read_tweets_json_day(dt):
                 print("New data ->", cnt)
             cnt += 1
             yield d, t_dt
+
+
+def count_tweets_json_day(dt):
+    print("read_tweets_json_day:", dt.to_date_string())
+    dt_str = dt.format('YYYYMMDD')
+
+    file_name = f"raw_data/{dt.format('YYYYMM')}/{dt_str}-biden OR joebiden.txt"
+    count_B = 0
+    for _, line in enumerate(open(file_name)):
+        count_B += 1
+
+    file_name = f"raw_data/{dt.format('YYYYMM')}/{dt_str}-trump OR donaldtrump OR realdonaldtrump.txt"
+    count_T = 0
+    for _, line in enumerate(open(file_name)):
+        count_T += 1
+
+    return count_B, count_T
 
 
 def read_raw_user_month(month, _set_users):
