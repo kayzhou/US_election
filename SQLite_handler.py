@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/07 20:40:05 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/11/26 10:18:00 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/11/26 11:11:07 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -834,7 +834,7 @@ def count_Sep_to_Oct():
         print(dt)
         for cnt_B_T in count_tweets_json_day(dt):
             cnt[dt.to_date_string()] = {"cnt_B": cnt_B_T[0], "cnt_T": cnt_B_T[1]}
-    json.dump(cnt, open("data/cnt-tweets-20200901-20201124.json", "w"), indent=2)
+    json.dump(cnt, open("data/cnt-tweets-20200901-20201124.json", "w"), indent=4)
 
 
 def demo_tweets_to_db_fast(sess, start, end, clear=False):
