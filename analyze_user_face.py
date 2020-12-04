@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/21 09:47:55 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/10/26 16:51:00 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/11/26 18:53:11 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -58,7 +58,6 @@ MY_KEYS = [
         "key": "BlXVdJebV15-tRHacCW3Qbzi7qwqQswH",
         "secret": "oWm0l4wTUXYdmw0-6BPH2mGerZ3PGu6k",
     }, {
-        # new keys from CUEB
         "key": "nbNtSBRvXbXp8tt21_eY1O8fPb663fuI",
         "secret": "bZlEdtEhMoTvpDFz5i-tqwXrHopmwmed",
     }, {
@@ -67,19 +66,6 @@ MY_KEYS = [
     }, {
         "key": "qT5V9OxiV9M-OqYM6ii_va8NnloLTJbJ",
         "secret": "iDtkD7TrMwyJiPLkebMCzc9z3gjPau18",
-    # }, {
-    #     "key": "BlXVdJebV15-tRHacCW3Qbzi7qwqQswH",
-    #     "secret": "oWm0l4wTUXYdmw0-6BPH2mGerZ3PGu6k",
-
-    # }, {
-    #     "key": "BlXVdJebV15-tRHacCW3Qbzi7qwqQswH",
-    #     "secret": "oWm0l4wTUXYdmw0-6BPH2mGerZ3PGu6k",
-    # }, {
-    #     "key": "BlXVdJebV15-tRHacCW3Qbzi7qwqQswH",
-    #     "secret": "oWm0l4wTUXYdmw0-6BPH2mGerZ3PGu6k",
-    # }, {
-    #     "key": "BlXVdJebV15-tRHacCW3Qbzi7qwqQswH",
-    #     "secret": "oWm0l4wTUXYdmw0-6BPH2mGerZ3PGu6k",
     }
 ]
 
@@ -125,15 +111,15 @@ def analyze_image(_urls):
                 return d
 
             elif "error_message" in r:
-                #print("Normal Error:", data['image_url'])
+                # print("Normal Error:", data['image_url'])
                 if r["error_message"] == "INVALID_IMAGE_URL":
                     d["error_message"] = r["error_message"]
                     return {"id": d["id"], "error_message": d["error_message"]}
                 elif r["error_message"] == "CONCURRENCY_LIMIT_EXCEEDED":
-                    #print(f'{r["error_message"]}')
+                    # print(f'{r["error_message"]}')
                     time.sleep(0.5)
                 else:
-                    #print("Other error:", r["error_message"])
+                    # print("Other error:", r["error_message"])
                     return {"id": d["id"], "error_message": d["error_message"]}
             else:
                 # print("No Face~")
@@ -173,11 +159,10 @@ def analyze_face_from_file(in_name, out_name, have_name=None):
     all_ids = {json.loads(line)["id"] for line in open(in_name)}
     print(len(all_ids))
 
-    #have_ids = {json.loads(line)["id"] for line in open(have_name)}
-    #noFace_ids = {json.loads(line)["id"] for line in open("disk/users-face/noFace.lj")}
-    #should_ids = all_ids - have_ids - noFace_ids
-
-    #print("need:", len(should_ids))
+    # have_ids = {json.loads(line)["id"] for line in open(have_name)}
+    # noFace_ids = {json.loads(line)["id"] for line in open("disk/users-face/noFace.lj")}
+    # should_ids = all_ids - have_ids - noFace_ids
+    # print("need:", len(should_ids))
 
     # run it again
     error_file = open(f"{out_name[:-3]}-error.lj", "a")
@@ -298,13 +283,8 @@ if __name__ == '__main__':
     # analyze_face_from_file(f"disk/users-profile/2020-03-05-2020-03-06.lj",
     #                        f"disk/users-face/2020-03-02.lj",
     #                        out_name=f"2020-03-05-2020-03-06")
-<<<<<<< HEAD
     
     analyze_face_from_file('data/county_users/County_users_to_analyze.lj',
                            'data/county_users/County_users_analyzed.lj')
                            
-=======
-    analyze_face_from_file('/home/zhenkun/US_election/raw_data/user_info/Users_swing_info.lj',
-                           '/home/zhenkun/US_election/raw_data/user_info/Users_swing_info_final.lj')
->>>>>>> fb9b079ffa6095220f70c4e8cd0a8eb4398eef6c
     #get_users_from_lj(f"disk/users-face/2020-04-30.new.lj").to_csv(f"disk/users-face/2020-04-30.csv")
