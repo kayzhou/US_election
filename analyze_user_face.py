@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/21 09:47:55 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/11/26 18:53:11 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/12/08 14:22:07 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -126,7 +126,7 @@ def analyze_image(_urls):
                 d["faces"] = None
                 return d
         except Exception as e:
-            #print("Special analyze_image() ERROR:", e)
+            # print("Special analyze_image() ERROR:", e)
             return None
 
 

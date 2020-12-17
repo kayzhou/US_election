@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/21 09:47:55 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/10/18 11:19:14 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/12/17 14:02:36 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -109,42 +109,31 @@ def write_top_trump_biden_url(start, end, out_name):
 
 
 if __name__ == "__main__":
-    # start = pendulum.datetime(2020, 8, 3, tz="UTC")
-    # end = pendulum.datetime(2020, 8, 10, tz="UTC")
-    # write_top_trump_biden_url(start, end, "data/url-0803-0810.txt")
-
-    # start = pendulum.datetime(2020, 8, 10, tz="UTC")
-    # end = pendulum.datetime(2020, 8, 17, tz="UTC")
-    # write_top_trump_biden_url(start, end, "data/url-0810-0817.txt")
     
-    # start = pendulum.datetime(2020, 8, 17, tz="UTC")
-    # end = pendulum.datetime(2020, 8, 24, tz="UTC")
-    # write_top_trump_biden_url(start, end, "data/url-0817-0824.txt")
-    
-    # start = pendulum.datetime(2020, 8, 24, tz="UTC")
-    # end = pendulum.datetime(2020, 8, 31, tz="UTC")
-    # write_top_trump_biden_url(start, end, "data/url-0824-0831.txt")
+    start = pendulum.datetime(2020, 11, 23, tz="UTC")
+    end = pendulum.datetime(2020, 11, 30, tz="UTC")
+    write_top_trump_biden_url(start, end, "data/url-0824-0831.txt")
 
-    start = pendulum.datetime(2020, 8, 31, tz="UTC")
-    end = pendulum.datetime(2020, 9, 7, tz="UTC")
+    start = pendulum.datetime(2020, 11, 16, tz="UTC")
+    end = pendulum.datetime(2020, 11, 23, tz="UTC")
     write_top_trump_biden_url(start, end, "data/url-0831-0907.txt")
 
-    start = pendulum.datetime(2020, 9, 7, tz="UTC")
-    end = pendulum.datetime(2020, 9, 14, tz="UTC")
+    start = pendulum.datetime(2020, 11, 9, tz="UTC")
+    end = pendulum.datetime(2020, 11, 16, tz="UTC")
     write_top_trump_biden_url(start, end, "data/url-0907-0914.txt")
 
-    start = pendulum.datetime(2020, 9, 14, tz="UTC")
-    end = pendulum.datetime(2020, 9, 21, tz="UTC")
+    start = pendulum.datetime(2020, 11, 2, tz="UTC")
+    end = pendulum.datetime(2020, 11, 9, tz="UTC")
     write_top_trump_biden_url(start, end, "data/url-0914-0921.txt")
 
-    start = pendulum.datetime(2020, 9, 21, tz="UTC")
-    end = pendulum.datetime(2020, 9, 28, tz="UTC")
+    start = pendulum.datetime(2020, 10, 26, tz="UTC")
+    end = pendulum.datetime(2020, 11, 2, tz="UTC")
     write_top_trump_biden_url(start, end, "data/url-0921-0928.txt")
 
-    start = pendulum.datetime(2020, 9, 28, tz="UTC")
-    end = pendulum.datetime(2020, 10, 5, tz="UTC")
+    start = pendulum.datetime(2020, 10, 19, tz="UTC")
+    end = pendulum.datetime(2020, 10, 26, tz="UTC")
     write_top_trump_biden_url(start, end, "data/url-0928-1005.txt")
 
-    start = pendulum.datetime(2020, 10, 5, tz="UTC")
-    end = pendulum.datetime(2020, 10, 12, tz="UTC")
+    start = pendulum.datetime(2020, 10, 12, tz="UTC")
+    end = pendulum.datetime(2020, 10, 19, tz="UTC")
     write_top_trump_biden_url(start, end, "data/url-1005-1012.txt")
