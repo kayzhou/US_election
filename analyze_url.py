@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/21 09:47:55 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/12/17 14:07:46 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/12/17 14:16:14 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -103,7 +103,7 @@ def write_top_trump_biden_url(start, end, out_name):
                     if url.startswith("https://twitter.com"):
                         continue
                     url_counter[url] += 1
-    out_name = f"data/url-{start.format("mmdd")}-{end.format("mmdd")}.txt"
+    out_name = f'data/url-{start.format("MMDD")}-{end.format("MMDD")}.txt'
     with open(out_name, "w") as f:
         for ht, cnt in url_counter.most_common():
             print(ht, cnt, file=f)
