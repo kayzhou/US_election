@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/21 09:47:55 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/12/17 14:16:14 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/12/17 14:18:02 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -93,7 +93,7 @@ def read_tweets_json_day(dt):
             yield d
 
 
-def write_top_trump_biden_url(start, end, out_name):
+def write_top_trump_biden_url(start, end):
     url_counter = Counter()
     for dt in pendulum.period(start, end):
         for d in read_tweets_json_day(dt):
