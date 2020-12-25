@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/19 04:01:00 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/12/25 15:11:28 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/12/25 15:12:58 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -625,7 +625,7 @@ def daily_prediction():
 
 if __name__ == "__main__":
     file_name_tweets_prediction = [
-        "data/classification/202009-tweets-prediction-v1.txt",
+        "data/classification/20200910-tweets-prediction-v1.txt",
         "data/classification/202008-tweets-prediction-v1.txt",
         "data/classification/202007-tweets-prediction-v1.txt",
         "data/classification/202006-tweets-prediction-v1.txt",
@@ -636,7 +636,7 @@ if __name__ == "__main__":
     save_user_snapshot_json(file_name_tweets_prediction, model_version="v1", p=0.66)
 
     file_name_tweets_prediction = [
-        "data/classification/202009-tweets-prediction-v2.txt",
+        "data/classification/20200910-tweets-prediction-v2.txt",
         "data/classification/202008-tweets-prediction-v2.txt",
         "data/classification/202007-tweets-prediction-v2.txt",
         "data/classification/202006-tweets-prediction-v2.txt",
