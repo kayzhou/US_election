@@ -131,3 +131,4 @@ test_mac
 .idea/vcs.xml
 www
 aws*
+*.svg
