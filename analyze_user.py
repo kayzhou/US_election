@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    analyze_user.py                                    :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
+#    By: Zhenkun Zhou <zhenkun91@outlook.com>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/24 01:48:04 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/05/01 18:35:35 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2021/04/19 16:36:29 by Zhenkun Zho      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -80,4 +80,3 @@ if __name__ == '__main__':
     end = pendulum.datetime(2020, 7, 20, tz="UTC")
     write_users(start, end, set_users_before, "disk/users-profile/2020-07-01-2020-07-20.lj")
     # write_users_fast(set_users_before, "disk/users-profile/2019-09-01-2020-03-01.lj")
-    
