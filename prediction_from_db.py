@@ -1,3 +1,5 @@
+#coding: utf8
+
 # **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
@@ -11,6 +13,7 @@
 # **************************************************************************** #
 
 from SQLite_handler import *
+from tqdm import tqdm
 import os
 
 # 0 > JB; 1 > DT
@@ -56,7 +59,7 @@ def save_user_snapshot_json(in_names, model_version="v1", p=0.5):
     for in_name in in_names:
         print("save_user_snapshot_json", in_name)
         dict_date_users = {}
-        for line in tqdm(open(in_name)):
+        for line in tqdm(open(in_name, encoding="utf8"), ascii=True):
             d = line.strip().split(",")
             # 先不查重tweet_id
             uid = d[0]
@@ -624,30 +627,34 @@ def daily_prediction():
 
 
 if __name__ == "__main__":
-    file_name_tweets_prediction = [
-        "data/classification/20200910-tweets-prediction-v1.txt",
-        "data/classification/202008-tweets-prediction-v1.txt",
-        "data/classification/202007-tweets-prediction-v1.txt",
-        "data/classification/202006-tweets-prediction-v1.txt",
-        "data/classification/202005-tweets-prediction-v1.txt",
-        "data/classification/202004-tweets-prediction-v1.txt",
-    ]
-    save_user_snapshot_json(file_name_tweets_prediction, model_version="v1", p=0.5)
-    save_user_snapshot_json(file_name_tweets_prediction, model_version="v1", p=0.66)
+    # v1 > only Trump and Biden
+    # v2 > Republicans and Democrats
+    in_dir = "F:/US2020_data/classification"
 
     file_name_tweets_prediction = [
-        "data/classification/20200910-tweets-prediction-v2.txt",
-        "data/classification/202008-tweets-prediction-v2.txt",
-        "data/classification/202007-tweets-prediction-v2.txt",
-        "data/classification/202006-tweets-prediction-v2.txt",
-        "data/classification/202005-tweets-prediction-v2.txt",
-        "data/classification/202004-tweets-prediction-v2.txt",
-        "data/classification/202003-tweets-prediction-v2.txt",
-        "data/classification/202002-tweets-prediction-v2.txt",
-        "data/classification/202001-tweets-prediction-v2.txt",
+        f"{in_dir}/20200910-tweets-prediction-v1.txt",
+        f"{in_dir}/202008-tweets-prediction-v1.txt",
+        f"{in_dir}/202007-tweets-prediction-v1.txt",
+        f"{in_dir}/202006-tweets-prediction-v1.txt",
+        f"{in_dir}/202005-tweets-prediction-v1.txt",
+        f"{in_dir}/202004-tweets-prediction-v1.txt",
     ]
-    save_user_snapshot_json(file_name_tweets_prediction, model_version="v2", p=0.5)
-    save_user_snapshot_json(file_name_tweets_prediction, model_version="v2", p=0.66)
+    # save_user_snapshot_json(file_name_tweets_prediction, model_version="v1", p=0.5)
+    # save_user_snapshot_json(file_name_tweets_prediction, model_version="v1", p=0.66)
+
+    file_name_tweets_prediction = [
+        f"{in_dir}/20200910-tweets-prediction-v2.txt",
+        f"{in_dir}/202008-tweets-prediction-v2.txt",
+        f"{in_dir}/202007-tweets-prediction-v2.txt",
+        f"{in_dir}/202006-tweets-prediction-v2.txt",
+        f"{in_dir}/202005-tweets-prediction-v2.txt",
+        f"{in_dir}/202004-tweets-prediction-v2.txt",
+        f"{in_dir}/202003-tweets-prediction-v2.txt",
+        f"{in_dir}/202002-tweets-prediction-v2.txt",
+        f"{in_dir}/202001-tweets-prediction-v2.txt",
+    ]
+    # save_user_snapshot_json(file_name_tweets_prediction, model_version="v2", p=0.5)
+    # save_user_snapshot_json(file_name_tweets_prediction, model_version="v2", p=0.66)
 
     # start = pendulum.datetime(2020, 1, 1, tz="UTC")
     # end = pendulum.datetime(2020, 6, 1, tz="UTC")
@@ -673,7 +680,7 @@ if __name__ == "__main__":
     # calculate_window_share(start, end, win=7, save_csv=True)
 
     # 14 days
-    start = pendulum.datetime(2020, 4, 15, tz="UTC")
+    start = pendulum.datetime(2020, 1, 14, tz="UTC")
     end = pendulum.datetime(2020, 10, 31, tz="UTC")
     calculate_window_share(start, end, win=14, model_version="v1", p=0.5)
     calculate_window_share(start, end, win=14, model_version="v1", p=0.66)
@@ -684,7 +691,7 @@ if __name__ == "__main__":
     # -- window end --
 
     # -- cumulative start --
-    start = pendulum.datetime(2020, 4, 2, tz="UTC")
+    start = pendulum.datetime(2020, 1, 2, tz="UTC")
     end = pendulum.datetime(2020, 10, 31, tz="UTC")
     calculate_cumulative_share(start, end, super_start_month="01", model_version="v1", p=0.5)
     calculate_cumulative_share(start, end, super_start_month="01", model_version="v1", p=0.66)
