@@ -10,6 +10,7 @@
 #                                                                              #
 # **************************************************************************** #
 
+from ujson import encode
 from my_weapon import *
 from pathlib import Path
 from collections import Counter
@@ -122,21 +123,32 @@ def read_classified_hashtags():
     return classified_hts, category_hts
 
 
+def count_train(in_name):
+    cnt = {
+        "DT": 0,
+        "JB": 0
+    }
+    for line in tqdm(open(in_name, encoding="utf8")):
+        try:
+            label = line.strip().split()[0]
+            cnt[label] += 1
+        except:
+            print(line)
+    print(cnt)
+
+
 def ext_1():
     """
     只考虑第一列，支持或反对
     """
     classified_hts, category_hts = read_classified_hashtags()
-    with open(train_dir + "train.txt", "w") as f:
-        months = ["202004", "202005", "202006"]
+    with open(train_dir + "train01-07.txt", "w", encoding="utf8") as f:
+        months = ["202001", "202002", "202003", "202004", "202005", "202006", "202007"]
         for month in months:
             print(month)
-            if month in ["202001", "202002"]:
-                in_name = f"/external2/zhenkun/US_election_data/raw_data/{month}.lj"
-            else:
-                in_name = f"raw_data/raw_data/{month}.lj"
+            in_name = f"D:/US2020/{month}.lj"
 
-            for line in tqdm(open(in_name)):       
+            for line in tqdm(open(in_name, encoding="utf8")):       
                 label_bingo_times = 0
                 label = None
                 try:
@@ -213,7 +225,7 @@ def ext_1_Jan():
 def ext_2():
     """
     考虑支持和类别
-    根据category完全分成两个分类器～ 
+    根据category完全分成两个分类器
     """
     classified_hts, category_hts = read_classified_hashtags()
     JB_hts = classified_hts["JB"]
@@ -274,5 +286,6 @@ def ext_2():
 
 if __name__ == "__main__":
     # ext_1_Jan()
-    ext_1()
+    # ext_1()
     # ext_2()
+    count_train("data/train-final/train-01-07.txt")

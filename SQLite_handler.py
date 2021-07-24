@@ -313,8 +313,7 @@ def get_source_cnt(sess):
     tweets = sess.query(Tweet.source).yield_per(1000)
     for t in tqdm(tweets):
         source_cnt[t[0]] += 1
-    json.dump(source_cnt.most_common(), open(
-        "data/source_cnt.json", "w"), indent=2)
+    json.dump(source_cnt.most_common(), open("data/source_cnt.json", "w"), indent=2)
 
 
 def get_last_week():
@@ -322,7 +321,7 @@ def get_last_week():
     dt = pendulum.DateTime(now.year, now.month, now.day)
     end = dt.add(days=-(dt.weekday-1))
     start = end.add(days=-7)
-    # start <= dt < end
+    # start <= dt < endF
     return start, end
 
 
@@ -547,7 +546,8 @@ def tweets_to_db_fast(sess):
     tweets_data = []
 
     # from read_raw_data import read_historical_tweets as read_tweets
-    from read_raw_data import read_raw_tweets_fromlj as read_tweets
+    # from read_raw_data import read_raw_tweets_fromlj as read_tweets
+    from read_raw_data import read_all_raw_tweets_fromlj as read_tweets
 
     for d, dt in read_tweets():
         # print(d)
@@ -556,7 +556,7 @@ def tweets_to_db_fast(sess):
         if 'source' in d:
             _sou = get_source_text(d["source"])
         else:
-            _sou = "No source"
+            _sou = None
         # hts = get_hashtags_from_tweet(d["hashtags"])
 
         tweets_data.append(
@@ -568,11 +568,11 @@ def tweets_to_db_fast(sess):
         X.append(d)
         
         if len(tweets_data) == 5000:
-            json_rst = Lebron.predict(X)
-            for i in range(len(tweets_data)):
-                rst = json_rst[tweets_data[i].tweet_id]
-                tweets_data[i].max_proba = round(rst.max(), 3)
-                tweets_data[i].camp = int(rst.argmax())
+            # json_rst = Lebron.predict(X)
+            # for i in range(len(tweets_data)):
+            #     rst = json_rst[tweets_data[i].tweet_id]
+            #     tweets_data[i].max_proba = round(rst.max(), 3)
+            #     tweets_data[i].camp = int(rst.argmax())
 
             sess.add_all(tweets_data)
             sess.commit()
@@ -580,14 +580,71 @@ def tweets_to_db_fast(sess):
             tweets_data = []
 
     if tweets_data:
-        json_rst = Lebron.predict(X)
-        for i in range(len(tweets_data)):
-            rst = json_rst[tweets_data[i].tweet_id]
-            tweets_data[i].max_proba = round(rst.max(), 3)
-            tweets_data[i].camp = int(rst.argmax())
+        # json_rst = Lebron.predict(X)
+        # for i in range(len(tweets_data)):
+        #     rst = json_rst[tweets_data[i].tweet_id]
+        #     tweets_data[i].max_proba = round(rst.max(), 3)
+        #     tweets_data[i].camp = int(rst.argmax())
 
         sess.add_all(tweets_data)
         sess.commit()
+
+
+def count_each_month():
+    """
+    统计每个月的数据情况
+    """
+    # from classifier import Camp_Classifier
+    # Lebron = Camp_Classifier()
+    # Lebron.load(train_dir="train-08")
+
+    # from read_raw_data import read_historical_tweets as read_tweets
+    from read_raw_data import read_month_raw_tweets_fromlj as read_tweets
+
+    months = [
+        "202001", "202002", "202003", "202004",
+        "202005", "202006", "202007", "202008",
+        "202009", "202010"
+    ]
+    cnt = 0
+    for m in months:
+        stat = {}
+        print(m)
+        for d, t_dt in read_tweets(month=m):
+            cnt += 1
+            if cnt % 10000 == 0:
+                print("cnt =", cnt)
+            dt_str = t_dt.to_date_string()
+
+            if dt_str not in stat:
+                stat[dt_str] = {
+                    "tweet_num": 0,
+                    "user_set": set(),
+                    "bot_tweet_num": 0,
+                    "bot_user_set": set()
+                }
+            
+            # print(d)
+            # tid = d["id"]
+            uid = d["user"]["id"]
+            sou = get_source_text(d["source"]) if 'source' in d else 'No source'
+            
+            stat[dt_str]["tweet_num"] += 1
+            stat[dt_str]["user_set"].add(uid)
+            
+            if sou:
+                stat[dt_str]["bot_tweet_num"] += 1
+                stat[dt_str]["bot_user_set"].add(uid)
+
+        rst = {}
+        for k, v in stat.items():
+            rst[k] = {
+                "tweet_num": v["tweet_num"],
+                "user_num": len(v["user_set"]),
+                "bot_tweet_num": v["bot_tweet_num"],
+                "bot_user_num": len(v["bot_user_set"]),
+            }
+        pd.DataFrame(rst).T.to_csv(f"data/all-stat-{m}.csv")
 
 
 def tweets_to_txt_Jan_to_Mar():
@@ -2447,19 +2504,7 @@ def get_term_stat():
         ])
     sess.close()
     return new_data
-
-
-def save_all_bots_users():
-    start = pendulum.datetime(2020, 1, 1, tz="UTC")
-    end = pendulum.datetime(2020, 7, 19, tz="UTC")
-    sess = get_session()
-    bots = set()
-    with open("disk/users-profile/bots-20200719.txt", "w") as f:
-        for t in get_tweets_bots(sess, start, end):
-            if t[0] not in bots:
-                f.write(str(t[0]) + '\n')
-                bots.add(t[0])
-
+        
 
 def cumulative_prediction_results_to_db(rsts): # rewrite
     sess = get_session()
@@ -2490,7 +2535,7 @@ def get_db_prediction_results(state="all"):
 
 
 def get_session():
-    engine = create_engine("sqlite:////home/zhenkun/US_election/data/election.db")
+    engine = create_engine("sqlite:///data/election.db")
     # engine = create_engine("sqlite:////home/alex/kayzhou/US_election/data/election-trump-biden-July.db")
     DBSession = sessionmaker(bind=engine)
     session = DBSession()
@@ -2506,7 +2551,8 @@ def get_session():
 
     
 def init_db():
-    engine = create_engine("sqlite:////home/zhenkun/US_election/data/election.db")
+    engine = create_engine("sqlite:///data/election.db")
+    # engine = create_engine("sqlite:////home/zhenkun/US_election/data/election.db")
     Base.metadata.create_all(engine)
 
 
@@ -2552,7 +2598,6 @@ def get_tweets_August_July():
             start = start.add(days=1)
             if start >= end:
                 break
-
     sess.close()
 
 
@@ -2567,8 +2612,7 @@ if __name__ == "__main__":
     # tweets_to_txt_Apr_to_Jun()
     # tweets_to_txt_Jul_to_Aug()
     # tweets_to_txt_Sep_to_Oct()
-    count_Sep_to_Oct()
+    # count_Sep_to_Oct()
 
-    # get_tweets_August_July()
-    # tweets_to_txt_fast() # August and before
-    # tweets_to_txt() # Sep and Oct
+    count_each_month()
+

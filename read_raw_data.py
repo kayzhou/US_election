@@ -60,6 +60,59 @@ election_files = set([
 ])
 
 
+def union_all_data():
+    """合并9、10月数据
+    去重
+    """
+    # from pathlib import Path
+
+    start = pendulum.date(2020, 9, 1)
+    end = pendulum.date(2020, 9, 30)
+    with open("D:/US2020/202009.lj", "w", encoding="utf8") as f:
+        for dt in pendulum.period(start, end):
+            set_tweetid = set()
+            print(dt.format("YYYYMMDD"))
+            for line in open(f"D:/US2020/202009/{dt.format('YYYYMMDD')}-biden OR joebiden.txt", encoding='utf8'):
+                try:
+                    _id = json.loads(line)['id']
+                    if _id not in set_tweetid:
+                        f.write(line)
+                        set_tweetid.add(_id)
+                except:
+                    print("ERROR")
+            for line in open(f"D:/US2020/202009/{dt.format('YYYYMMDD')}-trump OR donaldtrump OR realdonaldtrump.txt", encoding='utf8'):
+                try:
+                    _id = json.loads(line)['id']
+                    if _id not in set_tweetid:
+                        f.write(line)
+                        set_tweetid.add(_id)
+                except:
+                    print("ERROR")
+
+    start = pendulum.date(2020, 10, 1)
+    end = pendulum.date(2020, 10, 31)
+    with open("D:/US2020/202010.lj", "w", encoding="utf8") as f:
+        for dt in pendulum.period(start, end):
+            set_tweetid = set()
+            print(dt.format("YYYYMMDD"))
+            for line in open(f"D:/US2020/202010/{dt.format('YYYYMMDD')}-biden OR joebiden.txt", encoding='utf8'):
+                try:
+                    _id = json.loads(line)['id']
+                    if _id not in set_tweetid:
+                        f.write(line)
+                        set_tweetid.add(_id)
+                except:
+                    print("ERROR")
+            for line in open(f"D:/US2020/202010/{dt.format('YYYYMMDD')}-trump OR donaldtrump OR realdonaldtrump.txt", encoding='utf8'):
+                try:
+                    _id = json.loads(line)['id']
+                    if _id not in set_tweetid:
+                        f.write(line)
+                        set_tweetid.add(_id)
+                except:
+                    print("ERROR")
+
+
 def read_historical_tweets(start, end):
     months = set([
         "202001",
@@ -109,6 +162,24 @@ def read_historical_tweets(start, end):
                         print("New data ->", cnt)
                     cnt += 1
                     yield d, dt
+
+
+def read_month_raw_tweets_fromlj(month):
+    """直接读取raw_data/month.lj文件
+    Yields:
+        [type]: [description]
+    """
+    for line in open(f"D:/US2020/{month}.lj", encoding="utf8"):
+        try:
+            d = json.loads(line.strip())
+        except Exception as e:
+            print('json.loads() Error:', e)
+            print('line ->', line)
+            continue
+        dt = pendulum.from_format(d["created_at"], 'ddd MMM DD HH:mm:ss ZZ YYYY')
+        # 时差问题
+        dt = dt.add(hours=-4)
+        yield d, dt
 
 
 def read_raw_tweets_fromlj(_month="all"):
@@ -509,21 +580,22 @@ def read_users_set():
 
 if __name__ == '__main__':
 
+    union_all_data()
     # 组合新的原始数据
     # _set_users = set()
     # months = ["202001", "202002", "202003", "202004", "202005", "202006"]
-    months = ["202008"]
+    # months = ["202008"]
     
-    for month in months:
-        _set_tweetid = set()
-        f_data = open(f"/external1/zhenkun/raw_data/{month}.lj", "w")
-        # f_user = open(f"disk/users-profile/{month}.lj", "w")
-        data_iter = read_raw_data_month(month, _set_tweetid)
-        for d in data_iter:
-            try:
-                f_data.write(json.dumps(d, ensure_ascii=False) + "\n")
-            except Exception:
-                print("JSON dump error.")
+    # for month in months:
+    #     _set_tweetid = set()
+    #     f_data = open(f"/external1/zhenkun/raw_data/{month}.lj", "w")
+    #     # f_user = open(f"disk/users-profile/{month}.lj", "w")
+    #     data_iter = read_raw_data_month(month, _set_tweetid)
+    #     for d in data_iter:
+    #         try:
+    #             f_data.write(json.dumps(d, ensure_ascii=False) + "\n")
+    #         except Exception:
+    #             print("JSON dump error.")
             # u = d["user"]
             # if "location" not in u or u["id"] in _set_users:
             #     continue
@@ -534,7 +606,7 @@ if __name__ == '__main__':
             # }
             # f_user.write(json.dumps(u, ensure_ascii=False) + "\n")
             # _set_users.add(u["id"])
-        f_data.close()
+        # f_data.close()
         # f_user.close()
 
     # pass

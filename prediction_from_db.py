@@ -297,7 +297,10 @@ def calculate_window_share(start, end, win=14, model_version="v1", p=0.5, save_u
                 #     _u = read_users_from_json(f"data/users-day-onlyTB/{win_dt_str}.json")
                 # else:
                 #     _u = read_users_from_json(f"data/users-day/{win_dt_str}.json")
-                _u = read_users_from_json(f"data/users-day-{model_version}-{p}/{win_dt_str}.json")
+                if win_dt_str < "2020-04-01":
+                    _u = read_users_from_json(f"data/users-day-v2-{p}/{win_dt_str}.json")
+                else:
+                    _u = read_users_from_json(f"data/users-day-{model_version}-{p}/{win_dt_str}.json")
                 users_cache[win_dt_str] = _u
             users_groups.append(_u)
 
@@ -350,13 +353,17 @@ def calculate_cumulative_share(start, end, super_start_month="01", model_version
             return -1
 
         elif dt == super_start.add(days=1):  # 从第二天开始
-            union_users_dict = read_users_from_json(f"data/users-day-{model_version}-{p}/{super_start.to_date_string()}.json")
+            super_start_string = super_start.to_date_string()
+            if super_start_string < "2020-04-01":
+                union_users_dict = read_users_from_json(f"data/users-day-v2-{p}/{super_start_string}.json") # 只有v2所有日期都有
+            else:
+                union_users_dict = read_users_from_json(f"data/users-day-{model_version}-{p}/{super_start_string}.json")
             # union_users_dict = read_users_from_json(f"data/users-day-onlyTB-{p}/{super_start.to_date_string()}.json")
             # if dt.to_date_string() < "2020-09-01":
             #     union_users_dict = read_users_from_json(f"data/users-day-{p}/{super_start.to_date_string()}.json")
-            # else:
+            # else: qwer    er
             #     union_users_dict = read_users_from_json(f"data/users-day-v1-{p}/{super_start.to_date_string()}.json")
-            print("Loading data on super_start ...", super_start.to_date_string())
+            print("Loading data on super_start ...", super_start_string)
             # write_union_users_json(union_users_dict, f"users-cumFrom{super_start_month}", dt.to_date_string())
             # write_union_users_json(union_users_dict, f"users-cumFrom{super_start_month}-onlyTB", dt.to_date_string())
             write_union_users_json(union_users_dict, f"users-cumFrom{super_start_month}-{model_version}-{p}", dt.to_date_string())
@@ -373,13 +380,17 @@ def calculate_cumulative_share(start, end, super_start_month="01", model_version
                     # f"disk/users-cumFrom{super_start_month}-onlyTB/{dt.add(days=-1).to_date_string()}.json")
                     f"disk/users-cumFrom{super_start_month}-{model_version}-{p}/{yes_str}.json")
             
-            yes_users = read_users_from_json(f"data/users-day-{model_version}-{p}/{yes_str}.json")
+            if yes_str < "2020-04-01":
+                yes_users = read_users_from_json(f"data/users-day-v2-{p}/{yes_str}.json")
+            else:
+                yes_users = read_users_from_json(f"data/users-day-{model_version}-{p}/{yes_str}.json")
             # if yes_str < "2020-09-01":
             #     yes_users = read_users_from_json(f"data/users-day-{model_version}-{p}/{yes_str}.json")
             # else:
             #     yes_users = read_users_from_json(f"data/users-day-{model_version}-{p}/{yes_str}.json")
             union_users_dict = union_users_from_yesterday_and_today(yesterday_users, yes_users)
             yesterday_users = union_users_dict  # Today will be the yesterday.
+            
             if (save_users and dt.day_of_week) == 1 or dt == end:
                 write_union_users_json(union_users_dict, f"users-cumFrom{super_start_month}-{model_version}-{p}", dt.to_date_string())
 
@@ -639,6 +650,7 @@ if __name__ == "__main__":
         f"{in_dir}/202005-tweets-prediction-v1.txt",
         f"{in_dir}/202004-tweets-prediction-v1.txt",
     ]
+    # 已经去掉bots
     # save_user_snapshot_json(file_name_tweets_prediction, model_version="v1", p=0.5)
     # save_user_snapshot_json(file_name_tweets_prediction, model_version="v1", p=0.66)
 
@@ -685,8 +697,8 @@ if __name__ == "__main__":
     calculate_window_share(start, end, win=14, model_version="v1", p=0.5)
     calculate_window_share(start, end, win=14, model_version="v1", p=0.66)
 
-    calculate_window_share(start, end, win=14, model_version="v2", p=0.5)
-    calculate_window_share(start, end, win=14, model_version="v2", p=0.66)
+    # calculate_window_share(start, end, win=14, model_version="v2", p=0.5)
+    # calculate_window_share(start, end, win=14, model_version="v2", p=0.66)
     # calculate_window_share(start, end, win=14, p=0.7)
     # -- window end --
 
@@ -696,8 +708,8 @@ if __name__ == "__main__":
     calculate_cumulative_share(start, end, super_start_month="01", model_version="v1", p=0.5)
     calculate_cumulative_share(start, end, super_start_month="01", model_version="v1", p=0.66)
 
-    calculate_cumulative_share(start, end, super_start_month="01", model_version="v2", p=0.5)
-    calculate_cumulative_share(start, end, super_start_month="01", model_version="v2", p=0.66)    
+    # calculate_cumulative_share(start, end, super_start_month="01", model_version="v2", p=0.5)
+    # calculate_cumulative_share(start, end, super_start_month="01", model_version="v2", p=0.66)    
     # calculate_cumulative_share(start, end, super_start_month="01", p=0.7)
     # -- cumulative end --
 
