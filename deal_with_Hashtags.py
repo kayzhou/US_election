@@ -13,6 +13,7 @@
 # web端label后的数据添加到新的文件中
 import json
 
+
 def get_hashtags(in_name):
     rst = {}
     for line in open("data/hashtags/" + in_name):
