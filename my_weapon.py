@@ -6,7 +6,7 @@ Created on 2018-11-19 14:45:24
 """
 
 try:
-    import ujson as json
+    import rapidjson as json
 except:
     import json
 
