@@ -115,8 +115,7 @@ disk
 fig
 *.db
 *.png
-*.txt
-log.txt
+*.zip
 
 settings.json
 .vscode/

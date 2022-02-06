@@ -1,0 +1,38 @@
+#Supervised model for classification
+
+1. Logistic Regression
+The logistic regression models the posterior probabilities of classes via the logistic function, ensuring that they sum to one and remain in [0,1].
+
+2. Support Vector Machine
+For classification, support vector machine produces nonlinear boundaries by constructing a linear boundary in a large, transformed version of the feature space.
+
+3. Nearest Neighbor
+Nearest neighbor methods use those observations in the training set closest to $x$ in input space to determine classes.
+
+4. Naive Bayes
+We use nonparametric density estimates for classification in a straight-forward fashion using Bayes' theorem.
+
+5. Random Forest
+Random forests is a substantial modification of bagging that builds a large collection of de-correlated trees, and then averages them.
+
+Refs for Models 1~5: Hastie T , Tibshirani R , Friedman J . The elements of statistical learning. 2001[J]. Journal of the Royal Statal Society, 2004, 167(1):192-192.
+
+6. Convolutional Neural Network
+Convolutional networks are simply neural networks that use convolution in place of general matrix multiplication in at least one of their layers.
+Ref: Ian Goodfellow, Yoshua Bengio, Aaron Courville. Deep Learning[M]. The MIT Press, 2016.
+
+7. LSTM (Long Short Term Memory)
+LSTM introduces self-loops to produce paths where the gradient can flow for long durations is a core contribution of the initial long short-term memory (LSTM) model. A crucial addition has been to make the weight on this self-loop conditioned on the context, rather than fixed.
+Ref: Ian Goodfellow, Yoshua Bengio, Aaron Courville. Deep Learning[M]. The MIT Press, 2016.
+
+8. AWD-LSTM
+The weight-dropped LSTM uses DropConnect on hidden-to-hidden weights as a form of recurrent regularization.
+Ref: Regularizing and Optimizing LSTM Language Models (http://arxiv.org/abs/1708.02182)
+
+9. Transformer
+Transformer is based solely on attention mechanisms, dispensing with recurrence and convolutions entirely. (proposed by Google)
+Ref: Attention Is All You Need (https://arxiv.org/abs/1706.03762)
+
+10. BERT (Bidirectional Encoder Representations from Transformers)
+BERT is designed to pretrain deep bidirectional representations from unlabeled text by jointly conditioning on both left and right context in all layers. As a result, the pre-trained BERT model can be finetuned with just one additional output layer to create state-of-the-art models for a wide range of tasks. (proposed by Google)
+Ref: BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding (https://arxiv.org/abs/1810.04805)
