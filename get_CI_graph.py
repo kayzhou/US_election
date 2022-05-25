@@ -3,13 +3,12 @@
 #                                                         :::      ::::::::    #
 #    get_CI_graph.py                                    :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: Kay Zhou <kayzhou.mail@gmail.com>          +#+  +:+       +#+         #
+#    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/17 11:45:44 by Kay Zhou          #+#    #+#              #
-#    Updated: 2019/05/20 11:03:35 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2022/04/14 20:26:42 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
-
 
 import os
 import networkx as nx
